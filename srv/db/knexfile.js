@@ -1,4 +1,4 @@
-const db_constants=require('./constants');
+const db_constants = require("../constants");
 
 /**
  * @type { Object.<string, import("../node_modules/knex/types").Knex.Config> }
@@ -7,9 +7,9 @@ module.exports = {
 	development: {
 		client: "postgresql",
 		connection: {
-			database: db_constants.DB_NAME,
-			user: db_constants.DB_USER,
-			password: db_constants.DB_PASS,
+			database: db_constants.DB_DEV_NAME,
+			user: db_constants.DB_DEV_USER,
+			password: db_constants.DB_DEV_PASS,
 		},
 		pool: {
 			min: 2,
@@ -20,9 +20,7 @@ module.exports = {
 		},
 	},
 
-	staging: {
-	},
+	staging: {},
 
-	production: {
-	},
+	production: {},
 };
