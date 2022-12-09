@@ -5,7 +5,7 @@
 exports.up = function (knex) {
 	return knex.schema.createTable("rights", function (table) {
 		table.increments("id");
-		table.string("name");
+		table.string("name").comment("Название права для отображения");
 	});
 };
 

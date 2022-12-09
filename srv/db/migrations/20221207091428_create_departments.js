@@ -5,7 +5,11 @@
 exports.up = function (knex) {
 	return knex.schema.createTable("departments", function (table) {
 		table.increments("id");
-		table.string("name");
+		table
+			.string("name")
+			.comment(
+				"Название департамента для отображения и использования в документах"
+			);
 	});
 };
 

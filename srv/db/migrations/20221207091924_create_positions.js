@@ -6,8 +6,14 @@ exports.up = function (knex) {
 	return knex.schema
 		.createTable("positions", function (table) {
 			table.increments("id");
-			table.string("name");
-			table.boolean("is_signer");
+			table
+				.string("name")
+				.comment(
+					"Название должности для отоюражения и использования в документах"
+				);
+			table
+				.boolean("is_signer")
+				.comment("Может ли пользователь этой должности являться подписантом");
 			table.integer("department_id").unsigned();
 			table
 				.foreign("department_id")
