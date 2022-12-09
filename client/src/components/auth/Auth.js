@@ -10,7 +10,7 @@ import {
 	AEyeInvisibleOutlined,
 	ASpan,
 } from "../adapter";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import "./style.css";
 import { createSession } from "./AuthReducer";
 

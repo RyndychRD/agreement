@@ -17,3 +17,7 @@ body {
   font-family: 'Roboto Condensed', sans-serif;
   font-size: 100%;
 }
+
+.content{
+  height: 93vh;
+}
