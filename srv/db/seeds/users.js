@@ -5,7 +5,7 @@
 exports.seed = async function (knex) {
 	// Deletes ALL existing entries
 	await knex("users").del();
-	await knex.raw("SELECT setval('departments_id_seq', 152, true);");
+	await knex.raw("SELECT setval('users_id_seq', 152, true);");
 	await knex("users").insert([
 		{
 			id: 14,
