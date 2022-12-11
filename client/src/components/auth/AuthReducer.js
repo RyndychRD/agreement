@@ -1,29 +1,99 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import AuthService from "./../../services/AuthService";
 
-export const counterSlice = createSlice({
+// Создаем преобразователя
+export const loginAsync = createAsyncThunk(
+	"AuthSlice/login",
+	async (action, thunkAPI) => {
+		try {
+			console.log("console.log(action)", action);
+			const response = await AuthService.login(action.login, action.password);
+			console.log("console.log(response);", await response);
+			localStorage.setItem("token", await response.data.accessToken);
+			return await response.data;
+		} catch (error) {
+			console.log(error.response.data.message);
+		}
+	}
+);
+
+export const logoutAsync = createAsyncThunk("AuthSlice/logout", async () => {
+	try {
+		console.log("logoutAsync");
+		await AuthService.logout();
+	} catch (error) {
+		console.log(error.response.data.message);
+	}
+});
+
+export const AuthSlice = createSlice({
 	name: "session",
 	initialState: {
+		loading: "idle",
+		current_user: null,
+		isAuth: false,
 		session: "",
 	},
-	reducers: {
-		setDefaultSession: (state) => {
-			state.session = "SESSION";
+	reducers: {},
+	extraReducers: {
+		// setDefaultSession: (state) => {
+		// 	state.session = "SESSION";
+		// },
+		[loginAsync.fulfilled]: (state, action) => {
+			try {
+				console.log("console.log(state)", state);
+				console.log("console.log(action)", action);
+				if (action.payload?.user) {
+					state.current_user = action.payload.user;
+					state.session = action.payload.accessToken;
+					state.isAuth = true;
+				} else {
+					state.isAuth = false;
+				}
+			} catch (error) {
+				console.log(error);
+			}
 		},
-		createSession: (state, action) => {
-			console.log("Посылаем такие данные: ", action.payload);
-			const requestOptions = {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify(action.payload),
-			};
-			fetch("http://localhost:3000/auth/", requestOptions)
-				.then((response) => response.json())
-				.then((data) => console.log("Получаем такой ответ: ", data));
+		[logoutAsync.fulfilled]: (state, action) => {
+			try {
+				console.log("logoutAsync.fulfilled");
+				localStorage.removeItem("token");
+				state.current_user = {};
+				state.session = {};
+				state.isAuth=false;
+			} catch (error) {
+				console.log(error);
+			}
 		},
+		// registration(state, action) {
+		// 	try {
+		// 		const response = await AuthService.registration(
+		// 			action.payload.login,
+		// 			action.payload.password
+		// 		);
+		// 		localStorage.setItem("token", response.data.accessToken);
+		// 		state.current_user(response.data.user);
+		// 		state.session(response.data.accessToken);
+		// 		state.isAuth(true);
+		// 	} catch (error) {
+		// 		console.log(error.response?.data?.message);
+		// 	}
+		// },
+
+		// createSession: (state, action) => {
+		// 	console.log("Посылаем такие данные: ", action.payload);
+		// 	const requestOptions = {
+		// 		method: "POST",
+		// 		headers: { "Content-Type": "application/json" },
+		// 		body: JSON.stringify(action.payload),
+		// 	};
+		// 	// fetch("http://localhost:5000/api/login", requestOptions)
+		// 	// 	.then((response) => response.json())
+		// 	// 	.then((data) => console.log("Получаем такой ответ: ", data));
+		// },
 	},
 });
 
-// Action creators are generated for each case reducer function
-export const { setDefaultSession, createSession } = counterSlice.actions;
+// export const { registration, logout } = AuthSlice.actions;
 
-export default counterSlice.reducer;
+export default AuthSlice.reducer;

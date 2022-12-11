@@ -1,4 +1,7 @@
-module.exports = class ApiError extends Error {
+/**
+ * Создание пользовательских ошибок
+ */
+class ApiError extends Error {
 	status;
 	errors;
 
@@ -8,11 +11,23 @@ module.exports = class ApiError extends Error {
 		this.errors = errors;
 	}
 
+	/**
+	 * Пользователь не авторизован
+	 * @returns 
+	 */
 	static UnauthorizedError() {
 		return new ApiError(401, "Пользователь не авторизован");
 	}
 
+	/**
+	 * Проблема с запросом или телом запроса
+	 * @param {*} message 
+	 * @param {*} errors 
+	 * @returns 
+	 */
 	static BadRequest(message, errors = []) {
 		return new ApiError(400, message, errors);
 	}
-};
+}
+
+module.exports = ApiError;

@@ -2,6 +2,9 @@ const nodemailer = require("nodemailer");
 const certPathException = require("path").join(__dirname, "../../SSL/cert.crt");
 const certificateForMailException = require("fs").readFileSync(certPathException);
 
+/**
+ * Сервис работы с почтой
+ */
 class MailService {
 	constructor() {
 		this.transporter = nodemailer.createTransport({
@@ -19,6 +22,11 @@ class MailService {
 		});
 	}
 
+	/**
+	 * Отправка почты
+	 * @param {*} to Кому отправляем
+	 * @param {*} link ссылка на активацию аккаунта
+	 */
 	async sendActivationMail(to, link) {
 		await this.transporter.sendMail({
 			from: process.env.SMTP_USER,

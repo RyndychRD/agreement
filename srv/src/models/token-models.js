@@ -11,7 +11,7 @@ class TokenSchema {
 	 * @param {json} filter
 	 */
 	async findOne(filter) {
-		return await this.knexProvider("Token").first("*").where(filter);
+		return await this.knexProvider("users_sessions").first("*").where(filter);
 	}
 
 	/**
@@ -20,7 +20,7 @@ class TokenSchema {
 	 * @returns
 	 */
 	async create(token) {
-		return await this.knexProvider("Token").insert(token);
+		return await this.knexProvider("users_sessions").insert(token);
 	}
 
 	/**
@@ -29,7 +29,9 @@ class TokenSchema {
 	 * @returns
 	 */
 	async update(filter, token) {
-		return await this.knexProvider("Token").where(filter).update(token);
+		return await this.knexProvider("users_sessions")
+			.where(filter)
+			.update(token);
 	}
 
 	/**
@@ -38,7 +40,7 @@ class TokenSchema {
 	 * @returns
 	 */
 	async deleteOne(filter) {
-		return await this.knexProvider("Token").where(filter).delete();
+		return await this.knexProvider("users_sessions").where(filter).delete();
 	}
 }
 

@@ -3,6 +3,13 @@ const { validationResult } = require("express-validator");
 const ApiError = require("../exceptions/api-error");
 
 class UserController {
+	/**
+	 * Регистрация пользователя
+	 * @param {*} req 
+	 * @param {*} res 
+	 * @param {*} next 
+	 * @returns 
+	 */
 	async registration(req, res, next) {
 		try {
 			const errors = validationResult(req);
@@ -22,11 +29,17 @@ class UserController {
 			next(e);
 		}
 	}
-
+	/**
+	 * Авторизация
+	 * @param {*} req 
+	 * @param {*} res 
+	 * @param {*} next 
+	 * @returns 
+	 */
 	async login(req, res, next) {
 		try {
-			const { email, password } = req.body;
-			const userData = await userService.login(email, password);
+			const { login, password } = req.body;
+			const userData = await userService.login(login, password);
 			res.cookie("refreshToken", userData.refreshToken, {
 				maxAge: 30 * 24 * 60 * 60 * 1000,
 				httpOnly: true,
@@ -37,6 +50,13 @@ class UserController {
 		}
 	}
 
+	/**
+	 * Выход из учётной записи
+	 * @param {*} req 
+	 * @param {*} res 
+	 * @param {*} next 
+	 * @returns 
+	 */
 	async logout(req, res, next) {
 		try {
 			const { refreshToken } = req.cookies;
@@ -47,7 +67,13 @@ class UserController {
 			next(e);
 		}
 	}
-
+	/**
+	 * Активация аккаунта
+	 * @param {*} req 
+	 * @param {*} res 
+	 * @param {*} next 
+	 * @returns 
+	 */
 	async activate(req, res, next) {
 		try {
 			const activationLink = req.params.link;
@@ -57,7 +83,13 @@ class UserController {
 			next(e);
 		}
 	}
-
+	/**
+	 * Обновление сессии
+	 * @param {*} req 
+	 * @param {*} res 
+	 * @param {*} next 
+	 * @returns 
+	 */
 	async refresh(req, res, next) {
 		try {
 			const { refreshToken } = req.cookies;
@@ -72,6 +104,13 @@ class UserController {
 		}
 	}
 
+	/**
+	 * Запрос всех пользователей
+	 * @param {*} req 
+	 * @param {*} res 
+	 * @param {*} next 
+	 * @returns 
+	 */
 	async getUsers(req, res, next) {
 		try {
 			const users = await userService.getAllUsers();

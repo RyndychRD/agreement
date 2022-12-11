@@ -46,6 +46,10 @@ class UserService {
 		return { ...tokens, user: object_userDTO };
 	}
 
+	/**
+	 * Активация по ссылки пользователя
+	 * @param {*} activationLink 
+	 */
 	async activate(activationLink) {
 		const user = await UserModels.findOne({ activation_link: activationLink });
 		if (!user) {
@@ -54,10 +58,17 @@ class UserService {
 		await UserModels.update({ id: user.id }, { ...user, is_active: true });
 	}
 
-	async login(email, password) {
-		const user = await UserModels.findOne({ email });
+	/**
+	 * Операция авторизации
+	 * @param {*} login 
+	 * @param {*} password 
+	 * @returns 
+	 */
+	async login(login, password) {
+		//Ищем пользователя
+		const user = await UserModels.findOne({ "login":login });
 		if (!user) {
-			throw ApiError.BadRequest("Пользователь с таким email не найден");
+			throw ApiError.BadRequest("Пользователь с таким login'ом не найден");
 		}
 		const isPassEquals = await bcrypt.compare(password, user.password);
 		if (!isPassEquals) {
@@ -70,11 +81,21 @@ class UserService {
 		return { ...tokens, user: object_userDTO };
 	}
 
+	/**
+	 * Операция выхода из аккаунта
+	 * @param {*} refreshToken 
+	 * @returns 
+	 */
 	async logout(refreshToken) {
 		const token = await TokenService.removeToken(refreshToken);
 		return token;
 	}
 
+	/**
+	 * Обновление сессии
+	 * @param {*} refreshToken 
+	 * @returns 
+	 */
 	async refresh(refreshToken) {
 		console.log("console.log(refreshToken)", refreshToken);
 		if (!refreshToken) {
@@ -101,6 +122,10 @@ class UserService {
 		return { ...tokens, user: object_userDTO };
 	}
 
+	/**
+	 * Взять всех пользователей
+	 * @returns 
+	 */
 	async getAllUsers() {
 		const users = await UserModels.find();
 		return users;

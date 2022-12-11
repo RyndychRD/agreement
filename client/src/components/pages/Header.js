@@ -7,17 +7,27 @@ import {
 	AArrowLeftOutlined,
 	APageHeader,
 } from "../adapter";
+import { logoutAsync } from "../auth/AuthReducer";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 function Header() {
+	const current_user = useSelector((state) => state.session.current_user);
 	const { Header } = ALayout;
-
-	const onClick = (e) => {
-		console.log("Кликнул по ", e.key);
-	};
+	const dispatch = useDispatch();
+	const isAuth = useSelector((state) => state.session.isAuth);
+	const navigate = useNavigate();
+	useEffect(() => {
+		console.log("isAuth: ", isAuth);
+		if (!isAuth) {
+			navigate("/login");
+		}
+	}, [isAuth, navigate]);
 
 	const menuItems = [
 		{
-			label: "Пользователь",
+			label: `${current_user?.last_name} ${current_user?.first_name}.${current_user?.middle_name}.`,
 			key: "user",
 			children: [
 				{
@@ -43,6 +53,17 @@ function Header() {
 			],
 		},
 	];
+
+	const onClick = (e) => {
+		switch (e.key) {
+			case "logout":
+				console.log("Выход из аккаунта...");
+				dispatch(logoutAsync());
+				break;
+			default:
+				console.log("Кликнул по ", e.key);
+		}
+	};
 
 	//Заменить на стор из редаксу
 	function isShowIcon() {
