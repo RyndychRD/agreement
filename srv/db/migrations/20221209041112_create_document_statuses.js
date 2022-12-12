@@ -7,7 +7,9 @@ exports.up = function (knex) {
 		.createTable("document_statuses", function (table) {
 			table.increments("id");
 			table.string("name").comment("Название статуса для отображения");
+			table.comment("Таблица со статусами документа");
 		})
+
 		.alterTable("documents", function (table) {
 			table
 				.foreign("document_status_id")

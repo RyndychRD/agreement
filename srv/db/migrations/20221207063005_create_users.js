@@ -32,6 +32,7 @@ exports.up = function (knex) {
 		table
 			.string("activation_link")
 			.comment("Ссылка для активации аккаунта пользователя");
+		table.comment("Таблица с списком всех пользователей в системе");
 	});
 };
 

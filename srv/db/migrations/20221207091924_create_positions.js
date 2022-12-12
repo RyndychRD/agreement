@@ -9,17 +9,22 @@ exports.up = function (knex) {
 			table
 				.string("name")
 				.comment(
-					"Название должности для отоюражения и использования в документах"
+					"Название должности для отображения и использования в документах"
 				);
 			table
 				.boolean("is_signer")
 				.comment("Может ли пользователь этой должности являться подписантом");
-			table.integer("department_id").unsigned();
+			table
+				.integer("department_id")
+				.unsigned()
+				.comment("Ссылка на департамент, к которому относится должность");
 			table
 				.foreign("department_id")
 				.references("departments.id")
 				.onDelete("CASCADE");
+			table.comment("Таблица всех должностей в системе");
 		})
+
 		.alterTable("users", function (table) {
 			table
 				.foreign("position_id")

@@ -5,8 +5,14 @@
 exports.up = function (knex) {
 	return knex.schema.createTable("documents", function (table) {
 		table.increments("id");
-		table.integer("document_status_id").unsigned();
-		table.integer("document_type_id").unsigned();
+		table
+			.integer("document_status_id")
+			.unsigned()
+			.comment("Ссылка на статус документа(В работе/Исполнен и тд)");
+		table
+			.integer("document_type_id")
+			.unsigned()
+			.comment("Ссылка на тип документа(Закуп ТРУ и тд))");
 		table
 			.integer("creator_id")
 			.unsigned()
@@ -22,8 +28,8 @@ exports.up = function (knex) {
 		table.timestamps(true, true);
 		table
 			.timestamp("finished_at")
-			.notNullable()
 			.comment("Время перехода в окончательный статус(Исполнено/Отклонено)");
+		table.comment("Таблица со всеми документами, которые завели пользователи");
 	});
 };
 
