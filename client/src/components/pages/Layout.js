@@ -5,6 +5,7 @@ import MainPage from "./mainPage/MainPage";
 import { Routes, Route } from "react-router-dom";
 import { DocumentControl } from "./documentControl/DocumentControl";
 
+
 function Layout() {
 	return (
 		<ALayout className="layout">

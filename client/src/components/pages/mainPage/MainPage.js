@@ -7,12 +7,18 @@ import {
 	ASpan,
 } from "./../../adapter";
 import "./style.css";
-
-import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import { Layout } from "antd";
 
 function MainPage() {
+	const isAuth = useSelector((state) => state.session.isAuth);
 	const { Content } = Layout;
+	const navigate = useNavigate();
+	useEffect(() => {
+		if (!isAuth) navigate("/login");
+	}, [isAuth, navigate]);
 
 	const documentControlP = (
 		<ACol className="main-menu-col">

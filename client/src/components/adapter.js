@@ -8,6 +8,7 @@ import {
 	Menu,
 	Tooltip,
 	Table,
+	Alert,
 } from "antd";
 import {
 	EyeInvisibleOutlined,
@@ -86,4 +87,23 @@ export const AArrowLeftOutlined = (props) => {
 
 export const ADesktopOutlined = (props) => {
 	return <DesktopOutlined {...props}>{props.children}</DesktopOutlined>;
+};
+
+//Работает но есть ошибки в консоли
+// export const ANotification = (props) => {
+// 	const [api, contextHolder] = notification.useNotification();
+// 	const openNotification = () => {
+// 		api.open({
+// 			message: props.message,
+// 			description:props.description,
+// 			duration: 3,
+// 		});
+// 	};
+// 	if(props?.show===true)
+// 		openNotification()
+// 	return <>{contextHolder}</>;
+// };
+
+export const AAlert = (props) => {
+	return <Alert {...props}>{props.children}</Alert>;
 };

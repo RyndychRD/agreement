@@ -22,12 +22,16 @@ exports.up = function (knex) {
 		table
 			.boolean("is_active")
 			.notNullable()
-			.defaultTo(true)
+			.defaultTo(false)
 			.comment("Доступен ли для пользователя вход в систему");
 		table
 			.integer("position_id")
 			.unsigned()
 			.comment("Должность пользователя. Пока что одна");
+
+		table
+			.string("activation_link")
+			.comment("Ссылка для активации аккаунта пользователя");
 	});
 };
 

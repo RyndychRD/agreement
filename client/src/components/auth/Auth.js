@@ -9,25 +9,54 @@ import {
 	AButton,
 	AEyeInvisibleOutlined,
 	ASpan,
+	AAlert,
 } from "../adapter";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "./style.css";
-import { createSession } from "./AuthReducer";
+import { loginAsync } from "./AuthReducer";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Auth() {
+	const isAuth = useSelector((state) => state.session.isAuth);
 	const dispatch = useDispatch();
-	const logIntoSystem = (values) => {
-		dispatch(createSession(values));
-	};
+	const [showAlert, setShowAlert] = useState(false);
+	const navigate = useNavigate();
+	useEffect(() => {
+		if (isAuth) navigate("/");
+	}, [isAuth, navigate]);
+
 	return (
 		<ARow justify="center" align="middle" style={{ height: "95vh" }}>
 			<ACol>
-				<AForm name="basic" onFinish={logIntoSystem}>
+				{isAuth && showAlert && (
+					<AAlert
+						showIcon
+						type="success"
+						message={"Сообщение"}
+						description={`Авторизация прошла успешно...`}
+					/>
+				)}
+				{!isAuth && showAlert && (
+					<AAlert
+						showIcon
+						type="error"
+						message={"Ошибка"}
+						description={`Неверный логин или пароль.`}
+					/>
+				)}
+				<AForm
+					name="basic"
+					onFinish={(value) => {
+						setShowAlert(true);
+						dispatch(loginAsync(value));
+					}}
+				>
 					<ARow gutter={16}>
 						<ACol>
 							<ASpan className="authorizationHeader">АВТОРИЗАЦИЯ</ASpan>
 							<AFormItem
-								name="username"
+								name="login"
 								rules={[
 									{
 										required: true,
