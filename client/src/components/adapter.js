@@ -43,6 +43,10 @@ export const ALayout = (props) => {
 export const ASpan = (props) => {
 	return <span {...props}>{props.children}</span>;
 };
+//Просто вывод текста
+export const ADiv = (props) => {
+	return <div {...props}>{props.children}</div>;
+};
 export const AFormItem = (props) => {
 	return <Form.Item {...props}>{props.children}</Form.Item>;
 };

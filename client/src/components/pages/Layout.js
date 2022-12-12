@@ -4,7 +4,7 @@ import MainPage from "./mainPage/MainPage";
 
 import { Routes, Route } from "react-router-dom";
 import { DocumentControl } from "./documentControl/DocumentControl";
-
+import { AdminSettings } from "./adminSettings/AdminSettings";
 
 function Layout() {
 	return (
@@ -13,6 +13,7 @@ function Layout() {
 			<Routes>
 				<Route exact path="/" element={<MainPage />} />
 				<Route path="/document-control/*" element={<DocumentControl />} />
+				<Route path="/admin-settings/*" element={<AdminSettings />} />
 			</Routes>
 		</ALayout>
 	);

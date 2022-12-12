@@ -1,0 +1,26 @@
+.table-header{
+    font-size: large;
+    font-weight: bold;
+    text-align: center;
+    width: 100%
+}
+
+.center-text{
+    width: 100%;
+    text-align: center;
+}
+
+.space-right{
+    margin-right: 5px;
+}
+
+.ant-btn-primary{
+    background-color: #18BC9C;
+    border: none;
+    color: #fff;
+  }
+  .ant-btn-primary:focus, .ant-btn-primary:hover{
+    background-color: #0AD8AF;
+    border: none;
+    color: #fff;
+  }

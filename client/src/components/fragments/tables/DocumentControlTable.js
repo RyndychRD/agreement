@@ -1,13 +1,5 @@
 import { ATable } from "../../adapter";
-
-function getColumn(title, dataIndex, sorter, defaultSortOrder) {
-	return {
-		title,
-		dataIndex,
-		// sorter,
-		// defaultSortOrder
-	};
-}
+import { getColumn } from "./CommonFunctions";
 
 const defaultColums = [
 	"document_name",
@@ -15,7 +7,10 @@ const defaultColums = [
 	"document_created_at",
 ];
 
-export default function getTable({ colums = defaultColums, tableName = null }) {
+export default function DocumentControlTable({
+	colums = defaultColums,
+	tableName = null,
+}) {
 	const dictColumn = {
 		document_name: getColumn("Наименование договора", "document_name"),
 		document_updated_at: getColumn(
