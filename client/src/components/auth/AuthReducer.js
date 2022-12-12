@@ -60,7 +60,7 @@ export const AuthSlice = createSlice({
 				localStorage.removeItem("token");
 				state.current_user = {};
 				state.session = {};
-				state.isAuth=false;
+				state.isAuth = false;
 			} catch (error) {
 				console.log(error);
 			}
@@ -78,18 +78,6 @@ export const AuthSlice = createSlice({
 		// 	} catch (error) {
 		// 		console.log(error.response?.data?.message);
 		// 	}
-		// },
-
-		// createSession: (state, action) => {
-		// 	console.log("Посылаем такие данные: ", action.payload);
-		// 	const requestOptions = {
-		// 		method: "POST",
-		// 		headers: { "Content-Type": "application/json" },
-		// 		body: JSON.stringify(action.payload),
-		// 	};
-		// 	// fetch("http://localhost:5000/api/login", requestOptions)
-		// 	// 	.then((response) => response.json())
-		// 	// 	.then((data) => console.log("Получаем такой ответ: ", data));
 		// },
 	},
 });
