@@ -15,7 +15,7 @@ const defaultColums = [
 	"document_created_at",
 ];
 
-export default function getTable({ colums = defaultColums, tableName = null }) {
+export function GetTable({ colums = defaultColums, tableName = null }) {
 	const dictColumn = {
 		document_name: getColumn("Наименование договора", "document_name"),
 		document_updated_at: getColumn(
