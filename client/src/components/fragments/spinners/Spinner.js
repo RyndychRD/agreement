@@ -1,17 +1,9 @@
 import { Grid } from "react-loader-spinner";
 import { ADiv } from "../../adapter";
+import "./style.css";
 export const GridSpinner = () => {
 	return (
-		<ADiv
-			style={{
-				width: "100%",
-				height: "100%",
-				alignContent: "center",
-				justifyContent: "center",
-				display: "flex",
-				alignItems: "center",
-			}}
-		>
+		<ADiv className="spinner-div">
 			<Grid
 				height="80"
 				width="80"

@@ -9,6 +9,7 @@ import {
 	Tooltip,
 	Table,
 	Alert,
+	Modal,
 } from "antd";
 import {
 	EyeInvisibleOutlined,
@@ -24,6 +25,9 @@ export const AForm = (props) => {
 };
 export const ATable = (props) => {
 	return <Table {...props}>{props.children}</Table>;
+};
+export const AModal = (props) => {
+	return <Modal {...props}>{props.children}</Modal>;
 };
 export const APageHeader = (props) => {
 	return <PageHeader {...props}>{props.children}</PageHeader>;

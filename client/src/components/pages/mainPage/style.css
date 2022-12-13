@@ -4,11 +4,12 @@
     word-wrap: break-word;
     font-size: 30px;
     border: none;
-    background-color: #18BC9C;
+    background-color: #2e3133;
     color: #fff;
   }
   .main-menu-button:focus, .main-menu-button:hover{
-    background-color: #0AD8AF;
+    
+    background-color: #027777;
     border: none;
     color: #fff;
   }

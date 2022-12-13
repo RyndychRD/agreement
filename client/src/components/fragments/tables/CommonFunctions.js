@@ -12,21 +12,26 @@ export function getColumn(title, dataIndex, sorter, defaultSortOrder) {
 export function getTitle(name, buttons) {
 	const buttonsDict = {
 		create: (
-			<AButton type="primary" className="space-right">
+			<AButton type="primary" onClick={buttons.create} className="space-right">
 				Создать
 			</AButton>
 		),
 		delete: (
-			<AButton danger className="space-right">
+			<AButton danger onClick={buttons.delete} className="space-right">
 				Удалить
 			</AButton>
 		),
 		update: (
-			<AButton type="primary" className="space-right ">
+			<AButton type="primary" onClick={buttons.update} className="space-right ">
 				Просмотр
 			</AButton>
 		),
 	};
+
+	const buttonsView = [];
+	Object.keys(buttons).forEach((key, index) => {
+		buttonsView.push(buttonsDict[key]);
+	});
 
 	return (
 		<ARow>
@@ -35,11 +40,7 @@ export function getTitle(name, buttons) {
 					<ASpan className="table-header">{name}</ASpan>
 				</ADiv>
 			</ACol>
-			<ACol>
-				{buttons.map((el) => {
-					return buttonsDict[el];
-				})}
-			</ACol>
+			<ACol>{buttonsView}</ACol>
 		</ARow>
 	);
 }

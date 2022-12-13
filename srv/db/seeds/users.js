@@ -1,3 +1,4 @@
+/* cSpell:disable */
 /**
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
