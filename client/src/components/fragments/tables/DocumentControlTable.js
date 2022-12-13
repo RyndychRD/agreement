@@ -7,14 +7,10 @@ const defaultColums = [
 	"document_created_at",
 ];
 
-<<<<<<<< HEAD:client/src/components/fragments/table/table.js
-export function GetTable({ colums = defaultColums, tableName = null }) {
-========
 export default function DocumentControlTable({
 	colums = defaultColums,
 	tableName = null,
 }) {
->>>>>>>> 639f3a90da512759020e94d1fa24b46083f2a890:client/src/components/fragments/tables/DocumentControlTable.js
 	const dictColumn = {
 		document_name: getColumn("Наименование договора", "document_name"),
 		document_updated_at: getColumn(
