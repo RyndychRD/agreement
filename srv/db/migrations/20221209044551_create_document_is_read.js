@@ -4,12 +4,25 @@
  */
 exports.up = function (knex) {
 	return knex.schema.createTable("document_is_read", function (table) {
+		table.comment(
+			"Таблица, которая показывает прочитан ли документ при появлении на него нотификации"
+		);
 		table.increments("id");
-		table.integer("document_id").unsigned();
+		table
+			.integer("document_id")
+			.unsigned()
+			.comment("Ссылка на документ, на который есть нотификация");
 		table.foreign("document_id").references("documents.id").onDelete("CASCADE");
-		table.integer("reader_id").unsigned();
+		table
+			.integer("reader_id")
+			.unsigned()
+			.comment("Ссылка на пользователя, который должен прочесть нотификацию");
 		table.foreign("reader_id").references("users.id").onDelete("SET NULL");
-		table.boolean("is_read").defaultTo(false);
+		table
+			.boolean("is_read")
+			.defaultTo(false)
+			.comment("Прочитана ли нотификация");
+
 		table.timestamps(true, true);
 	});
 };

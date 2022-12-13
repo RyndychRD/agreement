@@ -13,7 +13,7 @@ class ApiError extends Error {
 
 	/**
 	 * Пользователь не авторизован
-	 * @returns 
+	 * @returns
 	 */
 	static UnauthorizedError() {
 		return new ApiError(401, "Пользователь не авторизован");
@@ -21,9 +21,9 @@ class ApiError extends Error {
 
 	/**
 	 * Проблема с запросом или телом запроса
-	 * @param {*} message 
-	 * @param {*} errors 
-	 * @returns 
+	 * @param {*} message
+	 * @param {*} errors
+	 * @returns
 	 */
 	static BadRequest(message, errors = []) {
 		return new ApiError(400, message, errors);

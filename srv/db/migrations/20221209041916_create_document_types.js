@@ -11,7 +11,11 @@ exports.up = function (knex) {
 				.comment(
 					"Название типа документа. По сути тип документа влияет на отображение и на шаблон маршрута"
 				);
+			table.comment(
+				"Таблица со списком всех возможных типов документа(Закуп ТРУ и тд)"
+			);
 		})
+
 		.alterTable("documents", function (table) {
 			table
 				.foreign("document_type_id")

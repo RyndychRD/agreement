@@ -5,10 +5,21 @@
 exports.up = function (knex) {
 	return knex.schema.createTable("users-rights", function (table) {
 		table.increments("id");
-		table.integer("users_id").unsigned();
+		table
+			.integer("users_id")
+			.unsigned()
+			.comment("Ссылается на пользователя из таблицы users");
 		table.foreign("users_id").references("users.id").onDelete("CASCADE");
-		table.integer("rights_id").unsigned();
+		table
+			.integer("rights_id")
+			.unsigned()
+			.comment("Ссылается на общий список прав");
 		table.foreign("rights_id").references("rights.id").onDelete("CASCADE");
+		table.comment(
+			"Таблица, которая сопоставляет пользователей и права, привязанные непосредственно к пользователям" +
+				"Права по должностям и по департаментам в это таблицу не входят." +
+				" Права пользователя являются суммой индивидуальных прав, прав по должности и прав по департаменту"
+		);
 	});
 };
 

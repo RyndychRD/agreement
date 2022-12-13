@@ -7,15 +7,15 @@ const tokenModel = require("../models/token-models");
 class TokenService {
 	/**
 	 * Создание токена
-	 * @param {*} payload 
-	 * @returns 
+	 * @param {*} payload
+	 * @returns
 	 */
 	generateTokens(payload) {
 		const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_SECRET, {
-			expiresIn: "1m",
+			expiresIn: "12h",
 		});
 		const refreshToken = jwt.sign(payload, process.env.JWT_REFRESH_SECRET, {
-			expiresIn: "30s",
+			expiresIn: "24h",
 		});
 		return {
 			accessToken,
@@ -25,8 +25,8 @@ class TokenService {
 
 	/**
 	 * Валидация токена доступа
-	 * @param {*} token 
-	 * @returns 
+	 * @param {*} token
+	 * @returns
 	 */
 	validateAccessToken(token) {
 		try {
@@ -41,8 +41,8 @@ class TokenService {
 
 	/**
 	 * Валидация токена обновление
-	 * @param {*} token 
-	 * @returns 
+	 * @param {*} token
+	 * @returns
 	 */
 	validateRefreshToken(token) {
 		try {
@@ -57,9 +57,9 @@ class TokenService {
 
 	/**
 	 * Сохранить токен
-	 * @param {*} userId 
-	 * @param {*} refreshToken 
-	 * @returns 
+	 * @param {*} userId
+	 * @param {*} refreshToken
+	 * @returns
 	 */
 	async saveToken(userId, refreshToken) {
 		try {
@@ -82,8 +82,8 @@ class TokenService {
 
 	/**
 	 * Удаление токена
-	 * @param {*} refreshToken 
-	 * @returns 
+	 * @param {*} refreshToken
+	 * @returns
 	 */
 	async removeToken(refreshToken) {
 		const tokenData = await tokenModel.deleteOne({
@@ -94,8 +94,8 @@ class TokenService {
 
 	/**
 	 * Найти токен
-	 * @param {*} refreshToken 
-	 * @returns 
+	 * @param {*} refreshToken
+	 * @returns
 	 */
 	async findToken(refreshToken) {
 		const tokenData = await tokenModel.findOne(refreshToken);

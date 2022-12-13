@@ -7,7 +7,11 @@ exports.up = function (knex) {
 		.createTable("document_signature_types", function (table) {
 			table.increments("id");
 			table.string("name").comment("Название статуса для отображения");
+			table.comment(
+				"Таблица, которая хранит в себе типы подписи документа(Согласован, не согласован и тд)"
+			);
 		})
+
 		.alterTable("documents_signatures", function (table) {
 			table
 				.foreign("document_signature_type_id")

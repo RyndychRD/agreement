@@ -7,7 +7,10 @@ exports.up = function (knex) {
 		"document_type_default_routes",
 		function (table) {
 			table.increments("id");
-			table.integer("document_type_id").unsigned();
+			table
+				.integer("document_type_id")
+				.unsigned()
+				.comment("Ссылка на тип документа в системе");
 			table
 				.foreign("document_type_id")
 				.references("document_types.id")
@@ -15,6 +18,9 @@ exports.up = function (knex) {
 			table
 				.json("route")
 				.comment("Список id пользователей-подписантов по дефолту");
+			table.comment(
+				"Таблица со списком дефолтных путей для последующей модерации пользователем"
+			);
 		}
 	);
 };

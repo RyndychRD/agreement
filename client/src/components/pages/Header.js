@@ -9,7 +9,7 @@ import {
 } from "../adapter";
 import { logoutAsync } from "../auth/AuthReducer";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 
 function Header() {
@@ -18,6 +18,7 @@ function Header() {
 	const dispatch = useDispatch();
 	const isAuth = useSelector((state) => state.session.isAuth);
 	const navigate = useNavigate();
+	const location = useLocation();
 	useEffect(() => {
 		console.log("isAuth: ", isAuth);
 		if (!isAuth) {
@@ -60,6 +61,11 @@ function Header() {
 				console.log("Выход из аккаунта...");
 				dispatch(logoutAsync());
 				break;
+			case "admin_settings":
+				console.log("Переход в админку...");
+				navigate("/admin-settings/catalogs/departments");
+				break;
+
 			default:
 				console.log("Кликнул по ", e.key);
 		}
@@ -67,7 +73,7 @@ function Header() {
 
 	//Заменить на стор из редаксу
 	function isShowIcon() {
-		return window.location.pathname !== "/" ? (
+		return location.pathname !== "/" ? (
 			<AArrowLeftOutlined style={{ color: "white" }} />
 		) : (
 			""
@@ -80,7 +86,7 @@ function Header() {
 				<ACol>
 					<APageHeader
 						onBack={() => {
-							window.location.href = "/";
+							navigate("/");
 						}}
 						backIcon={isShowIcon()}
 						title={

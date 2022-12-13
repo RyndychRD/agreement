@@ -7,12 +7,14 @@ exports.up = function (knex) {
 		table.increments("id");
 		table
 			.integer("user_id")
+			.comment("Ссылка на пользователя с этим токеном")
 			.unsigned()
 			.references("users.id")
 			.onDelete("CASCADE");
 		table
 			.text("refresh_token")
 			.comment("Токен для обновление сессии (авторизации)");
+		table.comment("Таблица со списком активных сессий");
 	});
 };
 
