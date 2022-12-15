@@ -7,15 +7,17 @@ import CreateButtonModel from "./buttonModals/create";
 import updateButtonAction from "./buttonModals/update";
 import deleteButtonAction from "./buttonModals/delete";
 
-export default function Departments() {
-	const colums = { data: ["department_id", "department_name"] };
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { openCloseCreateModal } from "./DepartmentsReducer";
 
-	const [isShowModel, setIsShowModel] = useState(false);
-	console.log("isShowModel,", isShowModel);
+export default function Departments() {
+	const columns = useSelector((state) => state.departments.columns);
+	const dispatch = useDispatch();
 
 	const buttons = {
 		create: () => {
-			setIsShowModel(true);
+			dispatch(openCloseCreateModal());
 		},
 		update: updateButtonAction,
 		delete: deleteButtonAction,
@@ -41,11 +43,11 @@ export default function Departments() {
 		<>
 			<AdminSettingsTable
 				buttons={buttons}
-				colums={colums}
-				dataSource={data}
+				colums={columns}
+				// dataSource={data}
 				title="Департаменты"
 			/>
-			<CreateButtonModel open={isShowModel} />
+			<CreateButtonModel />
 		</>
 	);
 }
