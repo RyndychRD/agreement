@@ -7,8 +7,7 @@ import CreateButtonModel from "./buttonModals/create";
 import updateButtonAction from "./buttonModals/update";
 import deleteButtonAction from "./buttonModals/delete";
 
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+import { useDispatch,useSelector } from "react-redux";
 import { openCloseCreateModal } from "./DepartmentsReducer";
 
 export default function Departments() {
