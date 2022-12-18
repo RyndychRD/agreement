@@ -1,4 +1,10 @@
-// import { GetTable } from "../../../fragments/table/table";
-// export function CreatedDocument(props) {
-// 	return <GetTable>{props.children}</GetTable>;
-// }
+import { FormBuilder } from "../../../fragments/formBuilder/FormBuilder";
+
+export function CreatedDocument(props) {
+	return (
+		<div>
+			{props.children}
+			<FormBuilder />
+		</div>
+	);
+}

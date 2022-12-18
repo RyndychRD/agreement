@@ -287,7 +287,7 @@ const App = () => {
 					setOpen(true);
 				}}
 			>
-				New Collection
+				Вызвать создание формы
 			</Button>
 			<CollectionCreateForm
 				open={open}
@@ -300,6 +300,6 @@ const App = () => {
 	);
 };
 
-const FormBuilder = () => {
+export const FormBuilder = () => {
 	return <App></App>;
 };

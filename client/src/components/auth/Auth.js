@@ -34,6 +34,7 @@ function Auth() {
 			console.log("Авторизация была, попытка обновить токен")
 			dispatch(AuthCheckAsync());
 		}
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	return (
