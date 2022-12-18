@@ -13,7 +13,7 @@ import {
 } from "../adapter";
 import { useDispatch, useSelector } from "react-redux";
 import "./style.css";
-import { loginAsync } from "./AuthReducer";
+import { loginAsync, AuthCheckAsync } from "./AuthReducer";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -25,6 +25,16 @@ function Auth() {
 	useEffect(() => {
 		if (isAuth) navigate("/");
 	}, [isAuth, navigate]);
+
+	//Если до этого авторизовались и сессия не истекла пробуем войти автоматически
+	useEffect(() => {
+		//Изымаем из локального хранилища токен обновление если есть пробуем входить		
+		if (localStorage.getItem("token")) {
+			console.log("Проверяем была ли авторизация")
+			console.log("Авторизация была, попытка обновить токен")
+			dispatch(AuthCheckAsync());
+		}
+	}, []);
 
 	return (
 		<ARow justify="center" align="middle" style={{ height: "95vh" }}>

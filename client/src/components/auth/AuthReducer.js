@@ -1,5 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import AuthService from "./../../services/AuthService";
+import axios from "axios";
+import { API_URL } from "../../http";
 
 // Создаем преобразователя
 export const loginAsync = createAsyncThunk(
@@ -12,7 +14,23 @@ export const loginAsync = createAsyncThunk(
 			localStorage.setItem("token", await response.data.accessToken);
 			return await response.data;
 		} catch (error) {
-			console.log(error.response.data.message);
+			console.log(error.response?.data?.message);
+		}
+	}
+);
+
+export const AuthCheckAsync = createAsyncThunk(
+	"AuthSlice/authCheck",
+	async (action, thunkAPI) => {
+		try {
+			const response = await axios.get(`${API_URL}/refresh`, {
+				withCredentials: true,
+			});
+			localStorage.setItem("token", await response.data.accessToken);
+			console.log("Токен успешно обновлен,входим в систему.");
+			return await response.data;
+		} catch (error) {
+			console.log(error.response?.data?.message);
 		}
 	}
 );
@@ -22,7 +40,7 @@ export const logoutAsync = createAsyncThunk("AuthSlice/logout", async () => {
 		console.log("logoutAsync");
 		await AuthService.logout();
 	} catch (error) {
-		console.log(error.response.data.message);
+		console.log(error.response?.data?.message);
 	}
 });
 
@@ -41,8 +59,6 @@ export const AuthSlice = createSlice({
 		// },
 		[loginAsync.fulfilled]: (state, action) => {
 			try {
-				console.log("console.log(state)", state);
-				console.log("console.log(action)", action);
 				if (action.payload?.user) {
 					state.current_user = action.payload.user;
 					state.session = action.payload.accessToken;
@@ -56,11 +72,23 @@ export const AuthSlice = createSlice({
 		},
 		[logoutAsync.fulfilled]: (state, action) => {
 			try {
-				console.log("logoutAsync.fulfilled");
 				localStorage.removeItem("token");
 				state.current_user = {};
 				state.session = {};
 				state.isAuth = false;
+			} catch (error) {
+				console.log(error);
+			}
+		},
+		[AuthCheckAsync.fulfilled]: (state, action) => {
+			try {
+				if (action.payload?.user) {
+					state.current_user = action.payload.user;
+					state.session = action.payload.accessToken;
+					state.isAuth = true;
+				} else {
+					state.isAuth = false;
+				}
 			} catch (error) {
 				console.log(error);
 			}
