@@ -1,5 +1,6 @@
 import { ATable } from "../../adapter";
 import { getColumn, getTitle } from "./CommonFunctions";
+import React from "react";
 import "./style.css";
 
 const buttonDefault = {

@@ -14,7 +14,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import "./style.css";
 import { loginAsync, AuthCheckAsync } from "./AuthReducer";
-import { useState, useEffect } from "react";
+import React,{ useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Auth() {

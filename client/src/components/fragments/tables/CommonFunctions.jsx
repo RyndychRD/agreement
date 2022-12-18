@@ -1,4 +1,5 @@
 import { ARow, ACol, ASpan, ADiv, AButton } from "../../adapter";
+import React from "react";
 
 export function getColumn(title, dataIndex, sorter, defaultSortOrder) {
 	return {

@@ -1,6 +1,7 @@
 import Layout from "antd/es/layout/layout";
 import { AMenu } from "../../../adapter";
 import { NavLink } from "react-router-dom";
+import React from "react";
 
 export function Sider() {
 	const { Sider } = Layout;
@@ -37,9 +38,21 @@ export function Sider() {
 
 	const items = [
 		getItem("Справочники", "MyCatalogs", null, [
+			//Не делай так больше
+			//https://eslint.org/docs/latest/rules/no-constant-condition
+			// eslint-disable-next-line no-constant-condition
 			true ? getLink("departments") : null,
+			//Не делай так больше
+			//https://eslint.org/docs/latest/rules/no-constant-condition
+			// eslint-disable-next-line no-constant-condition
 			false ? getLink("users") : null,
+			//Не делай так больше
+			//https://eslint.org/docs/latest/rules/no-constant-condition
+			// eslint-disable-next-line no-constant-condition
 			true ? getLink("positions") : null,
+			//Не делай так больше
+			//https://eslint.org/docs/latest/rules/no-constant-condition
+			// eslint-disable-next-line no-constant-condition
 			false ? getItem("Права", "FILL_ME") : null,
 		]),
 	];

@@ -1,7 +1,7 @@
 import AdminSettingsTable from "../../../../fragments/tables/AdminSettingsTable";
 import DepartmentService from "../../../../../services/AdminServices/DepartmentService";
 import { GridSpinner } from "../../../../fragments/spinners/Spinner";
-import { useState } from "react";
+import React,{ useState } from "react";
 
 import CreateButtonModel from "./buttonModals/create";
 import updateButtonAction from "./buttonModals/update";
