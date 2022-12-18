@@ -1,7 +1,7 @@
-import { Grid } from "react-loader-spinner";
-import { ADiv } from "../../adapter";
-import React from 'react';
-import "./style.css";
+import { Grid } from 'react-loader-spinner'
+import { ADiv } from '../../adapter'
+import React from 'react'
+import './style.css'
 export const GridSpinner = () => {
 	return (
 		<ADiv className="spinner-div">
@@ -16,5 +16,5 @@ export const GridSpinner = () => {
 				visible={true}
 			/>
 		</ADiv>
-	);
-};
+	)
+}

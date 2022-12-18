@@ -1,9 +1,9 @@
 //Доступ в БД
-const knexConfig = require("../../db/knexfile");
+const knexConfig = require('../../db/knexfile')
 
 class TokenSchema {
 	constructor() {
-		this.knexProvider = require("knex")(knexConfig[process.env.NODE_ENV]);
+		this.knexProvider = require('knex')(knexConfig[process.env.NODE_ENV])
 	}
 
 	/**
@@ -11,7 +11,7 @@ class TokenSchema {
 	 * @param {json} filter
 	 */
 	async findOne(filter) {
-		return await this.knexProvider("users_sessions").first("*").where(filter);
+		return await this.knexProvider('users_sessions').first('*').where(filter)
 	}
 
 	/**
@@ -20,7 +20,7 @@ class TokenSchema {
 	 * @returns
 	 */
 	async create(token) {
-		return await this.knexProvider("users_sessions").insert(token);
+		return await this.knexProvider('users_sessions').insert(token)
 	}
 
 	/**
@@ -29,9 +29,7 @@ class TokenSchema {
 	 * @returns
 	 */
 	async update(filter, token) {
-		return await this.knexProvider("users_sessions")
-			.where(filter)
-			.update(token);
+		return await this.knexProvider('users_sessions').where(filter).update(token)
 	}
 
 	/**
@@ -40,8 +38,8 @@ class TokenSchema {
 	 * @returns
 	 */
 	async deleteOne(filter) {
-		return await this.knexProvider("users_sessions").where(filter).delete();
+		return await this.knexProvider('users_sessions').where(filter).delete()
 	}
 }
 
-module.exports = new TokenSchema();
+module.exports = new TokenSchema()

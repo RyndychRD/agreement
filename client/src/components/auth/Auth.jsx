@@ -10,41 +10,41 @@ import {
 	AEyeInvisibleOutlined,
 	ASpan,
 	AAlert,
-} from "../adapter";
-import { useDispatch, useSelector } from "react-redux";
-import "./style.css";
-import { loginAsync, AuthCheckAsync } from "./AuthReducer";
-import React,{ useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+} from '../adapter'
+import { useDispatch, useSelector } from 'react-redux'
+import './style.css'
+import { loginAsync, AuthCheckAsync } from './AuthReducer'
+import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 function Auth() {
-	const isAuth = useSelector((state) => state.session.isAuth);
-	const dispatch = useDispatch();
-	const [showAlert, setShowAlert] = useState(false);
-	const navigate = useNavigate();
+	const isAuth = useSelector((state) => state.session.isAuth)
+	const dispatch = useDispatch()
+	const [showAlert, setShowAlert] = useState(false)
+	const navigate = useNavigate()
 	useEffect(() => {
-		if (isAuth) navigate("/");
-	}, [isAuth, navigate]);
+		if (isAuth) navigate('/')
+	}, [isAuth, navigate])
 
 	//Если до этого авторизовались и сессия не истекла пробуем войти автоматически
 	useEffect(() => {
-		//Изымаем из локального хранилища токен обновление если есть пробуем входить		
-		if (localStorage.getItem("token")) {
-			console.log("Проверяем была ли авторизация")
-			console.log("Авторизация была, попытка обновить токен")
-			dispatch(AuthCheckAsync());
+		//Изымаем из локального хранилища токен обновление если есть пробуем входить
+		if (localStorage.getItem('token')) {
+			console.log('Проверяем была ли авторизация')
+			console.log('Авторизация была, попытка обновить токен')
+			dispatch(AuthCheckAsync())
 		}
-	// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [])
 
 	return (
-		<ARow justify="center" align="middle" style={{ height: "95vh" }}>
+		<ARow justify="center" align="middle" style={{ height: '95vh' }}>
 			<ACol>
 				{isAuth && showAlert && (
 					<AAlert
 						showIcon
 						type="success"
-						message={"Сообщение"}
+						message={'Сообщение'}
 						description={`Авторизация прошла успешно...`}
 					/>
 				)}
@@ -52,15 +52,15 @@ function Auth() {
 					<AAlert
 						showIcon
 						type="error"
-						message={"Ошибка"}
+						message={'Ошибка'}
 						description={`Неверный логин или пароль.`}
 					/>
 				)}
 				<AForm
 					name="basic"
 					onFinish={(value) => {
-						setShowAlert(true);
-						dispatch(loginAsync(value));
+						setShowAlert(true)
+						dispatch(loginAsync(value))
 					}}
 				>
 					<ARow gutter={16}>
@@ -71,7 +71,7 @@ function Auth() {
 								rules={[
 									{
 										required: true,
-										message: "Необходимо для заполнения!",
+										message: 'Необходимо для заполнения!',
 									},
 								]}
 							>
@@ -85,7 +85,7 @@ function Auth() {
 								rules={[
 									{
 										required: true,
-										message: "Необходимо для заполнения!",
+										message: 'Необходимо для заполнения!',
 									},
 								]}
 							>
@@ -95,12 +95,12 @@ function Auth() {
 									iconRender={(isVisible) =>
 										isVisible ? (
 											<AEyeTwoTone
-												style={{ color: "#fff" }}
+												style={{ color: '#fff' }}
 												className="loginIcons"
 											/>
 										) : (
 											<AEyeInvisibleOutlined
-												style={{ color: "#fff" }}
+												style={{ color: '#fff' }}
 												className="loginIcons"
 											/>
 										)
@@ -117,7 +117,7 @@ function Auth() {
 				</AForm>
 			</ACol>
 		</ARow>
-	);
+	)
 }
 
-export default Auth;
+export default Auth

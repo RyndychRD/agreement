@@ -1,11 +1,11 @@
-import { Route, Routes } from "react-router-dom";
-import { CreatedDocument } from "./createdDocuments/CreatedDocuments";
-import { Layout } from "antd";
-import { Sider } from "./sider/Sider";
-import React from "react";
+import { Route, Routes } from 'react-router-dom'
+import { CreatedDocument } from './createdDocuments/CreatedDocuments'
+import { Layout } from 'antd'
+import { Sider } from './sider/Sider'
+import React from 'react'
 
 export function DocumentControl() {
-	const { Content } = Layout;
+	const { Content } = Layout
 	return (
 		<Layout>
 			<Sider />
@@ -15,5 +15,5 @@ export function DocumentControl() {
 				</Routes>
 			</Content>
 		</Layout>
-	);
+	)
 }

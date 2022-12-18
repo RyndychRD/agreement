@@ -1,8 +1,8 @@
-import { Route, Routes } from "react-router-dom";
-import Departments from "./departments/Departments";
-import Users from "./users/Users";
-import Positions from "./positions/Positions";
-import React from "react";
+import { Route, Routes } from 'react-router-dom'
+import Departments from './departments/Departments'
+import Users from './users/Users'
+import Positions from './positions/Positions'
+import React from 'react'
 export default function Catalogs() {
 	return (
 		<Routes>
@@ -10,5 +10,5 @@ export default function Catalogs() {
 			<Route path="/users" element={<Users />} />
 			<Route path="/positions" element={<Positions />} />
 		</Routes>
-	);
+	)
 }

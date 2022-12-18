@@ -1,9 +1,9 @@
 //Доступ в БД
-const knexConfig = require("../../../db/knexfile");
+const knexConfig = require('../../../db/knexfile')
 
 class DepartmentSchema {
 	constructor() {
-		this.knexProvider = require("knex")(knexConfig[process.env.NODE_ENV]);
+		this.knexProvider = require('knex')(knexConfig[process.env.NODE_ENV])
 	}
 
 	/**
@@ -11,7 +11,7 @@ class DepartmentSchema {
 	 * @param {json} filter
 	 */
 	async findOne(filter) {
-		return await this.knexProvider("departments").first("*").where(filter);
+		return await this.knexProvider('departments').first('*').where(filter)
 	}
 
 	/**
@@ -19,8 +19,8 @@ class DepartmentSchema {
 	 * @param {json} filter
 	 */
 	async find(filter) {
-		if (!filter) return await this.knexProvider("departments").select("*");
-		return await this.knexProvider("departments").select("*").where(filter);
+		if (!filter) return await this.knexProvider('departments').select('*')
+		return await this.knexProvider('departments').select('*').where(filter)
 	}
 
 	/**
@@ -29,8 +29,8 @@ class DepartmentSchema {
 	 * @returns
 	 */
 	async create(department) {
-		await this.knexProvider("departments").insert(department);
-		return await this.find();
+		await this.knexProvider('departments').insert(department)
+		return await this.find()
 	}
 
 	/**
@@ -39,10 +39,10 @@ class DepartmentSchema {
 	 * @returns
 	 */
 	async update(filter, department) {
-		return await this.knexProvider("departments")
+		return await this.knexProvider('departments')
 			.where(filter)
-			.update(department);
+			.update(department)
 	}
 }
 
-module.exports = new DepartmentSchema();
+module.exports = new DepartmentSchema()

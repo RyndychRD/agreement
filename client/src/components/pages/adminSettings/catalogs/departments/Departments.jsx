@@ -1,40 +1,40 @@
-import AdminSettingsTable from "../../../../fragments/tables/AdminSettingsTable";
-import DepartmentService from "../../../../../services/AdminServices/DepartmentService";
-import { GridSpinner } from "../../../../fragments/spinners/Spinner";
-import React,{ useState } from "react";
+import AdminSettingsTable from '../../../../fragments/tables/AdminSettingsTable'
+import DepartmentService from '../../../../../services/AdminServices/DepartmentService'
+import { GridSpinner } from '../../../../fragments/spinners/Spinner'
+import React, { useState } from 'react'
 
-import CreateButtonModel from "./buttonModals/create";
-import updateButtonAction from "./buttonModals/update";
-import deleteButtonAction from "./buttonModals/delete";
+import CreateButtonModel from './buttonModals/create'
+import updateButtonAction from './buttonModals/update'
+import deleteButtonAction from './buttonModals/delete'
 
-import { useDispatch,useSelector } from "react-redux";
-import { openCloseCreateModal } from "./DepartmentsReducer";
+import { useDispatch, useSelector } from 'react-redux'
+import { openCloseCreateModal } from './DepartmentsReducer'
 
 export default function Departments() {
-	const columns = useSelector((state) => state.departments.columns);
-	const dispatch = useDispatch();
+	const columns = useSelector((state) => state.departments.columns)
+	const dispatch = useDispatch()
 
 	const buttons = {
 		create: () => {
-			dispatch(openCloseCreateModal());
+			dispatch(openCloseCreateModal())
 		},
 		update: updateButtonAction,
 		delete: deleteButtonAction,
-	};
+	}
 
-	const [data, setData] = useState(null);
+	const [data, setData] = useState(null)
 	function prepareForTable(data) {
 		return data.map((el) => {
-			return { key: el.id, department_id: el.id, department_name: el.name };
-		});
+			return { key: el.id, department_id: el.id, department_name: el.name }
+		})
 	}
 	async function getResponse() {
-		const response = await DepartmentService.getAll();
-		const data = prepareForTable(response.data);
-		setData(data);
+		const response = await DepartmentService.getAll()
+		const data = prepareForTable(response.data)
+		setData(data)
 	}
 
-	if (!data) getResponse();
+	if (!data) getResponse()
 
 	return !data ? (
 		<GridSpinner />
@@ -48,5 +48,5 @@ export default function Departments() {
 			/>
 			<CreateButtonModel />
 		</>
-	);
+	)
 }

@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-undef
 module.exports = {
     "env": {
-        "nodejs": true,
+        "node": true,
         "commonjs": true,
         "es2021": true
     },

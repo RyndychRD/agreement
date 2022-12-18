@@ -11,7 +11,7 @@
     "seed": "npx knex seed:run --knexfile db/knexfile.js",
     "precommit": "lint-staged",
     "eslint": "node_modules/.bin/eslint src/",
-    "prettier": "prettier — write src/**/*.js"
+    "prettier": "prettier --write src/**/*.js"
   },
   "keywords": [],
   "author": "",

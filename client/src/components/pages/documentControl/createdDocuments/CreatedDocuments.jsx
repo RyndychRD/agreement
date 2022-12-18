@@ -1,5 +1,5 @@
-import { FormBuilder } from "../../../fragments/formBuilder/FormBuilder";
-import React from "react";
+import { FormBuilder } from '../../../fragments/formBuilder/FormBuilder'
+import React from 'react'
 
 export function CreatedDocument(props) {
 	return (
@@ -7,5 +7,5 @@ export function CreatedDocument(props) {
 			{props.children}
 			<FormBuilder />
 		</div>
-	);
+	)
 }

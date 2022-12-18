@@ -1,5 +1,5 @@
-import { ARow, ACol, ASpan, ADiv, AButton } from "../../adapter";
-import React from "react";
+import { ARow, ACol, ASpan, ADiv, AButton } from '../../adapter'
+import React from 'react'
 
 export function getColumn(title, dataIndex, sorter, defaultSortOrder) {
 	return {
@@ -7,7 +7,7 @@ export function getColumn(title, dataIndex, sorter, defaultSortOrder) {
 		dataIndex,
 		// sorter,
 		// defaultSortOrder
-	};
+	}
 }
 
 export function getTitle(name, buttons) {
@@ -27,12 +27,12 @@ export function getTitle(name, buttons) {
 				Просмотр
 			</AButton>
 		),
-	};
+	}
 
-	const buttonsView = [];
+	const buttonsView = []
 	Object.keys(buttons).forEach((key, index) => {
-		buttonsView.push(buttonsDict[key]);
-	});
+		buttonsView.push(buttonsDict[key])
+	})
 
 	return (
 		<ARow>
@@ -43,5 +43,5 @@ export function getTitle(name, buttons) {
 			</ACol>
 			<ACol>{buttonsView}</ACol>
 		</ARow>
-	);
+	)
 }

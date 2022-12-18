@@ -1,11 +1,11 @@
-import { Layout as ALayout } from "antd";
-import Header from "./Header";
-import MainPage from "./mainPage/MainPage";
-import React from 'react';
+import { Layout as ALayout } from 'antd'
+import Header from './Header'
+import MainPage from './mainPage/MainPage'
+import React from 'react'
 
-import { Routes, Route } from "react-router-dom";
-import { DocumentControl } from "./documentControl/DocumentControl";
-import { AdminSettings } from "./adminSettings/AdminSettings";
+import { Routes, Route } from 'react-router-dom'
+import { DocumentControl } from './documentControl/DocumentControl'
+import { AdminSettings } from './adminSettings/AdminSettings'
 
 function Layout() {
 	return (
@@ -17,7 +17,7 @@ function Layout() {
 				<Route path="/admin-settings/*" element={<AdminSettings />} />
 			</Routes>
 		</ALayout>
-	);
+	)
 }
 
-export default Layout;
+export default Layout

@@ -1,3 +1,3 @@
 export default function updateButtonAction() {
-	console.log("Вызвано окно показа департмаента");
+	console.log('Вызвано окно показа департмаента')
 }

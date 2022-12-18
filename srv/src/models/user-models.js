@@ -1,9 +1,9 @@
 //Доступ в БД
-const knexConfig = require("../../db/knexfile");
+const knexConfig = require('../../db/knexfile')
 
 class UserSchema {
 	constructor() {
-		this.knexProvider = require("knex")(knexConfig[process.env.NODE_ENV]);
+		this.knexProvider = require('knex')(knexConfig[process.env.NODE_ENV])
 	}
 
 	/**
@@ -11,7 +11,7 @@ class UserSchema {
 	 * @param {json} filter
 	 */
 	async findOne(filter) {
-		return await this.knexProvider("users").first("*").where(filter);
+		return await this.knexProvider('users').first('*').where(filter)
 	}
 
 	/**
@@ -19,8 +19,8 @@ class UserSchema {
 	 * @param {json} filter
 	 */
 	async find(filter) {
-		if (!filter) return await this.knexProvider("users").select("*");
-		return await this.knexProvider("users").select("*").where(filter);
+		if (!filter) return await this.knexProvider('users').select('*')
+		return await this.knexProvider('users').select('*').where(filter)
 	}
 
 	/**
@@ -29,10 +29,10 @@ class UserSchema {
 	 * @returns
 	 */
 	async create(candidate) {
-		await this.knexProvider("users").insert(candidate);
-		return await this.knexProvider("users").first("*").where({
+		await this.knexProvider('users').insert(candidate)
+		return await this.knexProvider('users').first('*').where({
 			login: candidate.login,
-		});
+		})
 	}
 
 	/**
@@ -41,8 +41,8 @@ class UserSchema {
 	 * @returns
 	 */
 	async update(filter, token) {
-		return await this.knexProvider("users").where(filter).update(token);
+		return await this.knexProvider('users').where(filter).update(token)
 	}
 }
 
-module.exports = new UserSchema();
+module.exports = new UserSchema()

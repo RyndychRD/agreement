@@ -1,7 +1,7 @@
-import AdminSettingsTable from "../../../../fragments/tables/AdminSettingsTable";
-import React from "react";
+import AdminSettingsTable from '../../../../fragments/tables/AdminSettingsTable'
+import React from 'react'
 export default function Users() {
-	const colums = { data: ["department_id", "department_name"] };
+	const colums = { data: ['department_id', 'department_name'] }
 
-	return <AdminSettingsTable colums={colums} title="Пользователи" />;
+	return <AdminSettingsTable colums={colums} title="Пользователи" />
 }

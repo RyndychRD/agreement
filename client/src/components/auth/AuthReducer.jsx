@@ -1,56 +1,56 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import AuthService from "../../services/AuthService";
-import axios from "axios";
-import { API_URL } from "../../http";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import AuthService from '../../services/AuthService'
+import axios from 'axios'
+import { API_URL } from '../../http'
 
 // Создаем преобразователя
 export const loginAsync = createAsyncThunk(
-	"AuthSlice/login",
+	'AuthSlice/login',
 	async (action, thunkAPI) => {
 		try {
-			console.log("console.log(action)", action);
-			const response = await AuthService.login(action.login, action.password);
-			console.log("console.log(response);", await response);
-			localStorage.setItem("token", await response.data.accessToken);
-			return await response.data;
+			console.log('console.log(action)', action)
+			const response = await AuthService.login(action.login, action.password)
+			console.log('console.log(response);', await response)
+			localStorage.setItem('token', await response.data.accessToken)
+			return await response.data
 		} catch (error) {
-			console.log(error.response?.data?.message);
+			console.log(error.response?.data?.message)
 		}
 	}
-);
+)
 
 export const AuthCheckAsync = createAsyncThunk(
-	"AuthSlice/authCheck",
+	'AuthSlice/authCheck',
 	async (action, thunkAPI) => {
 		try {
 			const response = await axios.get(`${API_URL}/refresh`, {
 				withCredentials: true,
-			});
-			localStorage.setItem("token", await response.data.accessToken);
-			console.log("Токен успешно обновлен,входим в систему.");
-			return await response.data;
+			})
+			localStorage.setItem('token', await response.data.accessToken)
+			console.log('Токен успешно обновлен,входим в систему.')
+			return await response.data
 		} catch (error) {
-			console.log(error.response?.data?.message);
+			console.log(error.response?.data?.message)
 		}
 	}
-);
+)
 
-export const logoutAsync = createAsyncThunk("AuthSlice/logout", async () => {
+export const logoutAsync = createAsyncThunk('AuthSlice/logout', async () => {
 	try {
-		console.log("logoutAsync");
-		await AuthService.logout();
+		console.log('logoutAsync')
+		await AuthService.logout()
 	} catch (error) {
-		console.log(error.response?.data?.message);
+		console.log(error.response?.data?.message)
 	}
-});
+})
 
 export const AuthSlice = createSlice({
-	name: "session",
+	name: 'session',
 	initialState: {
-		loading: "idle",
+		loading: 'idle',
 		current_user: null,
 		isAuth: false,
-		session: "",
+		session: '',
 	},
 	reducers: {},
 	extraReducers: {
@@ -60,37 +60,37 @@ export const AuthSlice = createSlice({
 		[loginAsync.fulfilled]: (state, action) => {
 			try {
 				if (action.payload?.user) {
-					state.current_user = action.payload.user;
-					state.session = action.payload.accessToken;
-					state.isAuth = true;
+					state.current_user = action.payload.user
+					state.session = action.payload.accessToken
+					state.isAuth = true
 				} else {
-					state.isAuth = false;
+					state.isAuth = false
 				}
 			} catch (error) {
-				console.log(error);
+				console.log(error)
 			}
 		},
 		[logoutAsync.fulfilled]: (state, action) => {
 			try {
-				localStorage.removeItem("token");
-				state.current_user = {};
-				state.session = {};
-				state.isAuth = false;
+				localStorage.removeItem('token')
+				state.current_user = {}
+				state.session = {}
+				state.isAuth = false
 			} catch (error) {
-				console.log(error);
+				console.log(error)
 			}
 		},
 		[AuthCheckAsync.fulfilled]: (state, action) => {
 			try {
 				if (action.payload?.user) {
-					state.current_user = action.payload.user;
-					state.session = action.payload.accessToken;
-					state.isAuth = true;
+					state.current_user = action.payload.user
+					state.session = action.payload.accessToken
+					state.isAuth = true
 				} else {
-					state.isAuth = false;
+					state.isAuth = false
 				}
 			} catch (error) {
-				console.log(error);
+				console.log(error)
 			}
 		},
 		// registration(state, action) {
@@ -108,8 +108,8 @@ export const AuthSlice = createSlice({
 		// 	}
 		// },
 	},
-});
+})
 
 // export const { registration, logout } = AuthSlice.actions;
 
-export default AuthSlice.reducer;
+export default AuthSlice.reducer
