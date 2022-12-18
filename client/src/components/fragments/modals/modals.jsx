@@ -1,4 +1,5 @@
 import { AModal } from "../../adapter";
+import React from 'react';
 
 export const ModalInput = (props) => {
 	return (

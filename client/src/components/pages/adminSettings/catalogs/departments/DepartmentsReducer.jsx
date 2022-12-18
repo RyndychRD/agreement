@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import DepartmentService from "./../../../../../services/AdminServices/DepartmentService";
+import DepartmentService from "../../../../../services/AdminServices/DepartmentService";
 
 export const getAllDepartments = createAsyncThunk(
 	"DepartmentSlice/getAll",

@@ -19,6 +19,7 @@ import {
 	DesktopOutlined,
 } from "@ant-design/icons";
 import { PageHeader } from "@ant-design/pro-layout";
+import React from 'react';
 
 export const AForm = (props) => {
 	return <Form {...props}>{props.children}</Form>;

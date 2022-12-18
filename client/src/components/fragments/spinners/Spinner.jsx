@@ -1,5 +1,6 @@
 import { Grid } from "react-loader-spinner";
 import { ADiv } from "../../adapter";
+import React from 'react';
 import "./style.css";
 export const GridSpinner = () => {
 	return (

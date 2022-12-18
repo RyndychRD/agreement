@@ -1,5 +1,5 @@
 import Layout from "antd/es/layout/layout";
-import { AMenu } from "./../../../adapter";
+import { AMenu } from "../../../adapter";
 import { NavLink } from "react-router-dom";
 
 export function Sider() {

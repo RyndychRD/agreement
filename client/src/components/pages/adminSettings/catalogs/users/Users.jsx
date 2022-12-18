@@ -1,4 +1,4 @@
-import AdminSettingsTable from "./../../../../fragments/tables/AdminSettingsTable";
+import AdminSettingsTable from "../../../../fragments/tables/AdminSettingsTable";
 export default function Users() {
 	const colums = { data: ["department_id", "department_name"] };
 

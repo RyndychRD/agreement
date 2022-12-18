@@ -5,16 +5,17 @@ import {
 	ADesktopOutlined,
 	ARow,
 	ASpan,
-} from "./../../adapter";
+} from "../../adapter";
 import "./style.css";
+import React from 'react';
 import { NavLink } from "react-router-dom";
 import { Layout } from "antd";
 
 function MainPage() {
 	const { Content } = Layout;
 
-	const documentControlP = (
-		<ACol className="main-menu-col">
+	const DocumentControlP = () => {		
+		return (<ACol className="main-menu-col">
 			<ATooltip placement="rightTop" title="Документооборот">
 				<NavLink
 					to="/document-control/created-documents"
@@ -26,12 +27,12 @@ function MainPage() {
 					</AButton>
 				</NavLink>
 			</ATooltip>
-		</ACol>
-	);
+		</ACol>)
+	}
 
 	return (
 		<Content className="content">
-			<ARow className="main-button-row">{true ? documentControlP : ""}</ARow>
+			<ARow className="main-button-row"><DocumentControlP/></ARow>
 		</Content>
 	);
 }

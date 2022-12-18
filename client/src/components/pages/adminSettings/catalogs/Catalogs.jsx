@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import Departments from "./departments/Departments";
 import Users from "./users/Users";
 import Positions from "./positions/Positions";
+import React from "react";
 export default function Catalogs() {
 	return (
 		<Routes>

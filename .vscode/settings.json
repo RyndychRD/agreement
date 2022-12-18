@@ -1,4 +1,17 @@
 {
+    "editor.formatOnPaste": false,
+    "editor.formatOnSave": true,
+    "[javascript]": {
+    "editor.formatOnSave": true,
+    },
+    "[html]": {
+    "editor.formatOnSave": false,
+    },
+    "[json]": {
+    "editor.formatOnSave": false,
+    },
+    "editor.codeActionsOnSave": { "source.fixAll.eslint": true },
+    "eslint.alwaysShowStatus": true,
     "cSpell.language": "en,ru",
     "cSpell.words": [
         "админку",
@@ -9,5 +22,6 @@
         "селекта",
         "стор",
         "Sider"
-    ]
+    ],
+
 }

@@ -1,5 +1,5 @@
-import AdminSettingsTable from "./../../../../fragments/tables/AdminSettingsTable";
-import DepartmentService from "./../../../../../services/AdminServices/DepartmentService";
+import AdminSettingsTable from "../../../../fragments/tables/AdminSettingsTable";
+import DepartmentService from "../../../../../services/AdminServices/DepartmentService";
 import { GridSpinner } from "../../../../fragments/spinners/Spinner";
 import { useState } from "react";
 
