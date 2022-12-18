@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Button, Form, Input, Modal, Radio } from "antd";
 
 //Документы
+// eslint-disable-next-line no-unused-vars
 let documents = [
 	{
 		id: 1,
@@ -15,6 +16,7 @@ let documents = [
 	},
 ];
 //Статусы документов
+// eslint-disable-next-line no-unused-vars
 let document_statuses = [
 	{ id: 1, name: "Отклонён" },
 	{ id: 2, name: "Согласован" },
@@ -25,6 +27,7 @@ let document_statuses = [
 	{ id: 7, name: "Исполнен" },
 ];
 //Типы документов
+// eslint-disable-next-line no-unused-vars
 let document_types = [
 	{ id: 10, name: "Закуп ТРУ" },
 	{ id: 26, name: "Согласование на продажу готовой продукции" },
@@ -36,6 +39,7 @@ let document_types = [
 	{ id: 29, name: "Другой" },
 ];
 //Таблица для отображение со всеми типами документов
+// eslint-disable-next-line no-unused-vars
 let document_type_views = [
 	{
 		id: 1,
@@ -115,6 +119,7 @@ let document_type_views = [
 	},
 ];
 //Словарь ввода-вывода элемента документа
+// eslint-disable-next-line no-unused-vars
 let document_element_IO_dictionary = [
 	{ id: 1, key: "From_whom", name: "От кого:", select_value: null },
 	{ id: 1, key: "Job_title", name: "Должность:", select_value: null },
@@ -156,6 +161,7 @@ let document_element_IO_dictionary = [
 	},
 ];
 //Значение данных (наполнение документа)
+// eslint-disable-next-line no-unused-vars
 let document_values = [
 	{
 		id: 1,
