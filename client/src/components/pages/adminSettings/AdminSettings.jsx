@@ -1,10 +1,9 @@
 import { Layout } from 'antd'
-import { Sider } from './sider/Sider'
 import { Route, Routes } from 'react-router-dom'
+import Sider from './sider/Sider'
 import Catalogs from './catalogs/Catalogs'
-import React from 'react'
 
-export function AdminSettings() {
+export default function AdminSettings() {
 	const { Content } = Layout
 	return (
 		<Layout>

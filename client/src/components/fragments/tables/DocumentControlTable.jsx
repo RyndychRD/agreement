@@ -1,5 +1,5 @@
-import { ATable } from '../../adapter'
 import { getColumn } from './CommonFunctions'
+import { ATable } from '../../adapter'
 
 const defaultColums = [
 	'document_name',
@@ -9,7 +9,7 @@ const defaultColums = [
 
 export default function DocumentControlTable({
 	colums = defaultColums,
-	tableName = null,
+	// tableName = null,
 }) {
 	const dictColumn = {
 		document_name: getColumn('Наименование договора', 'document_name'),
@@ -23,9 +23,9 @@ export default function DocumentControlTable({
 		),
 	}
 
-	const tableColumns = colums.map((column) => {
-		return dictColumn[column] ? dictColumn[column] : null
-	})
+	const tableColumns = colums.map((column) =>
+		dictColumn[column] ? dictColumn[column] : null
+	)
 
 	return <ATable columns={tableColumns} />
 }

@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 import {
 	Form,
 	Input,
@@ -19,86 +20,85 @@ import {
 	DesktopOutlined,
 } from '@ant-design/icons'
 import { PageHeader } from '@ant-design/pro-layout'
-import React from 'react'
 
-export const AForm = (props) => {
+export function AForm(props) {
 	return <Form {...props}>{props.children}</Form>
 }
-export const ATable = (props) => {
+export function ATable(props) {
 	return <Table {...props}>{props.children}</Table>
 }
-export const AModal = (props) => {
+export function AModal(props) {
 	return <Modal {...props}>{props.children}</Modal>
 }
-export const APageHeader = (props) => {
+export function APageHeader(props) {
 	return <PageHeader {...props}>{props.children}</PageHeader>
 }
-export const ATooltip = (props) => {
+export function ATooltip(props) {
 	return <Tooltip {...props}>{props.children}</Tooltip>
 }
 
-export const AMenu = (props) => {
+export function AMenu(props) {
 	return <Menu {...props}>{props.children}</Menu>
 }
 
-export const ALayout = (props) => {
+export function ALayout(props) {
 	return <Layout {...props}>{props.children}</Layout>
 }
-//Просто вывод текста
-export const ASpan = (props) => {
+// Просто вывод текста
+export function ASpan(props) {
 	return <span {...props}>{props.children}</span>
 }
-//Просто вывод текста
-export const ADiv = (props) => {
+// Просто вывод текста
+export function ADiv(props) {
 	return <div {...props}>{props.children}</div>
 }
-export const AFormItem = (props) => {
+export function AFormItem(props) {
 	return <Form.Item {...props}>{props.children}</Form.Item>
 }
 
-export const ARow = (props) => {
+export function ARow(props) {
 	return <Row {...props}>{props.children}</Row>
 }
 
-export const ACol = (props) => {
+export function ACol(props) {
 	return <Col {...props}>{props.children}</Col>
 }
 
-export const AInput = (props) => {
+export function AInput(props) {
 	return <Input {...props}>{props.children}</Input>
 }
 
-export const AInputPassword = (props) => {
+export function AInputPassword(props) {
 	return <Input.Password {...props}>{props.children}</Input.Password>
 }
 
-export const AButton = (props) => {
+export function AButton(props) {
 	return <Button {...props}>{props.children}</Button>
 }
 
-export const AEyeInvisibleOutlined = (props) => {
+export function AEyeInvisibleOutlined(props) {
 	return (
 		<EyeInvisibleOutlined {...props}>{props.children}</EyeInvisibleOutlined>
 	)
 }
 
-export const AEyeTwoTone = (props) => {
+export function AEyeTwoTone(props) {
 	return <EyeTwoTone {...props}>{props.children}</EyeTwoTone>
 }
 
-export const ACrownOutlined = (props) => {
+export function ACrownOutlined(props) {
 	return <CrownOutlined {...props}>{props.children}</CrownOutlined>
 }
 
-export const AArrowLeftOutlined = (props) => {
+export function AArrowLeftOutlined(props) {
 	return <ArrowLeftOutlined {...props}>{props.children}</ArrowLeftOutlined>
 }
 
-export const ADesktopOutlined = (props) => {
+export function ADesktopOutlined(props) {
 	return <DesktopOutlined {...props}>{props.children}</DesktopOutlined>
 }
 
-//Работает но есть ошибки в консоли
+// Работает но есть ошибки в консоли
 // export const ANotification = (props) => {
 // 	const [api, contextHolder] = notification.useNotification();
 // 	const openNotification = () => {
@@ -113,6 +113,6 @@ export const ADesktopOutlined = (props) => {
 // 	return <>{contextHolder}</>;
 // };
 
-export const AAlert = (props) => {
+export function AAlert(props) {
 	return <Alert {...props}>{props.children}</Alert>
 }

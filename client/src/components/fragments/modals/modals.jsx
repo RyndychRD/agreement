@@ -1,17 +1,18 @@
 import { AModal } from '../../adapter'
-import React from 'react'
 
-export const ModalInput = (props) => {
+export function ModalInput(props) {
+	const { children } = props
 	return (
 		<AModal okText="Сохранить" cancelText="Отмена" {...props}>
-			{props.children}
+			{children}
 		</AModal>
 	)
 }
 export function ModalUpdate(props) {
+	const { children } = props
 	return (
 		<AModal okText="Редактировать" cancelText="Отмена" {...props}>
-			{props.children}
+			{children}
 		</AModal>
 	)
 }

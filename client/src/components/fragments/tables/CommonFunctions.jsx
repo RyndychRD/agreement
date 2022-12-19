@@ -1,7 +1,10 @@
 import { ARow, ACol, ASpan, ADiv, AButton } from '../../adapter'
-import React from 'react'
 
-export function getColumn(title, dataIndex, sorter, defaultSortOrder) {
+export function getColumn(
+	title,
+	dataIndex
+	// sorter, defaultSortOrder
+) {
 	return {
 		title,
 		dataIndex,
@@ -30,9 +33,14 @@ export function getTitle(name, buttons) {
 	}
 
 	const buttonsView = []
-	Object.keys(buttons).forEach((key, index) => {
-		buttonsView.push(buttonsDict[key])
-	})
+	Object.keys(buttons).forEach(
+		(
+			key
+			// index
+		) => {
+			buttonsView.push(buttonsDict[key])
+		}
+	)
 
 	return (
 		<ARow>

@@ -1,10 +1,9 @@
 import { Route, Routes } from 'react-router-dom'
-import { CreatedDocument } from './createdDocuments/CreatedDocuments'
-import { Layout } from 'antd'
-import { Sider } from './sider/Sider'
-import React from 'react'
+import Layout from 'antd'
+import CreatedDocument from './createdDocuments/CreatedDocuments'
+import Sider from './sider/Sider'
 
-export function DocumentControl() {
+export default function DocumentControl() {
 	const { Content } = Layout
 	return (
 		<Layout>

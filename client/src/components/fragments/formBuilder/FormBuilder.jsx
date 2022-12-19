@@ -1,680 +1,191 @@
-import React, { useState, useMemo, useCallback } from "react";
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable camelcase */
 import {
+	DownSquareTwoTone,
 	MinusCircleOutlined,
 	PlusOutlined,
 	UpSquareTwoTone,
-	DownSquareTwoTone,
-} from "@ant-design/icons";
-import { Button, Form, Input, Modal, Space, Select } from "antd";
+} from '@ant-design/icons'
+import { Button, Form, Input, Modal, Select, Space } from 'antd'
+import { useState } from 'react'
+import color from './FormBuilderColorRow'
 
-//Документы
-// eslint-disable-next-line no-unused-vars
-let documents = [
-	{
-		id: 1,
-		document_status_id: 5, //В работе
-		document_type_id: 10, //Закуп ТРУ
-		creator_id: 3, //NeboginAA
-		name: 'Тестовый - Закуп ТРУ', //Имя документа
-		created_at: '2022-12-12 15:29:34.840 +0600', //Дата создания
-		updated_at: '2022-12-12 15:29:34.840 +0600', //Дата обновление
-		finished_at: null, //Дата конца проведение документа
-	},
-]
-//Статусы документов
-// eslint-disable-next-line no-unused-vars
-let document_statuses = [
-	{ id: 1, name: 'Отклонён' },
-	{ id: 2, name: 'Согласован' },
-	{ id: 3, name: 'В работе' },
-	{ id: 4, name: 'На доработке' },
-	{ id: 5, name: 'На регистрации' },
-	{ id: 6, name: 'Документ в ООПЗ' },
-	{ id: 7, name: 'Исполнен' },
-]
-//Типы документов
-// eslint-disable-next-line no-unused-vars
-let document_types = [
-	{ id: 10, name: 'Закуп ТРУ' },
-	{ id: 26, name: 'Согласование на продажу готовой продукции' },
-	{ id: 24, name: 'Согласование на закуп ТРУ для производства продукции' },
-	{
-		id: 27,
-		name: 'Согласование на закуп ТРУ для внутризаводских нужд и капитальных затрат',
-	},
-	{ id: 29, name: 'Другой' },
-]
-//Таблица для отображение со всеми типами документов
-// eslint-disable-next-line no-unused-vars
-let document_type_views = [
-	{
-		id: 1,
-		document_type_id: 1,
-		view: {
-			elements_order: {
-				1: {
-					key: 'From_whom',
-					typeData: 'text',
-				},
-				2: {
-					key: 'Job_title',
-					typeData: 'text',
-				},
-				3: {
-					key: 'Position_type',
-					typeData: 'text',
-				},
-				4: {
-					key: 'Name_of_Goods_Works_Services',
-					typeData: 'text',
-				},
-				5: {
-					key: 'Suppliers_of_Goods_Works_Services',
-					typeData: 'text',
-				},
-				6: {
-					key: 'Base',
-					typeData: 'text',
-				},
-				7: {
-					key: 'Total_contract_amount',
-					typeData: 'text',
-				},
-				8: {
-					key: 'Payment currency',
-					typeData: 'select_id',
-				},
-			},
-		},
-		view_print: {
-			elements_order: {
-				1: {
-					key: 'From_whom',
-					typeData: 'text',
-				},
-				2: {
-					key: 'Job_title',
-					typeData: 'text',
-				},
-				3: {
-					key: 'Position_type',
-					typeData: 'text',
-				},
-				4: {
-					key: 'Name_of_Goods_Works_Services',
-					typeData: 'text',
-				},
-				5: {
-					key: 'Suppliers_of_Goods_Works_Services',
-					typeData: 'text',
-				},
-				6: {
-					key: 'Base',
-					typeData: 'text',
-				},
-				7: {
-					key: 'Total_contract_amount',
-					typeData: 'text',
-				},
-				8: {
-					key: 'Payment currency',
-					typeData: 'select_id',
-				},
-			},
-		},
-	},
-]
-//Словарь ввода-вывода элемента документа
-// eslint-disable-next-line no-unused-vars
-let document_element_IO_dictionary = [
-	{ id: 1, key: 'From_whom', name: 'От кого:', select_value: null },
-	{ id: 1, key: 'Job_title', name: 'Должность:', select_value: null },
-	{ id: 1, key: 'Position_type', name: 'Тип должности:', select_value: null },
-	{
-		id: 1,
-		key: 'Name_of_Goods_Works_Services',
-		name: 'Наименование Товаров Работ Услуг:',
-		select_value: null,
-	},
-	{
-		id: 1,
-		key: 'Suppliers_of_Goods_Works_Services',
-		name: 'Поставщики Товаров Работ Услуг:',
-		select_value: null,
-	},
-	{ id: 1, key: 'Base', name: 'Основание:', select_value: null },
-	{
-		id: 1,
-		key: 'Total_contract_amount',
-		name: 'Общая сумма договора:',
-		select_value: null,
-	},
-	{
-		id: 1,
-		key: 'Payment_currency',
-		name: 'Валюта платежа:',
-		select_value: {
-			select_id: {
-				1: { data: 'Казахстанский тенге' },
-				2: { data: 'Доллар США' },
-				3: { data: 'Фунт стерлингов' },
-				4: { data: 'Евро' },
-				5: { data: 'Китайский юань' },
-				6: { data: 'Белорусский рубль' },
-				7: { data: 'Российский рубль' },
-			},
-		},
-	},
-]
-//Значение данных (наполнение документа)
-// eslint-disable-next-line no-unused-vars
-let document_values = [
-	{
-		id: 1,
-		document_id: 1,
-		document_element_IO_dictionary: 1,
-		value: { typeData: 'string', data: 'Название документа поле From_whom' },
-	},
-	{
-		id: 1,
-		document_id: 1,
-		document_element_IO_dictionary: 2,
-		value: { typeData: 'string', data: 'Должность Job_title' },
-	},
-	{
-		id: 1,
-		document_id: 1,
-		document_element_IO_dictionary: 3,
-		value: { typeData: 'string', data: 'Тип должности Position_type' },
-	},
-	{
-		id: 1,
-		document_id: 1,
-		document_element_IO_dictionary: 4,
-		value: {
-			typeData: 'string',
-			data: 'Наименование Товаров Работ Услуг Name_of_Goods_Works_Services',
-		},
-	},
-	{
-		id: 1,
-		document_id: 1,
-		document_element_IO_dictionary: 5,
-		value: {
-			typeData: 'string',
-			data: 'Поставщики Товаров Работ Услуг Suppliers_of_Goods_Works_Services',
-		},
-	},
-	{
-		id: 1,
-		document_id: 1,
-		document_element_IO_dictionary: 6,
-		value: { typeData: 'string', data: 'Основание Base' },
-	},
-	{
-		id: 1,
-		document_id: 1,
-		document_element_IO_dictionary: 7,
-		value: {
-			typeData: 'float',
-			data: 'Общая сумма договора Total_contract_amount',
-		},
-	},
-	{
-		id: 1,
-		document_id: 1,
-		document_element_IO_dictionary: 8,
-		value: { typeData: 'select_id', data: '1' },
-	},
-]
-// eslint-disable-next-line no-unused-vars
-const color = [
-	"#63b598",
-	"#ce7d78",
-	"#ea9e70",
-	"#a48a9e",
-	"#c6e1e8",
-	"#648177",
-	"#0d5ac1",
-	"#f205e6",
-	"#1c0365",
-	"#14a9ad",
-	"#4ca2f9",
-	"#a4e43f",
-	"#d298e2",
-	"#6119d0",
-	"#d2737d",
-	"#c0a43c",
-	"#f2510e",
-	"#651be6",
-	"#79806e",
-	"#61da5e",
-	"#cd2f00",
-	"#9348af",
-	"#01ac53",
-	"#c5a4fb",
-	"#996635",
-	"#b11573",
-	"#4bb473",
-	"#75d89e",
-	"#2f3f94",
-	"#2f7b99",
-	"#da967d",
-	"#34891f",
-	"#b0d87b",
-	"#ca4751",
-	"#7e50a8",
-	"#c4d647",
-	"#e0eeb8",
-	"#11dec1",
-	"#289812",
-	"#566ca0",
-	"#ffdbe1",
-	"#2f1179",
-	"#935b6d",
-	"#916988",
-	"#513d98",
-	"#aead3a",
-	"#9e6d71",
-	"#4b5bdc",
-	"#0cd36d",
-	"#250662",
-	"#cb5bea",
-	"#228916",
-	"#ac3e1b",
-	"#df514a",
-	"#539397",
-	"#880977",
-	"#f697c1",
-	"#ba96ce",
-	"#679c9d",
-	"#c6c42c",
-	"#5d2c52",
-	"#48b41b",
-	"#e1cf3b",
-	"#5be4f0",
-	"#57c4d8",
-	"#a4d17a",
-	"#225b8",
-	"#be608b",
-	"#96b00c",
-	"#088baf",
-	"#f158bf",
-	"#e145ba",
-	"#ee91e3",
-	"#05d371",
-	"#5426e0",
-	"#4834d0",
-	"#802234",
-	"#6749e8",
-	"#0971f0",
-	"#8fb413",
-	"#b2b4f0",
-	"#c3c89d",
-	"#c9a941",
-	"#41d158",
-	"#fb21a3",
-	"#51aed9",
-	"#5bb32d",
-	"#807fb",
-	"#21538e",
-	"#89d534",
-	"#d36647",
-	"#7fb411",
-	"#0023b8",
-	"#3b8c2a",
-	"#986b53",
-	"#f50422",
-	"#983f7a",
-	"#ea24a3",
-	"#79352c",
-	"#521250",
-	"#c79ed2",
-	"#d6dd92",
-	"#e33e52",
-	"#b2be57",
-	"#fa06ec",
-	"#1bb699",
-	"#6b2e5f",
-	"#64820f",
-	"#1c271",
-	"#21538e",
-	"#89d534",
-	"#d36647",
-	"#7fb411",
-	"#0023b8",
-	"#3b8c2a",
-	"#986b53",
-	"#f50422",
-	"#983f7a",
-	"#ea24a3",
-	"#79352c",
-	"#521250",
-	"#c79ed2",
-	"#d6dd92",
-	"#e33e52",
-	"#b2be57",
-	"#fa06ec",
-	"#1bb699",
-	"#6b2e5f",
-	"#64820f",
-	"#1c271",
-	"#9cb64a",
-	"#996c48",
-	"#9ab9b7",
-	"#06e052",
-	"#e3a481",
-	"#0eb621",
-	"#fc458e",
-	"#b2db15",
-	"#aa226d",
-	"#792ed8",
-	"#73872a",
-	"#520d3a",
-	"#cefcb8",
-	"#a5b3d9",
-	"#7d1d85",
-	"#c4fd57",
-	"#f1ae16",
-	"#8fe22a",
-	"#ef6e3c",
-	"#243eeb",
-	"#1dc18",
-	"#dd93fd",
-	"#3f8473",
-	"#e7dbce",
-	"#421f79",
-	"#7a3d93",
-	"#635f6d",
-	"#93f2d7",
-	"#9b5c2a",
-	"#15b9ee",
-	"#0f5997",
-	"#409188",
-	"#911e20",
-	"#1350ce",
-	"#10e5b1",
-	"#fff4d7",
-	"#cb2582",
-	"#ce00be",
-	"#32d5d6",
-	"#17232",
-	"#608572",
-	"#c79bc2",
-	"#00f87c",
-	"#77772a",
-	"#6995ba",
-	"#fc6b57",
-	"#f07815",
-	"#8fd883",
-	"#060e27",
-	"#96e591",
-	"#21d52e",
-	"#d00043",
-	"#b47162",
-	"#1ec227",
-	"#4f0f6f",
-	"#1d1d58",
-	"#947002",
-	"#bde052",
-	"#e08c56",
-	"#28fcfd",
-	"#bb09b",
-	"#36486a",
-	"#d02e29",
-	"#1ae6db",
-	"#3e464c",
-	"#a84a8f",
-	"#911e7e",
-	"#3f16d9",
-	"#0f525f",
-	"#ac7c0a",
-	"#b4c086",
-	"#c9d730",
-	"#30cc49",
-	"#3d6751",
-	"#fb4c03",
-	"#640fc1",
-	"#62c03e",
-	"#d3493a",
-	"#88aa0b",
-	"#406df9",
-	"#615af0",
-	"#4be47",
-	"#2a3434",
-	"#4a543f",
-	"#79bca0",
-	"#a8b8d4",
-	"#00efd4",
-	"#7ad236",
-	"#7260d8",
-	"#1deaa7",
-	"#06f43a",
-	"#823c59",
-	"#e3d94c",
-	"#dc1c06",
-	"#f53b2a",
-	"#b46238",
-	"#2dfff6",
-	"#a82b89",
-	"#1a8011",
-	"#436a9f",
-	"#1a806a",
-	"#4cf09d",
-	"#c188a2",
-	"#67eb4b",
-	"#b308d3",
-	"#fc7e41",
-	"#af3101",
-	"#ff065",
-	"#71b1f4",
-	"#a2f8a5",
-	"#e23dd0",
-	"#d3486d",
-	"#00f7f9",
-	"#474893",
-	"#3cec35",
-	"#1c65cb",
-	"#5d1d0c",
-	"#2d7d2a",
-	"#ff3420",
-	"#5cdd87",
-	"#a259a4",
-	"#e4ac44",
-	"#1bede6",
-	"#8798a4",
-	"#d7790f",
-	"#b2c24f",
-	"#de73c2",
-	"#d70a9c",
-	"#25b67",
-	"#88e9b8",
-	"#c2b0e2",
-	"#86e98f",
-	"#ae90e2",
-	"#1a806b",
-	"#436a9e",
-	"#0ec0ff",
-	"#f812b3",
-	"#b17fc9",
-	"#8d6c2f",
-	"#d3277a",
-	"#2ca1ae",
-	"#9685eb",
-	"#8a96c6",
-	"#dba2e6",
-	"#76fc1b",
-	"#608fa4",
-	"#20f6ba",
-	"#07d7f6",
-	"#dce77a",
-	"#77ecca",
-];
+import {
+	// eslint-disable-next-line no-unused-vars
+	documents,
+	// eslint-disable-next-line no-unused-vars
+	document_element_IO_dictionary,
+	// eslint-disable-next-line no-unused-vars
+	document_statuses,
+	// eslint-disable-next-line no-unused-vars
+	document_types,
+	// eslint-disable-next-line no-unused-vars
+	document_type_views,
+	// eslint-disable-next-line no-unused-vars
+	document_values,
+} from './FormBuilderInstanceForm'
 
-const CustomInput = () => {
-	const onFinish = (values) => {};
-
-	const Component = useCallback(() => {
-		return (
-			<Form
-				name="dynamic_form_nest_item"
-				onFinish={onFinish}
-				autoComplete="off"
-			>
-				<Form.List name="users">
-
-					{(fields, { add, remove, move }) => (
-						<>
-							<Form.Item>
-								<Button
-									type="dashed"
-									onClick={() => add()}
-									block
-									icon={<PlusOutlined />}
+function Component() {
+	const onFinish = () => {}
+	return (
+		<Form name="dynamic_form_nest_item" onFinish={onFinish} autoComplete="off">
+			<Form.List name="users">
+				{(fields, { add, remove, move }) => (
+					<>
+						<Form.Item>
+							<Button
+								type="dashed"
+								onClick={() => add()}
+								block
+								icon={<PlusOutlined />}
+							>
+								Добавить поле
+							</Button>
+						</Form.Item>
+						{fields.length !== 0 && (
+							<span>Всего элементов на форме №{fields.length}</span>
+						)}
+						{fields.map(({ key, name, ...restField }) => (
+							<Space
+								key={key}
+								style={{
+									display: 'flex',
+									margin: '5px',
+									padding: '5px',
+									border: `5px ridge ${color[key]}`,
+									opacity: '1',
+									backdropFilter: 'sepia(100%)',
+								}}
+								align="baseline"
+							>
+								Порядок в списке №{name}
+								<Form.Item
+									{...restField}
+									name={[name, 'first']}
+									rules={[
+										{
+											required: true,
+											message: 'Данные не внесены',
+										},
+									]}
 								>
-									Добавить поле
-								</Button>
-							</Form.Item>
-							{fields.length !== 0 && (
-								<span>Всего элементов на форме №{fields.length}</span>
-							)}
-							{fields.map(({ key, name, ...restField }) => (
-								<Space
-									key={key}
+									<Input placeholder="Наименование поля" />
+								</Form.Item>
+								<Form.Item
+									{...restField}
+									name={[name, 'last']}
+									rules={[
+										{
+											required: true,
+											message: 'Данные не внесены',
+										},
+									]}
+								>
+									<Select
+										showSearch
+										style={{
+											width: '350px',
+										}}
+										placeholder="Выберите элемент"
+										optionFilterProp="children"
+										filterOption={(input, option) =>
+											(option?.label ?? '').includes(input)
+										}
+										filterSort={(optionA, optionB) =>
+											(optionA?.label ?? '')
+												.toLowerCase()
+												.localeCompare((optionB?.label ?? '').toLowerCase())
+										}
+										options={[
+											{
+												value: document_element_IO_dictionary[0].key,
+												label: document_element_IO_dictionary[0].name,
+											},
+											{
+												value: document_element_IO_dictionary[1].key,
+												label: document_element_IO_dictionary[1].name,
+											},
+											{
+												value: document_element_IO_dictionary[2].key,
+												label: document_element_IO_dictionary[2].name,
+											},
+											{
+												value: document_element_IO_dictionary[3].key,
+												label: document_element_IO_dictionary[3].name,
+											},
+											{
+												value: document_element_IO_dictionary[4].key,
+												label: document_element_IO_dictionary[4].name,
+											},
+											{
+												value: document_element_IO_dictionary[5].key,
+												label: document_element_IO_dictionary[5].name,
+											},
+											{
+												value: document_element_IO_dictionary[6].key,
+												label: document_element_IO_dictionary[6].name,
+											},
+											{
+												value: document_element_IO_dictionary[7].key,
+												label: document_element_IO_dictionary[7].name,
+											},
+										]}
+									/>
+								</Form.Item>
+								<button
 									style={{
-										display: "flex",
-										margin: "5px",
-										padding: "5px",
-										border: `5px ridge ${color[key]}`,
-										opacity: "1",
-										backdropFilter: "sepia(100%)",
+										border: `3px ridge ${color[key]}`,
+										backdropFilter: 'sepia(100%)',
 									}}
-									align="baseline"
+									type="button"
+									onClick={() => remove(name)}
 								>
-									Порядок в списке №{name}
-									<Form.Item
-										{...restField}
-										name={[name, "first"]}
-										rules={[
-											{
-												required: true,
-												message: "Данные не внесены",
-											},
-										]}
-									>
-										<Input placeholder="Наименование поля" />
-									</Form.Item>
-									<Form.Item
-										{...restField}
-										name={[name, "last"]}
-										rules={[
-											{
-												required: true,
-												message: "Данные не внесены",
-											},
-										]}
-									>
-										<Select
-											showSearch
-											style={{
-												width: "350px",
-											}}
-											placeholder="Выберите элемент"
-											optionFilterProp="children"
-											filterOption={(input, option) =>
-												(option?.label ?? "").includes(input)
-											}
-											filterSort={(optionA, optionB) =>
-												(optionA?.label ?? "")
-													.toLowerCase()
-													.localeCompare((optionB?.label ?? "").toLowerCase())
-											}
-											options={[
-												{
-													value: document_element_IO_dictionary[0].key,
-													label: document_element_IO_dictionary[0].name,
-												},
-												{
-													value: document_element_IO_dictionary[1].key,
-													label: document_element_IO_dictionary[1].name,
-												},
-												{
-													value: document_element_IO_dictionary[2].key,
-													label: document_element_IO_dictionary[2].name,
-												},
-												{
-													value: document_element_IO_dictionary[3].key,
-													label: document_element_IO_dictionary[3].name,
-												},
-												{
-													value: document_element_IO_dictionary[4].key,
-													label: document_element_IO_dictionary[4].name,
-												},
-												{
-													value: document_element_IO_dictionary[5].key,
-													label: document_element_IO_dictionary[5].name,
-												},
-												{
-													value: document_element_IO_dictionary[6].key,
-													label: document_element_IO_dictionary[6].name,
-												},
-												{
-													value: document_element_IO_dictionary[7].key,
-													label: document_element_IO_dictionary[7].name,
-												},
-											]}
-										/>
-									</Form.Item>
-									<span
+									Удалить <MinusCircleOutlined />
+								</button>
+								{name >= 1 && (
+									<button
 										style={{
 											border: `3px ridge ${color[key]}`,
-											backdropFilter: "sepia(100%)",
+											backdropFilter: 'sepia(100%)',
 										}}
-										onClick={() => remove(name)}
+										type="button"
+										onClick={() => remove(move(name, name - 1))}
 									>
-										Удалить <MinusCircleOutlined />
-									</span>
-									{name >= 1 && (
-										<span
-											style={{
-												border: `3px ridge ${color[key]}`,
-												backdropFilter: "sepia(100%)",
-											}}
-											onClick={() => remove(move(name, name - 1))}
-										>
-											Выше <UpSquareTwoTone />
-										</span>
-									)}
-									{name < fields.length - 1 && (
-										<span
-											style={{
-												border: `3px ridge ${color[key]}`,
-												backdropFilter: "sepia(100%)",
-											}}
-											onClick={() => remove(move(name, name + 1))}
-										>
-											Ниже <DownSquareTwoTone />
-										</span>
-									)}
-								</Space>
-							))}
-						</>
-					)}
-				</Form.List>
-				<Form.Item>
-					<Button type="primary" htmlType="submit">
-						Сохранить форму
-					</Button>
-				</Form.Item>
-			</Form>
-		);
-	}, []);
+										Выше <UpSquareTwoTone />
+									</button>
+								)}
+								{name < fields.length - 1 && (
+									<button
+										style={{
+											border: `3px ridge ${color[key]}`,
+											backdropFilter: 'sepia(100%)',
+										}}
+										type="button"
+										onClick={() => remove(move(name, name + 1))}
+									>
+										Ниже <DownSquareTwoTone />
+									</button>
+								)}
+							</Space>
+						))}
+					</>
+				)}
+			</Form.List>
+			<Form.Item>
+				<Button type="primary" htmlType="submit">
+					Сохранить форму
+				</Button>
+			</Form.Item>
+		</Form>
+	)
+}
 
-	return <Component/>;
-};
+function CustomInput() {
+	return <Component />
+}
 
-const CollectionCreateForm = ({ open, onCreate, onCancel }) => {
-	const [form] = Form.useForm();
+function CollectionCreateForm({ open, onCreate, onCancel }) {
+	const [form] = Form.useForm()
 
 	return (
 		<Modal
@@ -683,52 +194,52 @@ const CollectionCreateForm = ({ open, onCreate, onCancel }) => {
 			okText="Сохранить"
 			cancelText="Закрыть"
 			onCancel={onCancel}
-			width={"95%"}
+			width="95%"
 			onOk={() => {
 				form
 					.validateFields()
 					.then((values) => {
-						form.resetFields();
-						onCreate(values);
+						form.resetFields()
+						onCreate(values)
 					})
 					.catch((info) => {
-						console.log("Validate Failed:", info);
-					});
+						console.log('Validate Failed:', info)
+					})
 			}}
 		>
 			<CustomInput />
 			{/* <MemoizedValue /> */}
 		</Modal>
-	);
-};
-const App = () => {
-	const [open, setOpen] = useState(false);
+	)
+}
+
+function App() {
+	const [open, setOpen] = useState(false)
 	const onCreate = (values) => {
-		console.log("Received values of form: ", values);
-		setOpen(false);
-	};
+		console.log('Received values of form: ', values)
+		setOpen(false)
+	}
 	return (
 		<div>
 			<Button
 				type="primary"
 				onClick={() => {
-					setOpen(true);
+					setOpen(true)
 				}}
 			>
-				New Collection
+				Создать новую форму
 			</Button>
 			<CollectionCreateForm
 				open={open}
 				onCreate={onCreate}
 				onCancel={() => {
-					setOpen(false);
+					setOpen(false)
 				}}
 			/>
 		</div>
-	);
-};
+	)
+}
 
-export const FormBuilder = () => {
-	return <App></App>;
-};
-
+export default function FormBuilder() {
+	return <App />
+}

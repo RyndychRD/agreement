@@ -1,21 +1,21 @@
+import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import {
+	AAlert,
+	AButton,
 	ACol,
+	AEyeInvisibleOutlined,
+	AEyeTwoTone,
 	AForm,
 	AFormItem,
 	AInput,
 	AInputPassword,
 	ARow,
-	AEyeTwoTone,
-	AButton,
-	AEyeInvisibleOutlined,
 	ASpan,
-	AAlert,
 } from '../adapter'
-import { useDispatch, useSelector } from 'react-redux'
+import { AuthCheckAsync, loginAsync } from './AuthReducer'
 import './style.css'
-import { loginAsync, AuthCheckAsync } from './AuthReducer'
-import React, { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
 
 function Auth() {
 	const isAuth = useSelector((state) => state.session.isAuth)
@@ -26,9 +26,9 @@ function Auth() {
 		if (isAuth) navigate('/')
 	}, [isAuth, navigate])
 
-	//Если до этого авторизовались и сессия не истекла пробуем войти автоматически
+	// Если до этого авторизовались и сессия не истекла пробуем войти автоматически
 	useEffect(() => {
-		//Изымаем из локального хранилища токен обновление если есть пробуем входить
+		// Изымаем из локального хранилища токен обновление если есть пробуем входить
 		if (localStorage.getItem('token')) {
 			console.log('Проверяем была ли авторизация')
 			console.log('Авторизация была, попытка обновить токен')
@@ -44,16 +44,16 @@ function Auth() {
 					<AAlert
 						showIcon
 						type="success"
-						message={'Сообщение'}
-						description={`Авторизация прошла успешно...`}
+						message="Сообщение"
+						description="Авторизация прошла успешно..."
 					/>
 				)}
 				{!isAuth && showAlert && (
 					<AAlert
 						showIcon
 						type="error"
-						message={'Ошибка'}
-						description={`Неверный логин или пароль.`}
+						message="Ошибка"
+						description="Неверный логин или пароль."
 					/>
 				)}
 				<AForm
@@ -92,6 +92,7 @@ function Auth() {
 								<AInputPassword
 									className="loginFormPassword"
 									placeholder="Пароль"
+									// eslint-disable-next-line react/no-unstable-nested-components
 									iconRender={(isVisible) =>
 										isVisible ? (
 											<AEyeTwoTone

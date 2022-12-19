@@ -1,8 +1,8 @@
 import { Grid } from 'react-loader-spinner'
 import { ADiv } from '../../adapter'
-import React from 'react'
 import './style.css'
-export const GridSpinner = () => {
+
+export default function GridSpinner() {
 	return (
 		<ADiv className="spinner-div">
 			<Grid
@@ -13,7 +13,7 @@ export const GridSpinner = () => {
 				radius="12.5"
 				wrapperStyle={{}}
 				wrapperClass=""
-				visible={true}
+				visible
 			/>
 		</ADiv>
 	)

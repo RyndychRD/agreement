@@ -1,12 +1,12 @@
-import { SimpleTextInput } from '../../../../../fragments/inputs/textInputs'
+import { useSelector } from 'react-redux'
+import SimpleTextInput from '../../../../../fragments/inputs/textInputs'
 import { ModalInput } from '../../../../../fragments/modals/modals'
 import { AForm } from '../../../../../adapter'
-import React from 'react'
-import { useSelector } from 'react-redux'
 // import { openCloseCreateModal } from "../DepartmentsReducer";
 
 export default function CreateButtonModel() {
 	const onFinish = (props) => {
+		// eslint-disable-next-line no-console
 		console.log('Сабмит на форме: ', props)
 	}
 
@@ -15,7 +15,7 @@ export default function CreateButtonModel() {
 	return (
 		<ModalInput open={isOpen} onCancel={() => {}}>
 			<AForm onFinish={onFinish}>
-				<SimpleTextInput name="Наименование департамента"></SimpleTextInput>
+				<SimpleTextInput name="Наименование департамента" />
 			</AForm>
 		</ModalInput>
 	)

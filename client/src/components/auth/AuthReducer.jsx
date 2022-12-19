@@ -1,46 +1,52 @@
+/* eslint-disable no-param-reassign */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import AuthService from '../../services/AuthService'
 import axios from 'axios'
+import AuthService from '../../services/AuthService'
 import { API_URL } from '../../http'
 
 // Создаем преобразователя
 export const loginAsync = createAsyncThunk(
 	'AuthSlice/login',
-	async (action, thunkAPI) => {
+	async (action) => {
 		try {
-			console.log('console.log(action)', action)
+			// console.log('console.log(action)', action)
 			const response = await AuthService.login(action.login, action.password)
-			console.log('console.log(response);', await response)
+			// console.log('console.log(response);', await response)
 			localStorage.setItem('token', await response.data.accessToken)
 			return await response.data
 		} catch (error) {
-			console.log(error.response?.data?.message)
+			// console.log(error.response?.data?.message)
+			return error.response?.data?.message
 		}
 	}
 )
 
 export const AuthCheckAsync = createAsyncThunk(
 	'AuthSlice/authCheck',
-	async (action, thunkAPI) => {
+	async () => {
 		try {
 			const response = await axios.get(`${API_URL}/refresh`, {
 				withCredentials: true,
 			})
 			localStorage.setItem('token', await response.data.accessToken)
+			// eslint-disable-next-line no-console
 			console.log('Токен успешно обновлен,входим в систему.')
 			return await response.data
 		} catch (error) {
-			console.log(error.response?.data?.message)
+			// console.log(error.response?.data?.message)
+			return error.response?.data?.message
 		}
 	}
 )
 
 export const logoutAsync = createAsyncThunk('AuthSlice/logout', async () => {
 	try {
-		console.log('logoutAsync')
+		// console.log('logoutAsync')
 		await AuthService.logout()
+		return 'Выход произведён'
 	} catch (error) {
-		console.log(error.response?.data?.message)
+		// console.log(error.response?.data?.message)
+		return error.response?.data?.message
 	}
 })
 
@@ -67,17 +73,17 @@ export const AuthSlice = createSlice({
 					state.isAuth = false
 				}
 			} catch (error) {
-				console.log(error)
+				// console.log(error)
 			}
 		},
-		[logoutAsync.fulfilled]: (state, action) => {
+		[logoutAsync.fulfilled]: (state) => {
 			try {
 				localStorage.removeItem('token')
 				state.current_user = {}
 				state.session = {}
 				state.isAuth = false
 			} catch (error) {
-				console.log(error)
+				// console.log(error)
 			}
 		},
 		[AuthCheckAsync.fulfilled]: (state, action) => {
@@ -90,7 +96,7 @@ export const AuthSlice = createSlice({
 					state.isAuth = false
 				}
 			} catch (error) {
-				console.log(error)
+				// console.log(error)
 			}
 		},
 		// registration(state, action) {

@@ -1,10 +1,10 @@
-import { FormBuilder } from '../../../fragments/formBuilder/FormBuilder'
-import React from 'react'
+import FormBuilder from '../../../fragments/formBuilder/FormBuilder'
 
-export function CreatedDocument(props) {
+export default function CreatedDocument(props) {
+	const { children } = props
 	return (
 		<div>
-			{props.children}
+			{children}
 			<FormBuilder />
 		</div>
 	)

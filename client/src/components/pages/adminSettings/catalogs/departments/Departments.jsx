@@ -1,14 +1,14 @@
-import AdminSettingsTable from '../../../../fragments/tables/AdminSettingsTable'
+import { useDispatch, useSelector } from 'react-redux'
+import { useState } from 'react'
 import DepartmentService from '../../../../../services/AdminServices/DepartmentService'
-import { GridSpinner } from '../../../../fragments/spinners/Spinner'
-import React, { useState } from 'react'
+import AdminSettingsTable from '../../../../fragments/tables/AdminSettingsTable'
 
 import CreateButtonModel from './buttonModals/create'
-import updateButtonAction from './buttonModals/update'
 import deleteButtonAction from './buttonModals/delete'
+import updateButtonAction from './buttonModals/update'
 
-import { useDispatch, useSelector } from 'react-redux'
 import { openCloseCreateModal } from './DepartmentsReducer'
+import GridSpinner from '../../../../fragments/spinners/Spinner'
 
 export default function Departments() {
 	const columns = useSelector((state) => state.departments.columns)
@@ -23,15 +23,19 @@ export default function Departments() {
 	}
 
 	const [data, setData] = useState(null)
-	function prepareForTable(data) {
-		return data.map((el) => {
-			return { key: el.id, department_id: el.id, department_name: el.name }
-		})
+
+	function prepareForTable(_data) {
+		return _data.map((el) => ({
+			key: el.id,
+			department_id: el.id,
+			department_name: el.name,
+		}))
 	}
+
 	async function getResponse() {
 		const response = await DepartmentService.getAll()
-		const data = prepareForTable(response.data)
-		setData(data)
+		const ObjData = prepareForTable(response.data)
+		setData(ObjData)
 	}
 
 	if (!data) getResponse()

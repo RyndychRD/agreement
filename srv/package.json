@@ -4,13 +4,13 @@
   "description": "",
   "main": "server.js",
   "scripts": {
+    "eslint": "node_modules/.bin/eslint src/**",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npx nodemon server.js",
     "migrate": "npx knex migrate:latest --knexfile db/knexfile.js",
     "down": "npx knex migrate:down --knexfile db/knexfile.js",
     "seed": "npx knex seed:run --knexfile db/knexfile.js",
     "precommit": "lint-staged",
-    "eslint": "node_modules/.bin/eslint src/",
     "prettier": "prettier --write src/**/*.js"
   },
   "keywords": [],
@@ -34,6 +34,7 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
+    "@babel/eslint-parser": "^7.19.1",
     "eslint": "^8.30.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",

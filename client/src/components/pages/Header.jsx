@@ -1,5 +1,8 @@
 import { Layout as ALayout } from 'antd'
-import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate, useLocation } from 'react-router-dom'
+import { useEffect } from 'react'
+import { logoutAsync } from '../auth/AuthReducer'
 import {
 	AMenu,
 	ARow,
@@ -8,14 +11,10 @@ import {
 	AArrowLeftOutlined,
 	APageHeader,
 } from '../adapter'
-import { logoutAsync } from '../auth/AuthReducer'
-import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate, useLocation } from 'react-router-dom'
-import { useEffect } from 'react'
 
 function Header() {
-	const current_user = useSelector((state) => state.session.current_user)
-	const { Header } = ALayout
+	const CurrentUser = useSelector((state) => state.session.current_user)
+	const { ALayoutHeader } = ALayout
 	const dispatch = useDispatch()
 	const isAuth = useSelector((state) => state.session.isAuth)
 	const navigate = useNavigate()
@@ -29,7 +28,7 @@ function Header() {
 
 	const menuItems = [
 		{
-			label: `${current_user?.last_name} ${current_user?.first_name}.${current_user?.middle_name}.`,
+			label: `${CurrentUser?.last_name} ${CurrentUser?.first_name}.${CurrentUser?.middle_name}.`,
 			key: 'user',
 			children: [
 				{
@@ -72,7 +71,7 @@ function Header() {
 		}
 	}
 
-	//Заменить на стор из редаксу
+	// Заменить на стор из редаксу
 	function isShowIcon() {
 		return location.pathname !== '/' ? (
 			<AArrowLeftOutlined style={{ color: 'white' }} />
@@ -82,7 +81,7 @@ function Header() {
 	}
 
 	return (
-		<Header>
+		<ALayoutHeader>
 			<ARow justify="space-between" align="middle">
 				<ACol>
 					<APageHeader
@@ -104,7 +103,7 @@ function Header() {
 					/>
 				</ACol>
 			</ARow>
-		</Header>
+		</ALayoutHeader>
 	)
 }
 

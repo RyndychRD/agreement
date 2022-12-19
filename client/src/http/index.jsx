@@ -8,21 +8,22 @@ export const api = axios.create({
 })
 
 api.interceptors.request.use((config) => {
-	config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`
-	return config
+	const ObjConfig = config
+	ObjConfig.headers.Authorization = `Bearer ${localStorage.getItem('token')}`
+	return ObjConfig
 })
 
 api.interceptors.response.use(
-	(config) => {
-		return config
-	},
+	(config) => config,
 	async (error) => {
 		const originalRequest = error.config
 		if (
 			error.response.status === 401 &&
 			error.config &&
+			// eslint-disable-next-line no-underscore-dangle
 			!error.config._isRetry
 		) {
+			// eslint-disable-next-line no-underscore-dangle
 			originalRequest._isRetry = true
 			try {
 				const response = await axios.get(`${API_URL}/refresh`, {
