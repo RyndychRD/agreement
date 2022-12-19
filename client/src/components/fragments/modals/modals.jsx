@@ -3,13 +3,9 @@ import { AModal } from '../../adapter'
 export function ModalInput(props) {
 	const { children } = props
 	return (
-		<AModal
-			okText="Сохранить"
-			cancelText="Отмена"
-			destroyOnClose={true}
-			{...props}
-		>
-			{props.children}
+		// FIXME: Проверь destroyOnClose default value
+		<AModal okText="Сохранить" cancelText="Отмена" destroyOnClose {...props}>
+			{children}
 		</AModal>
 	)
 }

@@ -1,6 +1,6 @@
 import { Layout } from 'antd'
 import { Route, Routes } from 'react-router-dom'
-import Sider from './sider/Sider'
+import Sider from './sider/AdminSider'
 import Catalogs from './catalogs/Catalogs'
 
 export default function AdminSettings() {

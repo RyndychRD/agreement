@@ -34,6 +34,7 @@ module.exports = {
 	rules: {
 		'jsx-quotes': [1, 'prefer-double'],
 		'react/prop-types': 'off',
+		'no-console': 'off',
 		'no-unused-vars': 'error',
 		'react/jsx-props-no-spreading': 'off',
 		'prettier/prettier': [

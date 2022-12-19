@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom'
 import { AMenu } from '../../../adapter'
 
 export default function Sider() {
-	const { LayoutSider } = Layout
+	const { Sider: LayoutSider } = Layout
 
 	function getItem(label, key, icon, children, type) {
 		return {

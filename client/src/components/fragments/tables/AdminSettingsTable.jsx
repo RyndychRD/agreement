@@ -30,15 +30,13 @@ export default function AdminSettingsTable({
 	)
 
 	return (
-		<>
-			<ATable
-				key="keyAdminSettingsTable"
-				columns={tableColumns}
-				dataSource={dataSource}
-				pagination={{ position: ['bottomCenter'] }}
-				className="height-100"
-				title={() => getTitle(title, buttons)}
-			/>
-		</>
+		<ATable
+			key="keyAdminSettingsTable"
+			columns={tableColumns}
+			dataSource={dataSource}
+			pagination={{ position: ['bottomCenter'] }}
+			className="height-100"
+			title={() => getTitle(title, buttons)}
+		/>
 	)
 }

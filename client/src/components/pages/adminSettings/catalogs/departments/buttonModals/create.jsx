@@ -1,13 +1,13 @@
 import { Form } from 'antd'
-import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { AForm } from '../../../../../adapter'
-import { TextInput_FormItem as TextInputFormItem } from '../../../../../fragments/inputs/textInputs'
+import TextInputFormItem from '../../../../../fragments/inputs/textInputs'
 import { ModalInput } from '../../../../../fragments/modals/modals'
 import { closeCreateModal, createDepartment } from '../DepartmentsReducer'
 
 export default function CreateButtonModel() {
 	const dispatch = useDispatch()
+	const [form] = Form.useForm()
 	const onFinish = () => {
 		form
 			.validateFields()
@@ -19,8 +19,7 @@ export default function CreateButtonModel() {
 			})
 	}
 
-	//Специально такой вызов, по другому сделаю позже. Служит для отслеживания формы из модального окна для обработки по кнопке
-	const [form] = Form.useForm()
+	// Специально такой вызов, по другому сделаю позже. Служит для отслеживания формы из модального окна для обработки по кнопке
 	const isOpen = useSelector((state) => state.departments.isShowCreateModal)
 
 	return (

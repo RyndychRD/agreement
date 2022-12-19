@@ -1,4 +1,4 @@
-import { Layout as ALayout } from 'antd'
+import { Layout } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useEffect } from 'react'
@@ -14,7 +14,7 @@ import {
 
 function Header() {
 	const CurrentUser = useSelector((state) => state.session.current_user)
-	const { ALayoutHeader } = ALayout
+	const { Header: ALayoutHeader } = Layout
 	const dispatch = useDispatch()
 	const isAuth = useSelector((state) => state.session.isAuth)
 	const navigate = useNavigate()

@@ -1,7 +1,7 @@
 import { ADiv, ASpin } from '../../adapter'
-import React from 'react'
 import './style.css'
-export const SimpleSpinner = () => {
+
+export default function SimpleSpinner() {
 	return (
 		<ADiv className="spinner-div">
 			<ASpin />

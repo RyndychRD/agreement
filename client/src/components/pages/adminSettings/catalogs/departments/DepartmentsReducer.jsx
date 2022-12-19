@@ -12,11 +12,12 @@ export const getAllDepartments = createAsyncThunk(
 		} catch (error) {
 			// eslint-disable-next-line no-console
 			console.log(error.response.data.message)
+			return error.response?.data.message
 		}
 	}
 )
 
-//Добавляем новый департамент и ожидаем новый полный список департаментов
+// Добавляем новый департамент и ожидаем новый полный список департаментов
 export const createDepartment = createAsyncThunk(
 	'DepartmentSlice/create',
 	async (values) => {
@@ -27,6 +28,7 @@ export const createDepartment = createAsyncThunk(
 		} catch (error) {
 			// eslint-disable-next-line no-console
 			console.log(error.response.data.message)
+			return error.response?.data.message
 		}
 	}
 )

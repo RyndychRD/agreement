@@ -1,12 +1,11 @@
+import { useDispatch, useSelector } from 'react-redux'
+import SimpleSpinner from '../../../../fragments/spinners/Spinner'
 import AdminSettingsTable from '../../../../fragments/tables/AdminSettingsTable'
-import { SimpleSpinner } from '../../../../fragments/spinners/Spinner'
-import React from 'react'
 
 import CreateButtonModel from './buttonModals/create'
 import deleteButtonAction from './buttonModals/delete'
 import updateButtonAction from './buttonModals/update'
 
-import { useDispatch, useSelector } from 'react-redux'
 import { openCreateModal } from './DepartmentsReducer'
 
 export default function Departments() {
@@ -23,17 +22,16 @@ export default function Departments() {
 
 	const data = useSelector((state) => state.departments.departmentsList)
 
-	function prepareForTable(data) {
+	function prepareForTable(rawTableData) {
 		try {
-			return data.map((el) => {
-				return {
-					key: el.id,
-					department_id: el.id,
-					department_name: el.name,
-				}
-			})
+			return rawTableData.map((el) => ({
+				key: el.id,
+				department_id: el.id,
+				department_name: el.name,
+			}))
 		} catch (e) {
 			console.log('Ошибка предобработки данных:', e)
+			return e
 		}
 	}
 
