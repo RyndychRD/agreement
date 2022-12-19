@@ -15,12 +15,12 @@
 }
 
 .ant-btn-primary{
-    background-color: #18BC9C;
+    background-color: #027777;
     border: none;
     color: #fff;
   }
   .ant-btn-primary:focus, .ant-btn-primary:hover{
-    background-color: #0AD8AF;
+    background-color: #2e3133;
     border: none;
     color: #fff;
   }

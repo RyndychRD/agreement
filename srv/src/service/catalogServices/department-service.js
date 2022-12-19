@@ -1,11 +1,11 @@
-const DepartmentModels = require("../../models/catalogModels/department-models");
+const DepartmentModels = require('../../models/catalogModels/department-models')
 
 class DepartmentService {
 	async getAllDepartments() {
-		const departments = await DepartmentModels.find();
+		const departments = await DepartmentModels.find()
 
-		return departments;
+		return departments
 	}
 }
 
-module.exports = new DepartmentService();
+module.exports = new DepartmentService()

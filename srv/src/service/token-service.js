@@ -1,5 +1,5 @@
-const jwt = require("jsonwebtoken");
-const tokenModel = require("../models/token-models");
+const jwt = require('jsonwebtoken')
+const tokenModel = require('../models/token-models')
 
 /**
  * Сервис для работы с токенами авторизации пользователя
@@ -12,15 +12,15 @@ class TokenService {
 	 */
 	generateTokens(payload) {
 		const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_SECRET, {
-			expiresIn: "12h",
-		});
+			expiresIn: '12h',
+		})
 		const refreshToken = jwt.sign(payload, process.env.JWT_REFRESH_SECRET, {
-			expiresIn: "24h",
-		});
+			expiresIn: '24h',
+		})
 		return {
 			accessToken,
 			refreshToken,
-		};
+		}
 	}
 
 	/**
@@ -30,12 +30,12 @@ class TokenService {
 	 */
 	validateAccessToken(token) {
 		try {
-			const userData = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
-			return userData;
+			const userData = jwt.verify(token, process.env.JWT_ACCESS_SECRET)
+			return userData
 		} catch (e) {
-			console.log("\n", process.env.JWT_ACCESS_SECRET);
-			console.log("\nValidateAccessToken провалено !", e);
-			return null;
+			console.log('\n', process.env.JWT_ACCESS_SECRET)
+			console.log('\nValidateAccessToken провалено !', e)
+			return null
 		}
 	}
 
@@ -46,12 +46,12 @@ class TokenService {
 	 */
 	validateRefreshToken(token) {
 		try {
-			const userData = jwt.verify(token, process.env.JWT_REFRESH_SECRET);
-			return userData;
+			const userData = jwt.verify(token, process.env.JWT_REFRESH_SECRET)
+			return userData
 		} catch (e) {
-			console.log("\n", process.env.JWT_REFRESH_SECRET);
-			console.log("\nValidateRefreshToken провалено !", e);
-			return null;
+			console.log('\n', process.env.JWT_REFRESH_SECRET)
+			console.log('\nValidateRefreshToken провалено !', e)
+			return null
 		}
 	}
 
@@ -63,20 +63,20 @@ class TokenService {
 	 */
 	async saveToken(userId, refreshToken) {
 		try {
-			const tokenData = await tokenModel.findOne({ user_id: userId });
+			const tokenData = await tokenModel.findOne({ user_id: userId })
 			if (tokenData) {
 				return await tokenModel.update(
 					{ id: tokenData.id },
 					{ refresh_token: refreshToken }
-				);
+				)
 			}
 			const token = await tokenModel.create({
 				user_id: userId,
 				refresh_token: refreshToken,
-			});
-			return token;
+			})
+			return token
 		} catch (e) {
-			console.log(e);
+			console.log(e)
 		}
 	}
 
@@ -88,8 +88,8 @@ class TokenService {
 	async removeToken(refreshToken) {
 		const tokenData = await tokenModel.deleteOne({
 			refresh_token: refreshToken,
-		});
-		return tokenData;
+		})
+		return tokenData
 	}
 
 	/**
@@ -98,9 +98,9 @@ class TokenService {
 	 * @returns
 	 */
 	async findToken(refreshToken) {
-		const tokenData = await tokenModel.findOne(refreshToken);
-		return tokenData;
+		const tokenData = await tokenModel.findOne(refreshToken)
+		return tokenData
 	}
 }
 
-module.exports = new TokenService();
+module.exports = new TokenService()
