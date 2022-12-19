@@ -6,7 +6,6 @@ class DepartmentService {
 		return departments
 	}
 	async createNewDepartment(values) {
-
 		const departments = await DepartmentModels.create({
 			name:values.newDepartmentName
 		})

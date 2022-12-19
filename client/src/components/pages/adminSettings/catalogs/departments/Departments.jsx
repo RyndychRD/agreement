@@ -4,10 +4,10 @@ import React from 'react'
 
 import CreateButtonModel from './buttonModals/create'
 import updateButtonAction from './buttonModals/update'
-import deleteButtonAction from './buttonModals/delete'
+import DeleteButtonAction from './buttonModals/delete'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { openCreateModal } from './DepartmentsReducer'
+import { openCreateModal, openDeleteModal } from './DepartmentsReducer'
 
 export default function Departments() {
 	const columns = useSelector((state) => state.departments.columns)
@@ -18,7 +18,9 @@ export default function Departments() {
 			dispatch(openCreateModal())
 		},
 		update: updateButtonAction,
-		delete: deleteButtonAction,
+		delete: () => {
+			dispatch(openDeleteModal())
+		},
 	}
 
 	const data = useSelector((state) => state.departments.departmentsList)

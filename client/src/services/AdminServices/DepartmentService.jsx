@@ -14,14 +14,20 @@ export default class DepartmentService {
 		console.log('вызов в DepartmentService -> Создать новую запись')
 		console.log(values)
 		const response = await api.post('/departments/create', values)
-		console.log('вызов в DepartamentService -> результат', response)
-		return response
+		console.log(
+			'вызов в DepartamentService -> Создать новую запись -> результат',
+			response
+		)
+		return response.data
 	}
 
 	static async getAll() {
 		console.log('вызов в DepartmentService -> Взять все записи')
 		const response = await api.get('/departments')
-		console.log('вызов в DepartmentService -> результат', response)
+		console.log(
+			'вызов в DepartmentService -> Взять все записи -> результат',
+			response
+		)
 		return response.data
 	}
 }

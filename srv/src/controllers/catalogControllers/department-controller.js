@@ -13,7 +13,7 @@ class DepartmentController {
 	}
 	async createNewDepartment(req, res, next) {
 		try {
-			const departmentData = await DepartmentService.createNewDepartment(req)
+			const departmentData = await DepartmentService.createNewDepartment(req.body)
 			return res.json(departmentData)
 		} catch (e) {
 			next(e)

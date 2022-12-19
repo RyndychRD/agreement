@@ -8,7 +8,7 @@ export const getAllDepartments = createAsyncThunk(
 			console.log('DepartmentSlice/getAll_Async')
 			return await DepartmentService.getAll()
 		} catch (error) {
-			console.log(error.response.data.message)
+			console.log(error.response?.data.message)
 		}
 	}
 )
@@ -21,7 +21,7 @@ export const createDepartment = createAsyncThunk(
 			console.log('DepartmentSlice/create_Async')
 			return await DepartmentService.create(values)
 		} catch (error) {
-			console.log(error.response.data.message)
+			console.log(error.response?.data.message)
 		}
 	}
 )
@@ -31,6 +31,7 @@ export const DepartmentSlice = createSlice({
 	initialState: {
 		departmentsList: [],
 		isShowCreateModal: false,
+		isShowDeleteModal: false,
 		columns: { data: ['department_id', 'department_name'] },
 	},
 	reducers: {
@@ -39,6 +40,12 @@ export const DepartmentSlice = createSlice({
 		},
 		closeCreateModal(state) {
 			state.isShowCreateModal = false
+		},
+		openDeleteModal(state) {
+			state.isShowDeleteModal = true
+		},
+		closeDeleteModal(state) {
+			state.isShowDeleteModal = false
 		},
 	},
 	extraReducers: {
@@ -63,6 +70,11 @@ export const DepartmentSlice = createSlice({
 	},
 })
 
-export const { openCreateModal, closeCreateModal } = DepartmentSlice.actions
+export const {
+	openCreateModal,
+	closeCreateModal,
+	openDeleteModal,
+	closeDeleteModal,
+} = DepartmentSlice.actions
 
 export default DepartmentSlice.reducer

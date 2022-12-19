@@ -13,6 +13,7 @@ export default function CreateButtonModel() {
 			.validateFields()
 			.then((values) => {
 				dispatch(createDepartment(values))
+				dispatch(closeCreateModal())
 			})
 			.catch((info) => {
 				console.log('Ошибка валидации на форме создания департамента:', info)
