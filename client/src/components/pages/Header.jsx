@@ -1,3 +1,5 @@
+/** @format */
+
 import { Layout } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useLocation } from 'react-router-dom'
@@ -71,7 +73,6 @@ function Header() {
 		}
 	}
 
-	// Заменить на стор из редаксу
 	function isShowIcon() {
 		return location.pathname !== '/' ? (
 			<AArrowLeftOutlined style={{ color: 'white' }} />
@@ -82,7 +83,7 @@ function Header() {
 
 	return (
 		<ALayoutHeader>
-			<ARow justify="space-between" align="middle">
+			<ARow justify='space-between' align='middle'>
 				<ACol>
 					<APageHeader
 						onBack={() => {
@@ -90,15 +91,17 @@ function Header() {
 						}}
 						backIcon={isShowIcon()}
 						title={
-							<ASpan style={{ color: 'white' }}>Согласование договоров</ASpan>
+							<ASpan style={{ color: 'white' }}>
+								Согласование договоров
+							</ASpan>
 						}
 					/>
 				</ACol>
 				<ACol style={{ width: '125px' }}>
 					<AMenu
 						onClick={onClick}
-						theme="dark"
-						mode="horizontal"
+						theme='dark'
+						mode='horizontal'
 						items={menuItems}
 					/>
 				</ACol>

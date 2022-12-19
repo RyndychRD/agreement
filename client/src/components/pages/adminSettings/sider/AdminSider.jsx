@@ -1,3 +1,5 @@
+/** @format */
+
 import Layout from 'antd/es/layout/layout'
 import { NavLink } from 'react-router-dom'
 import { AMenu } from '../../../adapter'
@@ -18,17 +20,19 @@ export default function Sider() {
 	function getLink(LinkKey) {
 		const dict = {
 			departments: getItem(
-				<NavLink to="/admin-settings/catalogs/departments">
+				<NavLink to='/admin-settings/catalogs/departments'>
 					Департаменты
 				</NavLink>,
 				'departments'
 			),
 			users: getItem(
-				<NavLink to="/admin-settings/catalogs/users">Пользователи</NavLink>,
+				<NavLink to='/admin-settings/catalogs/users'>Пользователи</NavLink>,
 				'users'
 			),
 			positions: getItem(
-				<NavLink to="/admin-settings/catalogs/positions">Должности</NavLink>,
+				<NavLink to='/admin-settings/catalogs/positions'>
+					Должности
+				</NavLink>,
 				'positions'
 			),
 		}
@@ -56,11 +60,11 @@ export default function Sider() {
 		]),
 	]
 	return (
-		<LayoutSider theme="dark" collapsible>
+		<LayoutSider theme='dark' collapsible>
 			<AMenu
 				defaultSelectedKeys={window.location.pathname}
-				className="siderMenu"
-				mode="inline"
+				className='siderMenu'
+				mode='inline'
 				defaultOpenKeys={['MyCatalogs']}
 				items={items}
 			/>

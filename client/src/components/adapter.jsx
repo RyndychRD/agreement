@@ -1,4 +1,9 @@
-/* eslint-disable react/destructuring-assignment */
+/**
+ * eslint-disable react/destructuring-assignment
+ *
+ * @format
+ */
+
 import {
 	Form,
 	Input,

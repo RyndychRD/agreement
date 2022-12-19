@@ -1,4 +1,9 @@
-/* eslint-disable no-param-reassign */
+/**
+ * eslint-disable no-param-reassign
+ *
+ * @format
+ */
+
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import DepartmentService from '../../../../../services/AdminServices/DepartmentService'
 

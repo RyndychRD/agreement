@@ -1,3 +1,5 @@
+/** @format */
+
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -38,26 +40,26 @@ function Auth() {
 	}, [])
 
 	return (
-		<ARow justify="center" align="middle" style={{ height: '95vh' }}>
+		<ARow justify='center' align='middle' style={{ height: '95vh' }}>
 			<ACol>
 				{isAuth && showAlert && (
 					<AAlert
 						showIcon
-						type="success"
-						message="Сообщение"
-						description="Авторизация прошла успешно..."
+						type='success'
+						message='Сообщение'
+						description='Авторизация прошла успешно...'
 					/>
 				)}
 				{!isAuth && showAlert && (
 					<AAlert
 						showIcon
-						type="error"
-						message="Ошибка"
-						description="Неверный логин или пароль."
+						type='error'
+						message='Ошибка'
+						description='Неверный логин или пароль.'
 					/>
 				)}
 				<AForm
-					name="basic"
+					name='basic'
 					onFinish={(value) => {
 						setShowAlert(true)
 						dispatch(loginAsync(value))
@@ -65,9 +67,9 @@ function Auth() {
 				>
 					<ARow gutter={16}>
 						<ACol>
-							<ASpan className="authorizationHeader">АВТОРИЗАЦИЯ</ASpan>
+							<ASpan className='authorizationHeader'>АВТОРИЗАЦИЯ</ASpan>
 							<AFormItem
-								name="login"
+								name='login'
 								rules={[
 									{
 										required: true,
@@ -76,12 +78,12 @@ function Auth() {
 								]}
 							>
 								<AInput
-									className="loginFormName"
-									placeholder="Имя пользователя"
+									className='loginFormName'
+									placeholder='Имя пользователя'
 								/>
 							</AFormItem>
 							<AFormItem
-								name="password"
+								name='password'
 								rules={[
 									{
 										required: true,
@@ -90,26 +92,26 @@ function Auth() {
 								]}
 							>
 								<AInputPassword
-									className="loginFormPassword"
-									placeholder="Пароль"
+									className='loginFormPassword'
+									placeholder='Пароль'
 									// eslint-disable-next-line react/no-unstable-nested-components
 									iconRender={(isVisible) =>
 										isVisible ? (
 											<AEyeTwoTone
 												style={{ color: '#fff' }}
-												className="loginIcons"
+												className='loginIcons'
 											/>
 										) : (
 											<AEyeInvisibleOutlined
 												style={{ color: '#fff' }}
-												className="loginIcons"
+												className='loginIcons'
 											/>
 										)
 									}
 								/>
 							</AFormItem>
-							<AFormItem className="loginFormItem">
-								<AButton className="login_btn" htmlType="submit">
+							<AFormItem className='loginFormItem'>
+								<AButton className='login_btn' htmlType='submit'>
 									Войти
 								</AButton>
 							</AFormItem>

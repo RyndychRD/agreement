@@ -1,3 +1,5 @@
+/** @format */
+
 import 'antd/dist/reset.css'
 import ReactDOM from 'react-dom/client'
 import { Provider } from 'react-redux'
@@ -12,8 +14,8 @@ root.render(
 	<Provider store={store}>
 		<Router>
 			<Routes>
-				<Route exact path="/login" element={<Auth />} />
-				<Route path="/*" element={<Layout />} />
+				<Route exact path='/login' element={<Auth />} />
+				<Route path='/*' element={<Layout />} />
 			</Routes>
 		</Router>
 	</Provider>

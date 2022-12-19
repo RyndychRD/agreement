@@ -1,10 +1,12 @@
+/** @format */
+
 import { AModal } from '../../adapter'
 
 export function ModalInput(props) {
 	const { children } = props
 	return (
 		// FIXME: Проверь destroyOnClose default value
-		<AModal okText="Сохранить" cancelText="Отмена" destroyOnClose {...props}>
+		<AModal okText='Сохранить' cancelText='Отмена' destroyOnClose {...props}>
 			{children}
 		</AModal>
 	)
@@ -12,14 +14,14 @@ export function ModalInput(props) {
 export function ModalUpdate(props) {
 	const { children } = props
 	return (
-		<AModal okText="Редактировать" cancelText="Отмена" {...props}>
+		<AModal okText='Редактировать' cancelText='Отмена' {...props}>
 			{children}
 		</AModal>
 	)
 }
 export function ModalDelete(props) {
 	return (
-		<AModal okText="Удалить" cancelText="Отмена" {...props}>
+		<AModal okText='Удалить' cancelText='Отмена' {...props}>
 			Вы уверены что хотите удалить элемент?
 		</AModal>
 	)

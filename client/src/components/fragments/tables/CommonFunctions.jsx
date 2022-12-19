@@ -1,3 +1,5 @@
+/** @format */
+
 import { ARow, ACol, ASpan, ADiv, AButton } from '../../adapter'
 
 export function getColumn(
@@ -17,30 +19,30 @@ export function getTitle(name, buttons) {
 	const buttonsDict = {
 		create: (
 			<AButton
-				key="keyCreateAdminTableSettings"
-				type="primary"
+				key='keyCreateAdminTableSettings'
+				type='primary'
 				onClick={buttons.create}
-				className="space-right"
+				className='space-right'
 			>
 				Создать
 			</AButton>
 		),
 		delete: (
 			<AButton
-				key="keyDeleteAdminTableSettings"
+				key='keyDeleteAdminTableSettings'
 				danger
 				onClick={buttons.delete}
-				className="space-right"
+				className='space-right'
 			>
 				Удалить
 			</AButton>
 		),
 		update: (
 			<AButton
-				key="keyUpdateAdminTableSettings"
-				type="primary"
+				key='keyUpdateAdminTableSettings'
+				type='primary'
 				onClick={buttons.update}
-				className="space-right "
+				className='space-right '
 			>
 				Просмотр
 			</AButton>
@@ -59,9 +61,9 @@ export function getTitle(name, buttons) {
 
 	return (
 		<ARow>
-			<ACol flex="auto">
-				<ADiv className="center-text">
-					<ASpan className="table-header">{name}</ASpan>
+			<ACol flex='auto'>
+				<ADiv className='center-text'>
+					<ASpan className='table-header'>{name}</ASpan>
 				</ADiv>
 			</ACol>
 			<ACol>{buttonsView}</ACol>

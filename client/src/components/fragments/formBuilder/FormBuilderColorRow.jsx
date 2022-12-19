@@ -1,3 +1,5 @@
+/** @format */
+
 // eslint-disable-next-line no-unused-vars
 const color = [
 	'#63b598',

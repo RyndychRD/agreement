@@ -1,3 +1,5 @@
+/** @format */
+
 import { ATable } from '../../adapter'
 import { getColumn, getTitle } from './CommonFunctions'
 import './style.css'
@@ -22,7 +24,10 @@ export default function AdminSettingsTable({
 }) {
 	const dictColumn = {
 		department_id: getColumn('ID', 'department_id'),
-		department_name: getColumn('Наименование департамента', 'department_name'),
+		department_name: getColumn(
+			'Наименование департамента',
+			'department_name'
+		),
 	}
 
 	const tableColumns = colums?.data.map((column) =>
@@ -31,11 +36,11 @@ export default function AdminSettingsTable({
 
 	return (
 		<ATable
-			key="keyAdminSettingsTable"
+			key='keyAdminSettingsTable'
 			columns={tableColumns}
 			dataSource={dataSource}
 			pagination={{ position: ['bottomCenter'] }}
-			className="height-100"
+			className='height-100'
 			title={() => getTitle(title, buttons)}
 		/>
 	)

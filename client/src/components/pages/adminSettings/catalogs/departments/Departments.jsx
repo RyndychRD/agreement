@@ -1,3 +1,5 @@
+/** @format */
+
 import { useDispatch, useSelector } from 'react-redux'
 import SimpleSpinner from '../../../../fragments/spinners/Spinner'
 import AdminSettingsTable from '../../../../fragments/tables/AdminSettingsTable'
@@ -43,7 +45,7 @@ export default function Departments() {
 				buttons={buttons}
 				colums={columns}
 				dataSource={data ? prepareForTable(data) : null}
-				title="Департаменты"
+				title='Департаменты'
 			/>
 			<CreateButtonModel />
 		</>

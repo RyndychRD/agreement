@@ -1,4 +1,9 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events */
+/**
+ * eslint-disable jsx-a11y/click-events-have-key-events
+ *
+ * @format
+ */
+
 /* eslint-disable camelcase */
 import {
 	DownSquareTwoTone,
@@ -28,13 +33,17 @@ import {
 function Component() {
 	const onFinish = () => {}
 	return (
-		<Form name="dynamic_form_nest_item" onFinish={onFinish} autoComplete="off">
-			<Form.List name="users">
+		<Form
+			name='dynamic_form_nest_item'
+			onFinish={onFinish}
+			autoComplete='off'
+		>
+			<Form.List name='users'>
 				{(fields, { add, remove, move }) => (
 					<>
 						<Form.Item>
 							<Button
-								type="dashed"
+								type='dashed'
 								onClick={() => add()}
 								block
 								icon={<PlusOutlined />}
@@ -56,7 +65,7 @@ function Component() {
 									opacity: '1',
 									backdropFilter: 'sepia(100%)',
 								}}
-								align="baseline"
+								align='baseline'
 							>
 								Порядок в списке №{name}
 								<Form.Item
@@ -69,7 +78,7 @@ function Component() {
 										},
 									]}
 								>
-									<Input placeholder="Наименование поля" />
+									<Input placeholder='Наименование поля' />
 								</Form.Item>
 								<Form.Item
 									{...restField}
@@ -86,48 +95,66 @@ function Component() {
 										style={{
 											width: '350px',
 										}}
-										placeholder="Выберите элемент"
-										optionFilterProp="children"
+										placeholder='Выберите элемент'
+										optionFilterProp='children'
 										filterOption={(input, option) =>
 											(option?.label ?? '').includes(input)
 										}
 										filterSort={(optionA, optionB) =>
 											(optionA?.label ?? '')
 												.toLowerCase()
-												.localeCompare((optionB?.label ?? '').toLowerCase())
+												.localeCompare(
+													(optionB?.label ?? '').toLowerCase()
+												)
 										}
 										options={[
 											{
-												value: document_element_IO_dictionary[0].key,
-												label: document_element_IO_dictionary[0].name,
+												value: document_element_IO_dictionary[0]
+													.key,
+												label: document_element_IO_dictionary[0]
+													.name,
 											},
 											{
-												value: document_element_IO_dictionary[1].key,
-												label: document_element_IO_dictionary[1].name,
+												value: document_element_IO_dictionary[1]
+													.key,
+												label: document_element_IO_dictionary[1]
+													.name,
 											},
 											{
-												value: document_element_IO_dictionary[2].key,
-												label: document_element_IO_dictionary[2].name,
+												value: document_element_IO_dictionary[2]
+													.key,
+												label: document_element_IO_dictionary[2]
+													.name,
 											},
 											{
-												value: document_element_IO_dictionary[3].key,
-												label: document_element_IO_dictionary[3].name,
+												value: document_element_IO_dictionary[3]
+													.key,
+												label: document_element_IO_dictionary[3]
+													.name,
 											},
 											{
-												value: document_element_IO_dictionary[4].key,
-												label: document_element_IO_dictionary[4].name,
+												value: document_element_IO_dictionary[4]
+													.key,
+												label: document_element_IO_dictionary[4]
+													.name,
 											},
 											{
-												value: document_element_IO_dictionary[5].key,
-												label: document_element_IO_dictionary[5].name,
+												value: document_element_IO_dictionary[5]
+													.key,
+												label: document_element_IO_dictionary[5]
+													.name,
 											},
 											{
-												value: document_element_IO_dictionary[6].key,
-												label: document_element_IO_dictionary[6].name,
+												value: document_element_IO_dictionary[6]
+													.key,
+												label: document_element_IO_dictionary[6]
+													.name,
 											},
 											{
-												value: document_element_IO_dictionary[7].key,
-												label: document_element_IO_dictionary[7].name,
+												value: document_element_IO_dictionary[7]
+													.key,
+												label: document_element_IO_dictionary[7]
+													.name,
 											},
 										]}
 									/>
@@ -137,7 +164,7 @@ function Component() {
 										border: `3px ridge ${color[key]}`,
 										backdropFilter: 'sepia(100%)',
 									}}
-									type="button"
+									type='button'
 									onClick={() => remove(name)}
 								>
 									Удалить <MinusCircleOutlined />
@@ -148,7 +175,7 @@ function Component() {
 											border: `3px ridge ${color[key]}`,
 											backdropFilter: 'sepia(100%)',
 										}}
-										type="button"
+										type='button'
 										onClick={() => remove(move(name, name - 1))}
 									>
 										Выше <UpSquareTwoTone />
@@ -160,7 +187,7 @@ function Component() {
 											border: `3px ridge ${color[key]}`,
 											backdropFilter: 'sepia(100%)',
 										}}
-										type="button"
+										type='button'
 										onClick={() => remove(move(name, name + 1))}
 									>
 										Ниже <DownSquareTwoTone />
@@ -172,7 +199,7 @@ function Component() {
 				)}
 			</Form.List>
 			<Form.Item>
-				<Button type="primary" htmlType="submit">
+				<Button type='primary' htmlType='submit'>
 					Сохранить форму
 				</Button>
 			</Form.Item>
@@ -190,11 +217,11 @@ function CollectionCreateForm({ open, onCreate, onCancel }) {
 	return (
 		<Modal
 			open={open}
-			title="Создать новую форму"
-			okText="Сохранить"
-			cancelText="Закрыть"
+			title='Создать новую форму'
+			okText='Сохранить'
+			cancelText='Закрыть'
 			onCancel={onCancel}
-			width="95%"
+			width='95%'
 			onOk={() => {
 				form
 					.validateFields()
@@ -222,7 +249,7 @@ function App() {
 	return (
 		<div>
 			<Button
-				type="primary"
+				type='primary'
 				onClick={() => {
 					setOpen(true)
 				}}

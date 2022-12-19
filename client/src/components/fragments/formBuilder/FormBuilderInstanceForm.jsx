@@ -1,4 +1,9 @@
-/* eslint-disable camelcase */
+/**
+ * eslint-disable camelcase
+ *
+ * @format
+ */
+
 // Документы
 // eslint-disable-next-line no-unused-vars
 export const documents = [

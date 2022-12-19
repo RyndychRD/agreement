@@ -1,3 +1,5 @@
+/** @format */
+
 import { Form } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
 import { AForm } from '../../../../../adapter'
@@ -15,7 +17,10 @@ export default function CreateButtonModel() {
 				dispatch(createDepartment(values))
 			})
 			.catch((info) => {
-				console.log('Ошибка валидации на форме создания департамента:', info)
+				console.log(
+					'Ошибка валидации на форме создания департамента:',
+					info
+				)
 			})
 	}
 
@@ -33,8 +38,8 @@ export default function CreateButtonModel() {
 		>
 			<AForm form={form}>
 				<TextInputFormItem
-					title="Наименование департамента"
-					name="newDepartmentName"
+					title='Наименование департамента'
+					name='newDepartmentName'
 					rules={[
 						{
 							required: true,

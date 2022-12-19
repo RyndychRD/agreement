@@ -1,3 +1,5 @@
+/** @format */
+
 import FormBuilder from '../../../fragments/formBuilder/FormBuilder'
 
 export default function CreatedDocument(props) {

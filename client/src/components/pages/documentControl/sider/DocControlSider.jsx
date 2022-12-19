@@ -1,3 +1,5 @@
+/** @format */
+
 import Layout from 'antd/es/layout/layout'
 import { NavLink } from 'react-router-dom'
 import { AMenu } from '../../../adapter'
@@ -18,7 +20,7 @@ export default function Sider() {
 	function getLink(LinkKey) {
 		const dict = {
 			'created-doc': getItem(
-				<NavLink to="/document-control/created-documents">
+				<NavLink to='/document-control/created-documents'>
 					Созданные мною
 				</NavLink>,
 				'created-documents'
@@ -82,11 +84,11 @@ export default function Sider() {
 		]),
 	]
 	return (
-		<LayoutSider theme="dark" collapsible>
+		<LayoutSider theme='dark' collapsible>
 			<AMenu
 				defaultSelectedKeys={window.location.pathname}
-				className="siderMenu"
-				mode="inline"
+				className='siderMenu'
+				mode='inline'
 				defaultOpenKeys={['MyDocuments']}
 				items={items}
 			/>

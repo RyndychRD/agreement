@@ -1,3 +1,5 @@
+/** @format */
+
 import { Layout } from 'antd'
 import { Route, Routes } from 'react-router-dom'
 import Sider from './sider/AdminSider'
@@ -8,9 +10,9 @@ export default function AdminSettings() {
 	return (
 		<Layout>
 			<Sider />
-			<Content className="content">
+			<Content className='content'>
 				<Routes>
-					<Route path="/catalogs/*" element={<Catalogs />} />
+					<Route path='/catalogs/*' element={<Catalogs />} />
 				</Routes>
 			</Content>
 		</Layout>
