@@ -5,9 +5,11 @@ import { api } from '../../http/index'
 
 export default class DepartmentService {
 	static prepareForTable(data) {
-		return data.map((el) => {
-			return { key: el.id, department_id: el.id, department_name: el.name }
-		})
+		return data.map((el) => ({
+			key: el.id,
+			department_id: el.id,
+			department_name: el.name,
+		}))
 	}
 
 	static async create(values) {

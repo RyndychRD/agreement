@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import DepartmentService from '../../../../../services/AdminServices/DepartmentService'
 
@@ -5,9 +6,11 @@ export const getAllDepartments = createAsyncThunk(
 	'DepartmentSlice/getAll',
 	async () => {
 		try {
+			// eslint-disable-next-line no-console
 			console.log('DepartmentSlice/getAll_Async')
 			return await DepartmentService.getAll()
 		} catch (error) {
+			// eslint-disable-next-line no-console
 			console.log(error.response.data.message)
 		}
 	}
@@ -18,9 +21,11 @@ export const createDepartment = createAsyncThunk(
 	'DepartmentSlice/create',
 	async (values) => {
 		try {
+			// eslint-disable-next-line no-console
 			console.log('DepartmentSlice/create_Async')
 			return await DepartmentService.create(values)
 		} catch (error) {
+			// eslint-disable-next-line no-console
 			console.log(error.response.data.message)
 		}
 	}

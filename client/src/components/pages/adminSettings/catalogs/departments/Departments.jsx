@@ -3,8 +3,8 @@ import { SimpleSpinner } from '../../../../fragments/spinners/Spinner'
 import React from 'react'
 
 import CreateButtonModel from './buttonModals/create'
-import updateButtonAction from './buttonModals/update'
 import deleteButtonAction from './buttonModals/delete'
+import updateButtonAction from './buttonModals/update'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { openCreateModal } from './DepartmentsReducer'

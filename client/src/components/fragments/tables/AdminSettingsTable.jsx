@@ -1,6 +1,5 @@
 import { ATable } from '../../adapter'
 import { getColumn, getTitle } from './CommonFunctions'
-import React from 'react'
 import './style.css'
 
 const buttonDefault = {
@@ -26,9 +25,9 @@ export default function AdminSettingsTable({
 		department_name: getColumn('Наименование департамента', 'department_name'),
 	}
 
-	const tableColumns = colums?.data.map((column) => {
-		return dictColumn[column] ? dictColumn[column] : null
-	})
+	const tableColumns = colums?.data.map((column) =>
+		dictColumn[column] ? dictColumn[column] : null
+	)
 
 	return (
 		<>
