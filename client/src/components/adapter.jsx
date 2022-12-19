@@ -28,83 +28,102 @@ import {
 import { PageHeader } from '@ant-design/pro-layout'
 
 export function AForm(props) {
-	return <Form {...props}>{props.children}</Form>
+	const { children } = props
+	return <Form {...props}>{children}</Form>
 }
 export function ASpin(props) {
-	return <Spin {...props}>{props.children}</Spin>
+	const { children } = props
+	return <Spin {...props}>{children}</Spin>
 }
 export function ATable(props) {
-	return <Table {...props}>{props.children}</Table>
+	const { children } = props
+	return <Table {...props}>{children}</Table>
 }
 export function AModal(props) {
-	return <Modal {...props}>{props.children}</Modal>
+	const { children } = props
+	return <Modal {...props}>{children}</Modal>
 }
 export function APageHeader(props) {
-	return <PageHeader {...props}>{props.children}</PageHeader>
+	const { children } = props
+	return <PageHeader {...props}>{children}</PageHeader>
 }
 export function ATooltip(props) {
-	return <Tooltip {...props}>{props.children}</Tooltip>
+	const { children } = props
+	return <Tooltip {...props}>{children}</Tooltip>
 }
 
 export function AMenu(props) {
-	return <Menu {...props}>{props.children}</Menu>
+	const { children } = props
+	return <Menu {...props}>{children}</Menu>
 }
 
 export function ALayout(props) {
-	return <Layout {...props}>{props.children}</Layout>
+	const { children } = props
+	return <Layout {...props}>{children}</Layout>
 }
 // Просто вывод текста
 export function ASpan(props) {
-	return <span {...props}>{props.children}</span>
+	const { children } = props
+	return <span {...props}>{children}</span>
 }
 // Просто вывод текста
 export function ADiv(props) {
-	return <div {...props}>{props.children}</div>
+	const { children } = props
+	return <div {...props}>{children}</div>
 }
 export function AFormItem(props) {
-	return <Form.Item {...props}>{props.children}</Form.Item>
+	const { children } = props
+	return <Form.Item {...props}>{children}</Form.Item>
 }
 
 export function ARow(props) {
-	return <Row {...props}>{props.children}</Row>
+	const { children } = props
+	return <Row {...props}>{children}</Row>
 }
 
 export function ACol(props) {
-	return <Col {...props}>{props.children}</Col>
+	const { children } = props
+	return <Col {...props}>{children}</Col>
 }
 
 export function AInput(props) {
-	return <Input {...props}>{props.children}</Input>
+	const { children } = props
+	return <Input {...props}>{children}</Input>
 }
 
 export function AInputPassword(props) {
-	return <Input.Password {...props}>{props.children}</Input.Password>
+	const { children } = props
+	return <Input.Password {...props}>{children}</Input.Password>
 }
 
 export function AButton(props) {
-	return <Button {...props}>{props.children}</Button>
+	const { children } = props
+	return <Button {...props}>{children}</Button>
 }
 
 export function AEyeInvisibleOutlined(props) {
-	return (
-		<EyeInvisibleOutlined {...props}>{props.children}</EyeInvisibleOutlined>
-	)
+	const { children } = props
+	return <EyeInvisibleOutlined {...props}>{children}</EyeInvisibleOutlined>
 }
 
 export function AEyeTwoTone(props) {
-	return <EyeTwoTone {...props}>{props.children}</EyeTwoTone>
+	const { children } = props
+	return <EyeTwoTone {...props}>{children}</EyeTwoTone>
 }
 
 export function ACrownOutlined(props) {
-	return <CrownOutlined {...props}>{props.children}</CrownOutlined>
+	const { children } = props
+	return <CrownOutlined {...props}>{children}</CrownOutlined>
 }
 
 export function AArrowLeftOutlined(props) {
-	return <ArrowLeftOutlined {...props}>{props.children}</ArrowLeftOutlined>
+	const { children } = props
+	return <ArrowLeftOutlined {...props}>{children}</ArrowLeftOutlined>
 }
 
 export function ADesktopOutlined(props) {
-	return <DesktopOutlined {...props}>{props.children}</DesktopOutlined>
+	const { children } = props
+	return <DesktopOutlined {...props}>{children}</DesktopOutlined>
 }
 
 // Работает но есть ошибки в консоли
@@ -123,5 +142,6 @@ export function ADesktopOutlined(props) {
 // };
 
 export function AAlert(props) {
-	return <Alert {...props}>{props.children}</Alert>
+	const { children } = props
+	return <Alert {...props}>{children}</Alert>
 }
