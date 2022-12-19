@@ -21,8 +21,11 @@ export const DepartmentSlice = createSlice({
 		columns: { data: ["department_id", "department_name"] },
 	},
 	reducers: {
-		openCloseCreateModal(state) {
-			state.isShowCreateModal = !state.isShowCreateModal;
+		openCreateModal(state) {
+			state.isShowCreateModal = true;
+		},
+		closeCreateModal(state) {
+			state.isShowCreateModal = false;
 		},
 	},
 	extraReducers: {
@@ -38,6 +41,6 @@ export const DepartmentSlice = createSlice({
 	},
 });
 
-export const { openCloseCreateModal } = DepartmentSlice.actions;
+export const { openCreateModal, closeCreateModal } = DepartmentSlice.actions;
 
 export default DepartmentSlice.reducer;

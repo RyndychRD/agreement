@@ -9,7 +9,7 @@ import deleteButtonAction from "./buttonModals/delete";
 
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import { openCloseCreateModal } from "./DepartmentsReducer";
+import { openCreateModal } from "./DepartmentsReducer";
 
 export default function Departments() {
 	const columns = useSelector((state) => state.departments.columns);
@@ -17,7 +17,7 @@ export default function Departments() {
 
 	const buttons = {
 		create: () => {
-			dispatch(openCloseCreateModal());
+			dispatch(openCreateModal());
 		},
 		update: updateButtonAction,
 		delete: deleteButtonAction,
