@@ -11,6 +11,12 @@ class DepartmentService {
 		})
 		return departments
 	}
+	async deleteDepartment(values) {
+		const departments = await DepartmentModels.deleteOne({
+			id:values.department_id
+		})
+		return departments
+	}
 }
 
 module.exports = new DepartmentService()

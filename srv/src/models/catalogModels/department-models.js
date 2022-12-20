@@ -32,6 +32,15 @@ class DepartmentSchema {
 		await this.knexProvider('departments').insert(department)
 		return await this.find()
 	}
+	/**
+	 * Удаляет департамент
+	 * @param {*} token
+	 * @returns
+	 */
+	async deleteOne(filter) {
+		await this.knexProvider('departments').where(filter).delete()
+		return await this.find()
+	}
 
 	/**
 	 * Обновляет департамент

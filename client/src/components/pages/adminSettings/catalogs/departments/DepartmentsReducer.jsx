@@ -25,33 +25,26 @@ export const createDepartment = createAsyncThunk(
       }
    }
 )
+//Удаляем департамент и ожидаем новый полный список департаментов
+export const deleteDepartment = createAsyncThunk(
+   "DepartmentSlice/delete",
+   async (values) => {
+      try {
+         console.log("DepartmentSlice/delete_Async")
+         return await DepartmentService.delete(values)
+      } catch (error) {
+         console.log(error.response?.data.message)
+      }
+   }
+)
 
 export const DepartmentSlice = createSlice({
    name: "departments",
    initialState: {
       departmentsList: [],
-      isShowCreateModal: false,
-      isShowDeleteModal: false,
-      selectedRow: {},
       columns: { data: ["department_id", "department_name"] },
    },
-   reducers: {
-      openCreateModal(state) {
-         state.isShowCreateModal = true
-      },
-      closeCreateModal(state) {
-         state.isShowCreateModal = false
-      },
-      openDeleteModal(state) {
-         state.isShowDeleteModal = true
-      },
-      closeDeleteModal(state) {
-         state.isShowDeleteModal = false
-      },
-      setSelectedRow(state, action) {
-         state.selectedRow = action.payload
-      },
-   },
+   reducers: {},
    extraReducers: {
       [getAllDepartments.fulfilled]: (state, action) => {
          try {
@@ -64,7 +57,16 @@ export const DepartmentSlice = createSlice({
       },
       [createDepartment.fulfilled]: (state, action) => {
          try {
-            console.log("getAllDepartments.fulfilled")
+            console.log("createDepartments.fulfilled")
+            console.log("New department list", action.payload)
+            state.departmentsList = action.payload
+         } catch (error) {
+            console.log(error)
+         }
+      },
+      [deleteDepartment.fulfilled]: (state, action) => {
+         try {
+            console.log("deleteDepartments.fulfilled")
             console.log("New department list", action.payload)
             state.departmentsList = action.payload
          } catch (error) {
@@ -73,12 +75,5 @@ export const DepartmentSlice = createSlice({
       },
    },
 })
-
-export const {
-   openCreateModal,
-   closeCreateModal,
-   openDeleteModal,
-   closeDeleteModal,
-} = DepartmentSlice.actions
 
 export default DepartmentSlice.reducer

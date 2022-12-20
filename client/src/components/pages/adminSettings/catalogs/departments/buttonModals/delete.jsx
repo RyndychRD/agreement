@@ -1,21 +1,24 @@
 /* eslint-disable react/react-in-jsx-scope */
 import { ModalDelete } from "../../../../../fragments/modals/modals"
-import { useSelector } from "react-redux"
-import { closeDeleteModal } from "../DepartmentsReducer"
 import { useDispatch } from "react-redux"
+import { deleteDepartment } from "./../DepartmentsReducer"
+import { ASpan } from "../../../../../adapter"
 
-export default function DeleteButtonAction({ stateTable }) {
-   const dispatch = useDispatch()
-   const isOpen = useSelector((state) => state.departments.isShowDeleteModal)
+export default function DeleteButtonAction({ state, dispatch }) {
+   const dispatchRedux = useDispatch()
    return (
       <ModalDelete
-         open={isOpen}
+         open={state.isShowDeleteModal}
          onOk={() => {
-            console.log("Удалить элемент", stateTable)
+            console.log("Удалить элемент", state.currentRow)
+            dispatchRedux(deleteDepartment(state.currentRow))
+            dispatch({ type: "closeDeleteModal" })
          }}
          onCancel={() => {
-            dispatch(closeDeleteModal())
+            dispatch({ type: "closeDeleteModal" })
          }}
-      ></ModalDelete>
+      >
+         <ASpan>{state.currentRow?.department_name}</ASpan>
+      </ModalDelete>
    )
 }
