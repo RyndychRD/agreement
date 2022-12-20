@@ -1,24 +1,20 @@
-/**
- * eslint-disable no-unused-vars
- *
- * @format
- */
-
-import { Route, Routes } from 'react-router-dom'
-// import Layout from 'antd'
-import CreatedDocument from './createdDocuments/CreatedDocuments'
-import Sider from './sider/DocControlSider'
+import { Route, Routes } from "react-router-dom";
+import { Layout } from "antd";
+import CreatedDocument from "./createdDocuments/CreatedDocuments";
+import Sider from "./sider/DocControlSider";
+import "../../../css/index.css"
 
 export default function DocumentControl() {
-	const a = 5
-	// const { Content } = Layout
-	return null
-	// <Layout>
-	// 	<Sider />
-	// 	<Content className="content">
-	// 		<Routes>
-	// 			<Route path="/created-documents" element={<CreatedDocument />} />
-	// 		</Routes>
-	// 	</Content>
-	// </Layout>
+	const { Content } = Layout;
+	return (
+		<Layout className="content">
+			<Sider >
+				<Content >
+					<Routes>
+						<Route path="/created-documents" element={<CreatedDocument />} />
+					</Routes>
+				</Content>
+			</Sider>
+		</Layout>
+	);
 }

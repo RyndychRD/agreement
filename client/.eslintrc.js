@@ -37,11 +37,5 @@ module.exports = {
 		'no-console': 'off',
 		'no-unused-vars': 'error',
 		'react/jsx-props-no-spreading': 'off',
-		'prettier/prettier': [
-			'error',
-			{
-				endOfLine: 'auto',
-			},
-		],
 	},
 }
