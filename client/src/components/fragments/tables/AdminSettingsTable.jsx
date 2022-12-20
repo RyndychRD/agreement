@@ -1,6 +1,6 @@
 import React, { useContext } from "react"
 import { ATable } from "../../adapter"
-import { CustomDispatchContext, CustomStateContext } from "./../../pages/adminSettings/catalogs/departments/Provider"
+import { useCustomDispatch, useCustomState } from "../../pages/adminSettings/catalogs/departments/Provider"
 import { getColumn, getTitle } from "./CommonFunctions"
 import "./style.css"
 
@@ -24,8 +24,8 @@ export default function AdminSettingsTable({
    dataSource = null,
 }) {
 
-   const state = useContext(CustomStateContext)
-   const dispatch = useContext(CustomDispatchContext)
+   const state = useCustomState()
+   const dispatch = useCustomDispatch()
 
 
    const dictColumn = {

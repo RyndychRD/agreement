@@ -5,15 +5,11 @@ import { AForm } from "../../../../../adapter"
 import { TextInput_FormItem as TextInputFormItem } from "../../../../../fragments/inputs/textInputs"
 import { ModalInput } from "../../../../../fragments/modals/modals"
 import { createDepartment } from "../DepartmentsReducer"
-import { useContext } from "react"
-import { 
-   // CustomStateContext,
-   CustomDispatchContext} from "./../Provider"
+import { useCustomDispatch} from "./../Provider"
 
 export default function CreateButtonModel() {
    const dispatchRedux = useDispatch()
-   // const state = useContext(CustomStateContext)
-   const dispatch = useContext(CustomDispatchContext)
+   const dispatch = useCustomDispatch()
    const onFinish = () => {
       form
          .validateFields()

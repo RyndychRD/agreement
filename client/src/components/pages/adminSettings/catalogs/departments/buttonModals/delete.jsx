@@ -3,13 +3,13 @@ import { ModalDelete } from "../../../../../fragments/modals/modals"
 import { useDispatch } from "react-redux"
 import { deleteDepartment } from "./../DepartmentsReducer"
 import { ASpan } from "../../../../../adapter"
-import { useContext } from "react"
-import { CustomStateContext, CustomDispatchContext} from "./../Provider"
+import { useCustomDispatch, useCustomState } from "../Provider"
+
 
 export default function DeleteButtonAction() {
    const dispatchRedux = useDispatch()
-   const state = useContext(CustomStateContext)
-   const dispatch = useContext(CustomDispatchContext)
+   const state = useCustomState()
+   const dispatch = useCustomDispatch()
    return (
       <ModalDelete
          open={state.isShowDeleteModal}
