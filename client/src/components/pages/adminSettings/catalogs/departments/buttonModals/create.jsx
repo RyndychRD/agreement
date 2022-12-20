@@ -5,9 +5,15 @@ import { AForm } from "../../../../../adapter"
 import { TextInput_FormItem as TextInputFormItem } from "../../../../../fragments/inputs/textInputs"
 import { ModalInput } from "../../../../../fragments/modals/modals"
 import { createDepartment } from "../DepartmentsReducer"
+import { useContext } from "react"
+import { 
+   // CustomStateContext,
+   CustomDispatchContext} from "./../Provider"
 
-export default function CreateButtonModel({ state, dispatch }) {
+export default function CreateButtonModel() {
    const dispatchRedux = useDispatch()
+   // const state = useContext(CustomStateContext)
+   const dispatch = useContext(CustomDispatchContext)
    const onFinish = () => {
       form
          .validateFields()
@@ -28,7 +34,7 @@ export default function CreateButtonModel({ state, dispatch }) {
 
    return (
       <ModalInput
-         open={state.isShowCreateModal}
+         // open={state.isShowCreateModal}
          onOk={onFinish}
          onCancel={() => {
             form.resetFields()
@@ -37,8 +43,8 @@ export default function CreateButtonModel({ state, dispatch }) {
       >
          <AForm form={form}>
             <TextInputFormItem
-               title='Наименование департамента'
-               name='newDepartmentName'
+               title="Наименование департамента"
+               name="newDepartmentName"
                rules={[
                   {
                      required: true,
