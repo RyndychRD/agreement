@@ -1,39 +1,35 @@
-import React, { useContext } from "react"
+import React from "react"
 import { ATable } from "../../adapter"
-import { useCustomDispatch, useCustomState } from "../../pages/adminSettings/catalogs/departments/Provider"
-import { getColumn, getTitle } from "./CommonFunctions"
+import { useCustomDispatch, useCustomState } from "./Provider"
+import { getTitle } from "./CommonFunctions"
 import "./style.css"
 
-const buttonDefault = {
-   create: () => {
-      console.log("Create button pushed, no action provided")
-   },
-   update: () => {
-      console.log("Update button pushed, no action provided")
-   },
-   delete: () => {
-      console.log("Delete button pushed, no action provided")
-   },
-}
-
-
-export default function AdminSettingsTable({   
+//Для корректной работы предварительно необходимо обернуть в провайдер. Он находится в этой же папке
+export default function AdminSettingsTable({
    columns = {},
    title = null,
-   buttons = buttonDefault,
    dataSource = null,
 }) {
-
    const state = useCustomState()
    const dispatch = useCustomDispatch()
-
+   const buttons = {
+      create: () => {
+         dispatch({ type: "openCreateModal" })
+      },
+      update: () => {
+         dispatch({ type: "openUpdateModal" })
+      },
+      delete: () => {
+         dispatch({ type: "openDeleteModal" })
+      },
+   }
 
    const dictColumn = {
-      department_id: getColumn("ID", "department_id"),
-      department_name: getColumn(
-         "Наименование департамента",
-         "department_name"
-      ),
+      department_id: { title: "ID", dataIndex: "department_id" },
+      department_name: {
+         title: "Наименование департамента",
+         dataIndex: "department_name",
+      },
    }
 
    const tableColumns = columns?.data.map((column) => {
@@ -42,31 +38,31 @@ export default function AdminSettingsTable({
 
    return (
       <ATable
-         key="keyAdminSettingsTable"
+         key='keyAdminSettingsTable'
          columns={tableColumns}
          dataSource={dataSource}
          pagination={{ position: ["bottomCenter"] }}
-         className="height-100"
+         className='height-100'
          title={() => getTitle(title, buttons)}
          onRow={(row) => {
             return {
-               onClick: () => {                  
-                  dispatch({
-                           type: "selectRow",
-                           currentRow: row,
-                        })
-               },
-               onDoubleClick: (event) => {
+               onClick: () => {
                   dispatch({
                      type: "selectRow",
                      currentRow: row,
                   })
                },
+               onDoubleClick: () => {
+                  dispatch({
+                     type: "selectRow",
+                     currentRow: row,
+                  })
+                  dispatch({ type: "openUpdateModal" })
+               },
             }
          }}
          rowClassName={(row) => {
             if (row.key === state?.currentRow?.key) {
-               console.log("Изменен класс")
                return "ant-table-row ant-table-row-level-0 selected-table-row"
             }
             return "ant-table-row ant-table-row-level-0"

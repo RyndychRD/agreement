@@ -3,8 +3,10 @@ import { ModalDelete } from "../../../../../fragments/modals/modals"
 import { useDispatch } from "react-redux"
 import { deleteDepartment } from "./../DepartmentsReducer"
 import { ASpan } from "../../../../../adapter"
-import { useCustomDispatch, useCustomState } from "../Provider"
-
+import {
+   useCustomDispatch,
+   useCustomState,
+} from "../../../../../fragments/tables/Provider"
 
 export default function DeleteButtonAction() {
    const dispatchRedux = useDispatch()
@@ -22,9 +24,7 @@ export default function DeleteButtonAction() {
             dispatch({ type: "closeDeleteModal" })
          }}
       >
-         <ASpan>
-            {state.currentRow?.department_name}
-            </ASpan>
+         <ASpan>{state.currentRow?.department_name}</ASpan>
       </ModalDelete>
    )
 }

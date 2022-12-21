@@ -5,7 +5,7 @@ import CreateButtonModel from "./buttonModals/create"
 // import updateButtonAction from "./buttonModals/update"
 import { useSelector } from "react-redux"
 import DeleteButtonAction from "./buttonModals/delete"
-import { Provider } from "./Provider"
+import { Provider } from "../../../../fragments/tables/Provider"
 
 export default function Departments() {
    const columns = useSelector((state) => state.departments.columns)
@@ -25,14 +25,15 @@ export default function Departments() {
       }
    }
 
-   return <Provider>
-            <AdminSettingsTable
+   return (
+      <Provider>
+         <AdminSettingsTable
             columns={columns}
             dataSource={data ? prepareForTable(data) : null}
-            title="Департаменты"
-            />
-            <CreateButtonModel/>
-            <DeleteButtonAction/>
-         </Provider>
-   
+            title='Департаменты'
+         />
+         <CreateButtonModel />
+         <DeleteButtonAction />
+      </Provider>
+   )
 }

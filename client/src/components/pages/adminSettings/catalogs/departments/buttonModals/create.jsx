@@ -1,14 +1,17 @@
-import { Form } from "antd"
 import React from "react"
 import { useDispatch } from "react-redux"
-import { AForm } from "../../../../../adapter"
+import { AForm, AUseForm } from "../../../../../adapter"
 import { TextInput_FormItem as TextInputFormItem } from "../../../../../fragments/inputs/textInputs"
 import { ModalInput } from "../../../../../fragments/modals/modals"
 import { createDepartment } from "../DepartmentsReducer"
-import { useCustomDispatch} from "./../Provider"
+import {
+   useCustomDispatch,
+   useCustomState,
+} from "../../../../../fragments/tables/Provider"
 
 export default function CreateButtonModel() {
    const dispatchRedux = useDispatch()
+   const state = useCustomState()
    const dispatch = useCustomDispatch()
    const onFinish = () => {
       form
@@ -25,12 +28,12 @@ export default function CreateButtonModel() {
          })
    }
 
-   //Специально такой вызов, по другому сделаю позже. Служит для отслеживания формы из модального окна для обработки по кнопке
-   const [form] = Form.useForm()
+   //Служит для отслеживания формы из модального окна для обработки по кнопке
+   const [form] = AUseForm()
 
    return (
       <ModalInput
-         // open={state.isShowCreateModal}
+         open={state.isShowCreateModal}
          onOk={onFinish}
          onCancel={() => {
             form.resetFields()
@@ -39,8 +42,8 @@ export default function CreateButtonModel() {
       >
          <AForm form={form}>
             <TextInputFormItem
-               title="Наименование департамента"
-               name="newDepartmentName"
+               title='Наименование департамента'
+               name='newDepartmentName'
                rules={[
                   {
                      required: true,

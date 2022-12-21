@@ -1,9 +1,8 @@
 // src/count-context.js
-import React from 'react'
+import React from "react"
 
 const CustomStateContext = React.createContext()
 const CustomDispatchContext = React.createContext()
-
 
 // Описание редукторов
 // (каких либо действий если мы не хотим светиться в редаксе)
@@ -13,7 +12,7 @@ function CustomReducer(state, action) {
          return { ...state, currentRow: action.currentRow }
       }
       case "openCreateModal": {
-      return { ...state, isShowCreateModal: true };
+         return { ...state, isShowCreateModal: true }
       }
       case "closeCreateModal": {
          return { ...state, isShowCreateModal: false }
@@ -24,6 +23,12 @@ function CustomReducer(state, action) {
       case "closeDeleteModal": {
          return { ...state, isShowDeleteModal: false }
       }
+      case "openUpdateModal": {
+         return { ...state, isShowUpdateModal: true }
+      }
+      case "closeUpdateModal": {
+         return { ...state, isShowUpdateModal: false }
+      }
       default: {
          throw new Error(`Unhandled action type: ${action.type}`)
       }
@@ -31,37 +36,46 @@ function CustomReducer(state, action) {
 }
 
 // Инициализация
-function createInitialState(){
+function createInitialState() {
    return {
       currentRow: null,
       isShowCreateModal: false,
       isShowDeleteModal: false,
+      isShowUpdateModal: false,
    }
 }
 
 export function useCustomState() {
    const context = React.useContext(CustomStateContext)
    if (context === undefined) {
-      throw new Error('useCountState должен вызываться внутри Provider"а от Cерого')
+      throw new Error(
+         'useCountState должен вызываться внутри Provider"а от Cерого'
+      )
    }
    return context
-   }
+}
 
 export function useCustomDispatch() {
    const context = React.useContext(CustomDispatchContext)
    if (context === undefined) {
-      throw new Error('useCountDispatch должен вызываться внутри Provider"а от Cерого')
+      throw new Error(
+         'useCountDispatch должен вызываться внутри Provider"а от Cерого'
+      )
    }
    return context
-   }
+}
 
-export function Provider({children}) {
-   const [state, dispatch] = React.useReducer(CustomReducer,{},createInitialState)
+export function Provider({ children }) {
+   const [state, dispatch] = React.useReducer(
+      CustomReducer,
+      {},
+      createInitialState
+   )
    return (
       <CustomStateContext.Provider value={state}>
-      <CustomDispatchContext.Provider value={dispatch}>
-         {children}
-      </CustomDispatchContext.Provider>
+         <CustomDispatchContext.Provider value={dispatch}>
+            {children}
+         </CustomDispatchContext.Provider>
       </CustomStateContext.Provider>
    )
 }
