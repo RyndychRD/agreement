@@ -41,6 +41,11 @@ export default function AdminSettingsTable({
       title: "Наименование департамента",
       dataIndex: "department_name",
     },
+    position_id: { title: "ID", dataIndex: "position_id" },
+    position_name: {
+      title: "Наименование должности",
+      dataIndex: "position_name",
+    },
   };
 
   /**
