@@ -40,7 +40,7 @@ class DepartmentSchema {
    }
    /**
     * Удаляет департамент
-    * @param {*} token
+    * @param {*} filter
     * @returns
     */
    async deleteOne(filter) {

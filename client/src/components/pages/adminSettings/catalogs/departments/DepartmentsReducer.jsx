@@ -79,6 +79,15 @@ export const DepartmentSlice = createSlice({
             console.log(error)
          }
       },
+      [updateDepartment.fulfilled]: (state, action) => {
+         try {
+            console.log("updateDepartments.fulfilled")
+            console.log("New department list", action.payload)
+            state.departmentsList = action.payload
+         } catch (error) {
+            console.log(error)
+         }
+      },
       [deleteDepartment.fulfilled]: (state, action) => {
          try {
             console.log("deleteDepartments.fulfilled")

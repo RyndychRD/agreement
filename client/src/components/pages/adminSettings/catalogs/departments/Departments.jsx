@@ -9,39 +9,25 @@ import UpdateButtonModel from "./buttonModals/update"
 
 import { useDispatch } from "react-redux"
 import { getAllDepartments } from "./DepartmentsReducer"
+import DepartmentService from "./../../../../../services/AdminServices/DepartmentService"
 
 /** Справочник Департаментов */
 export default function Departments() {
    const columns = useSelector((state) => state.departments.columns)
    const data = useSelector((state) => state.departments.departmentsList)
    const dispatch = useDispatch()
-
-   /** Преобразует входящий массив данных из редакса для правильного отображения в таблице */
-   function prepareForTable(data) {
-      try {
-         return data.map((el) => {
-            return {
-               key: el.id,
-               department_id: el.id,
-               department_name: el.name,
-            }
-         })
-      } catch (e) {
-         console.log("Ошибка пред-обработки данных:", e)
-      }
-   }
    /**
     * При открытии форму подгружаем новые необходимые данные
     */
    useEffect(() => {
       dispatch(getAllDepartments())
-   }, [])
+   })
 
    return (
       <Provider>
          <AdminSettingsTable
             columns={columns}
-            dataSource={data ? prepareForTable(data) : null}
+            dataSource={data ? DepartmentService.prepareForTable(data) : null}
             title='Департаменты'
          />
          <CreateButtonModel />

@@ -1,13 +1,19 @@
 import { api } from "../../http/index"
 
-// import { AxiosResponse } from "axios";
-// import { AuthResponse } from "../models/response/AuthResponse";
-
 export default class DepartmentService {
+   /** Преобразует входящий массив данных из редакса для правильного отображения в таблице */
    static prepareForTable(data) {
-      return data.map((el) => {
-         return { key: el.id, department_id: el.id, department_name: el.name }
-      })
+      try {
+         return data.map((el) => {
+            return {
+               key: el.id,
+               department_id: el.id,
+               department_name: el.name,
+            }
+         })
+      } catch (e) {
+         console.log("Ошибка пред-обработки данных:", e)
+      }
    }
 
    static async create(values) {
