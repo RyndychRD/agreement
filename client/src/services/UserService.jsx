@@ -1,9 +1,9 @@
 /** @format */
 
-import api from '../http'
+import api from "../http";
 
 export default class UserService {
-	static fetchUsers() {
-		return api.get('/users')
-	}
+  static fetchUsers() {
+    return api.get("/users");
+  }
 }

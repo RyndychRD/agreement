@@ -1,9 +1,9 @@
 /** @format */
 
-import AdminSettingsTable from '../../../../fragments/tables/AdminSettingsTable'
+import AdminSettingsTable from "../../../../fragments/tables/AdminSettingsTable";
 
 export default function Users() {
-	const colums = { data: ['department_id', 'department_name'] }
+  const columns = { data: ["department_id", "department_name"] };
 
-	return <AdminSettingsTable colums={colums} title='Пользователи' />
+  return <AdminSettingsTable columns={columns} title="Пользователи" />;
 }
