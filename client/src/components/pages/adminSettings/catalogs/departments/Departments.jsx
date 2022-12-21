@@ -35,7 +35,7 @@ export default function Departments() {
     */
    useEffect(() => {
       dispatch(getAllDepartments())
-   }, [])
+   })
 
    return (
       <Provider>
