@@ -1,20 +1,21 @@
 /** @format */
 
-import { AInput, AFormItem } from '../../adapter'
+import { AInput, AFormItem } from "../../adapter"
 
 export default function TextInputFormItem({
-	title = 'Поле ввода',
-	name = 'formItemName',
-	rules = {},
+   title = "Поле ввода",
+   name = "formItemName",
+   rules = {},
+   value = "",
 }) {
-	return (
-		<AFormItem
-			label={title}
-			name={name}
-			rules={rules}
-			labelCol={{ span: 24 }}
-		>
-			<AInput placeholder={title} />
-		</AFormItem>
-	)
+   return (
+      <AFormItem
+         label={title}
+         name={name}
+         rules={rules}
+         labelCol={{ span: 24 }}
+      >
+         <AInput placeholder={title} value={value} />
+      </AFormItem>
+   )
 }

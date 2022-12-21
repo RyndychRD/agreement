@@ -1,47 +1,83 @@
-/** @format */
+import { useCustomDispatch, useCustomState } from "./Provider"
+import { ATable } from "../../adapter"
+import getTitle from "./CommonFunctions"
+import "./style.css"
 
-import { ATable } from '../../adapter'
-import { getColumn, getTitle } from './CommonFunctions'
-import './style.css'
-
-const buttonDefault = {
-	create: () => {
-		console.log('Create button pushed, no action provided')
-	},
-	update: () => {
-		console.log('Update button pushed, no action provided')
-	},
-	delete: () => {
-		console.log('Delete button pushed, no action provided')
-	},
-}
-
+/**
+ * Конструктор таблиц для админки.
+ * Для корректной работы предварительно необходимо обернуть в провайдер. Он находится в этой же папке
+ * @param {Object} columns - список колонок для отображения
+ * @param {string} title - Название таблицы, которое должно отображаться в заголовке
+ * @param {Array<Object>} dataSource - Массив объектов для отображения в таблице. Один объект - одна строка
+ * */
 export default function AdminSettingsTable({
-	colums = {},
-	title = null,
-	buttons = buttonDefault,
-	dataSource = null,
+   columns = {},
+   title = null,
+   dataSource = null,
 }) {
-	const dictColumn = {
-		department_id: getColumn('ID', 'department_id'),
-		department_name: getColumn(
-			'Наименование департамента',
-			'department_name'
-		),
-	}
+   const state = useCustomState()
+   const dispatch = useCustomDispatch()
+   /**
+    * Дефолтная логика для кнопок. Пока что нет задачи изменять количество кнопок
+    */
+   const buttons = {
+      create: () => {
+         dispatch({ type: "openCreateModal" })
+      },
+      update: () => {
+         dispatch({ type: "openUpdateModal" })
+      },
+      delete: () => {
+         dispatch({ type: "openDeleteModal" })
+      },
+   }
 
-	const tableColumns = colums?.data.map((column) =>
-		dictColumn[column] ? dictColumn[column] : null
-	)
+   /**
+    * Словарь всех возможных колонок для таблицы
+    */
+   const dictColumn = {
+      department_id: { title: "ID", dataIndex: "department_id" },
+      department_name: {
+         title: "Наименование департамента",
+         dataIndex: "department_name",
+      },
+   }
 
-	return (
-		<ATable
-			key='keyAdminSettingsTable'
-			columns={tableColumns}
-			dataSource={dataSource}
-			pagination={{ position: ['bottomCenter'] }}
-			className='height-100'
-			title={() => getTitle(title, buttons)}
-		/>
-	)
+   /**
+    * Выбрать из словаря все запрошенные колонки
+    */
+   const tableColumns = columns?.data.map((column) =>
+      dictColumn[column] ? dictColumn[column] : null
+   )
+
+   return (
+      <ATable
+         key='keyAdminSettingsTable'
+         columns={tableColumns}
+         dataSource={dataSource}
+         pagination={{ position: ["bottomCenter"] }}
+         className='height-100'
+         title={() => getTitle(title, buttons)}
+         onRow={(row) => ({
+            // Выбираем текущую строку
+            onClick: () => {
+               dispatch({ type: "closeAllModal" })
+               dispatch({
+                  type: "selectRow",
+                  currentRow: row,
+               })
+            },
+            // Двойной клик всегда срабатывает после одинарного
+            onDoubleClick: () => {
+               dispatch({ type: "openUpdateModal" })
+            },
+         })}
+         rowClassName={(row) => {
+            if (row.key === state?.currentRow?.key) {
+               return "ant-table-row ant-table-row-level-0 selected-table-row"
+            }
+            return "ant-table-row ant-table-row-level-0"
+         }}
+      />
+   )
 }

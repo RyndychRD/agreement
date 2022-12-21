@@ -1,53 +1,37 @@
-/** @format */
+import { useEffect } from "react"
+import { useSelector, useDispatch } from "react-redux"
+import AdminSettingsTable from "../../../../fragments/tables/AdminSettingsTable"
 
-import { useDispatch, useSelector } from 'react-redux'
-import SimpleSpinner from '../../../../fragments/spinners/Spinner'
-import AdminSettingsTable from '../../../../fragments/tables/AdminSettingsTable'
+import { Provider } from "../../../../fragments/tables/Provider"
+import CreateButtonModel from "./buttonModals/create"
+import DeleteButtonAction from "./buttonModals/delete"
+import UpdateButtonModel from "./buttonModals/update"
 
-import CreateButtonModel from './buttonModals/create'
-import deleteButtonAction from './buttonModals/delete'
-import updateButtonAction from './buttonModals/update'
+import DepartmentService from "../../../../../services/AdminServices/DepartmentService"
+import { getAllDepartments } from "./DepartmentsReducer"
 
-import { openCreateModal } from './DepartmentsReducer'
-
+/** Справочник Департаментов */
 export default function Departments() {
-	const columns = useSelector((state) => state.departments.columns)
-	const dispatch = useDispatch()
+   const columns = useSelector((state) => state.departments.columns)
+   const data = useSelector((state) => state.departments.departmentsList)
+   const dispatch = useDispatch()
+   /**
+    * При открытии форму подгружаем новые необходимые данные
+    */
+   useEffect(() => {
+      dispatch(getAllDepartments())
+   })
 
-	const buttons = {
-		create: () => {
-			dispatch(openCreateModal())
-		},
-		update: updateButtonAction,
-		delete: deleteButtonAction,
-	}
-
-	const data = useSelector((state) => state.departments.departmentsList)
-
-	function prepareForTable(rawTableData) {
-		try {
-			return rawTableData.map((el) => ({
-				key: el.id,
-				department_id: el.id,
-				department_name: el.name,
-			}))
-		} catch (e) {
-			console.log('Ошибка предобработки данных:', e)
-			return e
-		}
-	}
-
-	return !data ? (
-		<SimpleSpinner />
-	) : (
-		<>
-			<AdminSettingsTable
-				buttons={buttons}
-				colums={columns}
-				dataSource={data ? prepareForTable(data) : null}
-				title='Департаменты'
-			/>
-			<CreateButtonModel />
-		</>
-	)
+   return (
+      <Provider>
+         <AdminSettingsTable
+            columns={columns}
+            dataSource={data ? DepartmentService.prepareForTable(data) : null}
+            title='Департаменты'
+         />
+         <CreateButtonModel />
+         <UpdateButtonModel />
+         <DeleteButtonAction />
+      </Provider>
+   )
 }
