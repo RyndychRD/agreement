@@ -1,7 +1,7 @@
 import React from "react"
 import { useDispatch } from "react-redux"
 import { AForm, AUseForm } from "../../../../../adapter"
-import { TextInput_FormItem as TextInputFormItem } from "../../../../../fragments/inputs/textInputs"
+import { TextInputFormItem } from "../../../../../fragments/inputs/textInputs"
 import { ModalInput } from "../../../../../fragments/modals/modals"
 import { createDepartment } from "../DepartmentsReducer"
 import {
@@ -9,16 +9,25 @@ import {
    useCustomState,
 } from "../../../../../fragments/tables/Provider"
 
+/**
+ * @return Модальное окно для создания нового департамента
+ */
 export default function CreateButtonModel() {
    const dispatchRedux = useDispatch()
    const state = useCustomState()
    const dispatch = useCustomDispatch()
+   /**Служит для отслеживания формы из модального окна для обработки по кнопке*/
+   const [form] = AUseForm()
+
+   /**
+    * При создании валидируем форму и отправляем все данные в сервис
+    */
    const onFinish = () => {
       form
          .validateFields()
          .then((values) => {
             dispatchRedux(createDepartment(values))
-            dispatch({ type: "closeCreateModal" })
+            dispatch({ type: "closeAllModal" })
          })
          .catch((info) => {
             console.log(
@@ -28,30 +37,31 @@ export default function CreateButtonModel() {
          })
    }
 
-   //Служит для отслеживания формы из модального окна для обработки по кнопке
-   const [form] = AUseForm()
-
    return (
       <ModalInput
          open={state.isShowCreateModal}
          onOk={onFinish}
          onCancel={() => {
             form.resetFields()
-            dispatch({ type: "closeCreateModal" })
+            dispatch({ type: "closeAllModal" })
          }}
       >
-         <AForm form={form}>
-            <TextInputFormItem
-               title='Наименование департамента'
-               name='newDepartmentName'
-               rules={[
-                  {
-                     required: true,
-                     message: "Введите название департамента",
-                  },
-               ]}
-            />
-         </AForm>
+         {state.isShowCreateModal ? (
+            <AForm form={form}>
+               <TextInputFormItem
+                  title='Наименование департамента'
+                  name='newDepartmentName'
+                  rules={[
+                     {
+                        required: true,
+                        message: "Введите название департамента",
+                     },
+                  ]}
+               />
+            </AForm>
+         ) : (
+            ""
+         )}
       </ModalInput>
    )
 }

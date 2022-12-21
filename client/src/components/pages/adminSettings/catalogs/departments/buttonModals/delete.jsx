@@ -12,19 +12,29 @@ export default function DeleteButtonAction() {
    const dispatchRedux = useDispatch()
    const state = useCustomState()
    const dispatch = useCustomDispatch()
+
+   /**
+    * При удалении отправляем текущий выбранный элемент в сервис
+    */
+   const onFinish = () => {
+      console.log("Удалить элемент", state.currentRow)
+      dispatchRedux(deleteDepartment(state.currentRow))
+      dispatch({ type: "closeAllModal" })
+   }
+
    return (
       <ModalDelete
-         open={state.isShowDeleteModal}
-         onOk={() => {
-            console.log("Удалить элемент", state.currentRow)
-            dispatchRedux(deleteDepartment(state.currentRow))
-            dispatch({ type: "closeDeleteModal" })
-         }}
+         open={state.isShowDeleteModal && state.currentRow}
+         onOk={onFinish}
          onCancel={() => {
-            dispatch({ type: "closeDeleteModal" })
+            dispatch({ type: "closeAllModal" })
          }}
       >
-         <ASpan>{state.currentRow?.department_name}</ASpan>
+         {state.isShowDeleteModal ? (
+            <ASpan>{state.currentRow?.department_name}</ASpan>
+         ) : (
+            ""
+         )}
       </ModalDelete>
    )
 }

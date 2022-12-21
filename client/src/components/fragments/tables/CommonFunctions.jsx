@@ -1,7 +1,16 @@
 import { ARow, ACol, ASpan, ADiv, AButton } from "../../adapter"
 import React from "react"
 
+/**
+ * Конструктор заголовка таблицы
+ * @param {string} name - Название в заголовке таблицы
+ * @param {Array} buttons - Массив со списком кнопок, которые мы хотим отобразить в заголовке
+ * @returns
+ */
 export function getTitle(name, buttons) {
+   /**
+    * Словарь всех возможных кнопок в заголовке
+    */
    const buttonsDict = {
       create: (
          <AButton
@@ -35,6 +44,7 @@ export function getTitle(name, buttons) {
       ),
    }
 
+   /** Выбираем только запрошенные кнопки */
    const buttonsView = []
    Object.keys(buttons).forEach((key, index) => {
       buttonsView.push(buttonsDict[key])

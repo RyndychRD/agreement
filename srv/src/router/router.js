@@ -25,6 +25,7 @@ router.get(
 	departmentController.getAllDepartments
 )
 router.post('/departments/create', authMiddleware,departmentController.createNewDepartment)
+router.post('/departments/update', authMiddleware,departmentController.updateDepartment)
 router.post('/departments/delete', authMiddleware,departmentController.deleteDepartment)
 
 module.exports = router

@@ -11,11 +11,23 @@ export default class DepartmentService {
    }
 
    static async create(values) {
-      console.log("вызов в DepartmentService -> Создать новую запись")
-      console.log(values)
+      console.log("вызов в DepartmentService -> Создать новую запись", values)
       const response = await api.post("/departments/create", values)
       console.log(
          "вызов в DepartamentService -> Создать новую запись -> результат",
+         response
+      )
+      return response.data
+   }
+
+   static async update(values) {
+      console.log(
+         "вызов в DepartmentService -> Изменить существующую запись",
+         values
+      )
+      const response = await api.post("/departments/update", values)
+      console.log(
+         "вызов в DepartamentService -> Изменить существующую запись -> результат",
          response
       )
       return response.data
