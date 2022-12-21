@@ -12,22 +12,36 @@ function CustomReducer(state, action) {
          return { ...state, currentRow: action.currentRow }
       }
       case "openCreateModal": {
-         return { ...state, isShowCreateModal: true }
+         return {
+            ...state,
+            isShowCreateModal: true,
+            isShowDeleteModal: false,
+            isShowUpdateModal: false,
+         }
       }
-      case "closeCreateModal": {
-         return { ...state, isShowCreateModal: false }
+      case "closeAllModal": {
+         return {
+            ...state,
+            isShowCreateModal: false,
+            isShowDeleteModal: false,
+            isShowUpdateModal: false,
+         }
       }
       case "openDeleteModal": {
-         return { ...state, isShowDeleteModal: true }
-      }
-      case "closeDeleteModal": {
-         return { ...state, isShowDeleteModal: false }
+         return {
+            ...state,
+            isShowDeleteModal: true,
+            isShowCreateModal: false,
+            isShowUpdateModal: false,
+         }
       }
       case "openUpdateModal": {
-         return { ...state, isShowUpdateModal: true }
-      }
-      case "closeUpdateModal": {
-         return { ...state, isShowUpdateModal: false }
+         return {
+            ...state,
+            isShowUpdateModal: true,
+            isShowCreateModal: false,
+            isShowDeleteModal: false,
+         }
       }
       default: {
          throw new Error(`Unhandled action type: ${action.type}`)

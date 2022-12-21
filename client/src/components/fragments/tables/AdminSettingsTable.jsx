@@ -4,7 +4,13 @@ import { useCustomDispatch, useCustomState } from "./Provider"
 import { getTitle } from "./CommonFunctions"
 import "./style.css"
 
-//Для корректной работы предварительно необходимо обернуть в провайдер. Он находится в этой же папке
+/**
+ * Конструктор таблиц для админки.
+ * Для корректной работы предварительно необходимо обернуть в провайдер. Он находится в этой же папке
+ * @param {Object} columns - список колонок для отображения
+ * @param {string} title - Название таблицы, которое должно отображаться в заголовке
+ * @param {Array<Object>} dataSource - Массив объектов для отображения в таблице. Один объект - одна строка
+ * */
 export default function AdminSettingsTable({
    columns = {},
    title = null,
@@ -12,6 +18,9 @@ export default function AdminSettingsTable({
 }) {
    const state = useCustomState()
    const dispatch = useCustomDispatch()
+   /**
+    * Дефолтная логика для кнопок. Пока что нет задачи изменять количество кнопок
+    */
    const buttons = {
       create: () => {
          dispatch({ type: "openCreateModal" })
@@ -24,6 +33,9 @@ export default function AdminSettingsTable({
       },
    }
 
+   /**
+    * Словарь всех возможных колонок для таблицы
+    */
    const dictColumn = {
       department_id: { title: "ID", dataIndex: "department_id" },
       department_name: {
@@ -32,6 +44,9 @@ export default function AdminSettingsTable({
       },
    }
 
+   /**
+    * Выбрать из словаря все запрошенные колонки
+    */
    const tableColumns = columns?.data.map((column) => {
       return dictColumn[column] ? dictColumn[column] : null
    })
@@ -46,17 +61,16 @@ export default function AdminSettingsTable({
          title={() => getTitle(title, buttons)}
          onRow={(row) => {
             return {
+               //Выбираем текущую строку
                onClick: () => {
+                  dispatch({ type: "closeAllModal" })
                   dispatch({
                      type: "selectRow",
                      currentRow: row,
                   })
                },
+               //Двойной клик всегда срабатывает после одинарного
                onDoubleClick: () => {
-                  dispatch({
-                     type: "selectRow",
-                     currentRow: row,
-                  })
                   dispatch({ type: "openUpdateModal" })
                },
             }

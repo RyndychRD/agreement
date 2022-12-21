@@ -19,6 +19,14 @@ class DepartmentController {
 			next(e)
 		}
 	}
+	async updateDepartment(req, res, next) {
+		try {
+			const departmentData = await DepartmentService.updateDepartment(req.body)
+			return res.json(departmentData)
+		} catch (e) {
+			next(e)
+		}
+	}
 	async deleteDepartment(req, res, next) {
 		try {
 			const departmentData = await DepartmentService.deleteDepartment(req.body)

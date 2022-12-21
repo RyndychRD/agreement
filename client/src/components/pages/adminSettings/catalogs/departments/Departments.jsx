@@ -1,16 +1,22 @@
-import React from "react"
+import React, { useEffect } from "react"
 import AdminSettingsTable from "../../../../fragments/tables/AdminSettingsTable"
 
-import CreateButtonModel from "./buttonModals/create"
-// import updateButtonAction from "./buttonModals/update"
 import { useSelector } from "react-redux"
-import DeleteButtonAction from "./buttonModals/delete"
 import { Provider } from "../../../../fragments/tables/Provider"
+import CreateButtonModel from "./buttonModals/create"
+import DeleteButtonAction from "./buttonModals/delete"
+import UpdateButtonModel from "./buttonModals/update"
 
+import { useDispatch } from "react-redux"
+import { getAllDepartments } from "./DepartmentsReducer"
+
+/** Справочник Департаментов */
 export default function Departments() {
    const columns = useSelector((state) => state.departments.columns)
    const data = useSelector((state) => state.departments.departmentsList)
+   const dispatch = useDispatch()
 
+   /** Преобразует входящий массив данных из редакса для правильного отображения в таблице */
    function prepareForTable(data) {
       try {
          return data.map((el) => {
@@ -24,6 +30,12 @@ export default function Departments() {
          console.log("Ошибка пред-обработки данных:", e)
       }
    }
+   /**
+    * При открытии форму подгружаем новые необходимые данные
+    */
+   useEffect(() => {
+      dispatch(getAllDepartments())
+   }, [])
 
    return (
       <Provider>
@@ -33,6 +45,7 @@ export default function Departments() {
             title='Департаменты'
          />
          <CreateButtonModel />
+         <UpdateButtonModel />
          <DeleteButtonAction />
       </Provider>
    )

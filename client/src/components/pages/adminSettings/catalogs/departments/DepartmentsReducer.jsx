@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import DepartmentService from "../../../../../services/AdminServices/DepartmentService"
 
+/** Возвращает список департаментов из БД */
 export const getAllDepartments = createAsyncThunk(
    "DepartmentSlice/getAll",
    async () => {
@@ -13,7 +14,7 @@ export const getAllDepartments = createAsyncThunk(
    }
 )
 
-//Добавляем новый департамент и ожидаем новый полный список департаментов
+/**Добавляем новый департамент и ожидаем новый полный список департаментов*/
 export const createDepartment = createAsyncThunk(
    "DepartmentSlice/create",
    async (values) => {
@@ -25,7 +26,19 @@ export const createDepartment = createAsyncThunk(
       }
    }
 )
-//Удаляем департамент и ожидаем новый полный список департаментов
+/**Изменяем существующий департамент и ожидаем новый полный список департаментов*/
+export const updateDepartment = createAsyncThunk(
+   "DepartmentSlice/create",
+   async (values) => {
+      try {
+         console.log("DepartmentSlice/update_Async")
+         return await DepartmentService.update(values)
+      } catch (error) {
+         console.log(error.response?.data.message)
+      }
+   }
+)
+/**Удаляем департамент и ожидаем новый полный список департаментов*/
 export const deleteDepartment = createAsyncThunk(
    "DepartmentSlice/delete",
    async (values) => {
@@ -41,7 +54,9 @@ export const deleteDepartment = createAsyncThunk(
 export const DepartmentSlice = createSlice({
    name: "departments",
    initialState: {
+      /** Список всех департаментов */
       departmentsList: [],
+      /** Список всех колонок для отображения в таблице */
       columns: { data: ["department_id", "department_name"] },
    },
    reducers: {},
