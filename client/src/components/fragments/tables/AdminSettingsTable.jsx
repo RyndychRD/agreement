@@ -2,6 +2,8 @@ import { useCustomDispatch, useCustomState } from "./Provider";
 import { ATable } from "../../adapter";
 import getTitle from "./CommonFunctions";
 import "./style.css";
+import SimpleSpinner from "../spinners/Spinner";
+import SimpleError from "../spinners/Error";
 
 /**
  * Конструктор таблиц для админки.
@@ -14,6 +16,8 @@ export default function AdminSettingsTable({
   columns = {},
   title = null,
   dataSource = null,
+  isLoading = false,
+  isError = false,
 }) {
   const state = useCustomState();
   const dispatch = useCustomDispatch();
@@ -41,6 +45,11 @@ export default function AdminSettingsTable({
       title: "Наименование департамента",
       dataIndex: "department_name",
     },
+    position_id: { title: "ID", dataIndex: "position_id" },
+    position_name: {
+      title: "Наименование должности",
+      dataIndex: "position_name",
+    },
   };
 
   /**
@@ -49,6 +58,9 @@ export default function AdminSettingsTable({
   const tableColumns = columns?.data.map((column) =>
     dictColumn[column] ? dictColumn[column] : null
   );
+
+  if (isLoading) return <SimpleSpinner />;
+  if (isError) return <SimpleError />;
 
   return (
     <ATable
