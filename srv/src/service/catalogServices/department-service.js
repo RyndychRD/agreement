@@ -10,21 +10,18 @@ class DepartmentService {
     const func = DepartmentModels.findOne({
       id: query.id,
     });
-
     return await DevTools.addDelay(func);
   }
   async createNewDepartment(body) {
     const func = DepartmentModels.create({
       name: body.newDepartmentName,
     });
-
     return await DevTools.addDelay(func);
   }
   async deleteDepartment(query) {
     const func = DepartmentModels.deleteOne({
       id: query.id,
     });
-
     return await DevTools.addDelay(func);
   }
   async updateDepartment(query, body) {
@@ -34,7 +31,6 @@ class DepartmentService {
       },
       { name: body.newDepartmentName }
     );
-
     return await addDelay(func);
   }
 }

@@ -1,16 +1,18 @@
 import { configureStore } from "@reduxjs/toolkit";
 import AuthReducer from "../../components/auth/AuthReducer";
-import PositionsReducer from "../../components/pages/adminSettings/catalogs/positions/PositionsReducer";
 import { departmentsApi } from "./api/AdminSettings/Catalogs/DepartamentApi";
+import { positionsApi } from "./api/AdminSettings/Catalogs/PositionsApi";
 
 const store = configureStore({
   reducer: {
     session: AuthReducer,
     departmentsApi: departmentsApi.reducer,
-    positions: PositionsReducer,
+    positionsApi: positionsApi.reducer,
   },
   middleware: (getDefaultMiddlware) =>
-    getDefaultMiddlware().concat(departmentsApi.middleware),
+    getDefaultMiddlware()
+      .concat(departmentsApi.middleware)
+      .concat(positionsApi.middleware),
 });
 
 export default store;
