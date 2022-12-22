@@ -1,24 +1,36 @@
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import {
+  useGetDepartmentQuery,
+  useUpdateDepartmentMutation,
+} from "../../../../../../core/redux/api/AdminSettings/Catalogs/DepartamentApi";
 import { AForm, AUseForm } from "../../../../../adapter";
 import TextInputFormItem from "../../../../../fragments/inputs/textInputs";
 import { ModalUpdate } from "../../../../../fragments/modals/modals";
-import { updateDepartment } from "../DepartmentsReducer";
 import {
   useCustomDispatch,
   useCustomState,
 } from "../../../../../fragments/tables/Provider";
 
 export default function UpdateButtonModel() {
-  const dispatchRedux = useDispatch();
   const state = useCustomState();
   const dispatch = useCustomDispatch();
+
+  const [
+    updateDepartment,
+    { isLoading: isLoadingUpdate, isError: isErrorUpdate, reset: resetUpdate },
+  ] = useUpdateDepartmentMutation();
+
+  const {
+    data = {},
+    isLoading: isLoadingGet,
+    isError: isErrorGet,
+  } = useGetDepartmentQuery({
+    id: state?.currentRow?.department_id,
+    isStart: state.isShowUpdateModal,
+  });
+
   // Служит для отслеживания формы из модального окна для обработки по кнопке
   const [form] = AUseForm();
-
-  const departmentsList = useSelector(
-    (stateRedux) => stateRedux.departments.departmentsList
-  );
 
   /**
    * При редактировании валидируем форму и отправляем все данные в сервис
@@ -26,11 +38,14 @@ export default function UpdateButtonModel() {
   const onFinish = () => {
     form
       .validateFields()
-      .then((values) => {
-        dispatchRedux(
-          updateDepartment({ ...values, id: state.currentRow?.department_id })
-        );
-        dispatch({ type: "closeAllModal" });
+      .then(async (values) => {
+        await updateDepartment({
+          ...values,
+          department_id: state.currentRow?.department_id,
+        }).unwrap();
+        if (!isErrorUpdate) {
+          dispatch({ type: "closeAllModal" });
+        }
       })
       .catch((info) => {
         console.log("Ошибка валидации на форме создания департамента:", info);
@@ -42,21 +57,24 @@ export default function UpdateButtonModel() {
    * Заполняем форму полученными данными
    */
   useEffect(() => {
-    form.resetFields();
-    form.setFieldsValue({
-      newDepartmentName: departmentsList?.find(
-        (object) => object.id === state.currentRow?.department_id
-      )?.name,
-    });
-  }, [departmentsList, form, state.currentRow?.department_id]);
+    if (!isErrorUpdate) {
+      form.resetFields();
+      form.setFieldsValue({
+        newDepartmentName: data?.name,
+      });
+    }
+  }, [state.isShowUpdateModal, data?.name]);
 
   return (
     <ModalUpdate
       open={state.isShowUpdateModal && state.currentRow}
       onOk={onFinish}
       onCancel={() => {
+        resetUpdate();
         dispatch({ type: "closeAllModal" });
       }}
+      isLoading={isLoadingGet || isLoadingUpdate}
+      isError={isErrorGet || isErrorUpdate}
     >
       {state.isShowUpdateModal ? (
         <AForm form={form}>
