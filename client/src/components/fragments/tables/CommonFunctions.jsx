@@ -2,6 +2,44 @@
 
 import { ARow, ACol, ASpan, ADiv, AButton, AAlert } from "../../adapter";
 
+/**
+ * Используется для создания фильтра по всем значениями из таблицы. По факту магия, я не могу понять что здесь происходит
+ * Исходник - https://stackoverflow.com/questions/53885363/ant-design-filter-a-column-by-all-its-existed-data
+ * @param {*} data Список значений для отображения в фильтре
+ * @param {*} formatter Функция с магией
+ * @returns
+ */
+export const filterData = (data) => (formatter) =>
+  data.map((item) => ({
+    text: formatter(item),
+    value: formatter(item),
+  }));
+
+/**
+ * Сортирует буленовы значения.
+ * Если a - true, то оно поднимается выше. Иначе - опускает ниже. Если текущий и рассматриваемый элемент одинаковы - без изменений
+ */
+export function sorterBoolean(a, b) {
+  if (a === b) {
+    return 0;
+  }
+  return a ? -1 : 1;
+}
+
+/**
+ * Сортирует в алфавитном порядке
+ */
+export function sorterStringAlphabet(a, b) {
+  return a.localeCompare(b);
+}
+
+/**
+ * Сортирует в порядке возрастания
+ */
+export function sorterInt(a, b) {
+  return a - b;
+}
+
 export function booleanRender(value) {
   return value ? (
     <AAlert className="boolean-render" type="success" message="Да" />
