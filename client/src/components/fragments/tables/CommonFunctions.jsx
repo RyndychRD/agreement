@@ -1,6 +1,14 @@
 /** @format */
 
-import { ARow, ACol, ASpan, ADiv, AButton } from "../../adapter";
+import { ARow, ACol, ASpan, ADiv, AButton, AAlert } from "../../adapter";
+
+export function booleanRender(value) {
+  return value ? (
+    <AAlert className="boolean-render" type="success" message="Да" />
+  ) : (
+    <AAlert className="boolean-render" type="error" message="Нет" />
+  );
+}
 
 /**
  * Конструктор заголовка таблицы

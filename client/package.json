@@ -23,12 +23,12 @@
   },
   "scripts": {
     "eslint": "node_modules/.bin/eslint --quiet src/**/*.jsx",
+    "prettier": "prettier --write src/**/*.jsx",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "precommit": "lint-staged",
-    "prettier": "prettier --write src/**/*.jsx"
+    "precommit": "lint-staged"
   },
   "eslintConfig": {
     "extends": [

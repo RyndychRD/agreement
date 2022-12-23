@@ -1,6 +1,8 @@
 import { api } from "../../http/index";
 
 export default class DepartmentService {
+  static API_ROUTE = "/departments";
+
   /** Преобразует входящий массив данных из редакса для правильного отображения в таблице */
   static prepareForTable(data) {
     try {
@@ -17,7 +19,7 @@ export default class DepartmentService {
 
   static async create(values) {
     console.log("вызов в DepartmentService -> Создать новую запись", values);
-    const response = await api.post("/departments", values);
+    const response = await api.post(`${this.API_ROUTE}`, values);
     console.log(
       "вызов в DepartamentService -> Создать новую запись -> результат",
       response
@@ -31,7 +33,7 @@ export default class DepartmentService {
       values
     );
     const response = await api.put(
-      `/departments?id=${values.department_id}`,
+      `${this.API_ROUTE}?id=${values.department_id}`,
       values
     );
     console.log(
@@ -44,7 +46,7 @@ export default class DepartmentService {
   static async delete(values) {
     console.log("вызов в DepartmentService -> Удалить запись", values);
     const response = await api.delete(
-      `/departments?id=${values.department_id}`
+      `${this.API_ROUTE}?id=${values.department_id}`
     );
     console.log(
       "вызов в DepartamentService -> Удалить запись -> результат",
@@ -55,7 +57,7 @@ export default class DepartmentService {
 
   static async getAll() {
     console.log("вызов в DepartmentService -> Взять все записи");
-    const response = await api.get("/departments");
+    const response = await api.get(`${this.API_ROUTE}`);
     console.log(
       "вызов в DepartmentService -> Взять все записи -> результат",
       response
@@ -65,7 +67,7 @@ export default class DepartmentService {
 
   static async getOne(id) {
     console.log("вызов в DepartmentService -> Взять одну записи");
-    const response = await api.get(`/departments?id=${id}`);
+    const response = await api.get(`${this.API_ROUTE}?id=${id}`);
     console.log(
       "вызов в DepartmentService -> Взять одну запись -> результат",
       response

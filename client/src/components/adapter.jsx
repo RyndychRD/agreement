@@ -17,6 +17,8 @@ import {
   Alert,
   Modal,
   Spin,
+  Select,
+  Checkbox,
 } from "antd";
 import {
   EyeInvisibleOutlined,
@@ -34,6 +36,14 @@ export function AForm(props) {
 
 export function AUseForm() {
   return Form.useForm();
+}
+export function ACheckbox(props) {
+  const { children } = props;
+  return <Checkbox {...props}>{children}</Checkbox>;
+}
+export function ASelect(props) {
+  const { children } = props;
+  return <Select {...props}>{children}</Select>;
 }
 export function ASpin(props) {
   const { children } = props;

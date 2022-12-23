@@ -10,6 +10,7 @@
   "eslint.alwaysShowStatus": true,
   "cSpell.words": [
     "валидируем",
+    "в̶о̶з̶б̶у̶ж̶д̶а̶е̶м̶с̶я̶",
     "гендир",
     "ДМТС",
     "ОИТИБ",
@@ -21,6 +22,7 @@
     "atest",
     "camelcase",
     "Departament",
+    "dtos",
     "knexfile",
     "middlewares",
     "Middlware",

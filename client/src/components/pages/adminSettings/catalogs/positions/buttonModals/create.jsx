@@ -4,8 +4,9 @@ import {
   useCustomDispatch,
   useCustomState,
 } from "../../../../../fragments/tables/Provider";
-import { useAddDepartmentMutation } from "../../../../../../core/redux/api/AdminSettings/Catalogs/DepartamentApi";
+import { useAddPositionMutation } from "../../../../../../core/redux/api/AdminSettings/Catalogs/PositionsApi";
 import CreateUpdateForm from "./createUpdateForm";
+
 /**
  * @return Модальное окно для создания нового департамента
  */
@@ -14,8 +15,7 @@ export default function CreateButtonModel() {
   const dispatch = useCustomDispatch();
   /** Служит для отслеживания формы из модального окна для обработки по кнопке */
   const [form] = AUseForm();
-  const [addDepartment, { isError, isLoading, reset }] =
-    useAddDepartmentMutation();
+  const [addPosition, { isError, isLoading, reset }] = useAddPositionMutation();
 
   /**
    * При создании валидируем форму и отправляем все данные в сервис
@@ -24,14 +24,14 @@ export default function CreateButtonModel() {
     form
       .validateFields()
       .then(async (values) => {
-        await addDepartment(values).unwrap();
+        await addPosition(values).unwrap();
         form.resetFields();
         if (!isError) {
           dispatch({ type: "closeAllModal" });
         }
       })
       .catch((info) => {
-        console.log("Ошибка на форме создания департамента:", info);
+        console.log("Ошибка на форме создания должности:", info);
       });
   };
 

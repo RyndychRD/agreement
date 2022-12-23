@@ -35,10 +35,10 @@ router.delete("/departments",authMiddleware,departmentController.deleteDepartmen
 // prettier-ignore
 router.get("/positions",authMiddleware,positionController.getPositions)
 // prettier-ignore
-// router.post("/departments/create",authMiddleware,departmentController.createNewDepartment)
+router.post("/positions",authMiddleware,positionController.createNewPosition)
 // // prettier-ignore
-// router.post("/departments/update",authMiddleware,departmentController.updateDepartment)
+router.delete("/positions", authMiddleware, positionController.deletePosition);
 // // prettier-ignore
-// router.post("/departments/delete",authMiddleware,departmentController.deleteDepartment)
+router.put("/positions", authMiddleware, positionController.updatePosition);
 
-module.exports = router
+module.exports = router;

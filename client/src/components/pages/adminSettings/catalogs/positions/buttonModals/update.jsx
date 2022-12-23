@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import {
-  useGetDepartmentQuery,
-  useUpdateDepartmentMutation,
-} from "../../../../../../core/redux/api/AdminSettings/Catalogs/DepartamentApi";
+  useGetPositionQuery,
+  useUpdatePositionMutation,
+} from "../../../../../../core/redux/api/AdminSettings/Catalogs/PositionsApi";
 import { AUseForm } from "../../../../../adapter";
 import { ModalUpdate } from "../../../../../fragments/modals/modals";
 import {
@@ -16,16 +16,16 @@ export default function UpdateButtonModel() {
   const dispatch = useCustomDispatch();
 
   const [
-    updateDepartment,
+    updatePosition,
     { isLoading: isLoadingUpdate, isError: isErrorUpdate, reset: resetUpdate },
-  ] = useUpdateDepartmentMutation();
+  ] = useUpdatePositionMutation();
 
   const {
-    data = {},
+    data: position = {},
     isLoading: isLoadingGet,
     isError: isErrorGet,
-  } = useGetDepartmentQuery({
-    id: state?.currentRow?.department_id,
+  } = useGetPositionQuery({
+    id: state?.currentRow?.position_id,
     isStart: state.isShowUpdateModal,
   });
 
@@ -39,16 +39,16 @@ export default function UpdateButtonModel() {
     form
       .validateFields()
       .then(async (values) => {
-        await updateDepartment({
+        await updatePosition({
           ...values,
-          department_id: state.currentRow?.department_id,
+          position_id: state.currentRow?.position_id,
         }).unwrap();
         if (!isErrorUpdate) {
           dispatch({ type: "closeAllModal" });
         }
       })
       .catch((info) => {
-        console.log("Ошибка на форме создания департамента:", info);
+        console.log("Ошибка валидации на форме создания департамента:", info);
       });
   };
 
@@ -56,17 +56,20 @@ export default function UpdateButtonModel() {
    * Очищаем форму, достаем нужную строку из хранилища редакса по переданному ID
    * Заполняем форму полученными данными
    */
+
   useEffect(
     () => {
       if (!isErrorUpdate) {
         form.resetFields();
         form.setFieldsValue({
-          newDepartmentName: data?.name,
+          newPositionName: position?.name,
+          departmentId: position?.department_id,
+          isSigner: position?.is_signer,
         });
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [state.isShowUpdateModal, data?.name]
+    [state.isShowUpdateModal, position?.name]
   );
 
   return (

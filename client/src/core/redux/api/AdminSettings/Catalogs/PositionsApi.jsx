@@ -1,16 +1,16 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
-import DepartmentService from "../../../../../services/AdminServices/DepartmentService";
+import PositionService from "../../../../../services/AdminServices/PositionService";
 
-const TAG_TYPE = "Departments";
+const TAG_TYPE = "Positions";
 
-export const departmentsApi = createApi({
-  reducerPath: "departmentsApi",
+export const positionsApi = createApi({
+  reducerPath: "positionsApi",
   tagTypes: [TAG_TYPE],
   endpoints: (build) => ({
-    getDepartments: build.query({
-      queryFn: async () => {
+    getPositions: build.query({
+      queryFn: async (isAddForeignTables = false) => {
         try {
-          const response = await DepartmentService.getAll();
+          const response = await PositionService.getAll(isAddForeignTables);
           return { data: response };
         } catch (e) {
           return { error: e.message };
@@ -24,11 +24,11 @@ export const departmentsApi = createApi({
             ]
           : [{ type: TAG_TYPE, id: "LIST" }],
     }),
-    getDepartment: build.query({
+    getPosition: build.query({
       queryFn: async ({ id = "", isStart = true }) => {
         if (isStart) {
           try {
-            const response = await DepartmentService.getOne(id);
+            const response = await PositionService.getOne(id);
             return { data: response };
           } catch (e) {
             return { error: e.message };
@@ -44,10 +44,10 @@ export const departmentsApi = createApi({
             ]
           : [{ type: TAG_TYPE, id: "LIST" }],
     }),
-    addDepartment: build.mutation({
+    addPosition: build.mutation({
       queryFn: async (body) => {
         try {
-          const response = await DepartmentService.create(body);
+          const response = await PositionService.create(body);
           return { data: response };
         } catch (e) {
           return { error: e.message };
@@ -55,10 +55,10 @@ export const departmentsApi = createApi({
       },
       invalidatesTags: [{ type: TAG_TYPE, id: "LIST" }],
     }),
-    deleteDepartment: build.mutation({
+    deletePosition: build.mutation({
       queryFn: async (body) => {
         try {
-          const response = await DepartmentService.delete(body);
+          const response = await PositionService.delete(body);
           return { data: response };
         } catch (e) {
           return { error: e.message };
@@ -66,10 +66,10 @@ export const departmentsApi = createApi({
       },
       invalidatesTags: [{ type: TAG_TYPE, id: "LIST" }],
     }),
-    updateDepartment: build.mutation({
+    updatePosition: build.mutation({
       queryFn: async (body) => {
         try {
-          const response = await DepartmentService.update(body);
+          const response = await PositionService.update(body);
           return { data: response };
         } catch (e) {
           return { error: e.message };
@@ -81,9 +81,9 @@ export const departmentsApi = createApi({
 });
 
 export const {
-  useGetDepartmentsQuery,
-  useGetDepartmentQuery,
-  useAddDepartmentMutation,
-  useUpdateDepartmentMutation,
-  useDeleteDepartmentMutation,
-} = departmentsApi;
+  useGetPositionsQuery,
+  useGetPositionQuery,
+  useAddPositionMutation,
+  useUpdatePositionMutation,
+  useDeletePositionMutation,
+} = positionsApi;
