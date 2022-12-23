@@ -2,21 +2,27 @@
 import AdminSettingsTable from "../../../../fragments/tables/AdminSettingsTable";
 
 import { Provider } from "../../../../fragments/tables/Provider";
-// import CreateButtonModel from "./buttonModals/create";
-// import DeleteButtonAction from "./buttonModals/delete";
-// import UpdateButtonModel from "./buttonModals/update";
+import CreateButtonModel from "./buttonModals/create";
+import DeleteButtonAction from "./buttonModals/delete";
+import UpdateButtonModel from "./buttonModals/update";
 
 import { useGetPositionsQuery } from "../../../../../core/redux/api/AdminSettings/Catalogs/PositionsApi";
 import PositionService from "../../../../../services/AdminServices/PositionService";
 
 /** Справочник Департаментов */
-export default function Departments() {
-  // const columns = useSelector((state) => state.departments.columns);
-  const columns = { data: ["position_id", "position_name", "department_name"] };
+export default function Positions() {
+  const columns = {
+    data: [
+      "position_id",
+      "position_name",
+      "department_name",
+      "position_is_signer",
+    ],
+  };
   /**
    * При открытии форму подгружаем новые необходимые данные
    */
-  const { data = [], isLoading, isError } = useGetPositionsQuery();
+  const { data = [], isLoading, isError } = useGetPositionsQuery(true);
   return (
     <Provider>
       <AdminSettingsTable
@@ -26,9 +32,9 @@ export default function Departments() {
         dataSource={data ? PositionService.prepareForTable(data) : null}
         title="Должности"
       />
-      {/* <CreateButtonModel />
+      <CreateButtonModel />
       <UpdateButtonModel />
-      <DeleteButtonAction /> */}
+      <DeleteButtonAction />
     </Provider>
   );
 }

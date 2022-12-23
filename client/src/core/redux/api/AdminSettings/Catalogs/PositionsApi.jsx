@@ -1,14 +1,16 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import PositionService from "../../../../../services/AdminServices/PositionService";
 
+const TAG_TYPE = "Positions";
+
 export const positionsApi = createApi({
   reducerPath: "positionsApi",
-  tagTypes: ["Positions"],
+  tagTypes: [TAG_TYPE],
   endpoints: (build) => ({
     getPositions: build.query({
-      queryFn: async () => {
+      queryFn: async (isAddForeignTables = false) => {
         try {
-          const response = await PositionService.getAll();
+          const response = await PositionService.getAll(isAddForeignTables);
           return { data: response };
         } catch (e) {
           return { error: e.message };
@@ -17,10 +19,10 @@ export const positionsApi = createApi({
       providesTags: (result) =>
         result
           ? [
-              ...result.map(({ id }) => ({ type: "Positions", id })),
-              { type: "Positions", id: "LIST" },
+              ...result.map(({ id }) => ({ type: TAG_TYPE, id })),
+              { type: TAG_TYPE, id: "LIST" },
             ]
-          : [{ type: "Positions", id: "LIST" }],
+          : [{ type: TAG_TYPE, id: "LIST" }],
     }),
     getPosition: build.query({
       queryFn: async ({ id = "", isStart = true }) => {
@@ -37,51 +39,51 @@ export const positionsApi = createApi({
       providesTags: (result) =>
         result
           ? [
-              { ...result, type: "Positions", id: result?.id },
-              { type: "Positions", id: "LIST" },
+              { ...result, type: TAG_TYPE, id: result?.id },
+              { type: TAG_TYPE, id: "LIST" },
             ]
-          : [{ type: "Positions", id: "LIST" }],
+          : [{ type: TAG_TYPE, id: "LIST" }],
     }),
-    // addDepartment: build.mutation({
-    //   queryFn: async (body) => {
-    //     try {
-    //       const response = await DepartmentService.create(body);
-    //       return { data: response };
-    //     } catch (e) {
-    //       return { error: e.message };
-    //     }
-    //   },
-    //   invalidatesTags: [{ type: "Departments", id: "LIST" }],
-    // }),
-    // deleteDepartment: build.mutation({
-    //   queryFn: async (body) => {
-    //     try {
-    //       const response = await DepartmentService.delete(body);
-    //       return { data: response };
-    //     } catch (e) {
-    //       return { error: e.message };
-    //     }
-    //   },
-    //   invalidatesTags: [{ type: "Departments", id: "LIST" }],
-    // }),
-    // updateDepartment: build.mutation({
-    //   queryFn: async (body) => {
-    //     try {
-    //       const response = await DepartmentService.update(body);
-    //       return { data: response };
-    //     } catch (e) {
-    //       return { error: e.message };
-    //     }
-    //   },
-    //   invalidatesTags: [{ type: "Departments", id: "LIST" }],
-    // }),
+    addPosition: build.mutation({
+      queryFn: async (body) => {
+        try {
+          const response = await PositionService.create(body);
+          return { data: response };
+        } catch (e) {
+          return { error: e.message };
+        }
+      },
+      invalidatesTags: [{ type: TAG_TYPE, id: "LIST" }],
+    }),
+    deletePosition: build.mutation({
+      queryFn: async (body) => {
+        try {
+          const response = await PositionService.delete(body);
+          return { data: response };
+        } catch (e) {
+          return { error: e.message };
+        }
+      },
+      invalidatesTags: [{ type: TAG_TYPE, id: "LIST" }],
+    }),
+    updatePosition: build.mutation({
+      queryFn: async (body) => {
+        try {
+          const response = await PositionService.update(body);
+          return { data: response };
+        } catch (e) {
+          return { error: e.message };
+        }
+      },
+      invalidatesTags: [{ type: TAG_TYPE, id: "LIST" }],
+    }),
   }),
 });
 
 export const {
   useGetPositionsQuery,
   useGetPositionQuery,
-  //   useAddDepartmentMutation,
-  //   useUpdateDepartmentMutation,
-  //   useDeleteDepartmentMutation,
+  useAddPositionMutation,
+  useUpdatePositionMutation,
+  useDeletePositionMutation,
 } = positionsApi;

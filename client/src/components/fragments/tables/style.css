@@ -1,33 +1,39 @@
 .table-header {
-   font-size: large;
-   font-weight: bold;
-   text-align: center;
-   width: 100%;
+  font-size: large;
+  font-weight: bold;
+  text-align: center;
+  width: 100%;
 }
 
 .center-text {
-   width: 100%;
-   text-align: center;
+  width: 100%;
+  text-align: center;
 }
 
 .space-right {
-   margin-right: 5px;
+  margin-right: 5px;
 }
 
 .ant-btn-primary {
-   background-color: #027777;
-   border: none;
-   color: #fff;
+  background-color: #027777;
+  border: none;
+  color: #fff;
 }
 .ant-btn-primary:focus,
 .ant-btn-primary:hover {
-   background-color: #2e3133;
-   border: none;
-   color: #fff;
+  background-color: #2e3133;
+  border: none;
+  color: #fff;
 }
 
 .selected-table-row {
-   box-shadow: inset 0px 0px 10px 4px rgb(190 190 190);
-   transform: scale(1);
-   z-index: 1;
+  box-shadow: inset 0px 0px 10px 4px rgb(190 190 190);
+  transform: scale(1);
+  z-index: 1;
+}
+
+.boolean-render {
+  margin: auto;
+  text-align: center;
+  width: 50px;
 }

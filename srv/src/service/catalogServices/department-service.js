@@ -31,7 +31,7 @@ class DepartmentService {
       },
       { name: body.newDepartmentName }
     );
-    return await addDelay(func);
+    return await DevTools.addDelay(func);
   }
 }
 

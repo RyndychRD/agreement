@@ -1,6 +1,6 @@
 import { useCustomDispatch, useCustomState } from "./Provider";
 import { ATable } from "../../adapter";
-import getTitle from "./CommonFunctions";
+import getTitle, { booleanRender } from "./CommonFunctions";
 import "./style.css";
 import SimpleSpinner from "../spinners/Spinner";
 import SimpleError from "../spinners/Error";
@@ -40,15 +40,23 @@ export default function AdminSettingsTable({
    * Словарь всех возможных колонок для таблицы
    */
   const dictColumn = {
-    department_id: { title: "ID", dataIndex: "department_id" },
+    department_id: { title: "ID", dataIndex: "department_id", align: "center" },
     department_name: {
       title: "Наименование департамента",
       dataIndex: "department_name",
+      align: "center",
     },
     position_id: { title: "ID", dataIndex: "position_id" },
     position_name: {
       title: "Наименование должности",
       dataIndex: "position_name",
+      align: "center",
+    },
+    position_is_signer: {
+      title: "Может подписать документы",
+      dataIndex: "position_is_signer",
+      align: "center",
+      render: (value) => booleanRender(value),
     },
   };
 

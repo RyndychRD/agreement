@@ -1,9 +1,11 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import DepartmentService from "../../../../../services/AdminServices/DepartmentService";
 
+const TAG_TYPE = "Departments";
+
 export const departmentsApi = createApi({
   reducerPath: "departmentsApi",
-  tagTypes: ["Departments"],
+  tagTypes: [TAG_TYPE],
   endpoints: (build) => ({
     getDepartments: build.query({
       queryFn: async () => {
@@ -17,10 +19,10 @@ export const departmentsApi = createApi({
       providesTags: (result) =>
         result
           ? [
-              ...result.map(({ id }) => ({ type: "Departments", id })),
-              { type: "Departments", id: "LIST" },
+              ...result.map(({ id }) => ({ type: TAG_TYPE, id })),
+              { type: TAG_TYPE, id: "LIST" },
             ]
-          : [{ type: "Departments", id: "LIST" }],
+          : [{ type: TAG_TYPE, id: "LIST" }],
     }),
     getDepartment: build.query({
       queryFn: async ({ id = "", isStart = true }) => {
@@ -37,10 +39,10 @@ export const departmentsApi = createApi({
       providesTags: (result) =>
         result
           ? [
-              { ...result, type: "Departments", id: result?.id },
-              { type: "Departments", id: "LIST" },
+              { ...result, type: TAG_TYPE, id: result?.id },
+              { type: TAG_TYPE, id: "LIST" },
             ]
-          : [{ type: "Departments", id: "LIST" }],
+          : [{ type: TAG_TYPE, id: "LIST" }],
     }),
     addDepartment: build.mutation({
       queryFn: async (body) => {
@@ -51,7 +53,7 @@ export const departmentsApi = createApi({
           return { error: e.message };
         }
       },
-      invalidatesTags: [{ type: "Departments", id: "LIST" }],
+      invalidatesTags: [{ type: TAG_TYPE, id: "LIST" }],
     }),
     deleteDepartment: build.mutation({
       queryFn: async (body) => {
@@ -62,7 +64,7 @@ export const departmentsApi = createApi({
           return { error: e.message };
         }
       },
-      invalidatesTags: [{ type: "Departments", id: "LIST" }],
+      invalidatesTags: [{ type: TAG_TYPE, id: "LIST" }],
     }),
     updateDepartment: build.mutation({
       queryFn: async (body) => {
@@ -73,7 +75,7 @@ export const departmentsApi = createApi({
           return { error: e.message };
         }
       },
-      invalidatesTags: [{ type: "Departments", id: "LIST" }],
+      invalidatesTags: [{ type: TAG_TYPE, id: "LIST" }],
     }),
   }),
 });
