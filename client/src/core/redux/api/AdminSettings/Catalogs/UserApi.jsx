@@ -1,5 +1,5 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
-import UserAdminService from "../../../../../services/AdminServices/UserService";
+import UserService from "../../../../../services/AdminServices/UserService";
 
 const TAG_TYPE = "Users";
 
@@ -10,7 +10,7 @@ export const usersApi = createApi({
     getUsers: build.query({
       queryFn: async (isAddForeignTables = false) => {
         try {
-          const response = await UserAdminService.getAll(isAddForeignTables);
+          const response = await UserService.getAll(isAddForeignTables);
           return { data: response };
         } catch (e) {
           return { error: e.message };
@@ -28,7 +28,7 @@ export const usersApi = createApi({
       queryFn: async ({ id = "", isStart = true }) => {
         if (isStart) {
           try {
-            const response = await UserAdminService.getOne(id);
+            const response = await UserService.getOne(id);
             return { data: response };
           } catch (e) {
             return { error: e.message };
@@ -47,7 +47,7 @@ export const usersApi = createApi({
     addUser: build.mutation({
       queryFn: async (body) => {
         try {
-          const response = await UserAdminService.create(body);
+          const response = await UserService.create(body);
           return { data: response };
         } catch (e) {
           return { error: e.message };
@@ -58,7 +58,7 @@ export const usersApi = createApi({
     deleteUser: build.mutation({
       queryFn: async (body) => {
         try {
-          const response = await UserAdminService.delete(body);
+          const response = await UserService.delete(body);
           return { data: response };
         } catch (e) {
           return { error: e.message };
@@ -69,7 +69,7 @@ export const usersApi = createApi({
     updateUser: build.mutation({
       queryFn: async (body) => {
         try {
-          const response = await UserAdminService.update(body);
+          const response = await UserService.update(body);
           return { data: response };
         } catch (e) {
           return { error: e.message };

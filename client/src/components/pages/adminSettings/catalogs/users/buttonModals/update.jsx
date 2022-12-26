@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import {
-  useGetPositionQuery,
-  useUpdatePositionMutation,
-} from "../../../../../../core/redux/api/AdminSettings/Catalogs/PositionsApi";
+  useGetUserQuery,
+  useUpdateUserMutation,
+} from "../../../../../../core/redux/api/AdminSettings/Catalogs/UserApi";
 import { AUseForm } from "../../../../../adapter";
 import { ModalUpdate } from "../../../../../fragments/modals/modals";
 import {
@@ -11,21 +11,27 @@ import {
 } from "../../../../../fragments/tables/Provider";
 import CreateUpdateForm from "./createUpdateForm";
 
+const PASSWORD_PLACEHOLDER = "*********";
+
+const isPasswordSame = (pass) => pass === PASSWORD_PLACEHOLDER;
+
 export default function UpdateButtonModel() {
   const state = useCustomState();
   const dispatch = useCustomDispatch();
 
+  const isAddDisabledField = true;
+
   const [
-    updatePosition,
+    updateUser,
     { isLoading: isLoadingUpdate, isError: isErrorUpdate, reset: resetUpdate },
-  ] = useUpdatePositionMutation();
+  ] = useUpdateUserMutation();
 
   const {
-    data: position = {},
+    data: user = {},
     isLoading: isLoadingGet,
     isError: isErrorGet,
-  } = useGetPositionQuery({
-    id: state?.currentRow?.position_id,
+  } = useGetUserQuery({
+    id: state?.currentRow?.user_id,
     isStart: state.isShowUpdateModal,
   });
 
@@ -39,9 +45,13 @@ export default function UpdateButtonModel() {
     form
       .validateFields()
       .then(async (values) => {
-        await updatePosition({
-          ...values,
-          position_id: state.currentRow?.position_id,
+        const valuesPassCheck = values;
+        if (isPasswordSame(valuesPassCheck.newPassword)) {
+          delete valuesPassCheck.newPassword;
+        }
+        await updateUser({
+          ...valuesPassCheck,
+          user_id: state.currentRow?.user_id,
         }).unwrap();
         if (!isErrorUpdate) {
           dispatch({ type: "closeAllModal" });
@@ -62,14 +72,19 @@ export default function UpdateButtonModel() {
       if (!isErrorUpdate) {
         form.resetFields();
         form.setFieldsValue({
-          newPositionName: position?.name,
-          departmentId: position?.department_id,
-          isSigner: position?.is_signer,
+          newLogin: user?.login,
+          newEmail: user?.email,
+          newPassword: PASSWORD_PLACEHOLDER,
+          newFirstName: user?.first_name,
+          newLastName: user?.last_name,
+          newMiddleName: user?.middle_name,
+          positionId: user?.position_id,
+          isDisabled: user?.is_disabled,
         });
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [state.isShowUpdateModal, position?.name]
+    [state.isShowUpdateModal, user?.login]
   );
 
   return (
@@ -83,7 +98,11 @@ export default function UpdateButtonModel() {
       isLoading={isLoadingGet || isLoadingUpdate}
       isError={isErrorGet || isErrorUpdate}
     >
-      {state.isShowUpdateModal ? <CreateUpdateForm form={form} /> : ""}
+      {state.isShowUpdateModal ? (
+        <CreateUpdateForm form={form} isAddDisabledField={isAddDisabledField} />
+      ) : (
+        ""
+      )}
     </ModalUpdate>
   );
 }

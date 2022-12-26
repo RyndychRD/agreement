@@ -1,6 +1,6 @@
 import { api } from "../../http/index";
 
-export default class UserAdminService {
+export default class UserService {
   static API_ROUTE = "/catalog/users";
 
   static prepareForTable(data) {
@@ -10,10 +10,12 @@ export default class UserAdminService {
         user_id: el.id,
         user_login: el.login,
         user_email: el.email,
-        user_fio: `${el.last_name} ${el.first_name} ${el.middle_name}`,
+        user_fio: `${el.last_name} ${el.first_name} ${
+          el.middle_name ? el.middle_name : ""
+        }`,
         position_name: el.position_name,
         department_name: el.department_name,
-        user_is_active: el.is_active,
+        user_is_disabled: el.is_disabled,
       }));
     } catch (e) {
       console.log("Ошибка пред-обработки данных:", e);
@@ -22,60 +24,52 @@ export default class UserAdminService {
   }
 
   static async getAll(isAddForeignTables) {
-    console.log("вызов в UserAdminService -> Взять все записи");
+    console.log("вызов в UserService -> Взять все записи");
     const response = await api.get(
       `${this.API_ROUTE}?isAddForeignTables=${isAddForeignTables}`
     );
     console.log(
-      "вызов в UserAdminService -> Взять все записи -> результат",
+      "вызов в UserService -> Взять все записи -> результат",
       response
     );
     return response.data;
   }
 
   static async getOne(id) {
-    console.log("вызов в UserAdminService -> Взять одну записи");
+    console.log("вызов в UserService -> Взять одну записи");
     const response = await api.get(`${this.API_ROUTE}?id=${id}`);
     console.log(
-      "вызов в UserAdminService -> Взять одну запись -> результат",
+      "вызов в UserService -> Взять одну запись -> результат",
       response
     );
     return response.data;
   }
 
   static async delete(values) {
-    console.log("вызов в UserAdminService -> Удалить запись", values);
-    const response = await api.delete(
-      `${this.API_ROUTE}?id=${values.position_id}`
-    );
-    console.log(
-      "вызов в UserAdminService -> Удалить запись -> результат",
-      response
-    );
+    console.log("вызов в UserService -> Удалить запись", values);
+    const response = await api.delete(`${this.API_ROUTE}?id=${values.user_id}`);
+    console.log("вызов в UserService -> Удалить запись -> результат", response);
     return response.data;
   }
 
   static async create(values) {
-    console.log("вызов в UserAdminService -> Создать новую запись", values);
+    console.log("вызов в UserService -> Создать новую запись", values);
     const response = await api.post(`${this.API_ROUTE}`, values);
     console.log(
-      "вызов в UserAdminService -> Создать новую запись -> результат",
+      "вызов в UserService -> Создать новую запись -> результат",
       response
     );
     return response.data;
   }
 
   static async update(values) {
-    console.log(
-      "вызов в UserAdminService -> Изменить существующую запись",
-      values
-    );
+    console.log("вызов в UserService -> Изменить существующую запись", values);
     const response = await api.put(
-      `${this.API_ROUTE}?id=${values.position_id}`,
+      `${this.API_ROUTE}?id=${values.user_id}`,
       values
     );
     console.log(
-      "вызов в UserAdminService -> Изменить существующую запись -> результат",
+      "вызов в UserService -> Изменить существующую запись -> результат",
       response
     );
     return response.data;

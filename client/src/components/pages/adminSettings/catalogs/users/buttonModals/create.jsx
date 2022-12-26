@@ -4,7 +4,7 @@ import {
   useCustomDispatch,
   useCustomState,
 } from "../../../../../fragments/tables/Provider";
-import { useAddPositionMutation } from "../../../../../../core/redux/api/AdminSettings/Catalogs/PositionsApi";
+import { useAddUserMutation } from "../../../../../../core/redux/api/AdminSettings/Catalogs/UserApi";
 import CreateUpdateForm from "./createUpdateForm";
 
 /**
@@ -15,7 +15,7 @@ export default function CreateButtonModel() {
   const dispatch = useCustomDispatch();
   /** Служит для отслеживания формы из модального окна для обработки по кнопке */
   const [form] = AUseForm();
-  const [addPosition, { isError, isLoading, reset }] = useAddPositionMutation();
+  const [addUser, { isError, isLoading, reset }] = useAddUserMutation();
 
   /**
    * При создании валидируем форму и отправляем все данные в сервис
@@ -24,7 +24,7 @@ export default function CreateButtonModel() {
     form
       .validateFields()
       .then(async (values) => {
-        await addPosition(values).unwrap();
+        await addUser(values).unwrap();
         form.resetFields();
         if (!isError) {
           dispatch({ type: "closeAllModal" });

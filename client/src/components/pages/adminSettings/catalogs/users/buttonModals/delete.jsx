@@ -5,20 +5,19 @@ import {
   useCustomDispatch,
   useCustomState,
 } from "../../../../../fragments/tables/Provider";
-import { useDeletePositionMutation } from "../../../../../../core/redux/api/AdminSettings/Catalogs/PositionsApi";
+import { useDeleteUserMutation } from "../../../../../../core/redux/api/AdminSettings/Catalogs/UserApi";
 
 export default function DeleteButtonAction() {
   const state = useCustomState();
   const dispatch = useCustomDispatch();
-  const [deletePosition, { isLoading, isError, reset }] =
-    useDeletePositionMutation();
+  const [deleteUser, { isLoading, isError, reset }] = useDeleteUserMutation();
 
   /**
    * При удалении отправляем текущий выбранный элемент в сервис
    */
   const onFinish = async () => {
     console.log("Удалить элемент", state.currentRow);
-    await deletePosition(state.currentRow).unwrap();
+    await deleteUser(state.currentRow).unwrap();
     if (!isError) {
       dispatch({ type: "closeAllModal" });
     }
@@ -37,7 +36,7 @@ export default function DeleteButtonAction() {
     >
       {state.isShowDeleteModal ? (
         <ASpan style={{ fontWeight: "bold", marginTop: "5px" }}>
-          {state.currentRow?.position_name}
+          {state.currentRow?.user_fio}
         </ASpan>
       ) : (
         ""

@@ -7,7 +7,7 @@ import DeleteButtonAction from "./buttonModals/delete";
 import UpdateButtonModel from "./buttonModals/update";
 
 import { useGetUsersQuery } from "../../../../../core/redux/api/AdminSettings/Catalogs/UserApi";
-import UserAdminService from "../../../../../services/AdminServices/UserService";
+import UserService from "../../../../../services/AdminServices/UserService";
 
 /** Справочник Должностей */
 export default function Positions() {
@@ -17,7 +17,7 @@ export default function Positions() {
       "user_login",
       "user_email",
       "user_fio",
-      "user_is_active",
+      "user_is_disabled",
       "position_name",
       "department_name",
     ],
@@ -32,7 +32,7 @@ export default function Positions() {
         isLoading={isLoading}
         isError={isError}
         columns={columns}
-        dataSource={data ? UserAdminService.prepareForTable(data) : null}
+        dataSource={data ? UserService.prepareForTable(data) : null}
         title="Пользователи"
       />
       <CreateButtonModel />

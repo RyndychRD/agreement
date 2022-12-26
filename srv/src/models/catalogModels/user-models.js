@@ -10,7 +10,7 @@ class UserSchema {
    * Находит первое вхождение в таблице
    * @param {json} filter
    */
-  async findOne(filter) {
+  async findOne({ filter, isAddForeignTables }) {
     let query = this.knexProvider("users")
       .first("users.*")
       .orderBy("users.id", "asc");
@@ -41,10 +41,6 @@ class UserSchema {
         .leftJoin("departments", "positions.department_id", "departments.id");
     return await query;
   }
-  // async find(filter) {
-  //   if (!filter) return await this.knexProvider("users").select("*");
-  //   return await this.knexProvider("users").select("*").where(filter);
-  // }
 
   /**
    * Создаёт нового пользователя
@@ -65,6 +61,14 @@ class UserSchema {
    */
   async update(filter, token) {
     return await this.knexProvider("users").where(filter).update(token);
+  }
+  /**
+   * Удаляет должность
+   * @param {*} token
+   * @returns
+   */
+  async deleteOne(filter) {
+    return await this.knexProvider("users").where(filter).delete();
   }
 }
 

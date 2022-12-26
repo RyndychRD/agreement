@@ -3,41 +3,37 @@ const DepartmentService = require("../../service/catalogServices/department-serv
 class DepartmentController {
   async getDepartments(req, res, next) {
     try {
-      const departmentData = req.query?.id
+      const data = req.query?.id
         ? await DepartmentService.getOneDepartment(req.query)
         : await DepartmentService.getAllDepartments();
-      return res.json(departmentData);
+      return res.json(data);
     } catch (e) {
       next(e);
     }
   }
   async createNewDepartment(req, res, next) {
     try {
-      const departmentData = await DepartmentService.createNewDepartment(
-        req.body
-      );
-      return res.json(departmentData);
+      const data = await DepartmentService.createNewDepartment(req.body);
+      return res.json(data);
     } catch (e) {
       next(e);
     }
   }
   async updateDepartment(req, res, next) {
     try {
-      const departmentData = await DepartmentService.updateDepartment(
+      const data = await DepartmentService.updateDepartment(
         req.query,
         req.body
       );
-      return res.json(departmentData);
+      return res.json(data);
     } catch (e) {
       next(e);
     }
   }
   async deleteDepartment(req, res, next) {
     try {
-      const departmentData = await DepartmentService.deleteDepartment(
-        req.query
-      );
-      return res.json(departmentData);
+      const data = await DepartmentService.deleteDepartment(req.query);
+      return res.json(data);
     } catch (e) {
       next(e);
     }
