@@ -1,5 +1,5 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
-import UserAdminService from "../../../../../services/AdminServices/UserAdminService";
+import UserAdminService from "../../../../../services/AdminServices/UserService";
 
 const TAG_TYPE = "Users";
 

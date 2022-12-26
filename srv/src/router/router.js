@@ -2,10 +2,12 @@ const Router = require("express").Router;
 const LoginController = require("../controllers/login-controller");
 const departmentController = require("../controllers/catalogControllers/department-controller");
 const positionController = require("../controllers/catalogControllers/position-controller");
+const userController = require("../controllers/catalogControllers/user-controller");
 const router = new Router();
 const { body } = require("express-validator");
 const authMiddleware = require("../middlewares/auth-middleware");
 
+//Авторизация пользователя
 router.post(
   "/registration",
   body("email").isEmail(),
@@ -16,7 +18,6 @@ router.post("/login", LoginController.login);
 router.post("/logout", LoginController.logout);
 router.get("/activate/:link", LoginController.activate);
 router.get("/refresh", LoginController.refresh);
-router.get("/users", authMiddleware, LoginController.getUsers);
 
 /**
  * Справочники
@@ -43,12 +44,12 @@ router.put("/catalog/positions",authMiddleware, positionController.updatePositio
 
 //Пользователи
 // prettier-ignore
-router.get("/catalog/users",authMiddleware,positionController.getPositions)
+router.get("/catalog/users",authMiddleware,userController.getUsers)
 // prettier-ignore
-router.post("/catalog/users",authMiddleware,positionController.createNewPosition)
+router.post("/catalog/users",authMiddleware,userController.createNewUser)
 // prettier-ignore
-router.delete("/catalog/users",authMiddleware,positionController.deletePosition);
+router.delete("/catalog/users",authMiddleware,userController.deleteUser);
 // prettier-ignore
-router.put("/catalog/users",authMiddleware, positionController.updatePosition);
+router.put("/catalog/users",authMiddleware, userController.updateUser);
 
 module.exports = router;

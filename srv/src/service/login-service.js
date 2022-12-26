@@ -121,15 +121,6 @@ class UserService {
     await TokenService.saveToken(object_userDTO.id, tokens.refreshToken);
     return { ...tokens, user: object_userDTO };
   }
-
-  /**
-   * Взять всех пользователей
-   * @returns
-   */
-  async getAllUsers() {
-    const users = await UserModels.find();
-    return users;
-  }
 }
 
 module.exports = new UserService();

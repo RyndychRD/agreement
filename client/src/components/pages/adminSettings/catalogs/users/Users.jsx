@@ -7,7 +7,7 @@ import DeleteButtonAction from "./buttonModals/delete";
 import UpdateButtonModel from "./buttonModals/update";
 
 import { useGetUsersQuery } from "../../../../../core/redux/api/AdminSettings/Catalogs/UserApi";
-import UserAdminService from "../../../../../services/AdminServices/UserAdminService";
+import UserAdminService from "../../../../../services/AdminServices/UserService";
 
 /** Справочник Должностей */
 export default function Positions() {

@@ -103,22 +103,6 @@ class UserController {
       next(e);
     }
   }
-
-  /**
-   * Запрос всех пользователей
-   * @param {*} req
-   * @param {*} res
-   * @param {*} next
-   * @returns
-   */
-  async getUsers(req, res, next) {
-    try {
-      const users = await loginService.getAllUsers();
-      return res.json(users);
-    } catch (e) {
-      next(e);
-    }
-  }
 }
 
 module.exports = new UserController();
