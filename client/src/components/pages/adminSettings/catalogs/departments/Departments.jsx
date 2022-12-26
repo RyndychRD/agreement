@@ -1,5 +1,5 @@
 // import { useSelector } from "react-redux";
-import AdminSettingsTable from "../../../../fragments/tables/AdminSettingsTable";
+import AdminSettingsTable from "../../../../fragments/tables/AdminSettings/AdminSettingsTable";
 
 import { Provider } from "../../../../fragments/tables/Provider";
 import CreateButtonModel from "./buttonModals/create";

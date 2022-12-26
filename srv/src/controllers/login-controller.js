@@ -1,4 +1,4 @@
-const userService = require("../service/user-service");
+const loginService = require("../service/login-service");
 const { validationResult } = require("express-validator");
 const ApiError = require("../exceptions/api-error");
 
@@ -19,7 +19,7 @@ class UserController {
         );
       }
       const { email, password } = req.body;
-      const userData = await userService.registration(email, password);
+      const userData = await loginService.registration(email, password);
       res.cookie("refreshToken", userData.refreshToken, {
         maxAge: 30 * 24 * 60 * 60 * 1000,
         httpOnly: true,
@@ -39,7 +39,7 @@ class UserController {
   async login(req, res, next) {
     try {
       const { login, password } = req.body;
-      const userData = await userService.login(login, password);
+      const userData = await loginService.login(login, password);
       res.cookie("refreshToken", userData.refreshToken, {
         maxAge: 30 * 24 * 60 * 60 * 1000,
         httpOnly: true,
@@ -60,7 +60,7 @@ class UserController {
   async logout(req, res, next) {
     try {
       const { refreshToken } = req.cookies;
-      const token = await userService.logout(refreshToken);
+      const token = await loginService.logout(refreshToken);
       res.clearCookie("refreshToken");
       return res.json(token);
     } catch (e) {
@@ -77,7 +77,7 @@ class UserController {
   async activate(req, res, next) {
     try {
       const activationLink = req.params.link;
-      await userService.activate(activationLink);
+      await loginService.activate(activationLink);
       return res.redirect(process.env.CLIENT_URL);
     } catch (e) {
       next(e);
@@ -93,7 +93,7 @@ class UserController {
   async refresh(req, res, next) {
     try {
       const { refreshToken } = req.cookies;
-      const userData = await userService.refresh(refreshToken);
+      const userData = await loginService.refresh(refreshToken);
       res.cookie("refreshToken", userData.refreshToken, {
         maxAge: 30 * 24 * 60 * 60 * 1000,
         httpOnly: true,
@@ -113,7 +113,7 @@ class UserController {
    */
   async getUsers(req, res, next) {
     try {
-      const users = await userService.getAllUsers();
+      const users = await loginService.getAllUsers();
       return res.json(users);
     } catch (e) {
       next(e);

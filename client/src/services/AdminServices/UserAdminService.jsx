@@ -1,16 +1,19 @@
 import { api } from "../../http/index";
 
-export default class PositionService {
-  static API_ROUTE = "/catalog/positions";
+export default class UserAdminService {
+  static API_ROUTE = "/catalog/users";
 
   static prepareForTable(data) {
     try {
       return data.map((el) => ({
         key: el.id,
-        position_id: el.id,
-        position_name: el.name,
-        position_is_signer: el.is_signer,
+        user_id: el.id,
+        user_login: el.login,
+        user_email: el.email,
+        user_fio: `${el.last_name} ${el.first_name} ${el.middle_name}`,
+        position_name: el.position_name,
         department_name: el.department_name,
+        user_is_active: el.is_active,
       }));
     } catch (e) {
       console.log("Ошибка пред-обработки данных:", e);
@@ -19,44 +22,44 @@ export default class PositionService {
   }
 
   static async getAll(isAddForeignTables) {
-    console.log("вызов в PositionService -> Взять все записи");
+    console.log("вызов в UserAdminService -> Взять все записи");
     const response = await api.get(
       `${this.API_ROUTE}?isAddForeignTables=${isAddForeignTables}`
     );
     console.log(
-      "вызов в PositionService -> Взять все записи -> результат",
+      "вызов в UserAdminService -> Взять все записи -> результат",
       response
     );
     return response.data;
   }
 
   static async getOne(id) {
-    console.log("вызов в PositionService -> Взять одну записи");
+    console.log("вызов в UserAdminService -> Взять одну записи");
     const response = await api.get(`${this.API_ROUTE}?id=${id}`);
     console.log(
-      "вызов в PositionService -> Взять одну запись -> результат",
+      "вызов в UserAdminService -> Взять одну запись -> результат",
       response
     );
     return response.data;
   }
 
   static async delete(values) {
-    console.log("вызов в PositionService -> Удалить запись", values);
+    console.log("вызов в UserAdminService -> Удалить запись", values);
     const response = await api.delete(
       `${this.API_ROUTE}?id=${values.position_id}`
     );
     console.log(
-      "вызов в PositionService -> Удалить запись -> результат",
+      "вызов в UserAdminService -> Удалить запись -> результат",
       response
     );
     return response.data;
   }
 
   static async create(values) {
-    console.log("вызов в PositionService -> Создать новую запись", values);
+    console.log("вызов в UserAdminService -> Создать новую запись", values);
     const response = await api.post(`${this.API_ROUTE}`, values);
     console.log(
-      "вызов в PositionService -> Создать новую запись -> результат",
+      "вызов в UserAdminService -> Создать новую запись -> результат",
       response
     );
     return response.data;
@@ -64,7 +67,7 @@ export default class PositionService {
 
   static async update(values) {
     console.log(
-      "вызов в PositionService -> Изменить существующую запись",
+      "вызов в UserAdminService -> Изменить существующую запись",
       values
     );
     const response = await api.put(
@@ -72,7 +75,7 @@ export default class PositionService {
       values
     );
     console.log(
-      "вызов в PositionService -> Изменить существующую запись -> результат",
+      "вызов в UserAdminService -> Изменить существующую запись -> результат",
       response
     );
     return response.data;

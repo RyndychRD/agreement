@@ -1,5 +1,5 @@
 // import { useSelector } from "react-redux";
-import AdminSettingsTable from "../../../../fragments/tables/AdminSettingsTable";
+import AdminSettingsTable from "../../../../fragments/tables/AdminSettings/AdminSettingsTable";
 
 import { Provider } from "../../../../fragments/tables/Provider";
 import CreateButtonModel from "./buttonModals/create";
@@ -9,7 +9,7 @@ import UpdateButtonModel from "./buttonModals/update";
 import { useGetPositionsQuery } from "../../../../../core/redux/api/AdminSettings/Catalogs/PositionsApi";
 import PositionService from "../../../../../services/AdminServices/PositionService";
 
-/** Справочник Департаментов */
+/** Справочник Должностей */
 export default function Positions() {
   const columns = {
     data: [

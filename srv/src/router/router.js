@@ -1,5 +1,5 @@
 const Router = require("express").Router;
-const userController = require("../controllers/user-controller");
+const LoginController = require("../controllers/login-controller");
 const departmentController = require("../controllers/catalogControllers/department-controller");
 const positionController = require("../controllers/catalogControllers/position-controller");
 const router = new Router();
@@ -10,35 +10,45 @@ router.post(
   "/registration",
   body("email").isEmail(),
   body("password").isLength({ min: 3, max: 32 }),
-  userController.registration
+  LoginController.registration
 );
-router.post("/login", userController.login);
-router.post("/logout", userController.logout);
-router.get("/activate/:link", userController.activate);
-router.get("/refresh", userController.refresh);
-router.get("/users", authMiddleware, userController.getUsers);
+router.post("/login", LoginController.login);
+router.post("/logout", LoginController.logout);
+router.get("/activate/:link", LoginController.activate);
+router.get("/refresh", LoginController.refresh);
+router.get("/users", authMiddleware, LoginController.getUsers);
 
 /**
  * Справочники
  */
 //Департаменты
 // prettier-ignore
-router.get("/departments",authMiddleware,departmentController.getDepartments)
+router.get("/catalog/departments",authMiddleware,departmentController.getDepartments)
 // prettier-ignore
-router.post("/departments",authMiddleware,departmentController.createNewDepartment)
+router.post("/catalog/departments",authMiddleware,departmentController.createNewDepartment)
 // prettier-ignore
-router.put("/departments",authMiddleware,departmentController.updateDepartment)
+router.put("/catalog/departments",authMiddleware,departmentController.updateDepartment)
 // prettier-ignore
-router.delete("/departments",authMiddleware,departmentController.deleteDepartment)
+router.delete("/catalog/departments",authMiddleware,departmentController.deleteDepartment)
 
 //Должности
 // prettier-ignore
-router.get("/positions",authMiddleware,positionController.getPositions)
+router.get("/catalog/positions",authMiddleware,positionController.getPositions)
 // prettier-ignore
-router.post("/positions",authMiddleware,positionController.createNewPosition)
-// // prettier-ignore
-router.delete("/positions", authMiddleware, positionController.deletePosition);
-// // prettier-ignore
-router.put("/positions", authMiddleware, positionController.updatePosition);
+router.post("/catalog/positions",authMiddleware,positionController.createNewPosition)
+// prettier-ignore
+router.delete("/catalog/positions",authMiddleware,positionController.deletePosition);
+// prettier-ignore
+router.put("/catalog/positions",authMiddleware, positionController.updatePosition);
+
+//Пользователи
+// prettier-ignore
+router.get("/catalog/users",authMiddleware,positionController.getPositions)
+// prettier-ignore
+router.post("/catalog/users",authMiddleware,positionController.createNewPosition)
+// prettier-ignore
+router.delete("/catalog/users",authMiddleware,positionController.deletePosition);
+// prettier-ignore
+router.put("/catalog/users",authMiddleware, positionController.updatePosition);
 
 module.exports = router;

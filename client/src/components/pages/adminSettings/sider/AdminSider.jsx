@@ -46,11 +46,11 @@ export default function AdminSider() {
       // Не делай так больше
       // https://eslint.org/docs/latest/rules/no-constant-condition
       // eslint-disable-next-line no-constant-condition
-      false ? getLink("users") : null,
+      true ? getLink("positions") : null,
       // Не делай так больше
       // https://eslint.org/docs/latest/rules/no-constant-condition
       // eslint-disable-next-line no-constant-condition
-      true ? getLink("positions") : null,
+      true ? getLink("users") : null,
       // Не делай так больше
       // https://eslint.org/docs/latest/rules/no-constant-condition
       // eslint-disable-next-line no-constant-condition

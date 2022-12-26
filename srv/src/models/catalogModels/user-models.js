@@ -1,5 +1,5 @@
 //Доступ в БД
-const knexConfig = require("../../db/knexfile");
+const knexConfig = require("../../../db/knexfile");
 
 class UserSchema {
   constructor() {

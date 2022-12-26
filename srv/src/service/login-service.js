@@ -1,4 +1,4 @@
-const UserModels = require("../models/user-models");
+const UserModels = require("../models/catalogModels/user-models");
 const MailService = require("./mail-service");
 const TokenService = require("./token-service");
 const UserDTO = require("../dtos/user-dtos");

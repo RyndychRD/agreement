@@ -1,7 +1,7 @@
 import { api } from "../../http/index";
 
 export default class DepartmentService {
-  static API_ROUTE = "/departments";
+  static API_ROUTE = "/catalog/departments";
 
   /** Преобразует входящий массив данных из редакса для правильного отображения в таблице */
   static prepareForTable(data) {
