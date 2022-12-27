@@ -5,16 +5,15 @@ import Sider from "./sider/DocControlSider";
 import "../../../css/index.css";
 
 export default function DocumentControl() {
-  const { Content } = Layout;
-  return (
-    <Layout className="content">
-      <Sider>
-        <Content>
-          <Routes>
-            <Route path="/created-documents" element={<CreatedDocument />} />
-          </Routes>
-        </Content>
-      </Sider>
-    </Layout>
-  );
+	const { Content } = Layout;
+	return (
+		<Layout>
+			<Sider />
+			<Content className="content">
+				<Routes>
+					<Route path="/created-documents/*" element={<CreatedDocument />} />
+				</Routes>
+			</Content>
+		</Layout>
+	);
 }

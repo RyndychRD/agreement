@@ -78,6 +78,7 @@ export default function ReturnElement(key) {
 				</FBElementLayout>
 			);
 		}
+		
 		case "table": {
 			const CurrentElementSelectValueTable =
 				CurrentElement?.select_value?.table;
