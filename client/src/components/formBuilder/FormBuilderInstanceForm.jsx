@@ -56,7 +56,7 @@ export const documentTypeViews = [
 				},
 				{
 					key: "Job_title",
-					typeData: "text",
+					typeData: "table",
 				},
 				{
 					key: "Position_type",
@@ -179,7 +179,12 @@ export const documentElementIODictionary = [
 		name: "От кого:",
 		select_value: { table: "users" },
 	},
-	{ id: 1, key: "Job_title", name: "Должность:", select_value: null },
+	{
+		id: 1,
+		key: "Job_title",
+		name: "Должность:",
+		select_value: { table: "position" },
+	},
 	{
 		id: 1,
 		key: "Position_type",
@@ -1256,5 +1261,64 @@ export const users = [
 		first_name: "Н",
 		middle_name: "",
 		email: "UmarovN@zik.kz",
+	},
+];
+
+export const TestValue = [
+	{
+		AreaName: "1",
+		AreaType: "Payment_currency",
+	},
+	{
+		AreaName: "2",
+		AreaType: "Data_Document",
+	},
+	{
+		AreaName: "3",
+		AreaType: "Job_title",
+	},
+	{
+		AreaName: "4",
+		AreaType: "Counterparty_contacts",
+	},
+	{
+		AreaName: "5",
+		AreaType: "Subdivision_name",
+	},
+	{
+		AreaName: "6",
+		AreaType: "Name_of_Goods_Works_Services",
+	},
+	{
+		AreaName: "7",
+		AreaType: "Total_contract_amount",
+	},
+	{
+		AreaName: "8",
+		AreaType: "Base",
+	},
+	{
+		AreaName: "9",
+		AreaType: "From_whom",
+	},
+	{
+		AreaName: "10",
+		AreaType: "Suppliers_of_Goods_Works_Services",
+	},
+	{
+		AreaName: "11",
+		AreaType: "Contractors_phone_number",
+	},
+	{
+		AreaName: "12",
+		AreaType: "Position_type",
+	},
+	{
+		AreaName: "13",
+		AreaType: "Surname_of_the_responsible_person",
+	},
+	{
+		AreaName: "14",
+		AreaType: "Email_contacts",
 	},
 ];

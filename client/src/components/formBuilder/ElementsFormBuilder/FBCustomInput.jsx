@@ -5,23 +5,45 @@ import ButtonAddComponentOnForm from "./FBButtonAddComponentOnForm";
 import InputElementForm from "./FBInputElementForm";
 import SelectElementForm from "./FBSelectElementsForm";
 import ButtonOnCarts from "./FBButtonOnCartsForm";
+import { documentElementIODictionary } from "../FormBuilderInstanceForm";
 
-export default function CustomInput() {
+export default function CustomInput({form}) {
+	
 	const dispatch = useCustomDispatch();
 	const onFinish = useCallback(
 		(value) => {
-			dispatch({ type: "SaveFormButton", FormBuilderData: value });
-			console.log("onFinish => useCallback => value", value);
+			if (value) {
+				dispatch({ type: "SaveFormButton", FormBuilderData: value });
+				console.log("onFinish => useCallback => value", value);
+			}
 		},
 		[dispatch]
 	);
 
 	return (
 		<Form
+			form={form}
 			name="dynamic_form_nest_item"
 			onFinish={(value) => onFinish(value)}
 			autoComplete="off"
 		>
+			<Button
+				type="primary"
+				htmlType="submit"
+				onClick={() => {
+					const TestValue = documentElementIODictionary.map((i) => ({
+						AreaName: i.name,
+						AreaType: i.key,
+					}));
+
+					dispatch({
+						type: "SaveFormButton",
+						FormBuilderData: { FormBuilder: TestValue },
+					});
+				}}
+			>
+				Тест (вывод всех типов форм)
+			</Button>
 			<Form.List name="FormBuilder">
 				{(fields, { add, remove, move }) => (
 					<>
@@ -32,10 +54,10 @@ export default function CustomInput() {
 						{fields.map(({ key, name, ...restField }) => (
 							<Space key={key} className="background-Cart" align="baseline">
 								<Card
+									size="small"
 									title={`Порядок в списке №${name} ${JSON.stringify(
 										restField
 									)}`}
-									size="small"
 									extra={ButtonOnCarts(remove, move, name, fields, key)}
 								>
 									<InputElementForm restField={restField} name={name} />

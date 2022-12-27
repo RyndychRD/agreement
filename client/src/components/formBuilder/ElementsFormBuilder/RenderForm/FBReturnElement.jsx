@@ -50,19 +50,18 @@ export default function ReturnElement(key) {
 					<Input.Group compact>
 						<Select
 							style={{
-								width: "30%",
+								width: "35%",
 							}}
 							defaultValue="Коды стран"
 						>
-							<Option value="+7">+7 Россия</Option>
-							<Option value="+7">+7 Казахстан</Option>
+							<Option value="+7">+7 Россия/Казахстан</Option>
 							<Option value="+86">+86 Китай</Option>
 							<Option value="+375">+375 Беларусь</Option>
 							<Option value="+380">+380 Украина</Option>
 						</Select>
 						<Input
 							style={{
-								width: "40%",
+								width: "35%",
 							}}
 							placeholder="(###)#######"
 							defaultValue=""
@@ -78,7 +77,23 @@ export default function ReturnElement(key) {
 				</FBElementLayout>
 			);
 		}
-		
+		case "select_id": {
+			const CurrentElementSelect = CurrentElement?.select_value?.select_id;
+			console.log(CurrentElementSelect);
+			return (
+				<FBElementLayout name={CurrentElement.name}>
+					<Select
+						showSearch
+						optionFilterProp="children"
+						filterOption={(input, option) =>
+							(option?.label.toLowerCase() ?? "").includes(input.toLowerCase())
+						}
+						id={key}
+						options={CurrentElementSelect}
+					/>
+				</FBElementLayout>
+			);
+		}
 		case "table": {
 			const CurrentElementSelectValueTable =
 				CurrentElement?.select_value?.table;

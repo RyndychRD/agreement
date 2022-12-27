@@ -8,12 +8,12 @@
 }
 
 .warning-email {
-	background-color: rgb(180, 61, 40);
+	background-color: rgb(180, 61, 40, 0.1);
 }
 .good-email {
-	background-color: rgba(17, 109, 17, 0.849);
+	background-color: rgba(17, 109, 17, 0.1);
 }
 
 .empty-email {
-	background-color: rgba(198, 233, 0, 0.849);
+	background-color: rgba(198, 233, 0, 0.1);
 }

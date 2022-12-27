@@ -17,7 +17,7 @@ function CollectionCreateForm({ open, onCreate, onCancel }) {
 	// const stateReact = useCustomState();
 	const { FormBuilderData } = useCustomState();
 	const dispatchReact = useCustomDispatch();
-
+	console.log("CollectionCreateForm = > FormBuilderData", FormBuilderData);
 	return (
 		<Modal
 			open={open}
@@ -26,6 +26,7 @@ function CollectionCreateForm({ open, onCreate, onCancel }) {
 			cancelText="Закрыть"
 			onCancel={() => {
 				dispatchReact({ type: "CancelButton" });
+				form.resetFields();
 				onCancel();
 			}}
 			width="95%"
@@ -33,8 +34,8 @@ function CollectionCreateForm({ open, onCreate, onCancel }) {
 				form
 					.validateFields()
 					.then((values) => {
-						form.resetFields();
 						onCreate(values);
+						form.resetFields();
 					})
 					.catch((info) => {
 						console.log("Validate Failed:", info);
@@ -42,9 +43,12 @@ function CollectionCreateForm({ open, onCreate, onCancel }) {
 			}}
 		>
 			{FormBuilderData?.FormBuilder ? (
-				<RenderForm FormBuilderData={FormBuilderData.FormBuilder} />
+				<RenderForm
+					form={form}
+					FormBuilderData={FormBuilderData?.FormBuilder}
+				/>
 			) : (
-				<CustomInput />
+				<CustomInput form={form} />
 			)}
 		</Modal>
 	);
