@@ -38,6 +38,7 @@ export default function ModalDelete({ deleteMutation, deleteText, children }) {
   } else if (deleteText) {
     deleteMessage = defaultDeleteMessage(deleteText);
   }
+
   return (
     <AModal
       okText="Удалить"

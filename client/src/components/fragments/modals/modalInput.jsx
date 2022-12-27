@@ -42,7 +42,7 @@ export default function ModalInput({ form, addMutation, CreateUpdateForm }) {
     >
       {isLoading ? <SimpleSpinner /> : ""}
       {isError ? <SimpleError /> : ""}
-      {!isLoading && !isError ? children : ""}
+      {!isLoading && !isError && isOpen ? children : ""}
     </AModal>
   );
 }

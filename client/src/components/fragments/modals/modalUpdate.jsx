@@ -82,11 +82,7 @@ export default function ModalUpdate({
     >
       {isLoading ? <SimpleSpinner /> : ""}
       {isError ? <SimpleError /> : ""}
-      {!isLoading && !isError && state.isShowUpdateModal ? (
-        <CreateUpdateForm form={form} />
-      ) : (
-        ""
-      )}
+      {!isLoading && !isError && isOpen ? <CreateUpdateForm form={form} /> : ""}
     </AModal>
   );
 }
