@@ -25,10 +25,12 @@ export const departmentsApi = createApi({
           : [{ type: TAG_TYPE, id: "LIST" }],
     }),
     getDepartment: build.query({
-      queryFn: async ({ id = "", isStart = true }) => {
+      queryFn: async ({ id = "", currentRow = {}, isStart = true }) => {
         if (isStart) {
           try {
-            const response = await DepartmentService.getOne(id);
+            const response = await DepartmentService.getOne(
+              id || currentRow?.department_id
+            );
             return { data: response };
           } catch (e) {
             return { error: e.message };
@@ -69,7 +71,13 @@ export const departmentsApi = createApi({
     updateDepartment: build.mutation({
       queryFn: async (body) => {
         try {
-          const response = await DepartmentService.update(body);
+          const bodyPrepared = (bodyValues) => ({
+            ...bodyValues,
+            department_id:
+              bodyValues?.department_id ||
+              bodyValues?.currentRow?.department_id,
+          });
+          const response = await DepartmentService.update(bodyPrepared(body));
           return { data: response };
         } catch (e) {
           return { error: e.message };

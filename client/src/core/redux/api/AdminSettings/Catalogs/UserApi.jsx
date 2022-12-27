@@ -25,10 +25,12 @@ export const usersApi = createApi({
           : [{ type: TAG_TYPE, id: "LIST" }],
     }),
     getUser: build.query({
-      queryFn: async ({ id = "", isStart = true }) => {
+      queryFn: async ({ id = "", currentRow = {}, isStart = true }) => {
         if (isStart) {
           try {
-            const response = await UserService.getOne(id);
+            const response = await UserService.getOne(
+              id || currentRow?.user_id
+            );
             return { data: response };
           } catch (e) {
             return { error: e.message };
@@ -69,7 +71,11 @@ export const usersApi = createApi({
     updateUser: build.mutation({
       queryFn: async (body) => {
         try {
-          const response = await UserService.update(body);
+          const bodyPrepared = (bodyValues) => ({
+            ...bodyValues,
+            user_id: bodyValues?.user_id || bodyValues?.currentRow?.user_id,
+          });
+          const response = await UserService.update(bodyPrepared(body));
           return { data: response };
         } catch (e) {
           return { error: e.message };

@@ -25,10 +25,12 @@ export const positionsApi = createApi({
           : [{ type: TAG_TYPE, id: "LIST" }],
     }),
     getPosition: build.query({
-      queryFn: async ({ id = "", isStart = true }) => {
+      queryFn: async ({ id = "", currentRow = {}, isStart = true }) => {
         if (isStart) {
           try {
-            const response = await PositionService.getOne(id);
+            const response = await PositionService.getOne(
+              id || currentRow?.position_id
+            );
             return { data: response };
           } catch (e) {
             return { error: e.message };
@@ -69,7 +71,12 @@ export const positionsApi = createApi({
     updatePosition: build.mutation({
       queryFn: async (body) => {
         try {
-          const response = await PositionService.update(body);
+          const bodyPrepared = (bodyValues) => ({
+            ...bodyValues,
+            position_id:
+              bodyValues?.position_id || bodyValues?.currentRow?.position_id,
+          });
+          const response = await PositionService.update(bodyPrepared(body));
           return { data: response };
         } catch (e) {
           return { error: e.message };

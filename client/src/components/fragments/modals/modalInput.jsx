@@ -1,18 +1,17 @@
-/** @format */
-
 import { AModal } from "../../adapter";
 import SimpleError from "../spinners/Error";
 import SimpleSpinner from "../spinners/Spinner";
+import { useCustomState, useCustomDispatch } from "../tables/Provider";
 
-export function ModalInput({
-  isOpen,
-  dispatch,
-  form,
-  addMutation,
-  CreateUpdateForm,
-}) {
+export default function ModalInput({ form, addMutation, CreateUpdateForm }) {
+  const state = useCustomState();
+  const dispatch = useCustomDispatch();
   const [addFunc, { isError, isLoading, reset }] = addMutation();
-  const children = isOpen ? <CreateUpdateForm form={form} /> : "";
+  const children = state.isShowCreateModal ? (
+    <CreateUpdateForm form={form} />
+  ) : (
+    ""
+  );
   /**
    * При создании валидируем форму и отправляем все данные в сервис
    */
@@ -41,39 +40,11 @@ export function ModalInput({
         form.resetFields();
         dispatch({ type: "closeAllModal" });
       }}
-      open={isOpen}
+      open={state.isShowCreateModal}
     >
       {isLoading ? <SimpleSpinner /> : ""}
       {isError ? <SimpleError /> : ""}
       {!isLoading && !isError ? children : ""}
-    </AModal>
-  );
-}
-
-export function ModalUpdate(props) {
-  const { children, isLoading, isError } = props;
-  return (
-    <AModal okText="Редактировать" cancelText="Отмена" {...props}>
-      {isLoading ? <SimpleSpinner /> : ""}
-      {isError ? <SimpleError /> : ""}
-      {!isLoading && !isError ? children : ""}
-    </AModal>
-  );
-}
-export function ModalDelete(props) {
-  const { children, isLoading, isError } = props;
-  return (
-    <AModal okText="Удалить" cancelText="Отмена" {...props}>
-      {isLoading ? <SimpleSpinner /> : ""}
-      {isError ? <SimpleError /> : ""}
-      {!isLoading && !isError ? (
-        <>
-          Вы уверены что хотите удалить элемент?
-          <br /> {children}
-        </>
-      ) : (
-        ""
-      )}
     </AModal>
   );
 }
