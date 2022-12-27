@@ -3,7 +3,7 @@ import SimpleError from "../spinners/Error";
 import SimpleSpinner from "../spinners/Spinner";
 import { useCustomDispatch, useCustomState } from "../tables/Provider";
 
-function standartDeleteMessage(deleteText) {
+function defaultDeleteMessage(deleteText) {
   return (
     <>
       Вы уверены что хотите удалить элемент?
@@ -36,7 +36,7 @@ export default function ModalDelete({ deleteMutation, deleteText, children }) {
   if (children) {
     deleteMessage = children;
   } else if (deleteText) {
-    deleteMessage = standartDeleteMessage(deleteText);
+    deleteMessage = defaultDeleteMessage(deleteText);
   }
   return (
     <AModal
