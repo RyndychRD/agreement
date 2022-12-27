@@ -8,9 +8,12 @@ export const positionsApi = createApi({
   tagTypes: [TAG_TYPE],
   endpoints: (build) => ({
     getPositions: build.query({
-      queryFn: async (isAddForeignTables = false) => {
+      queryFn: async ({ isAddForeignTables = false, isAddRights = false }) => {
         try {
-          const response = await PositionService.getAll(isAddForeignTables);
+          const response = await PositionService.getAll({
+            isAddForeignTables,
+            isAddRights,
+          });
           return { data: response };
         } catch (e) {
           return { error: e.message };
@@ -24,13 +27,20 @@ export const positionsApi = createApi({
             ]
           : [{ type: TAG_TYPE, id: "LIST" }],
     }),
+
     getPosition: build.query({
-      queryFn: async ({ id = "", currentRow = {}, isStart = true }) => {
+      queryFn: async ({
+        id = "",
+        currentRow = {},
+        isStart = true,
+        isAddRights = false,
+      }) => {
         if (isStart) {
           try {
-            const response = await PositionService.getOne(
-              id || currentRow?.position_id
-            );
+            const response = await PositionService.getOne({
+              id: id || currentRow?.position_id,
+              isAddRights,
+            });
             return { data: response };
           } catch (e) {
             return { error: e.message };
@@ -46,6 +56,7 @@ export const positionsApi = createApi({
             ]
           : [{ type: TAG_TYPE, id: "LIST" }],
     }),
+
     addPosition: build.mutation({
       queryFn: async (body) => {
         try {
@@ -57,6 +68,7 @@ export const positionsApi = createApi({
       },
       invalidatesTags: [{ type: TAG_TYPE, id: "LIST" }],
     }),
+
     deletePosition: build.mutation({
       queryFn: async (body) => {
         try {
@@ -68,6 +80,7 @@ export const positionsApi = createApi({
       },
       invalidatesTags: [{ type: TAG_TYPE, id: "LIST" }],
     }),
+
     updatePosition: build.mutation({
       queryFn: async (body) => {
         try {

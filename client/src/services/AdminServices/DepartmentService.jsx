@@ -56,7 +56,7 @@ export default class DepartmentService {
     return response.data;
   }
 
-  static async getAll(isAddRights) {
+  static async getAll({ isAddRights }) {
     console.log("вызов в DepartmentService -> Взять все записи");
     const response = await api.get(
       `${this.API_ROUTE}?isAddRights=${isAddRights}`

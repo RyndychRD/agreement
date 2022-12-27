@@ -16,4 +16,5 @@ exports.documentTypesSeed = async function (knex) {
     },
     { id: 29, name: "Другой" },
   ]);
+  console.log("documentTypesSeed executed");
 };

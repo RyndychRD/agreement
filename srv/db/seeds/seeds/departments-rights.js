@@ -32,4 +32,5 @@ exports.departmentRightsSeed = async function (knex) {
     { right_id: "2", department_id: "21" },
     { right_id: "2", department_id: "22" },
   ]);
+  console.log("departmentRightsSeed executed");
 };

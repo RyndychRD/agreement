@@ -5,23 +5,28 @@ class PositionService {
   async getAllPositions(query) {
     const func = PositionModels.find({
       isAddForeignTables: query?.isAddForeignTables,
+      isAddRights: query?.isAddRights,
     });
     return await DevTools.addDelay(func);
   }
   async getOnePosition(query) {
     const func = PositionModels.findOne({
       filter: {
-        id: query.id,
+        "positions.id": query.id,
       },
       isAddForeignTables: query?.isAddForeignTables,
+      isAddRights: query?.isAddRights,
     });
     return await DevTools.addDelay(func);
   }
   async createNewPosition(body) {
     const func = await PositionModels.create({
-      name: body.newPositionName,
-      is_signer: body.isSigner ? body.isSigner : false,
-      department_id: body.departmentId,
+      position: {
+        name: body.newPositionName,
+        is_signer: body.isSigner ? body.isSigner : false,
+        department_id: body.departmentId,
+      },
+      positionRights: body.rightIds,
     });
     return await DevTools.addDelay(func);
   }
@@ -32,16 +37,17 @@ class PositionService {
     return await DevTools.addDelay(func);
   }
   async updatePosition(query, body) {
-    const func = PositionModels.update(
-      {
+    const func = PositionModels.update({
+      filter: {
         id: query.id,
       },
-      {
+      position: {
         name: body.newPositionName,
         is_signer: body.isSigner ? body.isSigner : false,
         department_id: body.departmentId,
-      }
-    );
+      },
+      positionRights: body.rightIds,
+    });
     return await DevTools.addDelay(func);
   }
 }

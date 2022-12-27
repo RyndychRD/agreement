@@ -11,4 +11,5 @@ exports.documentSignatureTypesSeed = async function (knex) {
     { id: 2, name: "Не согласовано" },
     { id: 3, name: "Согласовано с замечаниями" },
   ]);
+  console.log("documentSignatureTypesSeed executed");
 };

@@ -13,6 +13,7 @@ export default function UpdateButtonModel() {
     newPositionName: data?.name,
     departmentId: data?.department_id,
     isSigner: data?.is_signer,
+    rightIds: data?.rights?.map((el) => el.id),
   });
   return (
     <ModalUpdate

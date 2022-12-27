@@ -10,7 +10,7 @@ export const departmentsApi = createApi({
     getDepartments: build.query({
       queryFn: async (isAddRights = false) => {
         try {
-          const response = await DepartmentService.getAll(isAddRights);
+          const response = await DepartmentService.getAll({ isAddRights });
           return { data: response };
         } catch (e) {
           return { error: e.message };
@@ -24,6 +24,7 @@ export const departmentsApi = createApi({
             ]
           : [{ type: TAG_TYPE, id: "LIST" }],
     }),
+
     getDepartment: build.query({
       queryFn: async ({
         id = "",
@@ -52,6 +53,7 @@ export const departmentsApi = createApi({
             ]
           : [{ type: TAG_TYPE, id: "LIST" }],
     }),
+
     addDepartment: build.mutation({
       queryFn: async (body) => {
         try {
@@ -63,6 +65,7 @@ export const departmentsApi = createApi({
       },
       invalidatesTags: [{ type: TAG_TYPE, id: "LIST" }],
     }),
+
     deleteDepartment: build.mutation({
       queryFn: async (body) => {
         try {
@@ -74,6 +77,7 @@ export const departmentsApi = createApi({
       },
       invalidatesTags: [{ type: TAG_TYPE, id: "LIST" }],
     }),
+
     updateDepartment: build.mutation({
       queryFn: async (body) => {
         try {

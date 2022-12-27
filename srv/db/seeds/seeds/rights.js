@@ -12,4 +12,5 @@ exports.rightsSeed = async function (knex) {
     { id: "3", name: "Доступ к удалению" },
     { id: "4", name: "Доступ к созданию" },
   ]);
+  console.log("rightsSeed executed");
 };

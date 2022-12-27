@@ -83,7 +83,6 @@ class DepartmentSchema {
    * @returns
    */
   async update({ filter, department, departmentRights }) {
-    console.log(departmentRights);
     await this.knexProvider("departments").where(filter).update(department);
     await this.knexProvider("departments-rights")
       .where({ department_id: filter.id })

@@ -35,4 +35,5 @@ exports.departmentsSeed = async function (knex) {
     { id: "21", name: "Конструкторское бюро №1" },
     { id: "22", name: "Конструкторское бюро №2" },
   ]);
+  console.log("departmentsSeed executed");
 };

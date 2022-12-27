@@ -3,13 +3,20 @@ import CheckboxInputFormItem from "../../../../../fragments/inputs/checkboxInput
 import SelectInputFormItem from "../../../../../fragments/inputs/selectInputs";
 import TextInputFormItem from "../../../../../fragments/inputs/textInputs";
 import { useGetDepartmentsQuery } from "../../../../../../core/redux/api/AdminSettings/Catalogs/DepartamentApi";
+import { useGetRightsQuery } from "../../../../../../core/redux/api/AdminSettings/Catalogs/RightApi";
 
 export default function CreateUpdateForm({ form }) {
   const {
     data: departments = {},
-    isError,
-    isLoading,
+    isError: isErrorDepartments,
+    isLoading: isLoadingDepartments,
   } = useGetDepartmentsQuery();
+  const {
+    data: rights = {},
+    isError: isErrorRights,
+    isLoading: isLoadingRights,
+  } = useGetRightsQuery();
+
   return (
     <AForm form={form}>
       <TextInputFormItem
@@ -24,8 +31,8 @@ export default function CreateUpdateForm({ form }) {
       />
       <SelectInputFormItem
         title="Департамент"
-        isLoading={isLoading}
-        isError={isError}
+        isLoading={isLoadingDepartments}
+        isError={isErrorDepartments}
         name="departmentId"
         options={departments}
         rules={[
@@ -38,6 +45,15 @@ export default function CreateUpdateForm({ form }) {
       <CheckboxInputFormItem
         title="Имеет право подписания документов?"
         name="isSigner"
+      />
+      <SelectInputFormItem
+        title="Права"
+        isLoading={isLoadingRights}
+        isError={isErrorRights}
+        isModeMultiple
+        name="rightIds"
+        options={rights}
+        rules={[]}
       />
     </AForm>
   );

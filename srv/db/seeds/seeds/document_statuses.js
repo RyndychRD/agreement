@@ -15,4 +15,5 @@ exports.documentStatusesSeed = async function (knex) {
     { id: 9, name: "Документ в ООПЗ" },
     { id: 10, name: "Исполнен" },
   ]);
+  console.log("documentStatusesSeed executed");
 };

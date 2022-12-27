@@ -652,4 +652,5 @@ exports.usersSeed = async function (knex) {
       email: "UmarovN@zik.kz",
     },
   ]);
+  console.log("usersSeed executed");
 };

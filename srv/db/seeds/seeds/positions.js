@@ -278,4 +278,5 @@ exports.positionSeed = async function (knex) {
     },
     { id: 63, name: "Экономист", is_signer: 0, department_id: 7 },
   ]);
+  console.log("positionSeed executed");
 };
