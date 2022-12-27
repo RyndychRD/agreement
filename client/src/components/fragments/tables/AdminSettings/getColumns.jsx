@@ -47,7 +47,7 @@ export default function getColumns({ dataSource, columns }) {
       title: "ID",
       dataIndex: "position_id",
       align: "center",
-      sorter: (a, b) => sorterInt(a?.department_id, b?.department_id),
+      sorter: (a, b) => sorterInt(a?.position_id, b?.position_id),
     },
 
     position_name: {
