@@ -7,11 +7,9 @@ export default function ModalInput({ form, addMutation, CreateUpdateForm }) {
   const state = useCustomState();
   const dispatch = useCustomDispatch();
   const [addFunc, { isError, isLoading, reset }] = addMutation();
-  const children = state.isShowCreateModal ? (
-    <CreateUpdateForm form={form} />
-  ) : (
-    ""
-  );
+  const isOpen = state.isShowCreateModal;
+
+  const children = isOpen ? <CreateUpdateForm form={form} /> : "";
   /**
    * При создании валидируем форму и отправляем все данные в сервис
    */
@@ -40,7 +38,7 @@ export default function ModalInput({ form, addMutation, CreateUpdateForm }) {
         form.resetFields();
         dispatch({ type: "closeAllModal" });
       }}
-      open={state.isShowCreateModal}
+      open={isOpen}
     >
       {isLoading ? <SimpleSpinner /> : ""}
       {isError ? <SimpleError /> : ""}
