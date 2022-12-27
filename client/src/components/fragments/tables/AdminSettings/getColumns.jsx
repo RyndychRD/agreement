@@ -17,14 +17,14 @@ export default function getColumns({ dataSource, columns }) {
   /**
    * Словарь всех возможных колонок для таблицы
    */
-  const dictColumn = {
+
+  const departmentColumns = {
     department_id: {
       title: "ID",
       dataIndex: "department_id",
       align: "center",
       sorter: (a, b) => sorterInt(a?.department_id, b?.department_id),
     },
-
     department_name: {
       title: "Наименование департамента",
       dataIndex: "department_name",
@@ -42,14 +42,15 @@ export default function getColumns({ dataSource, columns }) {
       onFilter: (value, record) =>
         record?.department_name?.indexOf(value) === 0,
     },
+  };
 
+  const positionColumns = {
     position_id: {
       title: "ID",
       dataIndex: "position_id",
       align: "center",
       sorter: (a, b) => sorterInt(a?.position_id, b?.position_id),
     },
-
     position_name: {
       title: "Наименование должности",
       dataIndex: "position_name",
@@ -62,7 +63,6 @@ export default function getColumns({ dataSource, columns }) {
       ),
       onFilter: (value, record) => record?.position_name?.indexOf(value) === 0,
     },
-
     position_is_signer: {
       title: "Может подписать документы",
       dataIndex: "position_is_signer",
@@ -80,7 +80,9 @@ export default function getColumns({ dataSource, columns }) {
           ? record?.position_is_signer
           : !record?.position_is_signer,
     },
+  };
 
+  const userColumns = {
     user_id: {
       title: "ID",
       dataIndex: "user_id",
@@ -135,6 +137,34 @@ export default function getColumns({ dataSource, columns }) {
       onFilter: (value, record) =>
         value === "Да" ? !record?.user_is_disabled : record?.user_is_disabled,
     },
+  };
+
+  const rightColumns = {
+    right_id: {
+      title: "ID",
+      dataIndex: "right_id",
+      align: "center",
+      sorter: (a, b) => sorterInt(a?.right_id, b?.right_id),
+    },
+
+    right_name: {
+      title: "Наименование права",
+      dataIndex: "right_name",
+      align: "center",
+      sorter: (a, b) => sorterStringAlphabet(a?.right_name, b?.right_name),
+      filters: _?.uniqWith(
+        filterData(dataSource)((i) => i?.right_name),
+        _?.isEqual
+      ),
+      onFilter: (value, record) => record?.right_name?.indexOf(value) === 0,
+    },
+  };
+
+  const dictColumn = {
+    ...departmentColumns,
+    ...positionColumns,
+    ...userColumns,
+    ...rightColumns,
   };
 
   /**
