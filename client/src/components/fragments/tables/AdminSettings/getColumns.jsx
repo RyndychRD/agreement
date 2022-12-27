@@ -158,6 +158,12 @@ export default function getColumns({ dataSource, columns }) {
       ),
       onFilter: (value, record) => record?.right_name?.indexOf(value) === 0,
     },
+
+    rights_list_names: {
+      title: "Наименование права",
+      dataIndex: "rights_list_names",
+      align: "center",
+    },
   };
 
   const dictColumn = {

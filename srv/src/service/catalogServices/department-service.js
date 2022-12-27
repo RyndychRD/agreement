@@ -2,21 +2,27 @@ const DepartmentModels = require("../../models/catalogModels/department-models")
 const DevTools = require("../DevTools");
 
 class DepartmentService {
-  async getAllDepartments() {
+  async getAllDepartments(query) {
     const func = DepartmentModels.find({
-      isAddForeignTables: query?.isAddForeignTables,
+      isAddRights: query?.isAddRights,
     });
     return await DevTools.addDelay(func);
   }
   async getOneDepartment(query) {
     const func = DepartmentModels.findOne({
-      id: query.id,
+      filter: {
+        "departments.id": query.id,
+      },
+      isAddRights: query?.isAddRights,
     });
     return await DevTools.addDelay(func);
   }
   async createNewDepartment(body) {
     const func = DepartmentModels.create({
-      name: body.newDepartmentName,
+      department: {
+        name: body.newDepartmentName,
+      },
+      departmentRights: body.rightIds,
     });
     return await DevTools.addDelay(func);
   }
@@ -27,12 +33,13 @@ class DepartmentService {
     return await DevTools.addDelay(func);
   }
   async updateDepartment(query, body) {
-    const func = DepartmentModels.update(
-      {
+    const func = DepartmentModels.update({
+      filter: {
         id: query.id,
       },
-      { name: body.newDepartmentName }
-    );
+      department: { name: body.newDepartmentName },
+      departmentRights: body.rightIds,
+    });
     return await DevTools.addDelay(func);
   }
 }

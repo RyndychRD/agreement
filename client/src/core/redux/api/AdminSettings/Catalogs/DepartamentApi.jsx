@@ -8,9 +8,9 @@ export const departmentsApi = createApi({
   tagTypes: [TAG_TYPE],
   endpoints: (build) => ({
     getDepartments: build.query({
-      queryFn: async () => {
+      queryFn: async (isAddRights = false) => {
         try {
-          const response = await DepartmentService.getAll();
+          const response = await DepartmentService.getAll(isAddRights);
           return { data: response };
         } catch (e) {
           return { error: e.message };
@@ -25,12 +25,18 @@ export const departmentsApi = createApi({
           : [{ type: TAG_TYPE, id: "LIST" }],
     }),
     getDepartment: build.query({
-      queryFn: async ({ id = "", currentRow = {}, isStart = true }) => {
+      queryFn: async ({
+        id = "",
+        currentRow = {},
+        isStart = true,
+        isAddRights = false,
+      }) => {
         if (isStart) {
           try {
-            const response = await DepartmentService.getOne(
-              id || currentRow?.department_id
-            );
+            const response = await DepartmentService.getOne({
+              id: id || currentRow?.department_id,
+              isAddRights,
+            });
             return { data: response };
           } catch (e) {
             return { error: e.message };

@@ -9,7 +9,10 @@ import CreateUpdateForm from "./createUpdateForm";
 export default function UpdateButtonModel() {
   // Служит для отслеживания формы из модального окна для обработки по кнопке
   const [form] = AUseForm();
-  const formDefaultValues = (data) => ({ newDepartmentName: data?.name });
+  const formDefaultValues = (data) => ({
+    newDepartmentName: data?.name,
+    rightIds: data?.rights?.map((el) => el.id),
+  });
   return (
     <ModalUpdate
       getQuery={useGetDepartmentQuery}

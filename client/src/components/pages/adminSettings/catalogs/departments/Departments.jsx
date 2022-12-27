@@ -12,11 +12,13 @@ import { useGetDepartmentsQuery } from "../../../../../core/redux/api/AdminSetti
 /** Справочник Департаментов */
 export default function Departments() {
   // const columns = useSelector((state) => state.departments.columns);
-  const columns = { data: ["department_id", "department_name"] };
+  const columns = {
+    data: ["department_id", "department_name", "rights_list_names"],
+  };
   /**
    * При открытии форму подгружаем новые необходимые данные
    */
-  const { data = [], isLoading, isError } = useGetDepartmentsQuery();
+  const { data = [], isLoading, isError } = useGetDepartmentsQuery(true);
   return (
     <Provider>
       <AdminSettingsTable
