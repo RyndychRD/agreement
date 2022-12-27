@@ -9,7 +9,8 @@ import {
 import FBElementLayout from "../FBElementLayout";
 import EmailInput from "../FBEmailInput/FBEmailInput";
 
-export default function ReturnElement(key) {
+export default function ReturnElement(props) {
+	const { id: key } = props;
 	console.log("returnElement => ", key);
 
 	const CurrentElement = documentElementIODictionary.filter(
