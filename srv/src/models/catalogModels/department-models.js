@@ -18,15 +18,14 @@ class DepartmentSchema {
    * Находит все вхождение в таблице
    * @param {json} filter
    */
-  async find(filter) {
-    if (!filter)
-      return await this.knexProvider("departments")
-        .select("*")
-        .orderBy("id", "asc");
-    return await this.knexProvider("departments")
+  async find({ filter, isAddForeignTables }) {
+    let query = this.knexProvider("departments")
       .select("*")
-      .where(filter)
       .orderBy("id", "asc");
+    if (filter) query = query.where(filter);
+    if (isAddForeignTables) {
+    }
+    return await query;
   }
 
   /**

@@ -9,11 +9,14 @@ export default function SelectInputFormItem({
   options = {},
   isLoading = false,
   isError = false,
+  isModeMultiple = false,
 }) {
   let formatOptions = [];
   if (!isError && !isLoading && options) {
     formatOptions = options.map((el) => ({ label: el.name, value: el.id }));
   }
+
+  const mode = isModeMultiple ? { mode: "multiple" } : {};
 
   let result = "";
   if (isError) {
@@ -21,7 +24,7 @@ export default function SelectInputFormItem({
   } else if (isLoading) {
     result = <SimpleSpinner />;
   } else {
-    result = <ASelect options={formatOptions} placeholder={title} />;
+    result = <ASelect {...mode} options={formatOptions} placeholder={title} />;
   }
 
   return (

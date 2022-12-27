@@ -3,7 +3,9 @@ const DevTools = require("../DevTools");
 
 class DepartmentService {
   async getAllDepartments() {
-    const func = DepartmentModels.find();
+    const func = DepartmentModels.find({
+      isAddForeignTables: query?.isAddForeignTables,
+    });
     return await DevTools.addDelay(func);
   }
   async getOneDepartment(query) {
