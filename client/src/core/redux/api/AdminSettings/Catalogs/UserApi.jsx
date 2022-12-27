@@ -1,16 +1,16 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
-import DepartmentService from "../../../../../services/AdminServices/DepartmentService";
+import UserService from "../../../../../services/AdminServices/UserService";
 
-const TAG_TYPE = "Departments";
+const TAG_TYPE = "Users";
 
-export const departmentsApi = createApi({
-  reducerPath: "departmentsApi",
+export const usersApi = createApi({
+  reducerPath: "usersApi",
   tagTypes: [TAG_TYPE],
   endpoints: (build) => ({
-    getDepartments: build.query({
-      queryFn: async () => {
+    getUsers: build.query({
+      queryFn: async (isAddForeignTables = false) => {
         try {
-          const response = await DepartmentService.getAll();
+          const response = await UserService.getAll(isAddForeignTables);
           return { data: response };
         } catch (e) {
           return { error: e.message };
@@ -24,12 +24,12 @@ export const departmentsApi = createApi({
             ]
           : [{ type: TAG_TYPE, id: "LIST" }],
     }),
-    getDepartment: build.query({
+    getUser: build.query({
       queryFn: async ({ id = "", currentRow = {}, isStart = true }) => {
         if (isStart) {
           try {
-            const response = await DepartmentService.getOne(
-              id || currentRow?.department_id
+            const response = await UserService.getOne(
+              id || currentRow?.user_id
             );
             return { data: response };
           } catch (e) {
@@ -46,10 +46,10 @@ export const departmentsApi = createApi({
             ]
           : [{ type: TAG_TYPE, id: "LIST" }],
     }),
-    addDepartment: build.mutation({
+    addUser: build.mutation({
       queryFn: async (body) => {
         try {
-          const response = await DepartmentService.create(body);
+          const response = await UserService.create(body);
           return { data: response };
         } catch (e) {
           return { error: e.message };
@@ -57,10 +57,10 @@ export const departmentsApi = createApi({
       },
       invalidatesTags: [{ type: TAG_TYPE, id: "LIST" }],
     }),
-    deleteDepartment: build.mutation({
+    deleteUser: build.mutation({
       queryFn: async (body) => {
         try {
-          const response = await DepartmentService.delete(body);
+          const response = await UserService.delete(body);
           return { data: response };
         } catch (e) {
           return { error: e.message };
@@ -68,16 +68,14 @@ export const departmentsApi = createApi({
       },
       invalidatesTags: [{ type: TAG_TYPE, id: "LIST" }],
     }),
-    updateDepartment: build.mutation({
+    updateUser: build.mutation({
       queryFn: async (body) => {
         try {
           const bodyPrepared = (bodyValues) => ({
             ...bodyValues,
-            department_id:
-              bodyValues?.department_id ||
-              bodyValues?.currentRow?.department_id,
+            user_id: bodyValues?.user_id || bodyValues?.currentRow?.user_id,
           });
-          const response = await DepartmentService.update(bodyPrepared(body));
+          const response = await UserService.update(bodyPrepared(body));
           return { data: response };
         } catch (e) {
           return { error: e.message };
@@ -89,9 +87,9 @@ export const departmentsApi = createApi({
 });
 
 export const {
-  useGetDepartmentsQuery,
-  useGetDepartmentQuery,
-  useAddDepartmentMutation,
-  useUpdateDepartmentMutation,
-  useDeleteDepartmentMutation,
-} = departmentsApi;
+  useGetUsersQuery,
+  useGetUserQuery,
+  useAddUserMutation,
+  useUpdateUserMutation,
+  useDeleteUserMutation,
+} = usersApi;

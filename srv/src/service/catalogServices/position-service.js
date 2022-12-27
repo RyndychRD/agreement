@@ -13,7 +13,7 @@ class PositionService {
       filter: {
         id: query.id,
       },
-      tables: query?.tables,
+      isAddForeignTables: query?.isAddForeignTables,
     });
     return await DevTools.addDelay(func);
   }

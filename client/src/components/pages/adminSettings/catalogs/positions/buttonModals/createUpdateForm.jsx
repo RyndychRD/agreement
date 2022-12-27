@@ -5,7 +5,11 @@ import TextInputFormItem from "../../../../../fragments/inputs/textInputs";
 import { useGetDepartmentsQuery } from "../../../../../../core/redux/api/AdminSettings/Catalogs/DepartamentApi";
 
 export default function CreateUpdateForm({ form }) {
-  const { data: departments = {} } = useGetDepartmentsQuery();
+  const {
+    data: departments = {},
+    isError,
+    isLoading,
+  } = useGetDepartmentsQuery();
   return (
     <AForm form={form}>
       <TextInputFormItem
@@ -20,6 +24,8 @@ export default function CreateUpdateForm({ form }) {
       />
       <SelectInputFormItem
         title="Департамент"
+        isLoading={isLoading}
+        isError={isError}
         name="departmentId"
         options={departments}
         rules={[

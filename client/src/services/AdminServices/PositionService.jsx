@@ -1,7 +1,7 @@
 import { api } from "../../http/index";
 
 export default class PositionService {
-  static API_ROUTE = "/positions";
+  static API_ROUTE = "/catalog/positions";
 
   static prepareForTable(data) {
     try {
