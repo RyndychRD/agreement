@@ -6,6 +6,7 @@ class PositionSchema {
     this.knexProvider = require("knex")(knexConfig[process.env.NODE_ENV]);
   }
 
+  //Разыменовывание прав, принадлежащих непосредственно объекту. Наследуемые права тягаются отдельно
   rightsJoin(query, isAddForeignTables) {
     query = query
       .select(
@@ -23,6 +24,7 @@ class PositionSchema {
     if (isAddForeignTables) query = query.groupBy("departments.name");
     return query;
   }
+
   /**
    * Находит первое вхождение в таблице
    * @param {json} filter

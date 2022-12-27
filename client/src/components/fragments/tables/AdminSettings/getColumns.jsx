@@ -1,3 +1,4 @@
+import { Tag } from "antd";
 import _ from "lodash";
 import {
   booleanRender,
@@ -160,9 +161,18 @@ export default function getColumns({ dataSource, columns }) {
     },
 
     rights_list_names: {
-      title: "Наименование права",
+      title: "Список прав",
       dataIndex: "rights_list_names",
       align: "center",
+      render: (items) =>
+        items.map((item) => {
+          const color = item.id === 1 ? "green" : "";
+          return (
+            <Tag style={{ margin: "5px" }} key={item.id} color={color}>
+              {item.name}
+            </Tag>
+          );
+        }),
     },
   };
 
