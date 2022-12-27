@@ -5,12 +5,12 @@ export default function CreateUpdateForm({ form }) {
   return (
     <AForm form={form}>
       <TextInputFormItem
-        title="Наименование департамента"
-        name="newDepartmentName"
+        title="Наименование права"
+        name="newRightName"
         rules={[
           {
             required: true,
-            message: "Введите название департамента",
+            message: "Введите название права",
           },
         ]}
       />

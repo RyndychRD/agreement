@@ -6,24 +6,23 @@ import CreateButtonModel from "./buttonModals/create";
 import DeleteButtonAction from "./buttonModals/delete";
 import UpdateButtonModel from "./buttonModals/update";
 
-import DepartmentService from "../../../../../services/AdminServices/DepartmentService";
-import { useGetDepartmentsQuery } from "../../../../../core/redux/api/AdminSettings/Catalogs/DepartamentApi";
+import { useGetRightsQuery } from "../../../../../core/redux/api/AdminSettings/Catalogs/RightApi";
+import RightService from "./../../../../../services/AdminServices/RightService";
 
-/** Справочник Департаментов */
+/** Справочник Прав */
 export default function Rights() {
-  // const columns = useSelector((state) => state.departments.columns);
   const columns = { data: ["right_id", "right_name"] };
   /**
    * При открытии форму подгружаем новые необходимые данные
    */
-  const { data = [], isLoading, isError } = useGetDepartmentsQuery();
+  const { data = [], isLoading, isError } = useGetRightsQuery();
   return (
     <Provider>
       <AdminSettingsTable
         isLoading={isLoading}
         isError={isError}
         columns={columns}
-        dataSource={data ? DepartmentService.prepareForTable(data) : null}
+        dataSource={data ? RightService.prepareForTable(data) : null}
         title="Права"
       />
       <CreateButtonModel />

@@ -30,7 +30,7 @@ export default class RightService {
   static async update(values) {
     console.log("вызов в RightService -> Изменить существующую запись", values);
     const response = await api.put(
-      `${this.API_ROUTE}?id=${values.department_id}`,
+      `${this.API_ROUTE}?id=${values.right_id}`,
       values
     );
     console.log(
@@ -43,7 +43,7 @@ export default class RightService {
   static async delete(values) {
     console.log("вызов в RightService -> Удалить запись", values);
     const response = await api.delete(
-      `${this.API_ROUTE}?id=${values.department_id}`
+      `${this.API_ROUTE}?id=${values.right_id}`
     );
     console.log(
       "вызов в RightService -> Удалить запись -> результат",

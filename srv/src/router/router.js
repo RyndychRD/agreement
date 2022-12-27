@@ -6,6 +6,7 @@ const userController = require("../controllers/catalogControllers/user-controlle
 const router = new Router();
 const { body } = require("express-validator");
 const authMiddleware = require("../middlewares/auth-middleware");
+const rightController = require("../controllers/catalogControllers/right-controller");
 
 //Авторизация пользователя
 router.post(
@@ -51,5 +52,15 @@ router.post("/catalog/users",authMiddleware,userController.createNewUser)
 router.delete("/catalog/users",authMiddleware,userController.deleteUser);
 // prettier-ignore
 router.put("/catalog/users",authMiddleware, userController.updateUser);
+
+//Права
+// prettier-ignore
+router.get("/catalog/rights",authMiddleware,rightController.getRights)
+// prettier-ignore
+router.post("/catalog/rights",authMiddleware,rightController.createNewRight)
+// prettier-ignore
+router.delete("/catalog/rights",authMiddleware,rightController.deleteRight);
+// prettier-ignore
+router.put("/catalog/rights",authMiddleware, rightController.updateRight);
 
 module.exports = router;
