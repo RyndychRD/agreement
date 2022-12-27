@@ -33,6 +33,10 @@ export default function AdminSider() {
         <NavLink to="/admin-settings/catalogs/positions">Должности</NavLink>,
         "positions"
       ),
+      rights: getItem(
+        <NavLink to="/admin-settings/catalogs/rights">Права</NavLink>,
+        "rights"
+      ),
     };
     return dict[LinkKey] ? dict[LinkKey] : null;
   }
@@ -54,7 +58,7 @@ export default function AdminSider() {
       // Не делай так больше
       // https://eslint.org/docs/latest/rules/no-constant-condition
       // eslint-disable-next-line no-constant-condition
-      false ? getItem("Права", "FILL_ME") : null,
+      true ? getLink("rights") : null,
     ]),
   ];
   return (
