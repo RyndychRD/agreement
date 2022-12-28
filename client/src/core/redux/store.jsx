@@ -3,6 +3,7 @@ import AuthReducer from "../../components/auth/AuthReducer";
 import { departmentsApi } from "./api/AdminSettings/Catalogs/DepartamentApi";
 import { positionsApi } from "./api/AdminSettings/Catalogs/PositionsApi";
 import { usersApi } from "./api/AdminSettings/Catalogs/UserApi";
+import { rightsApi } from "./api/AdminSettings/Catalogs/RightApi";
 
 const store = configureStore({
   reducer: {
@@ -10,12 +11,14 @@ const store = configureStore({
     departmentsApi: departmentsApi.reducer,
     positionsApi: positionsApi.reducer,
     usersApi: usersApi.reducer,
+    rightsApi: rightsApi.reducer,
   },
   middleware: (getDefaultMiddlware) =>
     getDefaultMiddlware()
       .concat(departmentsApi.middleware)
       .concat(positionsApi.middleware)
-      .concat(usersApi.middleware),
+      .concat(usersApi.middleware)
+      .concat(rightsApi.middleware),
 });
 
 export default store;

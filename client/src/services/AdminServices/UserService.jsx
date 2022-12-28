@@ -16,6 +16,9 @@ export default class UserService {
         position_name: el.position_name,
         department_name: el.department_name,
         user_is_disabled: el.is_disabled,
+        rights_list: el?.rights
+          ?.concat(el?.rights_inherited_position)
+          .concat(el?.rights_inherited_department),
       }));
     } catch (e) {
       console.log("Ошибка пред-обработки данных:", e);
@@ -23,10 +26,10 @@ export default class UserService {
     }
   }
 
-  static async getAll(isAddForeignTables) {
+  static async getAll({ isAddForeignTables, isAddRights }) {
     console.log("вызов в UserService -> Взять все записи");
     const response = await api.get(
-      `${this.API_ROUTE}?isAddForeignTables=${isAddForeignTables}`
+      `${this.API_ROUTE}?isAddForeignTables=${isAddForeignTables}&isAddRights=${isAddRights}`
     );
     console.log(
       "вызов в UserService -> Взять все записи -> результат",
@@ -35,9 +38,11 @@ export default class UserService {
     return response.data;
   }
 
-  static async getOne(id) {
+  static async getOne({ id, isAddRights }) {
     console.log("вызов в UserService -> Взять одну записи");
-    const response = await api.get(`${this.API_ROUTE}?id=${id}`);
+    const response = await api.get(
+      `${this.API_ROUTE}?id=${id}&isAddRights=${isAddRights}`
+    );
     console.log(
       "вызов в UserService -> Взять одну запись -> результат",
       response

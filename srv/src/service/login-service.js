@@ -16,7 +16,9 @@ class LoginService {
    */
   async registration(email, password) {
     //Поиск в базе данных, есть ли пользователь с таким Email'ом.
-    const candidate = await UserModels.findOne({ filter: { email: email } });
+    const candidate = await UserModels.findOne({
+      filter: { "users.email": email },
+    });
     //Если такой существует  в̶о̶з̶б̶у̶ж̶д̶а̶е̶м̶с̶я̶ ̶и̶   отсылаем ответ что то тут не так !
     if (candidate) {
       throw ApiError.BadRequest(
@@ -58,18 +60,22 @@ class LoginService {
     password,
     activation_link,
     position_id,
+    rightIds,
   }) {
     const hashPassword = await this.createPass(password);
     const user = await UserModels.create({
-      login: login,
-      email: email,
-      last_name: last_name,
-      first_name: first_name,
-      middle_name: middle_name,
-      is_disabled: is_disabled,
-      password: hashPassword,
-      activation_link: activation_link,
-      position_id: position_id,
+      candidate: {
+        login: login,
+        email: email,
+        last_name: last_name,
+        first_name: first_name,
+        middle_name: middle_name,
+        is_disabled: is_disabled,
+        password: hashPassword,
+        activation_link: activation_link,
+        position_id: position_id,
+      },
+      userRights: rightIds,
     });
     const object_userDTO = new UserDTO(user); // id, email, isActivated
     const tokens = TokenService.generateTokens({ ...object_userDTO });
@@ -83,7 +89,7 @@ class LoginService {
    */
   async activate(activationLink) {
     const user = await UserModels.findOne({
-      filter: { activation_link: activationLink },
+      filter: { "users.activation_link": activationLink },
     });
     if (!user) {
       throw ApiError.BadRequest("Некорректная ссылка активации");
@@ -99,7 +105,11 @@ class LoginService {
    */
   async login(login, password) {
     //Ищем пользователя
-    const user = await UserModels.findOne({ filter: { login: login } });
+    const user = await UserModels.findOne({
+      filter: { "users.login": login },
+      isAddRights: true,
+    });
+    console.log(user);
     if (!user) {
       throw ApiError.BadRequest("Пользователь с таким login'ом не найден");
     }
@@ -147,7 +157,9 @@ class LoginService {
     if (!userData || !tokenFromDb) {
       throw ApiError.UnauthorizedError();
     }
-    const user = await UserModels.findOne({ filter: { id: userData.id } });
+    const user = await UserModels.findOne({
+      filter: { "users.id": userData.id },
+    });
     const object_userDTO = new UserDto(user);
     const tokens = TokenService.generateTokens({ ...object_userDTO });
 

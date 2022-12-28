@@ -5,6 +5,7 @@ import {
 import { AUseForm } from "../../../../../adapter";
 import ModalUpdate from "../../../../../fragments/modals/modalUpdate";
 import CreateUpdateForm from "./createUpdateForm";
+import getUniqNotNullIds from "../../../../../../services/CommonFunctions";
 
 const PASSWORD_PLACEHOLDER = "*********";
 
@@ -30,6 +31,10 @@ export default function UpdateButtonModel() {
     newMiddleName: data?.middle_name,
     positionId: data?.position_id,
     isDisabled: data?.is_disabled,
+    rightIds: getUniqNotNullIds(data?.rights),
+    inheritedRights: getUniqNotNullIds(
+      data?.rights_inherited_position?.concat(data?.rights_inherited_department)
+    ),
   });
   return (
     <ModalUpdate

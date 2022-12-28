@@ -1,16 +1,51 @@
+import { useState, useEffect } from "react";
 import { AForm } from "../../../../../adapter";
 import SelectInputFormItem from "../../../../../fragments/inputs/selectInputs";
 import TextInputFormItem from "../../../../../fragments/inputs/textInputs";
-import { useGetPositionsQuery } from "../../../../../../core/redux/api/AdminSettings/Catalogs/PositionsApi";
+import {
+  useGetPositionsQuery,
+  useGetPositionQuery,
+} from "../../../../../../core/redux/api/AdminSettings/Catalogs/PositionsApi";
 import CheckboxInputFormItem from "../../../../../fragments/inputs/checkboxInputs";
+import { useGetRightsQuery } from "../../../../../../core/redux/api/AdminSettings/Catalogs/RightApi";
+import getUniqNotNullIds from "../../../../../../services/CommonFunctions";
 
 export default function CreateUpdateForm({ form, isAddDisabledField }) {
-  const { data: positions = {}, isLoading, isError } = useGetPositionsQuery();
+  const { data: positions = {}, isLoading, isError } = useGetPositionsQuery({});
+  const {
+    data: rights = {},
+    isError: isErrorRights,
+    isLoading: isLoadingRights,
+  } = useGetRightsQuery();
 
   const checkbox = isAddDisabledField ? (
     <CheckboxInputFormItem title="Заблокирован?" name="isDisabled" />
   ) : (
     ""
+  );
+
+  // Используется как тригер для подтягивания новых прав по департаменту
+  const [triggerGetPositionRights, setTriggerGetPositionRights] = useState({
+    isStart: false,
+  });
+  // Сама функция подтягивания новых прав по департаменту
+  const { data: result, isLoading: isLoadingPositionRights } =
+    useGetPositionQuery(triggerGetPositionRights);
+  // Отрабатывает когда срабатывает триггер(чтобы отрабатывало с кешированными данными) и когда загружаются новые данные
+  useEffect(
+    () => {
+      if (!isLoadingPositionRights && triggerGetPositionRights.isStart) {
+        console.log(result);
+        form.setFieldsValue({
+          inheritedRights: getUniqNotNullIds(
+            result?.rights.concat(result?.rights_inherited)
+          ),
+        });
+        setTriggerGetPositionRights({ isStart: false });
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [triggerGetPositionRights, isLoadingPositionRights]
   );
 
   return (
@@ -78,8 +113,34 @@ export default function CreateUpdateForm({ form, isAddDisabledField }) {
             message: "Выберите должность",
           },
         ]}
+        onChange={(value) => {
+          setTriggerGetPositionRights({
+            id: value,
+            isAddRights: true,
+            isStart: true,
+          });
+        }}
       />
       {checkbox}
+      <SelectInputFormItem
+        title="Наследуемые права"
+        isLoading={isLoadingRights || isLoadingPositionRights}
+        isError={isErrorRights}
+        isModeMultiple
+        name="inheritedRights"
+        options={rights}
+        rules={[]}
+        disabled
+      />
+      <SelectInputFormItem
+        title="Права"
+        isLoading={isLoadingRights}
+        isError={isErrorRights}
+        isModeMultiple
+        name="rightIds"
+        options={rights}
+        rules={[]}
+      />
     </AForm>
   );
 }

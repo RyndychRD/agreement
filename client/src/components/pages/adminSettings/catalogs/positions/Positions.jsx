@@ -17,12 +17,17 @@ export default function Positions() {
       "position_name",
       "department_name",
       "position_is_signer",
+      "rights_list",
     ],
   };
   /**
    * При открытии форму подгружаем новые необходимые данные
    */
-  const { data = [], isLoading, isError } = useGetPositionsQuery(true);
+  const {
+    data = [],
+    isLoading,
+    isError,
+  } = useGetPositionsQuery({ isAddForeignTables: true, isAddRights: true });
   return (
     <Provider>
       <AdminSettingsTable

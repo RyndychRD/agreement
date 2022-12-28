@@ -3,9 +3,9 @@ const DepartmentService = require("../../service/catalogServices/department-serv
 class DepartmentController {
   async getDepartments(req, res, next) {
     try {
-      const data = req.query?.id
-        ? await DepartmentService.getOneDepartment(req.query)
-        : await DepartmentService.getAllDepartments();
+      const data = req?.query?.id
+        ? await DepartmentService.getOneDepartment(req?.query)
+        : await DepartmentService.getAllDepartments(req?.query);
       return res.json(data);
     } catch (e) {
       next(e);

@@ -9,11 +9,19 @@ export default function SelectInputFormItem({
   options = {},
   isLoading = false,
   isError = false,
+  isModeMultiple = false,
+  disabled,
+  onChange,
+  defaultValue,
+  isShowRewrite,
 }) {
+  if (isShowRewrite) console.log("rewrite me");
   let formatOptions = [];
   if (!isError && !isLoading && options) {
     formatOptions = options.map((el) => ({ label: el.name, value: el.id }));
   }
+
+  const mode = isModeMultiple ? { mode: "multiple" } : {};
 
   let result = "";
   if (isError) {
@@ -21,7 +29,16 @@ export default function SelectInputFormItem({
   } else if (isLoading) {
     result = <SimpleSpinner />;
   } else {
-    result = <ASelect options={formatOptions} placeholder={title} />;
+    result = (
+      <ASelect
+        {...mode}
+        options={formatOptions}
+        placeholder={title}
+        disabled={disabled}
+        defaultValue={defaultValue}
+        onChange={onChange}
+      />
+    );
   }
 
   return (

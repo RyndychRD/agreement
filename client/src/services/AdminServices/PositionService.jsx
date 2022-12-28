@@ -11,6 +11,7 @@ export default class PositionService {
         position_name: el.name,
         position_is_signer: el.is_signer,
         department_name: el.department_name,
+        rights_list: el?.rights?.concat(el?.rights_inherited),
       }));
     } catch (e) {
       console.log("Ошибка пред-обработки данных:", e);
@@ -18,10 +19,10 @@ export default class PositionService {
     }
   }
 
-  static async getAll(isAddForeignTables) {
+  static async getAll({ isAddForeignTables, isAddRights }) {
     console.log("вызов в PositionService -> Взять все записи");
     const response = await api.get(
-      `${this.API_ROUTE}?isAddForeignTables=${isAddForeignTables}`
+      `${this.API_ROUTE}?isAddForeignTables=${isAddForeignTables}&isAddRights=${isAddRights}`
     );
     console.log(
       "вызов в PositionService -> Взять все записи -> результат",
@@ -30,9 +31,11 @@ export default class PositionService {
     return response.data;
   }
 
-  static async getOne(id) {
-    console.log("вызов в PositionService -> Взять одну записи");
-    const response = await api.get(`${this.API_ROUTE}?id=${id}`);
+  static async getOne({ id, isAddRights }) {
+    console.log("вызов в PositionService -> Взять одну запись");
+    const response = await api.get(
+      `${this.API_ROUTE}?id=${id}&isAddRights=${isAddRights}`
+    );
     console.log(
       "вызов в PositionService -> Взять одну запись -> результат",
       response
