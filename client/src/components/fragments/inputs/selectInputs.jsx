@@ -11,7 +11,11 @@ export default function SelectInputFormItem({
   isError = false,
   isModeMultiple = false,
   disabled,
+  onChange,
+  defaultValue,
+  isShowRewrite,
 }) {
+  if (isShowRewrite) console.log("rewrite me");
   let formatOptions = [];
   if (!isError && !isLoading && options) {
     formatOptions = options.map((el) => ({ label: el.name, value: el.id }));
@@ -31,6 +35,8 @@ export default function SelectInputFormItem({
         options={formatOptions}
         placeholder={title}
         disabled={disabled}
+        defaultValue={defaultValue}
+        onChange={onChange}
       />
     );
   }

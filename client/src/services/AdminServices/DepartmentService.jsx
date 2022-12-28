@@ -10,7 +10,6 @@ export default class DepartmentService {
         key: el.id,
         department_id: el.id,
         department_name: el.name,
-        // rights_list: el.rights.map((right) => right.name).join(", "),
         rights_list: el?.rights,
       }));
     } catch (e) {

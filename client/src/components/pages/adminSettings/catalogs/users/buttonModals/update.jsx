@@ -1,4 +1,3 @@
-import _ from "lodash";
 import {
   useGetUserQuery,
   useUpdateUserMutation,
@@ -6,6 +5,7 @@ import {
 import { AUseForm } from "../../../../../adapter";
 import ModalUpdate from "../../../../../fragments/modals/modalUpdate";
 import CreateUpdateForm from "./createUpdateForm";
+import getUniqNotNullIds from "../../../../../../services/CommonFunctions";
 
 const PASSWORD_PLACEHOLDER = "*********";
 
@@ -31,14 +31,9 @@ export default function UpdateButtonModel() {
     newMiddleName: data?.middle_name,
     positionId: data?.position_id,
     isDisabled: data?.is_disabled,
-    rightIds: _.uniq(_.reject(data?.rights, ["id", null])?.map((el) => el.id)),
-    inheritedRights: _.uniq(
-      _.reject(
-        data?.rights_inherited_position?.concat(
-          data?.rights_inherited_department
-        ),
-        ["id", null]
-      )?.map((el) => el.id)
+    rightIds: getUniqNotNullIds(data?.rights),
+    inheritedRights: getUniqNotNullIds(
+      data?.rights_inherited_position?.concat(data?.rights_inherited_department)
     ),
   });
   return (

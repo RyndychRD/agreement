@@ -83,7 +83,11 @@ export default function ModalUpdate({
     >
       {isLoading ? <SimpleSpinner /> : ""}
       {isError ? <SimpleError /> : ""}
-      {!isLoading && !isError && isOpen ? <CreateUpdateForm form={form} /> : ""}
+      {!isLoading && !isError && isOpen ? (
+        <CreateUpdateForm form={form} isAddDisabledField />
+      ) : (
+        ""
+      )}
     </AModal>
   );
 }
