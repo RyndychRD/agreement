@@ -11,6 +11,7 @@ import {
   AArrowLeftOutlined,
   APageHeader,
 } from "../adapter";
+import { getUserRights } from "../../services/userAccessService";
 
 /**
  * Главный хедер, отображается на всех страницах, кроме авторизации
@@ -38,10 +39,12 @@ function Header() {
       label: `${currentUser?.last_name} ${currentUser?.first_name}.${currentUser?.middle_name}.`,
       key: "user",
       children: [
-        {
-          label: "Админка",
-          key: "admin_settings",
-        },
+        true
+          ? {
+              label: "Админка",
+              key: "admin_settings",
+            }
+          : "",
         {
           label: "Справка",
           key: "FAQ",
@@ -61,6 +64,8 @@ function Header() {
       ],
     },
   ];
+
+  getUserRights();
 
   /**
    * Обработка логики клика на выпадающие элементы
