@@ -13,12 +13,12 @@ class DepartmentSchema {
           "json_agg (json_build_object('name',rights.name,'id',rights.id)) rights"
         )
       )
-      .innerJoin(
+      .leftJoin(
         "departments-rights",
         "departments-rights.department_id",
         "departments.id"
       )
-      .innerJoin("rights", "departments-rights.right_id", "rights.id")
+      .leftJoin("rights", "departments-rights.right_id", "rights.id")
       .groupBy("departments.id");
   }
 
@@ -61,12 +61,13 @@ class DepartmentSchema {
     let response = await this.knexProvider("departments")
       .insert(department)
       .returning("id");
-    return await this.knexProvider("departments-rights").insert(
-      departmentRights.map((right) => ({
-        department_id: response[0].id,
-        right_id: right,
-      }))
-    );
+    if (departmentRights?.length)
+      await this.knexProvider("departments-rights").insert(
+        departmentRights.map((right) => ({
+          department_id: response[0].id,
+          right_id: right,
+        }))
+      );
   }
   /**
    * Удаляет департамент
@@ -87,12 +88,13 @@ class DepartmentSchema {
     await this.knexProvider("departments-rights")
       .where({ department_id: filter.id })
       .del();
-    return await this.knexProvider("departments-rights").insert(
-      departmentRights.map((right) => ({
-        department_id: filter.id,
-        right_id: right,
-      }))
-    );
+    if (departmentRights?.length)
+      await this.knexProvider("departments-rights").insert(
+        departmentRights.map((right) => ({
+          department_id: filter.id,
+          right_id: right,
+        }))
+      );
   }
 }
 

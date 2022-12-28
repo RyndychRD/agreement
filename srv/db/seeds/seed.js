@@ -9,6 +9,7 @@ const { positionSeed } = require("./seeds/positions");
 const { positionRightsSeed } = require("./seeds/positions-rights");
 const { rightsSeed } = require("./seeds/rights");
 const { usersSeed } = require("./seeds/users");
+const { userRightsSeed } = require("./seeds/users-rights");
 
 /**
  * @param { import("knex").Knex } knex
@@ -24,4 +25,5 @@ exports.seed = async function (knex) {
   await documentStatusesSeed(knex);
   await documentTypesSeed(knex);
   await positionRightsSeed(knex);
+  await userRightsSeed(knex);
 };

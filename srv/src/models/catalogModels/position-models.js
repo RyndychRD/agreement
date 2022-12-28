@@ -30,19 +30,19 @@ class PositionSchema {
     }
     //Джоиним права, принадлежащие непосредственно объекту
     query = query
-      .innerJoin(
+      .leftJoin(
         "positions-rights",
         "positions-rights.position_id",
         "positions.id"
       )
-      .innerJoin("rights", "positions-rights.right_id", "rights.id")
+      .leftJoin("rights", "positions-rights.right_id", "rights.id")
       //Джоиним наследуемые права
-      .innerJoin(
+      .leftJoin(
         "departments-rights",
         "departments-rights.department_id",
         "departments.id"
       )
-      .innerJoin(
+      .leftJoin(
         "rights as inheritedRights",
         "departments-rights.right_id",
         "inheritedRights.id"
@@ -95,12 +95,13 @@ class PositionSchema {
     let response = await this.knexProvider("positions")
       .insert(position)
       .returning("id");
-    return await this.knexProvider("positions-rights").insert(
-      positionRights.map((right) => ({
-        position_id: response[0].id,
-        right_id: right,
-      }))
-    );
+    if (positionRights?.length)
+      await this.knexProvider("positions-rights").insert(
+        positionRights.map((right) => ({
+          position_id: response[0].id,
+          right_id: right,
+        }))
+      );
   }
   /**
    * Удаляет должность
@@ -121,12 +122,13 @@ class PositionSchema {
     await this.knexProvider("positions-rights")
       .where({ position_id: filter.id })
       .del();
-    return await this.knexProvider("positions-rights").insert(
-      positionRights.map((right) => ({
-        position_id: filter.id,
-        right_id: right,
-      }))
-    );
+    if (positionRights?.length)
+      await this.knexProvider("positions-rights").insert(
+        positionRights.map((right) => ({
+          position_id: filter.id,
+          right_id: right,
+        }))
+      );
   }
 }
 

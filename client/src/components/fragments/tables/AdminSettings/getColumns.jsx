@@ -167,6 +167,7 @@ export default function getColumns({ dataSource, columns }) {
       render: (items) => {
         const uniqItems = _.uniqBy(items, "id");
         return uniqItems.map((item) => {
+          if (!item?.id || item?.id === null) return "";
           let color = "green";
           if (item.id === 1) color = "red";
           if (item.isInherited) color = "";

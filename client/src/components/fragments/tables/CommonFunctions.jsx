@@ -30,7 +30,7 @@ export function sorterBoolean(a, b) {
  * Сортирует в алфавитном порядке
  */
 export function sorterStringAlphabet(a, b) {
-  return a.localeCompare(b);
+  return a?.localeCompare(b);
 }
 
 /**

@@ -16,7 +16,9 @@ export default class UserService {
         position_name: el.position_name,
         department_name: el.department_name,
         user_is_disabled: el.is_disabled,
-        rights_list: el?.rights?.concat(el?.rights_inherited),
+        rights_list: el?.rights
+          ?.concat(el?.rights_inherited_position)
+          .concat(el?.rights_inherited_department),
       }));
     } catch (e) {
       console.log("Ошибка пред-обработки данных:", e);

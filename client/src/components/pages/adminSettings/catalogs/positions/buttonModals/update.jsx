@@ -10,12 +10,15 @@ import CreateUpdateForm from "./createUpdateForm";
 export default function UpdateButtonModel() {
   // Служит для отслеживания формы из модального окна для обработки по кнопке
   const [form] = AUseForm();
+
   const formDefaultValues = (data) => ({
     newPositionName: data?.name,
     departmentId: data?.department_id,
     isSigner: data?.is_signer,
-    rightIds: _.uniq(data?.rights?.map((el) => el.id)),
-    inheritedRights: _.uniq(data?.rights_inherited?.map((el) => el.id)),
+    rightIds: _.uniq(_.reject(data?.rights, ["id", null])?.map((el) => el.id)),
+    inheritedRights: _.uniq(
+      _.reject(data?.rights_inherited, ["id", null])?.map((el) => el.id)
+    ),
   });
   return (
     <ModalUpdate

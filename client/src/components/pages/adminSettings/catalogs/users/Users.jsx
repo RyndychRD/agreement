@@ -20,6 +20,7 @@ export default function Users() {
       "user_is_disabled",
       "position_name",
       "department_name",
+      "rights_list",
     ],
   };
   /**

@@ -3,9 +3,15 @@ import SelectInputFormItem from "../../../../../fragments/inputs/selectInputs";
 import TextInputFormItem from "../../../../../fragments/inputs/textInputs";
 import { useGetPositionsQuery } from "../../../../../../core/redux/api/AdminSettings/Catalogs/PositionsApi";
 import CheckboxInputFormItem from "../../../../../fragments/inputs/checkboxInputs";
+import { useGetRightsQuery } from "../../../../../../core/redux/api/AdminSettings/Catalogs/RightApi";
 
 export default function CreateUpdateForm({ form, isAddDisabledField }) {
-  const { data: positions = {}, isLoading, isError } = useGetPositionsQuery();
+  const { data: positions = {}, isLoading, isError } = useGetPositionsQuery({});
+  const {
+    data: rights = {},
+    isError: isErrorRights,
+    isLoading: isLoadingRights,
+  } = useGetRightsQuery();
 
   const checkbox = isAddDisabledField ? (
     <CheckboxInputFormItem title="Заблокирован?" name="isDisabled" />
@@ -80,6 +86,25 @@ export default function CreateUpdateForm({ form, isAddDisabledField }) {
         ]}
       />
       {checkbox}
+      <SelectInputFormItem
+        title="Наследуемые права"
+        isLoading={isLoadingRights}
+        isError={isErrorRights}
+        isModeMultiple
+        name="inheritedRights"
+        options={rights}
+        rules={[]}
+        disabled
+      />
+      <SelectInputFormItem
+        title="Права"
+        isLoading={isLoadingRights}
+        isError={isErrorRights}
+        isModeMultiple
+        name="rightIds"
+        options={rights}
+        rules={[]}
+      />
     </AForm>
   );
 }

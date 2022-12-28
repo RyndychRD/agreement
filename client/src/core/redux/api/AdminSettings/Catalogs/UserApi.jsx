@@ -38,7 +38,7 @@ export const usersApi = createApi({
         if (isStart) {
           try {
             const response = await UserService.getOne({
-              id: id || currentRow?.User_id,
+              id: id || currentRow?.user_id,
               isAddRights,
             });
             return { data: response };
@@ -86,7 +86,7 @@ export const usersApi = createApi({
         try {
           const bodyPrepared = (bodyValues) => ({
             ...bodyValues,
-            User_id: bodyValues?.user_id || bodyValues?.currentRow?.user_id,
+            user_id: bodyValues?.user_id || bodyValues?.currentRow?.user_id,
           });
           const response = await UserService.update(bodyPrepared(body));
           return { data: response };
