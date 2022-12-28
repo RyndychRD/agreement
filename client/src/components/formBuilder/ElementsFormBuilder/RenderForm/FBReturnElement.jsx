@@ -1,4 +1,5 @@
 import { Select, Input, DatePicker } from "antd";
+import { useRef } from "react";
 import {
 	documentElementIODictionary,
 	documentTypeViews,
@@ -10,38 +11,96 @@ import FBElementLayout from "../FBElementLayout";
 import EmailInput from "../FBEmailInput/FBEmailInput";
 
 export default function ReturnElement(props) {
-	const { id: key } = props;
-	console.log("returnElement => ", key);
+	const { AreaType, form } = props;
+	console.log("returnElement => ", AreaType);
 
 	const CurrentElement = documentElementIODictionary.filter(
-		(i) => i.key === key
+		(i) => i.key === AreaType
 	)[0];
 
 	console.log("returnElement => CurrentElement", CurrentElement);
 
 	const DataKey = documentTypeViews[0].view.elements_order.find(
-		(i) => i.key === key
+		(i) => i.key === AreaType
 	);
 
 	console.log("returnElement => DataKey", DataKey);
+
+	const PhoneBodyRef = useRef("");
+	const CustomPhoneCodeCountryRef = useRef("");
+	const CustomPhoneBodyRef = useRef("");
+	const CustomPhoneAdditionalNumberRef = useRef("");
+
+	function setPhoneBodyRef(value) {
+		console.log(
+			`В выпадающем меню ${AreaType} было установленно значение =>`,
+			value
+		);
+		PhoneBodyRef.current = `${
+			CustomPhoneCodeCountryRef.current ? CustomPhoneCodeCountryRef.current : ""
+		}${CustomPhoneBodyRef.current ? CustomPhoneBodyRef.current : ""}${
+			CustomPhoneAdditionalNumberRef.current
+				? CustomPhoneAdditionalNumberRef.current
+				: ""
+		}`;
+		console.log(PhoneBodyRef.current);
+		form.setFieldValue(AreaType, PhoneBodyRef.current);
+	}
+	const setValueInCustomPhoneCodeCountryOnForm = (value) => {
+		CustomPhoneCodeCountryRef.current = value;
+		setPhoneBodyRef(value);
+	};
+	const setValueInCustomPhoneBodyOnForm = (e) => {
+		e.stopPropagation();
+		const { value } = e.target;
+		CustomPhoneBodyRef.current = value;
+		setPhoneBodyRef(value);
+	};
+	const setValueInCustomPhoneAdditionalOnForm = (e) => {
+		e.stopPropagation();
+		const { value } = e.target;
+		CustomPhoneAdditionalNumberRef.current = ` Добавочный номер ${value} `;
+		setPhoneBodyRef(value);
+	};
+
+	const setValueInSelectOnForm = (value) => {
+		console.log(
+			`В выпадающем меню ${AreaType} было установленно значение =>`,
+			value
+		);
+		form.setFieldValue(AreaType, value);
+	};
+
+	const setValueInDatePickerOnForm = (value) => {
+		console.log(
+			`В выпадающем меню ${AreaType} было установленно значение =>`,
+			value
+		);
+		form.setFieldValue(AreaType, value);
+	};
 
 	switch (DataKey.typeData) {
 		case "text":
 			return (
 				<FBElementLayout name={CurrentElement.name}>
-					<Input id={key} type="text" />
+					<Input id={AreaType} type="text" />
 				</FBElementLayout>
 			);
 		case "email":
 			return (
 				<FBElementLayout name={CurrentElement.name}>
-					<EmailInput id={key} />
+					<EmailInput id={AreaType} />
 				</FBElementLayout>
 			);
 		case "datePicker":
 			return (
 				<FBElementLayout name={CurrentElement.name}>
-					<DatePicker id={key} type="text" />
+					<DatePicker
+						onChange={setValueInDatePickerOnForm}
+						id={AreaType}
+						type="text"
+						format={(value) => `Выбранная дата: ${value.format("DD/MM/YY")}`}
+					/>
 				</FBElementLayout>
 			);
 		case "phone": {
@@ -50,17 +109,20 @@ export default function ReturnElement(props) {
 				<FBElementLayout name={CurrentElement.name}>
 					<Input.Group compact>
 						<Select
+							onChange={setValueInCustomPhoneCodeCountryOnForm}
 							style={{
 								width: "35%",
 							}}
 							defaultValue="Коды стран"
 						>
+							<Option value="">Не указан</Option>
 							<Option value="+7">+7 Россия/Казахстан</Option>
 							<Option value="+86">+86 Китай</Option>
 							<Option value="+375">+375 Беларусь</Option>
 							<Option value="+380">+380 Украина</Option>
 						</Select>
 						<Input
+							onChange={setValueInCustomPhoneBodyOnForm}
 							style={{
 								width: "35%",
 							}}
@@ -68,6 +130,7 @@ export default function ReturnElement(props) {
 							defaultValue=""
 						/>
 						<Input
+							onChange={setValueInCustomPhoneAdditionalOnForm}
 							style={{
 								width: "30%",
 							}}
@@ -86,10 +149,11 @@ export default function ReturnElement(props) {
 					<Select
 						showSearch
 						optionFilterProp="children"
+						onChange={setValueInSelectOnForm}
 						filterOption={(input, option) =>
 							(option?.label.toLowerCase() ?? "").includes(input.toLowerCase())
 						}
-						id={key}
+						id={AreaType}
 						options={CurrentElementSelect}
 					/>
 				</FBElementLayout>
@@ -130,12 +194,13 @@ export default function ReturnElement(props) {
 						<Select
 							showSearch
 							optionFilterProp="children"
+							onChange={setValueInSelectOnForm}
 							filterOption={(input, option) =>
 								(option?.label.toLowerCase() ?? "").includes(
 									input.toLowerCase()
 								)
 							}
-							id={key}
+							id={AreaType}
 							options={CurrentElementSelectValue}
 						/>
 					</FBElementLayout>
