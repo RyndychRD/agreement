@@ -4,8 +4,8 @@ const DevTools = require("../DevTools");
 class PositionService {
   async getAllPositions(query) {
     const func = PositionModels.find({
-      isAddForeignTables: query?.isAddForeignTables,
-      isAddRights: query?.isAddRights,
+      isAddForeignTables: query?.isAddForeignTables === "true",
+      isAddRights: query?.isAddRights === "true",
     });
     return await DevTools.addDelay(func);
   }
@@ -14,8 +14,8 @@ class PositionService {
       filter: {
         "positions.id": query.id,
       },
-      isAddForeignTables: query?.isAddForeignTables,
-      isAddRights: query?.isAddRights,
+      isAddForeignTables: query?.isAddForeignTables === "true",
+      isAddRights: query?.isAddRights === "true",
     });
     return await DevTools.addDelay(func);
   }

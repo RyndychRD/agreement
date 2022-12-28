@@ -4,7 +4,7 @@ const DevTools = require("../DevTools");
 class DepartmentService {
   async getAllDepartments(query) {
     const func = DepartmentModels.find({
-      isAddRights: query?.isAddRights,
+      isAddRights: query?.isAddRights === "true",
     });
     return await DevTools.addDelay(func);
   }
@@ -13,7 +13,7 @@ class DepartmentService {
       filter: {
         "departments.id": query.id,
       },
-      isAddRights: query?.isAddRights,
+      isAddRights: query?.isAddRights === "true",
     });
     return await DevTools.addDelay(func);
   }

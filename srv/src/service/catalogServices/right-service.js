@@ -2,10 +2,8 @@ const RightModels = require("../../models/catalogModels/right-models");
 const DevTools = require("../DevTools");
 
 class RightService {
-  async getAllRights(query) {
-    const func = RightModels.find({
-      isAddForeignTables: query?.isAddForeignTables,
-    });
+  async getAllRights() {
+    const func = RightModels.find({});
     return await DevTools.addDelay(func);
   }
   async getOneRight(query) {
@@ -13,7 +11,6 @@ class RightService {
       filter: {
         id: query.id,
       },
-      isAddForeignTables: query?.isAddForeignTables,
     });
     return await DevTools.addDelay(func);
   }

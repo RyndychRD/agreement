@@ -29,6 +29,7 @@ export default function ModalUpdate({
   } = getQuery({
     currentRow: state?.currentRow,
     isStart: state.isShowUpdateModal,
+    isAddRights: true,
   });
 
   /**

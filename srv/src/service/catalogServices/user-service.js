@@ -5,7 +5,7 @@ const LoginService = require("../login-service");
 class UserService {
   async getAllUsers(query) {
     const func = UserModels.find({
-      isAddForeignTables: query?.isAddForeignTables,
+      isAddForeignTables: query?.isAddForeignTables === "true",
     });
     return await DevTools.addDelay(func);
   }
@@ -15,7 +15,7 @@ class UserService {
       filter: {
         id: query.id,
       },
-      isAddForeignTables: query?.isAddForeignTables,
+      isAddForeignTables: query?.isAddForeignTables === "true",
     });
     return await DevTools.addDelay(func);
   }

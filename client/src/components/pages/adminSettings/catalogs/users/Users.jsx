@@ -10,7 +10,7 @@ import { useGetUsersQuery } from "../../../../../core/redux/api/AdminSettings/Ca
 import UserService from "../../../../../services/AdminServices/UserService";
 
 /** Справочник Должностей */
-export default function Positions() {
+export default function Users() {
   const columns = {
     data: [
       "user_id",
@@ -25,7 +25,11 @@ export default function Positions() {
   /**
    * При открытии форму подгружаем новые необходимые данные
    */
-  const { data = [], isLoading, isError } = useGetUsersQuery(true);
+  const {
+    data = [],
+    isLoading,
+    isError,
+  } = useGetUsersQuery({ isAddForeignTables: true, isAddRights: true });
   return (
     <Provider>
       <AdminSettingsTable

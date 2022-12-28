@@ -8,9 +8,12 @@ export const usersApi = createApi({
   tagTypes: [TAG_TYPE],
   endpoints: (build) => ({
     getUsers: build.query({
-      queryFn: async (isAddForeignTables = false) => {
+      queryFn: async ({ isAddForeignTables = false, isAddRights = false }) => {
         try {
-          const response = await UserService.getAll(isAddForeignTables);
+          const response = await UserService.getAll({
+            isAddForeignTables,
+            isAddRights,
+          });
           return { data: response };
         } catch (e) {
           return { error: e.message };
@@ -24,13 +27,20 @@ export const usersApi = createApi({
             ]
           : [{ type: TAG_TYPE, id: "LIST" }],
     }),
+
     getUser: build.query({
-      queryFn: async ({ id = "", currentRow = {}, isStart = true }) => {
+      queryFn: async ({
+        id = "",
+        currentRow = {},
+        isStart = true,
+        isAddRights = false,
+      }) => {
         if (isStart) {
           try {
-            const response = await UserService.getOne(
-              id || currentRow?.user_id
-            );
+            const response = await UserService.getOne({
+              id: id || currentRow?.User_id,
+              isAddRights,
+            });
             return { data: response };
           } catch (e) {
             return { error: e.message };
@@ -46,6 +56,7 @@ export const usersApi = createApi({
             ]
           : [{ type: TAG_TYPE, id: "LIST" }],
     }),
+
     addUser: build.mutation({
       queryFn: async (body) => {
         try {
@@ -57,6 +68,7 @@ export const usersApi = createApi({
       },
       invalidatesTags: [{ type: TAG_TYPE, id: "LIST" }],
     }),
+
     deleteUser: build.mutation({
       queryFn: async (body) => {
         try {
@@ -68,12 +80,13 @@ export const usersApi = createApi({
       },
       invalidatesTags: [{ type: TAG_TYPE, id: "LIST" }],
     }),
+
     updateUser: build.mutation({
       queryFn: async (body) => {
         try {
           const bodyPrepared = (bodyValues) => ({
             ...bodyValues,
-            user_id: bodyValues?.user_id || bodyValues?.currentRow?.user_id,
+            User_id: bodyValues?.user_id || bodyValues?.currentRow?.user_id,
           });
           const response = await UserService.update(bodyPrepared(body));
           return { data: response };
