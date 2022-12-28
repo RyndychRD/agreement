@@ -2,8 +2,11 @@ import { useState, useRef } from "react";
 import { Input } from "antd";
 import { MailTwoTone } from "@ant-design/icons";
 import "./FBEmailInput.css";
+import FBElementLayout from "../FBElementLayout";
 
-function EmailInput({ id }) {
+export default function RenderEmailInput(props) {
+	const { id,CurrentElement } = props;
+
 	const [statusWarningEmail, setWarning] = useState("empty-email");
 	const valueEmail = useRef();
 	const onPressEnter = (e) => {
@@ -18,16 +21,16 @@ function EmailInput({ id }) {
 		}
 	};
 	return (
-		<div className={statusWarningEmail}>
-			<Input
-				ref={valueEmail}
-				prefix={<MailTwoTone />}
-				id={id}
-				placeholder="Электронная почта"
-				onChange={onPressEnter}
-			/>
-		</div>
+		<FBElementLayout name={CurrentElement.name}>
+			<div className={statusWarningEmail}>
+				<Input
+					ref={valueEmail}
+					prefix={<MailTwoTone />}
+					id={id}
+					placeholder="Электронная почта"
+					onChange={onPressEnter}
+				/>
+			</div>
+		</FBElementLayout>
 	);
 }
-
-export default EmailInput;

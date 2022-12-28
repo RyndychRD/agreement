@@ -1,6 +1,6 @@
 import { Button, Card, Form } from "antd";
-import "../../FormBuilderStyle.css";
 import ReturnElement from "./FBReturnElement";
+import "../FormBuilderStyle.css";
 
 function FormBuilderDataComponent({ FormBuilderData, form }) {
 	console.log("FormBuilderDataComponent=>", FormBuilderData);

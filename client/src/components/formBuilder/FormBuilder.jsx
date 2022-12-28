@@ -6,9 +6,8 @@ import {
 	useCustomState,
 	useCustomDispatch,
 } from "./FormBuilderProvider";
-import RenderForm from "./ElementsFormBuilder/RenderForm/FBRenderForm";
 import CustomInput from "./ElementsFormBuilder/FBCustomInput";
-
+import RenderForm from "./RenderForm/FBRenderForm";
 import "./FormBuilderStyle.css";
 
 function CollectionCreateForm({ open, onCreate, onCancel }) {
