@@ -13,7 +13,7 @@ import { useGetDepartmentsQuery } from "../../../../../core/redux/api/AdminSetti
 export default function Departments() {
   // const columns = useSelector((state) => state.departments.columns);
   const columns = {
-    data: ["department_id", "department_name", "rights_list_names"],
+    data: ["department_id", "department_name", "rights_list"],
   };
   /**
    * При открытии форму подгружаем новые необходимые данные

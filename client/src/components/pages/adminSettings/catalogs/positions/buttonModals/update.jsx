@@ -1,3 +1,4 @@
+import _ from "lodash";
 import {
   useGetPositionQuery,
   useUpdatePositionMutation,
@@ -13,7 +14,8 @@ export default function UpdateButtonModel() {
     newPositionName: data?.name,
     departmentId: data?.department_id,
     isSigner: data?.is_signer,
-    rightIds: data?.rights?.map((el) => el.id),
+    rightIds: _.uniq(data?.rights?.map((el) => el.id)),
+    inheritedRights: _.uniq(data?.rights_inherited?.map((el) => el.id)),
   });
   return (
     <ModalUpdate

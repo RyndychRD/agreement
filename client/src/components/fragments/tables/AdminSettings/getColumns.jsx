@@ -160,19 +160,23 @@ export default function getColumns({ dataSource, columns }) {
       onFilter: (value, record) => record?.right_name?.indexOf(value) === 0,
     },
 
-    rights_list_names: {
+    rights_list: {
       title: "Список прав",
-      dataIndex: "rights_list_names",
+      dataIndex: "rights_list",
       align: "center",
-      render: (items) =>
-        items.map((item) => {
-          const color = item.id === 1 ? "green" : "";
+      render: (items) => {
+        const uniqItems = _.uniqBy(items, "id");
+        return uniqItems.map((item) => {
+          let color = "green";
+          if (item.id === 1) color = "red";
+          if (item.isInherited) color = "";
           return (
             <Tag style={{ margin: "5px" }} key={item.id} color={color}>
               {item.name}
             </Tag>
           );
-        }),
+        });
+      },
     },
   };
 

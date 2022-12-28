@@ -47,6 +47,16 @@ export default function CreateUpdateForm({ form }) {
         name="isSigner"
       />
       <SelectInputFormItem
+        title="Наследуемые права"
+        isLoading={isLoadingRights}
+        isError={isErrorRights}
+        isModeMultiple
+        name="inheritedRights"
+        options={rights}
+        rules={[]}
+        disabled
+      />
+      <SelectInputFormItem
         title="Права"
         isLoading={isLoadingRights}
         isError={isErrorRights}

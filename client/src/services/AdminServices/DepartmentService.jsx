@@ -10,8 +10,8 @@ export default class DepartmentService {
         key: el.id,
         department_id: el.id,
         department_name: el.name,
-        // rights_list_names: el.rights.map((right) => right.name).join(", "),
-        rights_list_names: el.rights,
+        // rights_list: el.rights.map((right) => right.name).join(", "),
+        rights_list: el.rights,
       }));
     } catch (e) {
       console.log("Ошибка пред-обработки данных:", e);

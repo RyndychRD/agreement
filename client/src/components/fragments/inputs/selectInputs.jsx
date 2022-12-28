@@ -10,6 +10,7 @@ export default function SelectInputFormItem({
   isLoading = false,
   isError = false,
   isModeMultiple = false,
+  disabled,
 }) {
   let formatOptions = [];
   if (!isError && !isLoading && options) {
@@ -24,7 +25,14 @@ export default function SelectInputFormItem({
   } else if (isLoading) {
     result = <SimpleSpinner />;
   } else {
-    result = <ASelect {...mode} options={formatOptions} placeholder={title} />;
+    result = (
+      <ASelect
+        {...mode}
+        options={formatOptions}
+        placeholder={title}
+        disabled={disabled}
+      />
+    );
   }
 
   return (

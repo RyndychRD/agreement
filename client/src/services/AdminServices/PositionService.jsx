@@ -11,8 +11,8 @@ export default class PositionService {
         position_name: el.name,
         position_is_signer: el.is_signer,
         department_name: el.department_name,
-        // rights_list_names: el.rights.map((right) => right.name).join(", "),
-        rights_list_names: el.rights,
+        // rights_list: el.rights.map((right) => right.name).join(", "),
+        rights_list: el.rights.concat(el.rights_inherited),
       }));
     } catch (e) {
       console.log("Ошибка пред-обработки данных:", e);

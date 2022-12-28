@@ -6,22 +6,49 @@ class PositionSchema {
     this.knexProvider = require("knex")(knexConfig[process.env.NODE_ENV]);
   }
 
-  //Разыменовывание прав, принадлежащих непосредственно объекту. Наследуемые права тягаются отдельно
   rightsJoin(query, isAddForeignTables) {
-    query = query
-      .select(
-        this.knexProvider.raw(
-          "json_agg (json_build_object('name',rights.name,'id',rights.id)) rights"
-        )
+    query = query.select(
+      //Подтягиваем права, принадлежащие непосредственно объекту
+      this.knexProvider.raw(
+        "json_agg (json_build_object('name',rights.name,'id',rights.id)) rights"
+      ),
+      //Подтягиваем права, принадлежащие сюзеренам объекта(наследуемые права)
+      this.knexProvider.raw(
+        `json_agg (json_build_object('name',"inheritedRights".name,'id',"inheritedRights".id,'isInherited',true)) rights_inherited`
       )
+    );
+    //Подтягиваем либо группировку, если уже есть таблица departments(для вытаскивания всех записей)
+    //либо джойним таблицу departments для правильного разыменовывания прав
+    if (isAddForeignTables) {
+      query = query.groupBy("departments.name");
+    } else {
+      query = query.innerJoin(
+        "departments",
+        "positions.department_id",
+        "departments.id"
+      );
+    }
+    //Джоиним права, принадлежащие непосредственно объекту
+    query = query
       .innerJoin(
         "positions-rights",
         "positions-rights.position_id",
         "positions.id"
       )
       .innerJoin("rights", "positions-rights.right_id", "rights.id")
+      //Джоиним наследуемые права
+      .innerJoin(
+        "departments-rights",
+        "departments-rights.department_id",
+        "departments.id"
+      )
+      .innerJoin(
+        "rights as inheritedRights",
+        "departments-rights.right_id",
+        "inheritedRights.id"
+      )
       .groupBy("positions.id");
-    if (isAddForeignTables) query = query.groupBy("departments.name");
+
     return query;
   }
 

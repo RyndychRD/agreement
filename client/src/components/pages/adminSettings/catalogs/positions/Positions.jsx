@@ -17,7 +17,7 @@ export default function Positions() {
       "position_name",
       "department_name",
       "position_is_signer",
-      "rights_list_names",
+      "rights_list",
     ],
   };
   /**
