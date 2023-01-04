@@ -1,0 +1,33 @@
+.ant-space-item {
+	width: 100%;
+}
+
+.ant-select {
+	width: 100%;
+}
+
+.background-Cart {
+	display: flex;
+	margin: 5px;
+	padding: 5px;
+	opacity: 1;
+	backdrop-filter: sepia(100%);
+}
+
+.button-style {
+	border: 3px ridge;
+	backdrop-filter: sepia(100%);
+}
+
+.square {
+	width: 35px;
+	height: 35px;
+}
+
+.flexibleCart {
+	display: flex;
+}
+
+.selectInput {
+	width: 350px;
+}
