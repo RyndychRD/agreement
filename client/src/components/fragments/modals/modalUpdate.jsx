@@ -1,6 +1,11 @@
 /** @format */
 import { useEffect } from "react";
-import { AModal, AButton } from "../../adapter";
+import { useNavigate } from "react-router-dom";
+import {
+  clearUrlQueryParams,
+  replaceUrlQueryWithId,
+} from "../../../services/CommonFunctions";
+import { AModal } from "../../adapter";
 import SimpleError from "../spinners/Error";
 import SimpleSpinner from "../spinners/Spinner";
 import { useCustomDispatch, useCustomState } from "../tables/Provider";
@@ -15,6 +20,7 @@ export default function ModalUpdate({
 }) {
   const state = useCustomState();
   const dispatch = useCustomDispatch();
+  const navigate = useNavigate();
   const isOpen = state.isShowUpdateModal && state.currentRow;
 
   const [
@@ -45,6 +51,8 @@ export default function ModalUpdate({
           currentRow: state.currentRow,
         }).unwrap();
         if (!isErrorUpdate) {
+          // Переходим к очищенному юрл, чтобы если мы перешли по id, у нас после сабмита не открывалась старая форма
+          navigate(clearUrlQueryParams());
           dispatch({ type: "closeAllModal" });
         }
       })
@@ -59,22 +67,19 @@ export default function ModalUpdate({
    */
   useEffect(
     () => {
-      if (!isErrorUpdate) {
+      if (!isErrorUpdate && state.isShowUpdateModal) {
         form.resetFields();
         form.setFieldsValue(formDefaultValues(data));
+        replaceUrlQueryWithId(state.currentRow?.key);
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [state.isShowUpdateModal, data]
   );
 
-  function copyLinkToClipboard(id) {
-    navigator.clipboard.writeText(
-      `${window.location.href.split("?")[0]}?id=${id}`
-    );
-  }
   const isLoading = isLoadingGet || isLoadingUpdate;
   const isError = isErrorGet || isErrorUpdate;
+
   return (
     <AModal
       okText="Редактировать"
@@ -83,22 +88,14 @@ export default function ModalUpdate({
       open={isOpen}
       onCancel={() => {
         resetUpdate();
+        clearUrlQueryParams();
         dispatch({ type: "closeAllModal" });
       }}
     >
       {isLoading ? <SimpleSpinner /> : ""}
       {isError ? <SimpleError /> : ""}
       {!isLoading && !isError && isOpen ? (
-        <>
-          <AButton
-            onClick={() => {
-              copyLinkToClipboard(state.currentRow.key);
-            }}
-          >
-            Скопировать ссылку
-          </AButton>
-          <CreateUpdateForm form={form} isAddUpdateOnlyFields />
-        </>
+        <CreateUpdateForm form={form} isAddUpdateOnlyFields />
       ) : (
         ""
       )}

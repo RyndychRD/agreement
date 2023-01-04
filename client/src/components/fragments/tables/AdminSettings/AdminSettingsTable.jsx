@@ -29,7 +29,6 @@ export default function AdminSettingsTable({
   const query = useLocation().search;
   useEffect(() => {
     const id = new URLSearchParams(query).get("id");
-    console.log("id", id);
     if (id) {
       // eslint-disable-next-line eqeqeq
       const row = dataSource.find((el) => el.key == id);
