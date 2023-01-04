@@ -11,7 +11,7 @@ import RightService from "../../../../../services/AdminServices/RightService";
 
 /** Справочник Прав */
 export default function Rights() {
-  const columns = { data: ["right_id", "right_name"] };
+  const columns = { data: ["right_id", "right_name", "right_code_name"] };
   /**
    * При открытии форму подгружаем новые необходимые данные
    */

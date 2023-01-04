@@ -163,6 +163,19 @@ export default function getColumns({ dataSource, columns }) {
       ),
       onFilter: (value, record) => record?.right_name?.indexOf(value) === 0,
     },
+    right_code_name: {
+      title: "Наименование права в коде",
+      dataIndex: "right_code_name",
+      align: "center",
+      sorter: (a, b) =>
+        sorterStringAlphabet(a?.right_code_name, b?.right_code_name),
+      filters: _?.uniqWith(
+        filterData(dataSource)((i) => i?.right_code_name),
+        _?.isEqual
+      ),
+      onFilter: (value, record) =>
+        record?.right_code_name?.indexOf(value) === 0,
+    },
 
     rights_list: {
       title: "Список прав",

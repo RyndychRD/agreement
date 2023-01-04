@@ -14,6 +14,16 @@ export default function CreateUpdateForm({ form }) {
           },
         ]}
       />
+      <TextInputFormItem
+        title="Наименование права в коде"
+        name="newRightCodeName"
+        rules={[
+          {
+            required: true,
+            message: "Введите название права в коде",
+          },
+        ]}
+      />
     </AForm>
   );
 }

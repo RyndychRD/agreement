@@ -10,6 +10,7 @@ export default class RightService {
         key: el.id,
         right_id: el.id,
         right_name: el.name,
+        right_code_name: el.code_name,
       }));
     } catch (e) {
       console.log("Ошибка пред-обработки данных:", e);

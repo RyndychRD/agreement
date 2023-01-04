@@ -17,6 +17,7 @@ class RightService {
   async createNewRight(body) {
     const func = await RightModels.create({
       name: body.newRightName,
+      code_name: body.newRightCodeName,
     });
     return await DevTools.addDelay(func);
   }
@@ -33,6 +34,7 @@ class RightService {
       },
       {
         name: body.newRightName,
+        code_name: body.newRightCodeName,
       }
     );
     return await DevTools.addDelay(func);
