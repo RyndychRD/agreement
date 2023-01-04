@@ -1,7 +1,7 @@
 import {
-  useGetDepartmentQuery,
-  useUpdateDepartmentMutation,
-} from "../../../../../../core/redux/api/AdminSettings/Catalogs/DepartamentApi";
+  useGetRightQuery,
+  useUpdateRightMutation,
+} from "../../../../../../core/redux/api/AdminSettings/Catalogs/RightApi";
 import { AUseForm } from "../../../../../adapter";
 import ModalUpdate from "../../../../../fragments/modals/modalUpdate";
 import CreateUpdateForm from "./createUpdateForm";
@@ -9,14 +9,11 @@ import CreateUpdateForm from "./createUpdateForm";
 export default function UpdateButtonModel() {
   // Служит для отслеживания формы из модального окна для обработки по кнопке
   const [form] = AUseForm();
-  const formDefaultValues = (data) => ({
-    newDepartmentName: data?.name,
-    rightIds: data?.rights?.map((el) => el.id),
-  });
+  const formDefaultValues = (data) => ({ newRightName: data?.name });
   return (
     <ModalUpdate
-      getQuery={useGetDepartmentQuery}
-      updateMutation={useUpdateDepartmentMutation}
+      getQuery={useGetRightQuery}
+      updateMutation={useUpdateRightMutation}
       form={form}
       CreateUpdateForm={CreateUpdateForm}
       formDefaultValues={formDefaultValues}

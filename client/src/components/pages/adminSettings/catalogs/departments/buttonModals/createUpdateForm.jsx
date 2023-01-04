@@ -1,7 +1,10 @@
+import { useGetRightsQuery } from "../../../../../../core/redux/api/AdminSettings/Catalogs/RightApi";
 import { AForm } from "../../../../../adapter";
+import SelectInputFormItem from "../../../../../fragments/inputs/selectInputs";
 import TextInputFormItem from "../../../../../fragments/inputs/textInputs";
 
 export default function CreateUpdateForm({ form }) {
+  const { data: rights = {}, isError, isLoading } = useGetRightsQuery();
   return (
     <AForm form={form}>
       <TextInputFormItem
@@ -13,6 +16,15 @@ export default function CreateUpdateForm({ form }) {
             message: "Введите название департамента",
           },
         ]}
+      />
+      <SelectInputFormItem
+        title="Права"
+        isLoading={isLoading}
+        isError={isError}
+        isModeMultiple
+        name="rightIds"
+        options={rights}
+        rules={[]}
       />
     </AForm>
   );

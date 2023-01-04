@@ -6,11 +6,57 @@ class PositionSchema {
     this.knexProvider = require("knex")(knexConfig[process.env.NODE_ENV]);
   }
 
+  rightsJoin(query, isAddForeignTables) {
+    query = query.select(
+      //Подтягиваем права, принадлежащие непосредственно объекту
+      this.knexProvider.raw(
+        "json_agg (json_build_object('name',rights.name,'id',rights.id)) rights"
+      ),
+      //Подтягиваем права, принадлежащие сюзеренам объекта(наследуемые права)
+      this.knexProvider.raw(
+        `json_agg (json_build_object('name',"inheritedRights".name,'id',"inheritedRights".id,'isInherited',true)) rights_inherited`
+      )
+    );
+    //Подтягиваем либо группировку, если уже есть таблица departments(для вытаскивания всех записей)
+    //либо джойним таблицу departments для правильного разыменовывания прав
+    if (isAddForeignTables) {
+      query = query.groupBy("departments.name");
+    } else {
+      query = query.innerJoin(
+        "departments",
+        "positions.department_id",
+        "departments.id"
+      );
+    }
+    //Джоиним права, принадлежащие непосредственно объекту
+    query = query
+      .leftJoin(
+        "positions-rights",
+        "positions-rights.position_id",
+        "positions.id"
+      )
+      .leftJoin("rights", "positions-rights.right_id", "rights.id")
+      //Джоиним наследуемые права
+      .leftJoin(
+        "departments-rights",
+        "departments-rights.department_id",
+        "departments.id"
+      )
+      .leftJoin(
+        "rights as inheritedRights",
+        "departments-rights.right_id",
+        "inheritedRights.id"
+      )
+      .groupBy("positions.id");
+
+    return query;
+  }
+
   /**
    * Находит первое вхождение в таблице
    * @param {json} filter
    */
-  async findOne({ filter, isAddForeignTables }) {
+  async findOne({ filter, isAddForeignTables, isAddRights }) {
     let query = this.knexProvider("positions")
       .first("positions.*")
       .orderBy("positions.id", "asc");
@@ -19,6 +65,7 @@ class PositionSchema {
       query = query
         .first("departments.name as department_name")
         .leftJoin("departments", "positions.department_id", "departments.id");
+    if (isAddRights) query = this.rightsJoin(query, isAddForeignTables);
     return await query;
   }
 
@@ -26,7 +73,7 @@ class PositionSchema {
    * Находит все вхождение в таблице
    * @param {json} filter
    */
-  async find({ filter, isAddForeignTables }) {
+  async find({ filter, isAddForeignTables, isAddRights }) {
     let query = this.knexProvider("positions")
       .select("positions.*")
       .orderBy("positions.id", "asc");
@@ -35,6 +82,7 @@ class PositionSchema {
       query = query
         .select("departments.name as department_name")
         .leftJoin("departments", "positions.department_id", "departments.id");
+    if (isAddRights) query = this.rightsJoin(query, isAddForeignTables);
     return await query;
   }
 
@@ -43,8 +91,17 @@ class PositionSchema {
    * @param {*} position
    * @returns
    */
-  async create(position) {
-    return await this.knexProvider("positions").insert(position);
+  async create({ position, positionRights }) {
+    let response = await this.knexProvider("positions")
+      .insert(position)
+      .returning("id");
+    if (positionRights?.length)
+      await this.knexProvider("positions-rights").insert(
+        positionRights.map((right) => ({
+          position_id: response[0].id,
+          right_id: right,
+        }))
+      );
   }
   /**
    * Удаляет должность
@@ -60,8 +117,18 @@ class PositionSchema {
    * @param {*} filter
    * @returns
    */
-  async update(filter, position) {
-    return await this.knexProvider("positions").where(filter).update(position);
+  async update({ filter, position, positionRights }) {
+    await this.knexProvider("positions").where(filter).update(position);
+    await this.knexProvider("positions-rights")
+      .where({ position_id: filter.id })
+      .del();
+    if (positionRights?.length)
+      await this.knexProvider("positions-rights").insert(
+        positionRights.map((right) => ({
+          position_id: filter.id,
+          right_id: right,
+        }))
+      );
   }
 }
 

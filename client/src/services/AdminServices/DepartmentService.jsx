@@ -10,6 +10,7 @@ export default class DepartmentService {
         key: el.id,
         department_id: el.id,
         department_name: el.name,
+        rights_list: el?.rights,
       }));
     } catch (e) {
       console.log("Ошибка пред-обработки данных:", e);
@@ -55,9 +56,11 @@ export default class DepartmentService {
     return response.data;
   }
 
-  static async getAll() {
+  static async getAll({ isAddRights }) {
     console.log("вызов в DepartmentService -> Взять все записи");
-    const response = await api.get(`${this.API_ROUTE}`);
+    const response = await api.get(
+      `${this.API_ROUTE}?isAddRights=${isAddRights}`
+    );
     console.log(
       "вызов в DepartmentService -> Взять все записи -> результат",
       response
@@ -65,9 +68,11 @@ export default class DepartmentService {
     return response.data;
   }
 
-  static async getOne(id) {
+  static async getOne({ id, isAddRights }) {
     console.log("вызов в DepartmentService -> Взять одну записи");
-    const response = await api.get(`${this.API_ROUTE}?id=${id}`);
+    const response = await api.get(
+      `${this.API_ROUTE}?id=${id}&isAddRights=${isAddRights}`
+    );
     console.log(
       "вызов в DepartmentService -> Взять одну запись -> результат",
       response

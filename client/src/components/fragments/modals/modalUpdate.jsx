@@ -29,6 +29,7 @@ export default function ModalUpdate({
   } = getQuery({
     currentRow: state?.currentRow,
     isStart: state.isShowUpdateModal,
+    isAddRights: true,
   });
 
   /**
@@ -82,7 +83,11 @@ export default function ModalUpdate({
     >
       {isLoading ? <SimpleSpinner /> : ""}
       {isError ? <SimpleError /> : ""}
-      {!isLoading && !isError && isOpen ? <CreateUpdateForm form={form} /> : ""}
+      {!isLoading && !isError && isOpen ? (
+        <CreateUpdateForm form={form} isAddDisabledField />
+      ) : (
+        ""
+      )}
     </AModal>
   );
 }

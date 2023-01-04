@@ -1,16 +1,16 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
-import DepartmentService from "../../../../../services/AdminServices/DepartmentService";
+import RightService from "../../../../../services/AdminServices/RightService";
 
-const TAG_TYPE = "Departments";
+const TAG_TYPE = "Rights";
 
-export const departmentsApi = createApi({
-  reducerPath: "departmentsApi",
+export const rightsApi = createApi({
+  reducerPath: "rightsApi",
   tagTypes: [TAG_TYPE],
   endpoints: (build) => ({
-    getDepartments: build.query({
-      queryFn: async (isAddRights = false) => {
+    getRights: build.query({
+      queryFn: async () => {
         try {
-          const response = await DepartmentService.getAll({ isAddRights });
+          const response = await RightService.getAll();
           return { data: response };
         } catch (e) {
           return { error: e.message };
@@ -24,20 +24,13 @@ export const departmentsApi = createApi({
             ]
           : [{ type: TAG_TYPE, id: "LIST" }],
     }),
-
-    getDepartment: build.query({
-      queryFn: async ({
-        id = "",
-        currentRow = {},
-        isStart = true,
-        isAddRights = false,
-      }) => {
+    getRight: build.query({
+      queryFn: async ({ id = "", currentRow = {}, isStart = true }) => {
         if (isStart) {
           try {
-            const response = await DepartmentService.getOne({
-              id: id || currentRow?.department_id,
-              isAddRights,
-            });
+            const response = await RightService.getOne(
+              id || currentRow?.right_id
+            );
             return { data: response };
           } catch (e) {
             return { error: e.message };
@@ -53,11 +46,10 @@ export const departmentsApi = createApi({
             ]
           : [{ type: TAG_TYPE, id: "LIST" }],
     }),
-
-    addDepartment: build.mutation({
+    addRight: build.mutation({
       queryFn: async (body) => {
         try {
-          const response = await DepartmentService.create(body);
+          const response = await RightService.create(body);
           return { data: response };
         } catch (e) {
           return { error: e.message };
@@ -65,11 +57,10 @@ export const departmentsApi = createApi({
       },
       invalidatesTags: [{ type: TAG_TYPE, id: "LIST" }],
     }),
-
-    deleteDepartment: build.mutation({
+    deleteRight: build.mutation({
       queryFn: async (body) => {
         try {
-          const response = await DepartmentService.delete(body);
+          const response = await RightService.delete(body);
           return { data: response };
         } catch (e) {
           return { error: e.message };
@@ -77,17 +68,14 @@ export const departmentsApi = createApi({
       },
       invalidatesTags: [{ type: TAG_TYPE, id: "LIST" }],
     }),
-
-    updateDepartment: build.mutation({
+    updateRight: build.mutation({
       queryFn: async (body) => {
         try {
           const bodyPrepared = (bodyValues) => ({
             ...bodyValues,
-            department_id:
-              bodyValues?.department_id ||
-              bodyValues?.currentRow?.department_id,
+            right_id: bodyValues?.right_id || bodyValues?.currentRow?.right_id,
           });
-          const response = await DepartmentService.update(bodyPrepared(body));
+          const response = await RightService.update(bodyPrepared(body));
           return { data: response };
         } catch (e) {
           return { error: e.message };
@@ -99,9 +87,9 @@ export const departmentsApi = createApi({
 });
 
 export const {
-  useGetDepartmentsQuery,
-  useGetDepartmentQuery,
-  useAddDepartmentMutation,
-  useUpdateDepartmentMutation,
-  useDeleteDepartmentMutation,
-} = departmentsApi;
+  useGetRightsQuery,
+  useGetRightQuery,
+  useAddRightMutation,
+  useUpdateRightMutation,
+  useDeleteRightMutation,
+} = rightsApi;
