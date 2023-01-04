@@ -23,6 +23,7 @@ export default function getColumns({ dataSource, columns }) {
     department_id: {
       title: "ID",
       dataIndex: "department_id",
+      defaultSortOrder: "ascend",
       align: "center",
       sorter: (a, b) => sorterInt(a?.department_id, b?.department_id),
     },
@@ -49,6 +50,7 @@ export default function getColumns({ dataSource, columns }) {
     position_id: {
       title: "ID",
       dataIndex: "position_id",
+      defaultSortOrder: "ascend",
       align: "center",
       sorter: (a, b) => sorterInt(a?.position_id, b?.position_id),
     },
@@ -87,6 +89,7 @@ export default function getColumns({ dataSource, columns }) {
     user_id: {
       title: "ID",
       dataIndex: "user_id",
+      defaultSortOrder: "ascend",
       align: "center",
       sorter: (a, b) => sorterInt(a?.user_id, b?.user_id),
     },
@@ -144,6 +147,7 @@ export default function getColumns({ dataSource, columns }) {
     right_id: {
       title: "ID",
       dataIndex: "right_id",
+      defaultSortOrder: "ascend",
       align: "center",
       sorter: (a, b) => sorterInt(a?.right_id, b?.right_id),
     },
