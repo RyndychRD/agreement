@@ -25,7 +25,7 @@ function Auth() {
   const [showAlert, setShowAlert] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
-    if (isAuth) navigate("/");
+    if (isAuth) navigate(-1);
   }, [isAuth, navigate]);
 
   // Если до этого авторизовались и сессия не истекла пробуем войти автоматически

@@ -8,7 +8,7 @@ export function getUserRightIds() {
 }
 
 // Админу везде и всегда все открыто
-export function isAccessGranted(rightToCheck) {
+export function isAccessGranted(rightToCheck = "") {
   return (
     getUserRights().indexOf(rightToCheck) !== -1 ||
     getUserRights().indexOf("Admin") !== -1
