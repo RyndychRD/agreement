@@ -1,13 +1,21 @@
-import getUniqNotNullIds from "./CommonFunctions";
-
-export function isAccessGranted(rightToCheck) {
-  return true;
-}
-export function saveUserRights({ user }) {
-  console.log(user.rights);
-  localStorage.setItem("rights", getUniqNotNullIds(user.rights));
-}
+import getUniqNotNullIds, { getUniqNotNullCustom } from "./CommonFunctions";
 
 export function getUserRights() {
-  console.log(localStorage.getItem("rights"));
+  return localStorage.getItem("rights");
+}
+export function getUserRightIds() {
+  return localStorage.getItem("rightIds");
+}
+
+export function isAccessGranted(rightToCheck) {
+  return getUserRights().indexOf(rightToCheck) !== -1;
+}
+
+// TODO: Возможно, имеет смысл переделать на JSON объект
+export function saveUserRights({ user }) {
+  localStorage.setItem(
+    "rights",
+    getUniqNotNullCustom(user.rights, "code_name")
+  );
+  localStorage.setItem("rightIds", getUniqNotNullIds(user.rights));
 }

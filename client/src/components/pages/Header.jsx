@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { logoutAsync } from "../auth/AuthReducer";
+import { isAccessGranted } from "../../services/userAccessService";
 import {
   AMenu,
   ARow,
@@ -11,7 +12,6 @@ import {
   AArrowLeftOutlined,
   APageHeader,
 } from "../adapter";
-import { getUserRights } from "../../services/userAccessService";
 
 /**
  * Главный хедер, отображается на всех страницах, кроме авторизации
@@ -39,7 +39,7 @@ function Header() {
       label: `${currentUser?.last_name} ${currentUser?.first_name}.${currentUser?.middle_name}.`,
       key: "user",
       children: [
-        true
+        isAccessGranted("Admin")
           ? {
               label: "Админка",
               key: "admin_settings",
@@ -49,10 +49,12 @@ function Header() {
           label: "Справка",
           key: "FAQ",
         },
-        {
-          label: "Справка (Админ)",
-          key: "FAQ_admin",
-        },
+        isAccessGranted("Admin")
+          ? {
+              label: "Справка (Админ)",
+              key: "FAQ_admin",
+            }
+          : "",
         {
           label: "Аккаунт",
           key: "account",
@@ -64,8 +66,6 @@ function Header() {
       ],
     },
   ];
-
-  getUserRights();
 
   /**
    * Обработка логики клика на выпадающие элементы

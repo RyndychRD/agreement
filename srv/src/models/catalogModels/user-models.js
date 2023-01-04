@@ -10,14 +10,14 @@ class UserSchema {
     query = query.select(
       //Подтягиваем права, принадлежащие непосредственно объекту
       this.knexProvider.raw(
-        "json_agg (json_build_object('name',rights.name,'id',rights.id)) rights"
+        "json_agg (json_build_object('name',rights.name,'id',rights.id,'code_name',rights.code_name)) rights"
       ),
       //Подтягиваем права, принадлежащие сюзеренам объекта(наследуемые права)
       this.knexProvider.raw(
-        `json_agg (json_build_object('name',"inheritedRightsPosition".name,'id',"inheritedRightsPosition".id,'isInherited',true)) rights_inherited_position`
+        `json_agg (json_build_object('name',"inheritedRightsPosition".name,'id',"inheritedRightsPosition".id,'code_name',"inheritedRightsPosition".code_name,'isInherited',true)) rights_inherited_position`
       ),
       this.knexProvider.raw(
-        `json_agg (json_build_object('name',"inheritedRightsDepartment".name,'id',"inheritedRightsDepartment".id,'isInherited',true)) rights_inherited_department`
+        `json_agg (json_build_object('name',"inheritedRightsDepartment".name,'id',"inheritedRightsDepartment".id,'code_name',"inheritedRightsDepartment".code_name,'isInherited',true)) rights_inherited_department`
       )
     );
     //Подтягиваем либо группировку, если уже есть таблица departments(для вытаскивания всех записей)

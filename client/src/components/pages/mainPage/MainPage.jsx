@@ -2,6 +2,7 @@
 
 import { Layout } from "antd";
 import { NavLink } from "react-router-dom";
+import { isAccessGranted } from "../../../services/userAccessService";
 import {
   AButton,
   ACol,
@@ -36,7 +37,7 @@ function MainPage() {
   return (
     <Content className="content">
       <ARow className="main-button-row">
-        <DocumentControlP />
+        {isAccessGranted("ContractAgreement") ? <DocumentControlP /> : ""}
       </ARow>
     </Content>
   );
