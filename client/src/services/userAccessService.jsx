@@ -7,8 +7,12 @@ export function getUserRightIds() {
   return localStorage.getItem("rightIds");
 }
 
+// Админу везде и всегда все открыто
 export function isAccessGranted(rightToCheck) {
-  return getUserRights().indexOf(rightToCheck) !== -1;
+  return (
+    getUserRights().indexOf(rightToCheck) !== -1 ||
+    getUserRights().indexOf("Admin") !== -1
+  );
 }
 
 // TODO: Возможно, имеет смысл переделать на JSON объект
