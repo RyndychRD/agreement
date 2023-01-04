@@ -10,7 +10,7 @@ import CheckboxInputFormItem from "../../../../../fragments/inputs/checkboxInput
 import { useGetRightsQuery } from "../../../../../../core/redux/api/AdminSettings/Catalogs/RightApi";
 import getUniqNotNullIds from "../../../../../../services/CommonFunctions";
 
-export default function CreateUpdateForm({ form, isAddDisabledField }) {
+export default function CreateUpdateForm({ form, isAddUpdateOnlyFields }) {
   const { data: positions = {}, isLoading, isError } = useGetPositionsQuery({});
   const {
     data: rights = {},
@@ -18,7 +18,7 @@ export default function CreateUpdateForm({ form, isAddDisabledField }) {
     isLoading: isLoadingRights,
   } = useGetRightsQuery();
 
-  const checkbox = isAddDisabledField ? (
+  const checkbox = isAddUpdateOnlyFields ? (
     <CheckboxInputFormItem title="Заблокирован?" name="isDisabled" />
   ) : (
     ""

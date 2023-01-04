@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { useCustomDispatch, useCustomState } from "../Provider";
 import { ATable } from "../../../adapter";
 import getTitle from "../CommonFunctions";
@@ -22,6 +24,25 @@ export default function AdminSettingsTable({
 }) {
   const state = useCustomState();
   const dispatch = useCustomDispatch();
+
+  // Этот блок отвечает за открытие элемента по id
+  const query = useLocation().search;
+  useEffect(() => {
+    const id = new URLSearchParams(query).get("id");
+    console.log("id", id);
+    if (id) {
+      // eslint-disable-next-line eqeqeq
+      const row = dataSource.find((el) => el.key == id);
+      if (row) {
+        dispatch({
+          type: "selectRow",
+          currentRow: row,
+        });
+        dispatch({ type: "openUpdateModal" });
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [query, dataSource]);
   /**
    * Дефолтная логика для кнопок. Пока что нет задачи изменять количество кнопок
    */
@@ -56,6 +77,7 @@ export default function AdminSettingsTable({
             type: "selectRow",
             currentRow: row,
           });
+          console.log(row);
         },
         // Двойной клик всегда срабатывает после одинарного
         onDoubleClick: () => {

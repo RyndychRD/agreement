@@ -1,6 +1,6 @@
 /** @format */
 import { useEffect } from "react";
-import { AModal } from "../../adapter";
+import { AModal, AButton } from "../../adapter";
 import SimpleError from "../spinners/Error";
 import SimpleSpinner from "../spinners/Spinner";
 import { useCustomDispatch, useCustomState } from "../tables/Provider";
@@ -68,6 +68,11 @@ export default function ModalUpdate({
     [state.isShowUpdateModal, data]
   );
 
+  function copyLinkToClipboard(id) {
+    navigator.clipboard.writeText(
+      `${window.location.href.split("?")[0]}?id=${id}`
+    );
+  }
   const isLoading = isLoadingGet || isLoadingUpdate;
   const isError = isErrorGet || isErrorUpdate;
   return (
@@ -84,7 +89,16 @@ export default function ModalUpdate({
       {isLoading ? <SimpleSpinner /> : ""}
       {isError ? <SimpleError /> : ""}
       {!isLoading && !isError && isOpen ? (
-        <CreateUpdateForm form={form} isAddDisabledField />
+        <>
+          <AButton
+            onClick={() => {
+              copyLinkToClipboard(state.currentRow.key);
+            }}
+          >
+            Скопировать ссылку
+          </AButton>
+          <CreateUpdateForm form={form} isAddUpdateOnlyFields />
+        </>
       ) : (
         ""
       )}
