@@ -3,6 +3,7 @@
 import Layout from "antd/es/layout/layout";
 import { NavLink } from "react-router-dom";
 import { AMenu } from "../../../adapter";
+import { isAccessGranted } from "../../../../services/userAccessService";
 
 function getItem(label, key, icon, children, type) {
   return {
@@ -17,7 +18,7 @@ function getItem(label, key, icon, children, type) {
 function getLink(LinkKey) {
   const dict = {
     "created-doc": getItem(
-      <NavLink to="/document-control/created-documents">
+      <NavLink to="/document-control/user-documents/created-documents">
         Созданные мною
       </NavLink>,
       "created-documents"
@@ -30,57 +31,40 @@ export default function Sider() {
   const { Sider: LayoutSider } = Layout;
 
   const items = [
-    getItem("Мои документы", "MyDocuments", null, [
-      // Не делай так больше
-      // https://eslint.org/docs/latest/rules/no-constant-condition
-      // eslint-disable-next-line no-constant-condition
-      true ? getLink("created-doc") : null,
-      // Не делай так больше
-      // https://eslint.org/docs/latest/rules/no-constant-condition
-      // eslint-disable-next-line no-constant-condition
-      false ? getItem("На доработку", "FILL_ME") : null,
-      // Не делай так больше
-      // https://eslint.org/docs/latest/rules/no-constant-condition
-      // eslint-disable-next-line no-constant-condition
-      false ? getItem("Согласованные", "FILL_ME") : null,
-      // Не делай так больше
-      // https://eslint.org/docs/latest/rules/no-constant-condition
-      // eslint-disable-next-line no-constant-condition
-      false ? getItem("Исполненные", "FILL_ME") : null,
-      // Не делай так больше
-      // https://eslint.org/docs/latest/rules/no-constant-condition
-      // eslint-disable-next-line no-constant-condition
-      false ? getItem("Отклоненные", "FILL_ME") : null,
-      // Не делай так больше
-      // https://eslint.org/docs/latest/rules/no-constant-condition
-      // eslint-disable-next-line no-constant-condition
-      false ? getItem("Регистрация документов", "FILL_ME") : null,
+    getItem("Мои документы", "UserDocuments", null, [
+      isAccessGranted("CreatedDocuments") ? getLink("created-doc") : null,
+      isAccessGranted("ReworkDocuments")
+        ? getItem("На доработку", "FILL_ME")
+        : null,
+      isAccessGranted("ApprovedDocuments")
+        ? getItem("Согласованные", "FILL_ME")
+        : null,
+      isAccessGranted("CompletedDocuments")
+        ? getItem("Исполненные", "FILL_ME")
+        : null,
+      isAccessGranted("RejectedDocuments")
+        ? getItem("Отклоненные", "FILL_ME")
+        : null,
+      isAccessGranted("OnRegistrationDocuments")
+        ? getItem("Регистрация документов", "FILL_ME")
+        : null,
     ]),
     getItem("Подписание", "Signing", null, [
-      // Не делай так больше
-      // https://eslint.org/docs/latest/rules/no-constant-condition
-      // eslint-disable-next-line no-constant-condition
-      false ? getItem("Входящие", "FILL_ME") : null,
-      // Не делай так больше
-      // https://eslint.org/docs/latest/rules/no-constant-condition
-      // eslint-disable-next-line no-constant-condition
-      false ? getItem("Подписанные мною", "FILL_ME") : null,
-      // Не делай так больше
-      // https://eslint.org/docs/latest/rules/no-constant-condition
-      // eslint-disable-next-line no-constant-condition
-      false ? getItem("Документы подписанные в ООПЗ", "FILL_ME7") : null,
+      isAccessGranted("ForApprovalDocuments")
+        ? getItem("Входящие", "FILL_ME")
+        : null,
+      isAccessGranted("MySignedForApprovalDocuments")
+        ? getItem("Подписанные мною", "FILL_ME")
+        : null,
+      isAccessGranted("SignedInOOPZDocuments")
+        ? getItem("Документы подписанные в ООПЗ", "FILL_ME7")
+        : null,
     ]),
     getItem("Задачи", "Tasks", null, [
-      // Не делай так больше
-      // https://eslint.org/docs/latest/rules/no-constant-condition
-      // eslint-disable-next-line no-constant-condition
-      false ? getItem("Входящие", "FILL_ME") : null,
+      isAccessGranted("IncomeTasks") ? getItem("Входящие", "FILL_ME") : null,
     ]),
     getItem("Список (Админ)", "AdminDocs", null, [
-      // Не делай так больше
-      // https://eslint.org/docs/latest/rules/no-constant-condition
-      // eslint-disable-next-line no-constant-condition
-      false ? getItem("Все документы", "FILL_ME") : null,
+      isAccessGranted("Admin") ? getItem("Все документы", "FILL_ME") : null,
     ]),
   ];
   return (
