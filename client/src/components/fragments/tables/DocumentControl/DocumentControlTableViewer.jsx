@@ -2,8 +2,8 @@ import { useCustomDispatch, useCustomState } from "../Provider";
 import { ATable } from "../../../adapter";
 import getTitle from "../CommonFunctions";
 import "../style.css";
-import SimpleSpinner from "../../spinners/Spinner";
-import SimpleError from "../../spinners/Error";
+import SimpleSpinner from "../../messages/Spinner";
+import SimpleError from "../../messages/Error";
 import getColumns from "./getColumns";
 
 /**
