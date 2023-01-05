@@ -7,7 +7,7 @@ import DeleteButtonAction from "./buttonModals/delete";
 import UpdateButtonModel from "./buttonModals/update";
 
 import DepartmentService from "../../../../../services/AdminServices/DepartmentService";
-import { useGetDepartmentsQuery } from "../../../../../core/redux/api/AdminSettings/Catalogs/DepartamentApi";
+import { useGetDepartmentsQuery } from "../../../../../core/redux/api/Globals/Catalogs/DepartamentApi";
 
 /** Справочник Департаментов */
 export default function Departments() {

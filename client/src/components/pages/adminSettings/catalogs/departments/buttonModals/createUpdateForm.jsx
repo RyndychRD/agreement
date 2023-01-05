@@ -1,4 +1,4 @@
-import { useGetRightsQuery } from "../../../../../../core/redux/api/AdminSettings/Catalogs/RightApi";
+import { useGetRightsQuery } from "../../../../../../core/redux/api/Globals/Catalogs/RightApi";
 import { AForm } from "../../../../../adapter";
 import SelectInputFormItem from "../../../../../fragments/inputs/selectInputs";
 import TextInputFormItem from "../../../../../fragments/inputs/textInputs";

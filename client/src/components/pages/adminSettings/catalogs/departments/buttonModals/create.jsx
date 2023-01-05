@@ -1,7 +1,7 @@
 import { AUseForm } from "../../../../../adapter";
 import ModalInput from "../../../../../fragments/modals/modalInput";
 
-import { useAddDepartmentMutation } from "../../../../../../core/redux/api/AdminSettings/Catalogs/DepartamentApi";
+import { useAddDepartmentMutation } from "../../../../../../core/redux/api/Globals/Catalogs/DepartamentApi";
 import CreateUpdateForm from "./createUpdateForm";
 /**
  * @return Модальное окно для создания нового департамента

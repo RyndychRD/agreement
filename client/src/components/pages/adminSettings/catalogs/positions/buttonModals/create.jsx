@@ -1,6 +1,6 @@
 import { AUseForm } from "../../../../../adapter";
 import ModalInput from "../../../../../fragments/modals/modalInput";
-import { useAddPositionMutation } from "../../../../../../core/redux/api/AdminSettings/Catalogs/PositionsApi";
+import { useAddPositionMutation } from "../../../../../../core/redux/api/Globals/Catalogs/PositionsApi";
 import CreateUpdateForm from "./createUpdateForm";
 
 /**

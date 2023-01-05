@@ -1,7 +1,7 @@
 import {
   useGetUserQuery,
   useUpdateUserMutation,
-} from "../../../../../../core/redux/api/AdminSettings/Catalogs/UserApi";
+} from "../../../../../../core/redux/api/Globals/Catalogs/UserApi";
 import { AUseForm } from "../../../../../adapter";
 import ModalUpdate from "../../../../../fragments/modals/modalUpdate";
 import CreateUpdateForm from "./createUpdateForm";
