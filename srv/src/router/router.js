@@ -8,13 +8,14 @@ const { body } = require("express-validator");
 const authMiddleware = require("../middlewares/auth-middleware");
 const rightMiddleware = require("../middlewares/right-middleware");
 const rightController = require("../controllers/catalogControllers/right-controller");
+const documentController = require("../controllers/catalogControllers/document-controller");
 
 //Авторизация пользователя
 router.post(
-  "/registration",
-  body("email").isEmail(),
-  body("password").isLength({ min: 3, max: 32 }),
-  LoginController.registration
+	"/registration",
+	body("email").isEmail(),
+	body("password").isLength({ min: 3, max: 32 }),
+	LoginController.registration
 );
 router.post("/login", LoginController.login);
 router.post("/logout", LoginController.logout);
@@ -63,5 +64,15 @@ router.post("/catalog/rights",authMiddleware, rightMiddleware(),rightController.
 router.delete("/catalog/rights",authMiddleware, rightMiddleware(),rightController.deleteRight);
 // prettier-ignore
 router.put("/catalog/rights",authMiddleware, rightMiddleware(), rightController.updateRight);
+
+//Права
+// prettier-ignore
+router.get("/catalog/documents",authMiddleware,documentController.getDocuments)
+// prettier-ignore
+router.post("/catalog/documents",authMiddleware,documentController.createNewDocument)
+// prettier-ignore
+router.delete("/catalog/documents",authMiddleware,documentController.deleteDocument);
+// prettier-ignore
+router.put("/catalog/documents",authMiddleware, documentController.updateDocument);
 
 module.exports = router;

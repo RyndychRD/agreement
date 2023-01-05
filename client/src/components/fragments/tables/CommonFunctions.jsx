@@ -10,42 +10,49 @@ import { ARow, ACol, ASpan, ADiv, AButton, AAlert } from "../../adapter";
  * @returns
  */
 export const filterData = (data) => (formatter) =>
-  data.map((item) => ({
-    text: formatter(item),
-    value: formatter(item),
-  }));
+	data.map((item) => ({
+		text: formatter(item),
+		value: formatter(item),
+	}));
 
 /**
  * Сортирует буленовы значения.
  * Если a - true, то оно поднимается выше. Иначе - опускает ниже. Если текущий и рассматриваемый элемент одинаковы - без изменений
  */
 export function sorterBoolean(a, b) {
-  if (a === b) {
-    return 0;
-  }
-  return a ? -1 : 1;
+	if (a === b) {
+		return 0;
+	}
+	return a ? -1 : 1;
+}
+
+// сортировка по возрастающей дате
+export function sorterDate(a, b) {
+	const dateA = new Date(a);
+	const dateB = new Date(b);
+	return dateA - dateB;
 }
 
 /**
  * Сортирует в алфавитном порядке
  */
 export function sorterStringAlphabet(a, b) {
-  return a?.localeCompare(b);
+	return a?.localeCompare(b);
 }
 
 /**
  * Сортирует в порядке возрастания
  */
 export function sorterInt(a, b) {
-  return a - b;
+	return a - b;
 }
 
 export function booleanRender(value) {
-  return value ? (
-    <AAlert className="boolean-render" type="success" message="Да" />
-  ) : (
-    <AAlert className="boolean-render" type="error" message="Нет" />
-  );
+	return value ? (
+		<AAlert className="boolean-render" type="success" message="Да" />
+	) : (
+		<AAlert className="boolean-render" type="error" message="Нет" />
+	);
 }
 
 /**
@@ -55,56 +62,56 @@ export function booleanRender(value) {
  * @returns
  */
 export default function getTitle(name, buttons) {
-  /**
-   * Словарь всех возможных кнопок в заголовке
-   */
-  const buttonsDict = {
-    create: (
-      <AButton
-        key="keyCreateAdminTableSettings"
-        type="primary"
-        onClick={buttons.create}
-        className="space-right"
-      >
-        Создать
-      </AButton>
-    ),
-    delete: (
-      <AButton
-        key="keyDeleteAdminTableSettings"
-        danger
-        onClick={buttons.delete}
-        className="space-right"
-      >
-        Удалить
-      </AButton>
-    ),
-    update: (
-      <AButton
-        key="keyUpdateAdminTableSettings"
-        type="primary"
-        onClick={buttons.update}
-        className="space-right "
-      >
-        Просмотр
-      </AButton>
-    ),
-  };
+	/**
+	 * Словарь всех возможных кнопок в заголовке
+	 */
+	const buttonsDict = {
+		create: (
+			<AButton
+				key="keyCreateAdminTableSettings"
+				type="primary"
+				onClick={buttons.create}
+				className="space-right"
+			>
+				Создать
+			</AButton>
+		),
+		delete: (
+			<AButton
+				key="keyDeleteAdminTableSettings"
+				danger
+				onClick={buttons.delete}
+				className="space-right"
+			>
+				Удалить
+			</AButton>
+		),
+		update: (
+			<AButton
+				key="keyUpdateAdminTableSettings"
+				type="primary"
+				onClick={buttons.update}
+				className="space-right "
+			>
+				Просмотр
+			</AButton>
+		),
+	};
 
-  /** Выбираем только запрошенные кнопки */
-  const buttonsView = [];
-  Object.keys(buttons).forEach((key) => {
-    buttonsView.push(buttonsDict[key]);
-  });
+	/** Выбираем только запрошенные кнопки */
+	const buttonsView = [];
+	Object.keys(buttons).forEach((key) => {
+		buttonsView.push(buttonsDict[key]);
+	});
 
-  return (
-    <ARow>
-      <ACol flex="auto">
-        <ADiv className="center-text">
-          <ASpan className="table-header">{name}</ASpan>
-        </ADiv>
-      </ACol>
-      <ACol>{buttonsView}</ACol>
-    </ARow>
-  );
+	return (
+		<ARow>
+			<ACol flex="auto">
+				<ADiv className="center-text">
+					<ASpan className="table-header">{name}</ASpan>
+				</ADiv>
+			</ACol>
+			<ACol>{buttonsView}</ACol>
+		</ARow>
+	);
 }
