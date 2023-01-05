@@ -18,7 +18,7 @@ function DocumentControlP() {
     <ACol className="main-menu-col">
       <ATooltip placement="rightTop" title="Документооборот">
         <NavLink
-          to="/document-control/created-documents"
+          to="/document-control/user-documents/created-documents"
           style={{ fontSize: "25px" }}
         >
           <AButton type="solid" className="main-menu-button">

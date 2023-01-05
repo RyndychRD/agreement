@@ -3,7 +3,7 @@ import { Error404 } from "../../../fragments/messages/Error";
 import CreatedDocument from "./createdDocuments/CreatedDocuments";
 
 /**
- * Содержит список всех справочников, а также набивает первоначальные значения для отображения
+ * Содержит список всех подразделов раздела Мои документы
  */
 export default function UserDocuments() {
   return (

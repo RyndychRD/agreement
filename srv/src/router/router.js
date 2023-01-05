@@ -12,10 +12,10 @@ const documentController = require("../controllers/catalogControllers/document-c
 
 //Авторизация пользователя
 router.post(
-	"/registration",
-	body("email").isEmail(),
-	body("password").isLength({ min: 3, max: 32 }),
-	LoginController.registration
+  "/registration",
+  body("email").isEmail(),
+  body("password").isLength({ min: 3, max: 32 }),
+  LoginController.registration
 );
 router.post("/login", LoginController.login);
 router.post("/logout", LoginController.logout);
@@ -65,7 +65,7 @@ router.delete("/catalog/rights",authMiddleware, rightMiddleware(),rightControlle
 // prettier-ignore
 router.put("/catalog/rights",authMiddleware, rightMiddleware(), rightController.updateRight);
 
-//Права
+//Документы
 // prettier-ignore
 router.get("/catalog/documents",authMiddleware,documentController.getDocuments)
 // prettier-ignore
