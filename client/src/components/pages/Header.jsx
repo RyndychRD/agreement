@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { logoutAsync } from "../auth/AuthReducer";
+import { isAccessGranted } from "../../services/userAccessService";
 import {
   AMenu,
   ARow,
@@ -38,18 +39,22 @@ function Header() {
       label: `${currentUser?.last_name} ${currentUser?.first_name}.${currentUser?.middle_name}.`,
       key: "user",
       children: [
-        {
-          label: "Админка",
-          key: "admin_settings",
-        },
+        isAccessGranted("Admin")
+          ? {
+              label: "Админка",
+              key: "admin_settings",
+            }
+          : "",
         {
           label: "Справка",
           key: "FAQ",
         },
-        {
-          label: "Справка (Админ)",
-          key: "FAQ_admin",
-        },
+        isAccessGranted("Admin")
+          ? {
+              label: "Справка (Админ)",
+              key: "FAQ_admin",
+            }
+          : "",
         {
           label: "Аккаунт",
           key: "account",

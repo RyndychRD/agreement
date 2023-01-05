@@ -1,7 +1,22 @@
 import { ASelect, AFormItem } from "../../adapter";
-import SimpleSpinner from "../spinners/Spinner";
-import SimpleError from "../spinners/Error";
+import SimpleSpinner from "../messages/Spinner";
+import SimpleError from "../messages/Error";
 
+/**
+ * Выводит селект бокс
+ * @param {*} object.title - заголовок сверху от селекта
+ * @param {*} object.name - имя, которое используется при сабмите
+ * @param {*} object.rules - список правил при заполнении. Обязательно передать массив. Если правил нет - пустой массив
+ * @param {*} object.options - варианты для выбора
+ * @param {*} object.isLoading - отображать спинер загрузки?
+ * @param {*} object.isError - отображать стандартную ошибку?
+ * @param {*} object.isModeMultiple - есть возможность множественного выбора?
+ * @param {*} object.disabled - отключает форму, может служить только для отображения
+ * @param {*} object.onChange - событие, которое происходит при выборе элемента
+ * @param {*} object.defaultValue - изначальная опция для отображения
+ * @param {*} object.isShowRewrite - показать что элемент перерисовывается
+ * @returns
+ */
 export default function SelectInputFormItem({
   title = "Поле ввода",
   name = "formItemName",
@@ -15,7 +30,8 @@ export default function SelectInputFormItem({
   defaultValue,
   isShowRewrite,
 }) {
-  if (isShowRewrite) console.log("rewrite me");
+  if (isShowRewrite) console.log(`Селект ${title} перерисовался`);
+  // Предобработка данных для отображения в селекте
   let formatOptions = [];
   if (!isError && !isLoading && options) {
     formatOptions = options.map((el) => ({ label: el.name, value: el.id }));

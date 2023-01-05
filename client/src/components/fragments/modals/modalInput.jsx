@@ -1,8 +1,16 @@
 import { AModal } from "../../adapter";
-import SimpleError from "../spinners/Error";
-import SimpleSpinner from "../spinners/Spinner";
+import SimpleError from "../messages/Error";
+import SimpleSpinner from "../messages/Spinner";
 import { useCustomState, useCustomDispatch } from "../tables/Provider";
 
+/**
+ * Общее окно для отображения модального окна добавления чего либо.
+ * При сабмите вызывает функцию для добавления данных в БД
+ * @param {*} object.form Ссылка на форму. Так как форма для каждого модального окна своя, объявляется выше по стеку
+ * @param {*} object.addMutation Запрос, который служит для добавления данных в БД при сабмите. Обычно дергается из /core/redux/api
+ * @param {*} object.CreateUpdateForm Скелет окна без данных. Представляет форму с элементами
+ * @returns
+ */
 export default function ModalInput({ form, addMutation, CreateUpdateForm }) {
   const state = useCustomState();
   const dispatch = useCustomDispatch();

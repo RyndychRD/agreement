@@ -9,7 +9,7 @@ import {
 } from "../CommonFunctions";
 
 /**
- * Возвращает список колонок для таблицы?. В себе хранит словарь, так как для фильтров нужно указать значения, а эти значения - это все строчки в таблице
+ * Возвращает список колонок для таблицы. В себе хранит словарь, так как для фильтров нужно указать значения, а эти значения - это все строчки в таблице
  * @param {*} dataSource - Все значения из таблицы для фильтра
  * @param {*} columns - Список запрошенных колонок
  * @returns
@@ -23,6 +23,7 @@ export default function getColumns({ dataSource, columns }) {
     department_id: {
       title: "ID",
       dataIndex: "department_id",
+      defaultSortOrder: "ascend",
       align: "center",
       sorter: (a, b) => sorterInt(a?.department_id, b?.department_id),
     },
@@ -49,6 +50,7 @@ export default function getColumns({ dataSource, columns }) {
     position_id: {
       title: "ID",
       dataIndex: "position_id",
+      defaultSortOrder: "ascend",
       align: "center",
       sorter: (a, b) => sorterInt(a?.position_id, b?.position_id),
     },
@@ -87,6 +89,7 @@ export default function getColumns({ dataSource, columns }) {
     user_id: {
       title: "ID",
       dataIndex: "user_id",
+      defaultSortOrder: "ascend",
       align: "center",
       sorter: (a, b) => sorterInt(a?.user_id, b?.user_id),
     },
@@ -144,6 +147,7 @@ export default function getColumns({ dataSource, columns }) {
     right_id: {
       title: "ID",
       dataIndex: "right_id",
+      defaultSortOrder: "ascend",
       align: "center",
       sorter: (a, b) => sorterInt(a?.right_id, b?.right_id),
     },
@@ -158,6 +162,19 @@ export default function getColumns({ dataSource, columns }) {
         _?.isEqual
       ),
       onFilter: (value, record) => record?.right_name?.indexOf(value) === 0,
+    },
+    right_code_name: {
+      title: "Наименование права в коде",
+      dataIndex: "right_code_name",
+      align: "center",
+      sorter: (a, b) =>
+        sorterStringAlphabet(a?.right_code_name, b?.right_code_name),
+      filters: _?.uniqWith(
+        filterData(dataSource)((i) => i?.right_code_name),
+        _?.isEqual
+      ),
+      onFilter: (value, record) =>
+        record?.right_code_name?.indexOf(value) === 0,
     },
 
     rights_list: {

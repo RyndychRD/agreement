@@ -20,6 +20,17 @@ class ApiError extends Error {
   }
 
   /**
+   * У пользователя не хватает прав
+   * @returns
+   */
+  static ForbiddenError(login, path, rights) {
+    return new ApiError(
+      403,
+      `У пользователя ${login} не хватает хотя бы одного права из пула ${rights} для доступа к ${path}`
+    );
+  }
+
+  /**
    * Проблема с запросом или телом запроса
    * @param {*} message
    * @param {*} errors

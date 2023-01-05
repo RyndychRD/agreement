@@ -6,6 +6,7 @@ const userController = require("../controllers/catalogControllers/user-controlle
 const router = new Router();
 const { body } = require("express-validator");
 const authMiddleware = require("../middlewares/auth-middleware");
+const rightMiddleware = require("../middlewares/right-middleware");
 const rightController = require("../controllers/catalogControllers/right-controller");
 
 //Авторизация пользователя
@@ -25,42 +26,42 @@ router.get("/refresh", LoginController.refresh);
  */
 //Департаменты
 // prettier-ignore
-router.get("/catalog/departments",authMiddleware,departmentController.getDepartments)
+router.get("/catalog/departments",authMiddleware, rightMiddleware(),departmentController.getDepartments)
 // prettier-ignore
-router.post("/catalog/departments",authMiddleware,departmentController.createNewDepartment)
+router.post("/catalog/departments",authMiddleware, rightMiddleware(),departmentController.createNewDepartment)
 // prettier-ignore
-router.put("/catalog/departments",authMiddleware,departmentController.updateDepartment)
+router.put("/catalog/departments",authMiddleware, rightMiddleware(),departmentController.updateDepartment)
 // prettier-ignore
-router.delete("/catalog/departments",authMiddleware,departmentController.deleteDepartment)
+router.delete("/catalog/departments",authMiddleware, rightMiddleware(),departmentController.deleteDepartment)
 
 //Должности
 // prettier-ignore
-router.get("/catalog/positions",authMiddleware,positionController.getPositions)
+router.get("/catalog/positions",authMiddleware, rightMiddleware(),positionController.getPositions)
 // prettier-ignore
-router.post("/catalog/positions",authMiddleware,positionController.createNewPosition)
+router.post("/catalog/positions",authMiddleware, rightMiddleware(),positionController.createNewPosition)
 // prettier-ignore
-router.delete("/catalog/positions",authMiddleware,positionController.deletePosition);
+router.delete("/catalog/positions",authMiddleware, rightMiddleware(),positionController.deletePosition);
 // prettier-ignore
-router.put("/catalog/positions",authMiddleware, positionController.updatePosition);
+router.put("/catalog/positions",authMiddleware, rightMiddleware(), positionController.updatePosition);
 
 //Пользователи
 // prettier-ignore
-router.get("/catalog/users",authMiddleware,userController.getUsers)
+router.get("/catalog/users",authMiddleware, rightMiddleware(),userController.getUsers)
 // prettier-ignore
-router.post("/catalog/users",authMiddleware,userController.createNewUser)
+router.post("/catalog/users",authMiddleware, rightMiddleware(),userController.createNewUser)
 // prettier-ignore
-router.delete("/catalog/users",authMiddleware,userController.deleteUser);
+router.delete("/catalog/users",authMiddleware, rightMiddleware(),userController.deleteUser);
 // prettier-ignore
-router.put("/catalog/users",authMiddleware, userController.updateUser);
+router.put("/catalog/users",authMiddleware, rightMiddleware(), userController.updateUser);
 
 //Права
 // prettier-ignore
-router.get("/catalog/rights",authMiddleware,rightController.getRights)
+router.get("/catalog/rights",authMiddleware, rightMiddleware(),rightController.getRights)
 // prettier-ignore
-router.post("/catalog/rights",authMiddleware,rightController.createNewRight)
+router.post("/catalog/rights",authMiddleware, rightMiddleware(),rightController.createNewRight)
 // prettier-ignore
-router.delete("/catalog/rights",authMiddleware,rightController.deleteRight);
+router.delete("/catalog/rights",authMiddleware, rightMiddleware(),rightController.deleteRight);
 // prettier-ignore
-router.put("/catalog/rights",authMiddleware, rightController.updateRight);
+router.put("/catalog/rights",authMiddleware, rightMiddleware(), rightController.updateRight);
 
 module.exports = router;

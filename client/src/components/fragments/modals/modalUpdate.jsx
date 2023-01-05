@@ -1,10 +1,27 @@
 /** @format */
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import {
+  clearUrlQueryParams,
+  replaceUrlQueryWithId,
+} from "../../../services/CommonFunctions";
 import { AModal } from "../../adapter";
-import SimpleError from "../spinners/Error";
-import SimpleSpinner from "../spinners/Spinner";
+import SimpleError from "../messages/Error";
+import SimpleSpinner from "../messages/Spinner";
 import { useCustomDispatch, useCustomState } from "../tables/Provider";
 
+/**
+ * Общее окно для отображения модального окна изменения чего либо.
+ * По переданной выбранной строке из таблицы запрашивает в БД данные по объекту, отображает форму с заполненными данными
+ * При сабмите вызывает функцию для изменения данных в БД
+ * @param {*} object.getQuery Запрос, который служит для вытаскивания данных из БД при открытии. Обычно дергается из /core/redux/api
+ * @param {*} object.updateMutation Запрос, который служит для обновления данных в БД при сабмите. Обычно дергается из /core/redux/api
+ * @param {*} object.form Ссылка на форму. Так как форма для каждого модального окна своя, объявляется выше по стеку
+ * @param {*} object.CreateUpdateForm Скелет окна без данных. Представляет форму с элементами
+ * @param {*} object.formDefaultValues Функция заполнения формы form значениями после выполнения запроса
+ * @param {*} object.preFinishFunc Кастомная функция предобработки значения формы при сабмите
+ * @returns
+ */
 export default function ModalUpdate({
   getQuery,
   updateMutation,
@@ -15,6 +32,7 @@ export default function ModalUpdate({
 }) {
   const state = useCustomState();
   const dispatch = useCustomDispatch();
+  const navigate = useNavigate();
   const isOpen = state.isShowUpdateModal && state.currentRow;
 
   const [
@@ -33,7 +51,7 @@ export default function ModalUpdate({
   });
 
   /**
-   * При редактировании валидируем форму и отправляем все данные в сервис
+   * При редактировании валидируем форму и отправляем все данные в апи
    */
   const onFinish = () => {
     form
@@ -45,6 +63,9 @@ export default function ModalUpdate({
           currentRow: state.currentRow,
         }).unwrap();
         if (!isErrorUpdate) {
+          // Переходим к очищенному юрл, чтобы если мы перешли по id, у нас после сабмита не открывалась старая форма
+          // (сабмит перезагружает страницу с изначальным url)
+          navigate(clearUrlQueryParams());
           dispatch({ type: "closeAllModal" });
         }
       })
@@ -56,12 +77,14 @@ export default function ModalUpdate({
   /**
    * Очищаем форму, достаем нужную строку из хранилища редакса по переданному ID
    * Заполняем форму полученными данными
+   * Запускается только после того как форма отображается
    */
   useEffect(
     () => {
-      if (!isErrorUpdate) {
+      if (!isErrorUpdate && state.isShowUpdateModal) {
         form.resetFields();
         form.setFieldsValue(formDefaultValues(data));
+        replaceUrlQueryWithId(state.currentRow?.key);
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -70,6 +93,7 @@ export default function ModalUpdate({
 
   const isLoading = isLoadingGet || isLoadingUpdate;
   const isError = isErrorGet || isErrorUpdate;
+
   return (
     <AModal
       okText="Редактировать"
@@ -78,13 +102,14 @@ export default function ModalUpdate({
       open={isOpen}
       onCancel={() => {
         resetUpdate();
+        clearUrlQueryParams();
         dispatch({ type: "closeAllModal" });
       }}
     >
       {isLoading ? <SimpleSpinner /> : ""}
       {isError ? <SimpleError /> : ""}
       {!isLoading && !isError && isOpen ? (
-        <CreateUpdateForm form={form} isAddDisabledField />
+        <CreateUpdateForm form={form} isAddUpdateOnlyFields />
       ) : (
         ""
       )}

@@ -1,4 +1,9 @@
 class DevTools {
+  /**
+   * Функция, которая позволяет добавить задержку при необходимости. Чтобы добавить задержку, нужно проставить в .env флаг IS_ADD_DELAY=1
+   * @param {*} func
+   * @returns
+   */
   async addDelay(func) {
     let result;
     if (process.env.IS_ADD_DELAY !== "0") {

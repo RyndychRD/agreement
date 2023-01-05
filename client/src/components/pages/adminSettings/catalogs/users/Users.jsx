@@ -9,7 +9,7 @@ import UpdateButtonModel from "./buttonModals/update";
 import { useGetUsersQuery } from "../../../../../core/redux/api/AdminSettings/Catalogs/UserApi";
 import UserService from "../../../../../services/AdminServices/UserService";
 
-/** Справочник Должностей */
+/** Справочник Пользователей */
 export default function Users() {
   const columns = {
     data: [

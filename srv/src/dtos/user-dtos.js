@@ -15,6 +15,10 @@ class UserDto {
     this.last_name = model.last_name;
     this.position_id = model.position_id;
     this.is_disabled = model.is_disabled;
+    //Все права, которые есть у пользователя, собираются в один массив
+    this.rights = model?.rights
+      ?.concat(model?.rights_inherited_department)
+      ?.concat(model?.rights_inherited_position);
   }
 }
 

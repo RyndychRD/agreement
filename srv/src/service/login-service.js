@@ -159,6 +159,7 @@ class LoginService {
     }
     const user = await UserModels.findOne({
       filter: { "users.id": userData.id },
+      isAddRights: true,
     });
     const object_userDTO = new UserDto(user);
     const tokens = TokenService.generateTokens({ ...object_userDTO });

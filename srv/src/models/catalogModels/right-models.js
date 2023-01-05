@@ -32,11 +32,11 @@ class RightSchema {
 
   /**
    * Создаёт новую должность
-   * @param {*} Right
+   * @param {*} right
    * @returns
    */
-  async create(Right) {
-    return await this.knexProvider("rights").insert(Right);
+  async create(right) {
+    return await this.knexProvider("rights").insert(right);
   }
   /**
    * Удаляет должность

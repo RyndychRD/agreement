@@ -5,6 +5,7 @@ import MainPage from "./mainPage/MainPage";
 
 import DocumentControl from "./documentControl/DocumentControl";
 import AdminSettings from "./adminSettings/AdminSettings";
+import { Error404 } from "../fragments/messages/Error";
 
 /**
  * Все элементы под хедером хранятся в этом компоненте
@@ -17,6 +18,7 @@ function Layout() {
         <Route exact path="/" element={<MainPage />} />
         <Route path="/document-control/*" element={<DocumentControl />} />
         <Route path="/admin-settings/*" element={<AdminSettings />} />
+        <Route path="*" element={<Error404 />} />
       </Routes>
     </ALayout>
   );

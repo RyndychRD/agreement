@@ -4,19 +4,18 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import AuthService from "../../services/AuthService";
 import { API_URL } from "../../http";
+import { saveUserRights } from "../../services/userAccessService";
 
 // Создаем преобразователя
 export const loginAsync = createAsyncThunk(
   "AuthSlice/login",
   async (action) => {
     try {
-      // console.log('console.log(action)', action)
       const response = await AuthService.login(action.login, action.password);
-      // console.log('console.log(response);', await response)
       localStorage.setItem("token", await response.data.accessToken);
+      saveUserRights({ user: response.data.user });
       return await response.data;
     } catch (error) {
-      // console.log(error.response?.data?.message)
       return error.response?.data?.message;
     }
   }
@@ -30,6 +29,7 @@ export const AuthCheckAsync = createAsyncThunk(
         withCredentials: true,
       });
       localStorage.setItem("token", await response.data.accessToken);
+      saveUserRights({ user: response.data.user });
       // eslint-disable-next-line no-console
       console.log("Токен успешно обновлен,входим в систему.");
       return await response.data;

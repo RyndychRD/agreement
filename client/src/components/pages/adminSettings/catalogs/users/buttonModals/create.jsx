@@ -4,7 +4,7 @@ import { useAddUserMutation } from "../../../../../../core/redux/api/AdminSettin
 import CreateUpdateForm from "./createUpdateForm";
 
 /**
- * @return Модальное окно для создания нового департамента
+ * @return Модальное окно для создания нового пользователя
  */
 export default function CreateButtonModel() {
   /** Служит для отслеживания формы из модального окна для обработки по кнопке */

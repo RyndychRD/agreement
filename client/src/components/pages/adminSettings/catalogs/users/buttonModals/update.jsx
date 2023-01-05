@@ -11,6 +11,11 @@ const PASSWORD_PLACEHOLDER = "*********";
 
 const isPasswordSame = (pass) => pass === PASSWORD_PLACEHOLDER;
 
+/**
+ * Функция проверки того что пароль изменился
+ * @param {*} values
+ * @returns
+ */
 const preFinishFunction = (values) => {
   const valuesPassCheck = values;
   if (isPasswordSame(valuesPassCheck.newPassword)) {
@@ -22,6 +27,7 @@ const preFinishFunction = (values) => {
 export default function UpdateButtonModel() {
   // Служит для отслеживания формы из модального окна для обработки по кнопке
   const [form] = AUseForm();
+  // Предзаполнение формы данными, полученными из БД
   const formDefaultValues = (data) => ({
     newLogin: data?.login,
     newEmail: data?.email,
