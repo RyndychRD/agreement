@@ -1,6 +1,6 @@
 import { useGetDocumentsQuery } from "../../../../../core/redux/api/DocumentControl/Catalog/DocumentApi";
 import DocumentService from "../../../../../services/DocumentServices/DocumentService";
-import FormBuilder from "../../../../formBuilder/FormBuilder";
+// import FormBuilder from "../../../../formBuilder/FormBuilder";
 import DocumentControlTableViewer from "../../../../fragments/tables/DocumentControl/DocumentControlTableViewer";
 import { Provider } from "../../../../fragments/tables/Provider";
 // import CreateButtonModel from "../../adminSettings/catalogs/positions/buttonModals/create";
@@ -12,10 +12,11 @@ export default function CreatedDocument() {
   const columns = {
     data: [
       "document_id",
-      "document_status_id",
-      "document_type_id",
-      "document_creator_id",
       "document_name",
+      "document_type",
+      "document_status",
+      "document_current_signer",
+      "document_stage",
       "document_created_at",
       "document_updated_at",
       "document_finished_at",
@@ -24,10 +25,10 @@ export default function CreatedDocument() {
   /**
    * При открытии форму подгружаем новые необходимые данные
    */
-  const { data = [], isLoading, isError } = useGetDocumentsQuery();
+  const { data = [], isLoading, isError } = useGetDocumentsQuery({});
   return (
     <>
-      <FormBuilder />
+      {/* <FormBuilder /> */}
       <Provider>
         <DocumentControlTableViewer
           isLoading={isLoading}

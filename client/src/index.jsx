@@ -8,7 +8,9 @@ import Auth from "./components/auth/Auth";
 import Layout from "./components/pages/Layout";
 import store from "./core/redux/store";
 import "./css/index.css";
-
+/**
+ * `root` Rjvtynfhbb
+ */
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>

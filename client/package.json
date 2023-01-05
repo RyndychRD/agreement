@@ -3,23 +3,24 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@ant-design/icons": "^4.8.0",
-    "@ant-design/pro-components": "^2.3.46",
-    "@ant-design/pro-layout": "^7.3.9",
-    "@reduxjs/toolkit": "^1.9.1",
+    "@ant-design/icons": "4.8.0",
+    "@ant-design/pro-components": "2.3.46",
+    "@ant-design/pro-layout": "7.3.9",
+    "@reduxjs/toolkit": "1.9.1",
     "@testing-library/jest-dom": "5.16.5",
     "@testing-library/react": "13.4.0",
     "@testing-library/user-event": "13.5.0",
-    "@types/axios": "^0.14.0",
+    "@types/axios": "0.14.0",
     "antd": "5.0.4",
-    "axios": "^1.2.1",
-    "lodash": "^4.17.21",
+    "axios": "1.2.1",
+    "lodash": "4.17.21",
+    "moment": "2.29.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-redux": "8.0.5",
     "react-router-dom": "6.4.5",
     "react-scripts": "5.0.1",
-    "redux-thunk": "^2.4.2",
+    "redux-thunk": "2.4.2",
     "web-vitals": "2.1.4"
   },
   "scripts": {
@@ -29,7 +30,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "docs:build": "documentation build src/** -f html -o docs"
   },
   "eslintConfig": {
     "extends": [
@@ -50,21 +52,22 @@
     ]
   },
   "devDependencies": {
-    "@babel/core": "^7.20.5",
-    "@babel/eslint-parser": "^7.19.1",
-    "@babel/preset-env": "^7.20.2",
-    "@babel/preset-react": "^7.18.6",
-    "eslint": "^8.30.0",
-    "eslint-config-airbnb": "^19.0.4",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-jsx-a11y": "^6.6.1",
-    "eslint-plugin-prettier": "^4.2.1",
-    "eslint-plugin-react": "^7.31.11",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "husky": "^8.0.2",
-    "lint-staged": "^13.1.0",
-    "prettier": "^2.8.1"
+    "@babel/core": "7.20.5",
+    "@babel/eslint-parser": "7.19.1",
+    "@babel/preset-env": "7.20.2",
+    "@babel/preset-react": "7.18.6",
+    "documentation": "^14.0.1",
+    "eslint": "8.30.0",
+    "eslint-config-airbnb": "19.0.4",
+    "eslint-config-prettier": "8.5.0",
+    "eslint-plugin-import": "2.26.0",
+    "eslint-plugin-jsx-a11y": "6.6.1",
+    "eslint-plugin-prettier": "4.2.1",
+    "eslint-plugin-react": "7.31.11",
+    "eslint-plugin-react-hooks": "4.6.0",
+    "husky": "8.0.2",
+    "lint-staged": "13.1.0",
+    "prettier": "2.8.1"
   },
   "husky": {
     "hooks": {
