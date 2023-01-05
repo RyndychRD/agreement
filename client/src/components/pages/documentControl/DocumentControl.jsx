@@ -3,7 +3,7 @@ import { Layout } from "antd";
 import CreatedDocument from "./createdDocuments/CreatedDocuments";
 import Sider from "./sider/DocControlSider";
 import "../../../css/index.css";
-import { Error404 } from "../Error";
+import { Error404 } from "../../fragments/messages/Error";
 
 export default function DocumentControl() {
   const { Content } = Layout;

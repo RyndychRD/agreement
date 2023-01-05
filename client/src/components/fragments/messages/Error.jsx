@@ -1,4 +1,11 @@
-import { AAlert } from "../adapter";
+/** @format */
+
+import { AAlert } from "../../adapter";
+import "./style.css";
+
+export default function SimpleError() {
+  return <AAlert message="Что-то пошло не так" type="error" />;
+}
 
 export function Error404() {
   return <AAlert message="Страница не найдена" type="error" />;

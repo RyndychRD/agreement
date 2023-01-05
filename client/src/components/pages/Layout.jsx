@@ -5,7 +5,7 @@ import MainPage from "./mainPage/MainPage";
 
 import DocumentControl from "./documentControl/DocumentControl";
 import AdminSettings from "./adminSettings/AdminSettings";
-import { Error404 } from "./Error";
+import { Error404 } from "../fragments/messages/Error";
 
 /**
  * Все элементы под хедером хранятся в этом компоненте

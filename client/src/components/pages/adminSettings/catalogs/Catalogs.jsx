@@ -3,7 +3,7 @@ import Departments from "./departments/Departments";
 import Users from "./users/Users";
 import Positions from "./positions/Positions";
 import Rights from "./rights/Rights";
-import { Error404 } from "../../Error";
+import { Error404 } from "../../../fragments/messages/Error";
 
 /**
  * Содержит список всех справочников, а также набивает первоначальные значения для отображения

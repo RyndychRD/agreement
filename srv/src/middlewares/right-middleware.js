@@ -3,9 +3,6 @@ const ApiError = require("../exceptions/api-error");
 /**
  * Обработка прав пользователя
  * @param {*} requiredRights - Список прав, при наличии хотя бы одного из которых разрешается доступ. Доступ админа дает доступ ко всему всегда
- * @param {*} req
- * @param {*} res
- * @param {*} next
  * @returns ApiError
  */
 module.exports = function rightMiddleware(requiredRights = []) {

@@ -1,8 +1,11 @@
 import { AModal, ASpan } from "../../adapter";
-import SimpleError from "../spinners/Error";
-import SimpleSpinner from "../spinners/Spinner";
+import SimpleError from "../messages/Error";
+import SimpleSpinner from "../messages/Spinner";
 import { useCustomDispatch, useCustomState } from "../tables/Provider";
 
+/**
+ * Возвращает React форму с стандартным сообщением при удалении
+ */
 function defaultDeleteMessage(deleteText) {
   return (
     <>
@@ -15,6 +18,28 @@ function defaultDeleteMessage(deleteText) {
   );
 }
 
+/**
+ * Возвращает сообщение, отображаемое при удалении
+ * @param {*} param0
+ * @returns
+ */
+function getDeleteMessage({ customDeleteForm, deleteText }) {
+  let deleteMessage = "Текст удаления не передан";
+  if (customDeleteForm) {
+    deleteMessage = customDeleteForm;
+  } else if (deleteText) {
+    deleteMessage = defaultDeleteMessage(deleteText);
+  }
+  return deleteMessage;
+}
+
+/**
+ * Отвечает за отображение подтверждения при удалении элемента
+ * @param {*} object.deleteMutation Мутация из /core/redux/api, которая удалит элемент
+ * @param {*} object.deleteText Текст для дефолтного сообщения при удалении
+ * @param {*} object.children Кастомная форма для отображения при удалении. Если не передана, заполняем стандартную форму текстом deleteText
+ * @returns
+ */
 export default function ModalDelete({ deleteMutation, deleteText, children }) {
   const state = useCustomState();
   const dispatch = useCustomDispatch();
@@ -32,12 +57,10 @@ export default function ModalDelete({ deleteMutation, deleteText, children }) {
     }
   };
 
-  let deleteMessage = "Текст удаления не передан";
-  if (children) {
-    deleteMessage = children;
-  } else if (deleteText) {
-    deleteMessage = defaultDeleteMessage(deleteText);
-  }
+  const deleteMessage = getDeleteMessage({
+    customDeleteForm: children,
+    deleteText,
+  });
 
   return (
     <AModal

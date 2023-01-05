@@ -35,7 +35,6 @@ export default function CreateUpdateForm({ form, isAddUpdateOnlyFields }) {
   useEffect(
     () => {
       if (!isLoadingPositionRights && triggerGetPositionRights.isStart) {
-        console.log(result);
         form.setFieldsValue({
           inheritedRights: getUniqNotNullIds(
             result?.rights.concat(result?.rights_inherited)
@@ -113,6 +112,7 @@ export default function CreateUpdateForm({ form, isAddUpdateOnlyFields }) {
             message: "Выберите должность",
           },
         ]}
+        // При смене должности наследуемые права должны поменяться
         onChange={(value) => {
           setTriggerGetPositionRights({
             id: value,

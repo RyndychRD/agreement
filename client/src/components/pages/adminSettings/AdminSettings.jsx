@@ -3,7 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import AdminSider from "./sider/AdminSider";
 import Catalogs from "./catalogs/Catalogs";
 import { isAccessGranted } from "../../../services/userAccessService";
-import { Error403, Error404 } from "../Error";
+import { Error404, Error403 } from "../../fragments/messages/Error";
 
 /**
  * Главный компонент, который хранит все элементы админки
@@ -11,7 +11,7 @@ import { Error403, Error404 } from "../Error";
 export default function AdminSettings() {
   const { Content } = Layout;
   if (!isAccessGranted("Admin")) {
-    return Error403();
+    return <Error403 />;
   }
   return (
     <Layout>
