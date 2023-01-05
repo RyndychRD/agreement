@@ -8,15 +8,14 @@ import { Error404 } from "../../fragments/messages/Error";
 export default function DocumentControl() {
   const { Content } = Layout;
   return (
-    <Layout className="content">
-      <Sider>
-        <Content>
-          <Routes>
-            <Route path="/created-documents" element={<CreatedDocument />} />
-            <Route path="*" element={<Error404 />} />
-          </Routes>
-        </Content>
-      </Sider>
+    <Layout>
+      <Sider />
+      <Content className="content">
+        <Routes>
+          <Route path="/created-documents/*" element={<CreatedDocument />} />
+          <Route path="*" element={<Error404 />} />
+        </Routes>
+      </Content>
     </Layout>
   );
 }

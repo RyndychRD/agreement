@@ -1,6 +1,6 @@
 /** @format */
 
-import FormBuilder from "../../../fragments/formBuilder/FormBuilder";
+import FormBuilder from "../../../formBuilder/FormBuilder";
 
 export default function CreatedDocument(props) {
   const { children } = props;
