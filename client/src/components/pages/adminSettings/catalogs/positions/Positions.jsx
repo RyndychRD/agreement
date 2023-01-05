@@ -6,7 +6,7 @@ import CreateButtonModel from "./buttonModals/create";
 import DeleteButtonAction from "./buttonModals/delete";
 import UpdateButtonModel from "./buttonModals/update";
 
-import { useGetPositionsQuery } from "../../../../../core/redux/api/AdminSettings/Catalogs/PositionsApi";
+import { useGetPositionsQuery } from "../../../../../core/redux/api/Globals/Catalogs/PositionsApi";
 import PositionService from "../../../../../services/AdminServices/PositionService";
 
 /** Справочник Должностей */

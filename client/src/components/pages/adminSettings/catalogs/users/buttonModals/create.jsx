@@ -1,6 +1,6 @@
 import { AUseForm } from "../../../../../adapter";
 import ModalInput from "../../../../../fragments/modals/modalInput";
-import { useAddUserMutation } from "../../../../../../core/redux/api/AdminSettings/Catalogs/UserApi";
+import { useAddUserMutation } from "../../../../../../core/redux/api/Globals/Catalogs/UserApi";
 import CreateUpdateForm from "./createUpdateForm";
 
 /**

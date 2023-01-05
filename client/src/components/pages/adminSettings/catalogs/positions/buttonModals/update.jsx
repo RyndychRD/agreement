@@ -1,7 +1,7 @@
 import {
   useGetPositionQuery,
   useUpdatePositionMutation,
-} from "../../../../../../core/redux/api/AdminSettings/Catalogs/PositionsApi";
+} from "../../../../../../core/redux/api/Globals/Catalogs/PositionsApi";
 import { AUseForm } from "../../../../../adapter";
 import ModalUpdate from "../../../../../fragments/modals/modalUpdate";
 import CreateUpdateForm from "./createUpdateForm";

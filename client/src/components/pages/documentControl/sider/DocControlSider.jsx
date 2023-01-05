@@ -4,30 +4,30 @@ import Layout from "antd/es/layout/layout";
 import { NavLink } from "react-router-dom";
 import { AMenu } from "../../../adapter";
 
+function getItem(label, key, icon, children, type) {
+  return {
+    key,
+    icon,
+    children,
+    label,
+    type,
+  };
+}
+
+function getLink(LinkKey) {
+  const dict = {
+    "created-doc": getItem(
+      <NavLink to="/document-control/created-documents">
+        Созданные мною
+      </NavLink>,
+      "created-documents"
+    ),
+  };
+  return dict[LinkKey] ? dict[LinkKey] : null;
+}
+
 export default function Sider() {
   const { Sider: LayoutSider } = Layout;
-
-  function getItem(label, key, icon, children, type) {
-    return {
-      key,
-      icon,
-      children,
-      label,
-      type,
-    };
-  }
-
-  function getLink(LinkKey) {
-    const dict = {
-      "created-doc": getItem(
-        <NavLink to="/document-control/created-documents">
-          Созданные мною
-        </NavLink>,
-        "created-documents"
-      ),
-    };
-    return dict[LinkKey] ? dict[LinkKey] : null;
-  }
 
   const items = [
     getItem("Мои документы", "MyDocuments", null, [

@@ -1,7 +1,7 @@
 import {
   useGetDepartmentQuery,
   useUpdateDepartmentMutation,
-} from "../../../../../../core/redux/api/AdminSettings/Catalogs/DepartamentApi";
+} from "../../../../../../core/redux/api/Globals/Catalogs/DepartamentApi";
 import { AUseForm } from "../../../../../adapter";
 import ModalUpdate from "../../../../../fragments/modals/modalUpdate";
 import CreateUpdateForm from "./createUpdateForm";

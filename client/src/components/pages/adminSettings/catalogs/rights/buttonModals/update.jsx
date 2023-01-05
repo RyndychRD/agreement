@@ -1,7 +1,7 @@
 import {
   useGetRightQuery,
   useUpdateRightMutation,
-} from "../../../../../../core/redux/api/AdminSettings/Catalogs/RightApi";
+} from "../../../../../../core/redux/api/Globals/Catalogs/RightApi";
 import { AUseForm } from "../../../../../adapter";
 import ModalUpdate from "../../../../../fragments/modals/modalUpdate";
 import CreateUpdateForm from "./createUpdateForm";
