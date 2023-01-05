@@ -19,5 +19,5 @@ body {
 }
 
 .content {
-  min-height: 99vh !important;
+  height: 99vh;
 }
