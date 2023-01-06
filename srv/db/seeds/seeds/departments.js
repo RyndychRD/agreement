@@ -5,7 +5,7 @@
 exports.departmentsSeed = async function (knex) {
   // Deletes ALL existing entries
   await knex("departments").del();
-  await knex.raw("SELECT setval('departments_id_seq', 22, true);");
+  await knex.raw("SELECT setval('departments_id_seq', 23, true);");
   await knex("departments").insert([
     { id: "1", name: "Департамент материально-технического снабжения" },
     { id: "2", name: "Департамент экономики и планирования" },
@@ -34,6 +34,7 @@ exports.departmentsSeed = async function (knex) {
     { id: "20", name: "Бюро метрологии и испытаний" },
     { id: "21", name: "Конструкторское бюро №1" },
     { id: "22", name: "Конструкторское бюро №2" },
+    { id: "23", name: "Отдел документационного обеспечения" },
   ]);
   console.log("departmentsSeed executed");
 };

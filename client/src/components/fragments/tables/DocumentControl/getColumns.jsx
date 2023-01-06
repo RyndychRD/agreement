@@ -27,6 +27,7 @@ export default function getColumns({ dataSource, columns }) {
       title: "ID",
       dataIndex: "document_id",
       align: "center",
+      defaultSortOrder: "ascend",
       sorter: (a, b) => sorterInt(a?.document_id, b?.document_id),
     },
 
@@ -66,31 +67,20 @@ export default function getColumns({ dataSource, columns }) {
       title: "Статус",
       dataIndex: "document_status",
       align: "center",
-      sorter: (a, b) => sorterDate(a, b),
-      filters: _?.uniqWith(
-        filterData(
-          dataSource?.sort((a, b) =>
-            a?.document_name?.localeCompare(b?.document_name)
-          )
-        )((i) => i?.document_name),
-        _?.isEqual
-      ),
-      onFilter: (value, record) => record?.document_name?.indexOf(value) === 0,
+      sorter: (a, b) =>
+        sorterStringAlphabet(a?.document_status, b?.document_status),
+      filters: filterDataStringSorted(dataSource, "document_status"),
+      onFilter: (value, record) =>
+        record?.document_status?.indexOf(value) === 0,
     },
     document_type: {
       title: "Тип договора",
       dataIndex: "document_type",
       align: "center",
-      sorter: (a, b) => sorterDate(a, b),
-      filters: _?.uniqWith(
-        filterData(
-          dataSource?.sort((a, b) =>
-            a?.document_name?.localeCompare(b?.document_name)
-          )
-        )((i) => i?.document_name),
-        _?.isEqual
-      ),
-      onFilter: (value, record) => record?.document_name?.indexOf(value) === 0,
+      sorter: (a, b) =>
+        sorterStringAlphabet(a?.document_type, b?.document_type),
+      filters: filterDataStringSorted(dataSource, "document_type"),
+      onFilter: (value, record) => record?.document_type?.indexOf(value) === 0,
     },
     document_current_signer: {
       title: "На подписи",

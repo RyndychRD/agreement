@@ -651,6 +651,16 @@ exports.usersSeed = async function (knex) {
       middle_name: "",
       email: "UmarovN@zik.kz",
     },
+    {
+      id: 153,
+      login: "UatayevaAK",
+      password: "$2a$10$BisgL594pfWrb4.Paw8.dOjWo9DAnKMK1nGoamh.UmVkBY1QuujvC",
+      position_id: 64,
+      last_name: "Уатаева",
+      first_name: "Айнура",
+      middle_name: "",
+      email: "UatayevaAK@zik.kz",
+    },
   ]);
   console.log("usersSeed executed");
 };

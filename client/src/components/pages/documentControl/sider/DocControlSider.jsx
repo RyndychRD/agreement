@@ -33,39 +33,39 @@ export default function Sider() {
   const items = [
     getItem("Мои документы", "UserDocuments", null, [
       isAccessGranted("CreatedDocuments") ? getLink("created-doc") : null,
-      isAccessGranted("ReworkDocuments")
-        ? getItem("На доработку", "FILL_ME")
-        : null,
-      isAccessGranted("ApprovedDocuments")
-        ? getItem("Согласованные", "FILL_ME")
-        : null,
-      isAccessGranted("CompletedDocuments")
-        ? getItem("Исполненные", "FILL_ME")
-        : null,
-      isAccessGranted("RejectedDocuments")
-        ? getItem("Отклоненные", "FILL_ME")
-        : null,
-      isAccessGranted("OnRegistrationDocuments")
-        ? getItem("Регистрация документов", "FILL_ME")
-        : null,
+      // isAccessGranted("ReworkDocuments")
+      //   ? getItem("На доработку", "FILL_ME")
+      //   : null,
+      // isAccessGranted("ApprovedDocuments")
+      //   ? getItem("Согласованные", "FILL_ME")
+      //   : null,
+      // isAccessGranted("CompletedDocuments")
+      //   ? getItem("Исполненные", "FILL_ME")
+      //   : null,
+      // isAccessGranted("RejectedDocuments")
+      //   ? getItem("Отклоненные", "FILL_ME")
+      //   : null,
+      // isAccessGranted("OnRegistrationDocuments")
+      //   ? getItem("Регистрация документов", "FILL_ME")
+      //   : null,
     ]),
-    getItem("Подписание", "Signing", null, [
-      isAccessGranted("ForApprovalDocuments")
-        ? getItem("Входящие", "FILL_ME")
-        : null,
-      isAccessGranted("MySignedForApprovalDocuments")
-        ? getItem("Подписанные мною", "FILL_ME")
-        : null,
-      isAccessGranted("SignedInOOPZDocuments")
-        ? getItem("Документы подписанные в ООПЗ", "FILL_ME7")
-        : null,
-    ]),
-    getItem("Задачи", "Tasks", null, [
-      isAccessGranted("IncomeTasks") ? getItem("Входящие", "FILL_ME") : null,
-    ]),
-    getItem("Список (Админ)", "AdminDocs", null, [
-      isAccessGranted("Admin") ? getItem("Все документы", "FILL_ME") : null,
-    ]),
+    // getItem("Подписание", "Signing", null, [
+    //   isAccessGranted("ForApprovalDocuments")
+    //     ? getItem("Входящие", "FILL_ME")
+    //     : null,
+    //   isAccessGranted("MySignedForApprovalDocuments")
+    //     ? getItem("Подписанные мною", "FILL_ME")
+    //     : null,
+    //   isAccessGranted("SignedInOOPZDocuments")
+    //     ? getItem("Документы подписанные в ООПЗ", "FILL_ME7")
+    //     : null,
+    // ]),
+    // getItem("Задачи", "Tasks", null, [
+    //   isAccessGranted("IncomeTasks") ? getItem("Входящие", "FILL_ME") : null,
+    // ]),
+    // getItem("Список (Админ)", "AdminDocs", null, [
+    //   isAccessGranted("Admin") ? getItem("Все документы", "FILL_ME") : null,
+    // ]),
   ];
   return (
     <LayoutSider theme="dark" collapsible>

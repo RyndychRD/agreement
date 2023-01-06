@@ -1,3 +1,4 @@
+/* cSpell:disable */
 /**
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
@@ -41,6 +42,12 @@ exports.seed = async function (knex) {
       document_status_id: "8",
       document_type_id: "10",
       creator_id: "1",
+    },
+    {
+      name: "Я Закуп ТРУ от Небогина, который должен отображаться в Созданные мною и в Регистрация документов  и Все документы",
+      document_status_id: "8",
+      document_type_id: "10",
+      creator_id: "3",
     },
   ]);
 };

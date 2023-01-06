@@ -8,11 +8,16 @@ export const documentsApi = createApi({
   tagTypes: [TAG_TYPE],
   endpoints: (build) => ({
     getDocuments: build.query({
-      queryFn: async ({ status = 0, isAddForeignTables = false }) => {
+      queryFn: async ({
+        status = 0,
+        isAddForeignTables = false,
+        userId = -1,
+      }) => {
         try {
           const response = await DocumentService.getAll({
             status,
             isAddForeignTables,
+            userId,
           });
           return { data: response };
         } catch (e) {
