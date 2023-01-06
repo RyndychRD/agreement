@@ -27,7 +27,7 @@ export default function getColumns({ dataSource, columns }) {
       title: "ID",
       dataIndex: "document_id",
       align: "center",
-      sorter: (a, b) => sorterInt(a?.id, b?.id),
+      sorter: (a, b) => sorterInt(a?.document_id, b?.document_id),
     },
 
     document_name: {

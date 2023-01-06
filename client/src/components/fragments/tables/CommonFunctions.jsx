@@ -1,5 +1,6 @@
 /** @format */
 import _ from "lodash";
+import moment from "moment";
 import { ARow, ACol, ASpan, ADiv, AButton, AAlert, ATag } from "../../adapter";
 
 /**
@@ -44,7 +45,8 @@ export const filterDataBoolean = (dataSource, columnName) => {
   );
 };
 
-export const renderDate = (date) => date;
+export const renderDate = (date) =>
+  date ? moment(date).format("DD.MM.YYYY HH:mm") : "";
 
 /**
  * Функция для рендера прав
