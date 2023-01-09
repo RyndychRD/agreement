@@ -82,35 +82,24 @@ export default function getColumns({ dataSource, columns }) {
       filters: filterDataStringSorted(dataSource, "document_type"),
       onFilter: (value, record) => record?.document_type?.indexOf(value) === 0,
     },
+    document_creator: {
+      title: "Создатель",
+      dataIndex: "document_creator",
+      align: "center",
+      sorter: (a, b) =>
+        sorterStringAlphabet(a?.document_creator, b?.document_creator),
+      filters: filterDataStringSorted(dataSource, "document_creator"),
+      onFilter: (value, record) => record?.document_creator?.indexOf(value) === 0,
+    },
     document_current_signer: {
-      title: "На подписи",
+      title: "На подписи (доделать)",
       dataIndex: "document_current_signer",
       align: "center",
-      sorter: (a, b) => sorterDate(a, b),
-      filters: _?.uniqWith(
-        filterData(
-          dataSource?.sort((a, b) =>
-            a?.document_name?.localeCompare(b?.document_name)
-          )
-        )((i) => i?.document_name),
-        _?.isEqual
-      ),
-      onFilter: (value, record) => record?.document_name?.indexOf(value) === 0,
     },
     document_stage: {
-      title: "Этап",
+      title: "Этап (доделать)",
       dataIndex: "document_stage",
       align: "center",
-      sorter: (a, b) => sorterDate(a, b),
-      filters: _?.uniqWith(
-        filterData(
-          dataSource?.sort((a, b) =>
-            a?.document_name?.localeCompare(b?.document_name)
-          )
-        )((i) => i?.document_name),
-        _?.isEqual
-      ),
-      onFilter: (value, record) => record?.document_name?.indexOf(value) === 0,
     },
   };
 
@@ -122,6 +111,6 @@ export default function getColumns({ dataSource, columns }) {
    * Выбрать из словаря все запрошенные колонки
    */
   return columns?.data?.map((column) =>
-    dictColumn[column] ? dictColumn[column] : null
+    dictColumn[column] ? dictColumn[column] : {}
   );
 }

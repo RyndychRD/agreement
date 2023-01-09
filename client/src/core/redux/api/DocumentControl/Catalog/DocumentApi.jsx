@@ -12,11 +12,13 @@ export const documentsApi = createApi({
         status = 0,
         isAddForeignTables = false,
         userId = -1,
+        isAddDocumentData = false,
       }) => {
         try {
           const response = await DocumentService.getAll({
             status,
             isAddForeignTables,
+            isAddDocumentData,
             userId,
           });
           return { data: response };

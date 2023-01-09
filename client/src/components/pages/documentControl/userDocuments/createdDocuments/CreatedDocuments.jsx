@@ -22,6 +22,7 @@ export default function CreatedDocument() {
       "document_created_at",
       "document_updated_at",
       "document_finished_at",
+      "document_creator",
     ],
   };
   /**

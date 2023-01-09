@@ -165,6 +165,6 @@ export default function getColumns({ dataSource, columns }) {
    * Выбрать из словаря все запрошенные колонки
    */
   return columns?.data?.map((column) =>
-    dictColumn[column] ? dictColumn[column] : null
+    dictColumn[column] ? dictColumn[column] : {}
   );
 }

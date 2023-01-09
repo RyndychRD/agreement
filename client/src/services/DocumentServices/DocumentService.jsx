@@ -10,12 +10,13 @@ export default class DocumentService {
         key: el.id,
         document_id: el.id,
         document_name: el.name,
-        document_type: el.document_type_name,
-        document_status: el.document_status_name,
+        document_type: el?.document_type_name,
+        document_status: el?.document_status_name,
         document_created_at: el.created_at,
         document_updated_at:
           el.updated_at !== el.created_at ? el.updated_at : "",
         document_finished_at: el.finished_at,
+        document_creator:`${el?.user_last_name} ${el?.user_first_name} ${el?.user_middle_name}`
       }));
     } catch (e) {
       console.log("Ошибка пред-обработки данных:", e);
@@ -61,10 +62,15 @@ export default class DocumentService {
     return response.data;
   }
 
-  static async getAll({ isAddForeignTables, status, userId }) {
+  static async getAll({
+    isAddForeignTables,
+    status,
+    userId,
+    isAddDocumentData,
+  }) {
     console.log("вызов в DocumentService -> Взять все записи");
     const response = await api.get(
-      `${this.API_ROUTE}?isAddForeignTables=${isAddForeignTables}&status=${status}&userId=${userId}`
+      `${this.API_ROUTE}?isAddForeignTables=${isAddForeignTables}&status=${status}&userId=${userId}&isAddDocumentData=${isAddDocumentData}`
     );
     console.log(
       "вызов в DocumentService -> Взять все записи -> результат",
