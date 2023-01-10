@@ -1,13 +1,13 @@
 /* eslint-disable react/react-in-jsx-scope */
 import ModalDelete from "../../../../../fragments/modals/modalDelete";
 import { useCustomState } from "../../../../../fragments/tables/Provider";
-import { useDeleteRightMutation } from "../../../../../../core/redux/api/Globals/Catalogs/RightApi";
+import { useDeleteRightMutationHook } from "../../../../../../core/redux/api/Globals/Catalogs/RightApi";
 
 export default function DeleteButtonAction() {
   const state = useCustomState();
   return (
     <ModalDelete
-      deleteMutation={useDeleteRightMutation}
+      deleteMutation={useDeleteRightMutationHook}
       deleteText={state.currentRow?.right_name}
     />
   );

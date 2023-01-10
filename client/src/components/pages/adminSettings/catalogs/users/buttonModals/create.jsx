@@ -1,6 +1,6 @@
 import { AUseForm } from "../../../../../adapter";
 import ModalInput from "../../../../../fragments/modals/modalInput";
-import { useAddUserMutation } from "../../../../../../core/redux/api/Globals/Catalogs/UserApi";
+import { useAddUserMutationHook } from "../../../../../../core/redux/api/Globals/Catalogs/UserApi";
 import CreateUpdateForm from "./createUpdateForm";
 
 /**
@@ -11,7 +11,7 @@ export default function CreateButtonModel() {
   const [form] = AUseForm();
   return (
     <ModalInput
-      addMutation={useAddUserMutation}
+      addMutation={useAddUserMutationHook}
       form={form}
       CreateUpdateForm={CreateUpdateForm}
     />
