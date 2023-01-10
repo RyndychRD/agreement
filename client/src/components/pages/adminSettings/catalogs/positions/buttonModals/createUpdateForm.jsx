@@ -7,7 +7,7 @@ import {
 	useGetDepartmentsQueryHook,
 	useGetDepartmentQueryHook,
 } from "../../../../../../core/redux/api/Globals/Catalogs/DepartamentApi";
-import { useGetRightsQuery } from "../../../../../../core/redux/api/Globals/Catalogs/RightApi";
+import { useGetRightsQueryHook } from "../../../../../../core/redux/api/Globals/Catalogs/RightApi";
 
 export default function CreateUpdateForm({ form }) {
 	const {
@@ -19,7 +19,7 @@ export default function CreateUpdateForm({ form }) {
 		data: rights = {},
 		isError: isErrorRights,
 		isLoading: isLoadingRights,
-	} = useGetRightsQuery();
+	} = useGetRightsQueryHook();
 
 	// Используется как тригер для подтягивания новых прав по департаменту
 	const [triggerGetDepartmentRights, setTriggerGetDepartmentRights] = useState({

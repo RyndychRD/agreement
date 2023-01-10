@@ -65,7 +65,7 @@ router.delete("/catalog/rights",authMiddleware, rightMiddleware(),rightControlle
 // prettier-ignore
 router.put("/catalog/rights",authMiddleware, rightMiddleware(), rightController.updateRight);
 
-//Права
+//Документы
 // prettier-ignore
 router.get("/catalog/documents",authMiddleware,documentController.getDocuments)
 // prettier-ignore
@@ -74,5 +74,7 @@ router.post("/catalog/documents",authMiddleware,documentController.createNewDocu
 router.delete("/catalog/documents",authMiddleware,documentController.deleteDocument);
 // prettier-ignore
 router.put("/catalog/documents",authMiddleware, documentController.updateDocument);
+
+
 
 module.exports = router;

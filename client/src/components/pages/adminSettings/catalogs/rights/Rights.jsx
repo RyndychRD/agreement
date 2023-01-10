@@ -6,7 +6,7 @@ import CreateButtonModel from "./buttonModals/create";
 import DeleteButtonAction from "./buttonModals/delete";
 import UpdateButtonModel from "./buttonModals/update";
 
-import { useGetRightsQuery } from "../../../../../core/redux/api/Globals/Catalogs/RightApi";
+import { useGetRightsQueryHook } from "../../../../../core/redux/api/Globals/Catalogs/RightApi";
 import RightService from "../../../../../services/AdminServices/RightService";
 
 /** Справочник Прав */
@@ -15,7 +15,7 @@ export default function Rights() {
   /**
    * При открытии форму подгружаем новые необходимые данные
    */
-  const { data = [], isLoading, isError } = useGetRightsQuery();
+  const { data = [], isLoading, isError } = useGetRightsQueryHook();
   return (
     <Provider>
       <AdminSettingsTable

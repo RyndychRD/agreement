@@ -1,6 +1,6 @@
 import {
-  useGetRightQuery,
-  useUpdateRightMutation,
+  useGetRightQueryHook,
+  useUpdateRightMutationHook,
 } from "../../../../../../core/redux/api/Globals/Catalogs/RightApi";
 import { AUseForm } from "../../../../../adapter";
 import ModalUpdate from "../../../../../fragments/modals/modalUpdate";
@@ -15,8 +15,8 @@ export default function UpdateButtonModel() {
   });
   return (
     <ModalUpdate
-      getQuery={useGetRightQuery}
-      updateMutation={useUpdateRightMutation}
+      getQuery={useGetRightQueryHook}
+      updateMutation={useUpdateRightMutationHook}
       form={form}
       CreateUpdateForm={CreateUpdateForm}
       formDefaultValues={formDefaultValues}

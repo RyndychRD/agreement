@@ -6,7 +6,7 @@ import CreateButtonModel from "./buttonModals/create";
 import DeleteButtonAction from "./buttonModals/delete";
 import UpdateButtonModel from "./buttonModals/update";
 
-import { useGetPositionsQuery } from "../../../../../core/redux/api/Globals/Catalogs/PositionsApi";
+import {useGetPositionsQueryHook } from "../../../../../core/redux/api/Globals/Catalogs/PositionsApi";
 import PositionService from "../../../../../services/AdminServices/PositionService";
 
 /** Справочник Должностей */
@@ -27,7 +27,7 @@ export default function Positions() {
     data = [],
     isLoading,
     isError,
-  } = useGetPositionsQuery({ isAddForeignTables: true, isAddRights: true });
+  } = useGetPositionsQueryHook({ isAddForeignTables: true, isAddRights: true });
   return (
     <Provider>
       <AdminSettingsTable
