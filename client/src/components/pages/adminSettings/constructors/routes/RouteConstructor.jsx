@@ -6,22 +6,14 @@ import { Provider } from "../../../../fragments/tables/Provider";
 // import DeleteButtonAction from "./buttonModals/delete";
 // import UpdateButtonModel from "./buttonModals/update";
 
-import { useGetUsersQuery } from "../../../../../core/redux/api/Globals/Catalogs/UserApi";
-import UserService from "../../../../../services/AdminServices/UserService";
+import { useGetRoutesQuery } from "../../../../../core/redux/api/AdminSettings/Constructor/RouteConstructorApi";
+import RouteService from "./../../../../../services/AdminServices/constructor/RouteService";
 
 /** конструктор маршрутов */
+
 export default function RouteConstructor() {
   const columns = {
-    data: [
-      "user_id",
-      "user_login",
-      "user_email",
-      "user_fio",
-      "user_is_disabled",
-      "position_name",
-      "department_name",
-      "rights_list",
-    ],
+    data: ["type_name", "position_name", "user_fio"],
   };
   /**
    * При открытии форму подгружаем новые необходимые данные
@@ -30,14 +22,14 @@ export default function RouteConstructor() {
     data = [],
     isLoading,
     isError,
-  } = useGetUsersQuery({ isAddForeignTables: true, isAddRights: true });
+  } = useGetRoutesQuery({ isAddForeignTables: true, isAddRights: true });
   return (
     <Provider>
       <AdminSettingsTable
         isLoading={isLoading}
         isError={isError}
         columns={columns}
-        dataSource={data ? UserService.prepareForTable(data) : null}
+        dataSource={data ? RouteService.prepareForTable(data) : null}
         title="Маршруты по должностям"
       />
       {/* <CreateButtonModel />
