@@ -5,6 +5,9 @@ const {
 } = require("./seeds/document_signature_types");
 const { documentStatusesSeed } = require("./seeds/document_statuses");
 const { documentTypesSeed } = require("./seeds/document_types");
+const {
+  documentTypeDefaultRoutesSeed,
+} = require("./seeds/document_type_default_routes");
 const { positionSeed } = require("./seeds/positions");
 const { positionRightsSeed } = require("./seeds/positions-rights");
 const { rightsSeed } = require("./seeds/rights");
@@ -26,4 +29,5 @@ exports.seed = async function (knex) {
   await documentTypesSeed(knex);
   await positionRightsSeed(knex);
   await userRightsSeed(knex);
+  await documentTypeDefaultRoutesSeed(knex);
 };
