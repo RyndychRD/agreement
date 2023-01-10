@@ -31,6 +31,10 @@ const dict = {
     <NavLink to="/admin-settings/constructor/routes">Маршруты</NavLink>,
     "routes"
   ),
+  types: getItem(
+    <NavLink to="/admin-settings/catalogs/types">Типы документов</NavLink>,
+    "types"
+  ),
 };
 
 function getLink(LinkKey) {

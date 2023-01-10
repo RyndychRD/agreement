@@ -5,6 +5,7 @@ import { positionsApi } from "./api/Globals/Catalogs/PositionsApi";
 import { usersApi } from "./api/Globals/Catalogs/UserApi";
 import { rightsApi } from "./api/Globals/Catalogs/RightApi";
 import { documentsApi } from "./api/DocumentControl/Catalog/DocumentApi";
+import { typesApi } from "./api/Globals/Catalogs/TypeApi";
 
 const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ const store = configureStore({
     usersApi: usersApi.reducer,
     rightsApi: rightsApi.reducer,
     documentsApi: documentsApi.reducer,
+    typesApi: typesApi.reducer,
   },
   middleware: (getDefaultMiddlware) =>
     getDefaultMiddlware()
@@ -21,7 +23,8 @@ const store = configureStore({
       .concat(positionsApi.middleware)
       .concat(usersApi.middleware)
       .concat(rightsApi.middleware)
-      .concat(documentsApi.middleware),
+      .concat(documentsApi.middleware)
+      .concat(typesApi.middleware),
 });
 
 export default store;

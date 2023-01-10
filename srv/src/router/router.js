@@ -9,6 +9,7 @@ const authMiddleware = require("../middlewares/auth-middleware");
 const rightMiddleware = require("../middlewares/right-middleware");
 const rightController = require("../controllers/catalogControllers/right-controller");
 const documentController = require("../controllers/catalogControllers/document-controller");
+const typeController = require("../controllers/catalogControllers/type-controller");
 
 //Авторизация пользователя
 router.post(
@@ -64,6 +65,16 @@ router.post("/catalog/rights",authMiddleware, rightMiddleware(),rightController.
 router.delete("/catalog/rights",authMiddleware, rightMiddleware(),rightController.deleteRight);
 // prettier-ignore
 router.put("/catalog/rights",authMiddleware, rightMiddleware(), rightController.updateRight);
+
+//Типы документов
+// prettier-ignore
+router.get("/catalog/types",authMiddleware, rightMiddleware(),typeController.getTypes)
+// prettier-ignore
+router.post("/catalog/types",authMiddleware, rightMiddleware(),typeController.createNewType)
+// prettier-ignore
+router.delete("/catalog/types",authMiddleware, rightMiddleware(),typeController.deleteType);
+// prettier-ignore
+router.put("/catalog/types",authMiddleware, rightMiddleware(), typeController.updateType);
 
 //Документы
 // prettier-ignore
