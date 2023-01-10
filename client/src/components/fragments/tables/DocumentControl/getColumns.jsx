@@ -1,10 +1,12 @@
 // import { Tag } from "antd";
 import _ from "lodash";
 import {
-	filterData,
-	sorterDate,
-	sorterInt,
-	sorterStringAlphabet,
+  filterData,
+  filterDataStringSorted,
+  renderDate,
+  sorterDate,
+  sorterInt,
+  sorterStringAlphabet,
 } from "../CommonFunctions";
 
 /**
@@ -14,107 +16,101 @@ import {
  * @returns
  */
 export default function getColumns({ dataSource, columns }) {
-	/**
-	 * Словарь всех возможных колонок для таблицы
-	 */
+  /**
+   * Словарь всех возможных колонок для таблицы
+   */
 
-	// Наименование договора | Время создания | Последние изменение | Тип договора | Статус | На подписи | Этап
+  // Наименование договора | Время создания | Последние изменение | Тип договора | Статус | На подписи | Этап
 
-	const documentColumns = {
-		document_id: {
-			title: "ID",
-			dataIndex: "document_id",
-			align: "center",
-			sorter: (a, b) => sorterInt(a?.id, b?.id),
-		},
-		document_status_id: {
-			title: "Статус документа",
-			dataIndex: "document_status_id",
-			align: "center",
-			sorter: (a, b) => sorterInt(a?.document_status_id, b?.document_status_id),
-		},
-		document_type_id: {
-			title: "Тип документа",
-			dataIndex: "document_type_id",
-			align: "center",
-			sorter: (a, b) => sorterInt(a?.document_type_id, b?.document_type_id),
-		},
-		document_creator_id: {
-			title: "Создатель",
-			dataIndex: "creator_id",
-			align: "center",
-			sorter: (a, b) => sorterInt(a?.creator_id, b?.creator_id),
-		},
-		document_name: {
-			title: "Наименование договора",
-			dataIndex: "name",
-			align: "center",
-			sorter: (a, b) => sorterStringAlphabet(a?.name, b?.name),
-			filters: _?.uniqWith(
-				filterData(
-					dataSource?.sort((a, b) =>
-						a?.document_name?.localeCompare(b?.document_name)
-					)
-				)((i) => i?.document_name),
-				_?.isEqual
-			),
-			onFilter: (value, record) => record?.document_name?.indexOf(value) === 0,
-		},
-		document_created_at: {
-			title: "Время создание",
-			dataIndex: "created_at",
-			align: "center",
-			sorter: (a, b) => sorterDate(a, b),
-			filters: _?.uniqWith(
-				filterData(
-					dataSource?.sort((a, b) =>
-						a?.document_name?.localeCompare(b?.document_name)
-					)
-				)((i) => i?.document_name),
-				_?.isEqual
-			),
-			onFilter: (value, record) => record?.document_name?.indexOf(value) === 0,
-		},
-		document_updated_at: {
-			title: "Дата обновления",
-			dataIndex: "updated_at",
-			align: "center",
-			sorter: (a, b) => sorterDate(a, b),
-			filters: _?.uniqWith(
-				filterData(
-					dataSource?.sort((a, b) =>
-						a?.document_name?.localeCompare(b?.document_name)
-					)
-				)((i) => i?.document_name),
-				_?.isEqual
-			),
-			onFilter: (value, record) => record?.document_name?.indexOf(value) === 0,
-		},
-		document_finished_at: {
-			title: "Дата завершение",
-			dataIndex: "finished_at",
-			align: "center",
-			sorter: (a, b) => sorterDate(a, b),
-			filters: _?.uniqWith(
-				filterData(
-					dataSource?.sort((a, b) =>
-						a?.document_name?.localeCompare(b?.document_name)
-					)
-				)((i) => i?.document_name),
-				_?.isEqual
-			),
-			onFilter: (value, record) => record?.document_name?.indexOf(value) === 0,
-		},
-	};
+  const documentColumns = {
+    document_id: {
+      title: "ID",
+      dataIndex: "document_id",
+      align: "center",
+      defaultSortOrder: "ascend",
+      sorter: (a, b) => sorterInt(a?.document_id, b?.document_id),
+    },
 
-	const dictColumn = {
-		...documentColumns,
-	};
+    document_name: {
+      title: "Наименование договора",
+      dataIndex: "document_name",
+      align: "center",
+      sorter: (a, b) =>
+        sorterStringAlphabet(a?.document_name, b?.document_name),
+      filters: filterDataStringSorted(dataSource, "document_name"),
+      onFilter: (value, record) => record?.document_name?.indexOf(value) === 0,
+    },
 
-	/**
-	 * Выбрать из словаря все запрошенные колонки
-	 */
-	return columns?.data?.map((column) =>
-		dictColumn[column] ? dictColumn[column] : null
-	);
+    document_created_at: {
+      title: "Дата и время создание",
+      dataIndex: "document_created_at",
+      align: "center",
+      sorter: (a, b) => sorterDate(a, b),
+      render: (value) => renderDate(value),
+    },
+    document_updated_at: {
+      title: "Последние изменение",
+      dataIndex: "document_updated_at",
+      align: "center",
+      sorter: (a, b) => sorterDate(a, b),
+      render: (value) => renderDate(value),
+    },
+    document_finished_at: {
+      title: "Дата завершение",
+      dataIndex: "document_finished_at",
+      align: "center",
+      sorter: (a, b) => sorterDate(a, b),
+      render: (value) => renderDate(value),
+    },
+
+    document_status: {
+      title: "Статус",
+      dataIndex: "document_status",
+      align: "center",
+      sorter: (a, b) =>
+        sorterStringAlphabet(a?.document_status, b?.document_status),
+      filters: filterDataStringSorted(dataSource, "document_status"),
+      onFilter: (value, record) =>
+        record?.document_status?.indexOf(value) === 0,
+    },
+    document_type: {
+      title: "Тип договора",
+      dataIndex: "document_type",
+      align: "center",
+      sorter: (a, b) =>
+        sorterStringAlphabet(a?.document_type, b?.document_type),
+      filters: filterDataStringSorted(dataSource, "document_type"),
+      onFilter: (value, record) => record?.document_type?.indexOf(value) === 0,
+    },
+    document_creator: {
+      title: "Создатель",
+      dataIndex: "document_creator",
+      align: "center",
+      sorter: (a, b) =>
+        sorterStringAlphabet(a?.document_creator, b?.document_creator),
+      filters: filterDataStringSorted(dataSource, "document_creator"),
+      onFilter: (value, record) => record?.document_creator?.indexOf(value) === 0,
+    },
+    document_current_signer: {
+      title: "На подписи (доделать)",
+      dataIndex: "document_current_signer",
+      align: "center",
+    },
+    document_stage: {
+      title: "Этап (доделать)",
+      dataIndex: "document_stage",
+      align: "center",
+    },
+  };
+
+  const dictColumn = {
+    ...documentColumns,
+  };
+
+  /**
+   * Выбрать из словаря все запрошенные колонки
+   */
+  return columns?.data?.map((column) =>
+    dictColumn[column] ? dictColumn[column] : {}
+  );
 }

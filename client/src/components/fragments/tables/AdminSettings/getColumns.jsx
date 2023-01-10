@@ -1,11 +1,11 @@
-import { Tag } from "antd";
-import _ from "lodash";
 import {
+  filterDataBoolean,
+  filterDataStringSorted,
   booleanRender,
-  filterData,
   sorterBoolean,
   sorterInt,
   sorterStringAlphabet,
+  renderRights,
 } from "../CommonFunctions";
 
 /**
@@ -33,14 +33,7 @@ export default function getColumns({ dataSource, columns }) {
       align: "center",
       sorter: (a, b) =>
         sorterStringAlphabet(a?.department_name, b?.department_name),
-      filters: _?.uniqWith(
-        filterData(
-          dataSource?.sort((a, b) =>
-            a?.department_name?.localeCompare(b?.department_name)
-          )
-        )((i) => i?.department_name),
-        _?.isEqual
-      ),
+      filters: filterDataStringSorted(dataSource, "department_name"),
       onFilter: (value, record) =>
         record?.department_name?.indexOf(value) === 0,
     },
@@ -60,10 +53,7 @@ export default function getColumns({ dataSource, columns }) {
       align: "center",
       sorter: (a, b) =>
         sorterStringAlphabet(a?.position_name, b?.position_name),
-      filters: _?.uniqWith(
-        filterData(dataSource)((i) => i?.position_name),
-        _?.isEqual
-      ),
+      filters: filterDataStringSorted(dataSource, "position_name"),
       onFilter: (value, record) => record?.position_name?.indexOf(value) === 0,
     },
     position_is_signer: {
@@ -74,10 +64,7 @@ export default function getColumns({ dataSource, columns }) {
         sorterBoolean(a?.position_is_signer, b?.position_is_signer),
       render: (value) => booleanRender(value),
 
-      filters: _?.uniqWith(
-        filterData(dataSource)((i) => (i?.position_is_signer ? "Да" : "Нет")),
-        _?.isEqual
-      ),
+      filters: filterDataBoolean(dataSource, "position_is_signer"),
       onFilter: (value, record) =>
         value === "Да"
           ? record?.position_is_signer
@@ -99,10 +86,7 @@ export default function getColumns({ dataSource, columns }) {
       dataIndex: "user_login",
       align: "center",
       sorter: (a, b) => sorterStringAlphabet(a?.user_login, b?.user_login),
-      filters: _?.uniqWith(
-        filterData(dataSource)((i) => i?.user_login),
-        _?.isEqual
-      ),
+      filters: filterDataStringSorted(dataSource, "user_login"),
       onFilter: (value, record) => record?.user_login?.indexOf(value) === 0,
     },
     user_email: {
@@ -110,10 +94,7 @@ export default function getColumns({ dataSource, columns }) {
       dataIndex: "user_email",
       align: "center",
       sorter: (a, b) => sorterStringAlphabet(a?.user_email, b?.user_email),
-      filters: _?.uniqWith(
-        filterData(dataSource)((i) => i?.user_email),
-        _?.isEqual
-      ),
+      filters: filterDataStringSorted(dataSource, "user_email"),
       onFilter: (value, record) => record?.user_email?.indexOf(value) === 0,
     },
     user_fio: {
@@ -121,10 +102,7 @@ export default function getColumns({ dataSource, columns }) {
       dataIndex: "user_fio",
       align: "center",
       sorter: (a, b) => sorterStringAlphabet(a?.user_fio, b?.user_fio),
-      filters: _?.uniqWith(
-        filterData(dataSource)((i) => i?.user_fio),
-        _?.isEqual
-      ),
+      filters: filterDataStringSorted(dataSource, "user_fio"),
       onFilter: (value, record) => record?.user_fio?.indexOf(value) === 0,
     },
     user_is_disabled: {
@@ -134,10 +112,7 @@ export default function getColumns({ dataSource, columns }) {
       sorter: (a, b) => sorterBoolean(a?.user_is_disabled, b?.user_is_disabled),
       render: (value) => booleanRender(!value),
 
-      filters: _?.uniqWith(
-        filterData(dataSource)((i) => (i.user_is_disabled ? "Нет" : "Да")),
-        _?.isEqual
-      ),
+      filters: filterDataBoolean(dataSource, "user_is_disabled"),
       onFilter: (value, record) =>
         value === "Да" ? !record?.user_is_disabled : record?.user_is_disabled,
     },
@@ -157,10 +132,7 @@ export default function getColumns({ dataSource, columns }) {
       dataIndex: "right_name",
       align: "center",
       sorter: (a, b) => sorterStringAlphabet(a?.right_name, b?.right_name),
-      filters: _?.uniqWith(
-        filterData(dataSource)((i) => i?.right_name),
-        _?.isEqual
-      ),
+      filters: filterDataStringSorted(dataSource, "right_name"),
       onFilter: (value, record) => record?.right_name?.indexOf(value) === 0,
     },
     right_code_name: {
@@ -169,10 +141,7 @@ export default function getColumns({ dataSource, columns }) {
       align: "center",
       sorter: (a, b) =>
         sorterStringAlphabet(a?.right_code_name, b?.right_code_name),
-      filters: _?.uniqWith(
-        filterData(dataSource)((i) => i?.right_code_name),
-        _?.isEqual
-      ),
+      filters: filterDataStringSorted(dataSource, "right_code_name"),
       onFilter: (value, record) =>
         record?.right_code_name?.indexOf(value) === 0,
     },
@@ -181,20 +150,7 @@ export default function getColumns({ dataSource, columns }) {
       title: "Список прав",
       dataIndex: "rights_list",
       align: "center",
-      render: (items) => {
-        const uniqItems = _.uniqBy(items, "id");
-        return uniqItems.map((item) => {
-          if (!item?.id || item?.id === null) return "";
-          let color = "green";
-          if (item.id === 1) color = "red";
-          if (item.isInherited) color = "";
-          return (
-            <Tag style={{ margin: "5px" }} key={item.id} color={color}>
-              {item.name}
-            </Tag>
-          );
-        });
-      },
+      render: (items) => renderRights(items),
     },
   };
 
@@ -209,6 +165,6 @@ export default function getColumns({ dataSource, columns }) {
    * Выбрать из словаря все запрошенные колонки
    */
   return columns?.data?.map((column) =>
-    dictColumn[column] ? dictColumn[column] : null
+    dictColumn[column] ? dictColumn[column] : {}
   );
 }

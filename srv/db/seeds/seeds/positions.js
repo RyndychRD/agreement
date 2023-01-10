@@ -5,7 +5,7 @@
 exports.positionSeed = async function (knex) {
   // Deletes ALL existing entries
   await knex("positions").del();
-  await knex.raw("SELECT setval('positions_id_seq', 63, true);");
+  await knex.raw("SELECT setval('positions_id_seq', 64, true);");
   await knex("positions").insert([
     {
       id: 2,
@@ -277,6 +277,7 @@ exports.positionSeed = async function (knex) {
       department_id: 5,
     },
     { id: 63, name: "Экономист", is_signer: 0, department_id: 7 },
+    { id: 64, name: "Руководитель ГДО", is_signer: 1, department_id: 23 },
   ]);
   console.log("positionSeed executed");
 };

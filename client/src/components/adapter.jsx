@@ -18,6 +18,7 @@ import {
   Modal,
   Spin,
   Select,
+  Tag,
   Checkbox,
 } from "antd";
 import {
@@ -44,6 +45,10 @@ export function ACheckbox(props) {
 export function ASelect(props) {
   const { children } = props;
   return <Select {...props}>{children}</Select>;
+}
+export function ATag(props) {
+  const { children } = props;
+  return <Tag {...props}>{children}</Tag>;
 }
 export function ASpin(props) {
   const { children } = props;

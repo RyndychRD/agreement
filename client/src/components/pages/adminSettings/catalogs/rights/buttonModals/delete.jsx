@@ -1,7 +1,7 @@
 /* eslint-disable react/react-in-jsx-scope */
 import ModalDelete from "../../../../../fragments/modals/modalDelete";
 import { useCustomState } from "../../../../../fragments/tables/Provider";
-import { useDeleteRightMutation } from "../../../../../../core/redux/api/AdminSettings/Catalogs/RightApi";
+import { useDeleteRightMutation } from "../../../../../../core/redux/api/Globals/Catalogs/RightApi";
 
 export default function DeleteButtonAction() {
   const state = useCustomState();

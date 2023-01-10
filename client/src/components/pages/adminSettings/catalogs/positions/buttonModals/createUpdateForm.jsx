@@ -6,8 +6,8 @@ import TextInputFormItem from "../../../../../fragments/inputs/textInputs";
 import {
   useGetDepartmentsQuery,
   useGetDepartmentQuery,
-} from "../../../../../../core/redux/api/AdminSettings/Catalogs/DepartamentApi";
-import { useGetRightsQuery } from "../../../../../../core/redux/api/AdminSettings/Catalogs/RightApi";
+} from "../../../../../../core/redux/api/Globals/Catalogs/DepartamentApi";
+import { useGetRightsQuery } from "../../../../../../core/redux/api/Globals/Catalogs/RightApi";
 
 export default function CreateUpdateForm({ form }) {
   const {

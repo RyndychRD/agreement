@@ -5,9 +5,9 @@ import TextInputFormItem from "../../../../../fragments/inputs/textInputs";
 import {
   useGetPositionsQuery,
   useGetPositionQuery,
-} from "../../../../../../core/redux/api/AdminSettings/Catalogs/PositionsApi";
+} from "../../../../../../core/redux/api/Globals/Catalogs/PositionsApi";
 import CheckboxInputFormItem from "../../../../../fragments/inputs/checkboxInputs";
-import { useGetRightsQuery } from "../../../../../../core/redux/api/AdminSettings/Catalogs/RightApi";
+import { useGetRightsQuery } from "../../../../../../core/redux/api/Globals/Catalogs/RightApi";
 import getUniqNotNullIds from "../../../../../../services/CommonFunctions";
 
 export default function CreateUpdateForm({ form, isAddUpdateOnlyFields }) {
