@@ -4,6 +4,7 @@ import AdminSider from "./sider/AdminSider";
 import Catalogs from "./catalogs/Catalogs";
 import { isAccessGranted } from "../../../services/userAccessService";
 import { Error404, Error403 } from "../../fragments/messages/Error";
+import Constructors from "./constructors/Constructors";
 
 /**
  * Главный компонент, который хранит все элементы админки
@@ -19,6 +20,7 @@ export default function AdminSettings() {
       <Content className="content">
         <Routes>
           <Route path="/catalogs/*" element={<Catalogs />} />
+          <Route path="/constructor/*" element={<Constructors />} />
           <Route path="*" element={<Error404 />} />
         </Routes>
       </Content>
