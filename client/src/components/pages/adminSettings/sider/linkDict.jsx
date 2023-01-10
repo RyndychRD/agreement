@@ -32,7 +32,9 @@ const dict = {
     "routes"
   ),
   types: getItem(
-    <NavLink to="/admin-settings/catalogs/types">Типы документов</NavLink>,
+    <NavLink to="/admin-settings/catalogs/documents/types">
+      Типы документов
+    </NavLink>,
     "types"
   ),
 };

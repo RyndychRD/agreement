@@ -16,7 +16,7 @@ export default function Catalogs() {
       <Route path="/users" element={<Users />} />
       <Route path="/positions" element={<Positions />} />
       <Route path="/rights" element={<Rights />} />
-      <Route path="/types" element={<Types />} />
+      <Route path="/documents/types" element={<Types />} />
       <Route path="*" element={<Error404 />} />
     </Routes>
   );

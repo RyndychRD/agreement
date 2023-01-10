@@ -1,7 +1,7 @@
 import { api } from "../../http/index";
 
 export default class TypeService {
-  static API_ROUTE = "/catalog/types";
+  static API_ROUTE = "/catalog/documents/types";
 
   /** Преобразует входящий массив данных из редакса для правильного отображения в таблице */
   static prepareForTable(data) {

@@ -69,13 +69,13 @@ router.put("/catalog/rights",authMiddleware, rightMiddleware(), rightController.
 
 //Типы документов
 // prettier-ignore
-router.get("/catalog/types",authMiddleware, rightMiddleware(),typeController.getTypes)
+router.get("/catalog/documents/types",authMiddleware, rightMiddleware(),typeController.getTypes)
 // prettier-ignore
-router.post("/catalog/types",authMiddleware, rightMiddleware(),typeController.createNewType)
+router.post("/catalog/documents/types",authMiddleware, rightMiddleware(),typeController.createNewType)
 // prettier-ignore
-router.delete("/catalog/types",authMiddleware, rightMiddleware(),typeController.deleteType);
+router.delete("/catalog/documents/types",authMiddleware, rightMiddleware(),typeController.deleteType);
 // prettier-ignore
-router.put("/catalog/types",authMiddleware, rightMiddleware(), typeController.updateType);
+router.put("/catalog/documents/types",authMiddleware, rightMiddleware(), typeController.updateType);
 
 //Маршруты
 // prettier-ignore
@@ -96,7 +96,5 @@ router.post("/catalog/documents",authMiddleware,documentController.createNewDocu
 router.delete("/catalog/documents",authMiddleware,documentController.deleteDocument);
 // prettier-ignore
 router.put("/catalog/documents",authMiddleware, documentController.updateDocument);
-
-
 
 module.exports = router;
