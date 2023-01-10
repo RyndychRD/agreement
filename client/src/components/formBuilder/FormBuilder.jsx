@@ -13,7 +13,6 @@ import "./FormBuilderStyle.css";
 function CollectionCreateForm({ open, onCreate, onCancel }) {
   const [form] = Form.useForm();
 
-  // const stateReact = useCustomState();
   const { FormBuilderData } = useCustomState();
   const dispatchReact = useCustomDispatch();
   console.log("CollectionCreateForm = > FormBuilderData", FormBuilderData);

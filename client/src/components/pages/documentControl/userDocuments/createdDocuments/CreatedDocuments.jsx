@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import { useGetDocumentsQuery } from "../../../../../core/redux/api/DocumentControl/Catalog/DocumentApi";
 import DocumentService from "../../../../../services/DocumentServices/DocumentService";
+import FormBuilder from "../../../../formBuilder/FormBuilder";
 // import FormBuilder from "../../../../formBuilder/FormBuilder";
 import DocumentControlTableViewer from "../../../../fragments/tables/DocumentControl/DocumentControlTableViewer";
 import { Provider } from "../../../../fragments/tables/Provider";
@@ -38,7 +39,7 @@ export default function CreatedDocument() {
 
   return (
     <>
-      {/* <FormBuilder /> */}
+      <FormBuilder />
       <Provider>
         <DocumentControlTableViewer
           isLoading={isLoading}
