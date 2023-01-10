@@ -3,38 +3,8 @@
 import Layout from "antd/es/layout/layout";
 import { NavLink } from "react-router-dom";
 import { AMenu } from "../../../adapter";
-
-function getItem(label, key, icon, children, type) {
-  return {
-    key,
-    icon,
-    children,
-    label,
-    type,
-  };
-}
-
-function getLink(LinkKey) {
-  const dict = {
-    departments: getItem(
-      <NavLink to="/admin-settings/catalogs/departments">Департаменты</NavLink>,
-      "departments"
-    ),
-    users: getItem(
-      <NavLink to="/admin-settings/catalogs/users">Пользователи</NavLink>,
-      "users"
-    ),
-    positions: getItem(
-      <NavLink to="/admin-settings/catalogs/positions">Должности</NavLink>,
-      "positions"
-    ),
-    rights: getItem(
-      <NavLink to="/admin-settings/catalogs/rights">Права</NavLink>,
-      "rights"
-    ),
-  };
-  return dict[LinkKey] ? dict[LinkKey] : null;
-}
+import getLink from "./linkDict";
+import { getItem } from "./linkDict";
 
 export default function AdminSider() {
   const { Sider: LayoutSider } = Layout;
@@ -46,6 +16,7 @@ export default function AdminSider() {
       getLink("users"),
       getLink("rights"),
     ]),
+    getItem("Конструкторы", "Constructors", null, [getLink("routes")]),
   ];
   return (
     <LayoutSider theme="dark" collapsible>
