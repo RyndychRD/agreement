@@ -1,4 +1,5 @@
 import { api } from "../../http/index";
+import { userNameMask } from "../CommonFunctions";
 
 export default class UserService {
   static API_ROUTE = "/catalog/users";
@@ -10,9 +11,7 @@ export default class UserService {
         user_id: el.id,
         user_login: el.login,
         user_email: el.email,
-        user_fio: `${el.last_name} ${el.first_name} ${
-          el.middle_name ? el.middle_name : ""
-        }`,
+        user_fio: userNameMask(el),
         position_name: el.position_name,
         department_name: el.department_name,
         user_is_disabled: el.is_disabled,

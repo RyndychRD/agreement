@@ -9,6 +9,8 @@ const authMiddleware = require("../middlewares/auth-middleware");
 const rightMiddleware = require("../middlewares/right-middleware");
 const rightController = require("../controllers/catalogControllers/right-controller");
 const documentController = require("../controllers/catalogControllers/document-controller");
+const typeController = require("../controllers/catalogControllers/type-controller");
+const routeController = require("../controllers/constructorControllers/route-controller");
 
 //Авторизация пользователя
 router.post(
@@ -64,6 +66,26 @@ router.post("/catalog/rights",authMiddleware, rightMiddleware(),rightController.
 router.delete("/catalog/rights",authMiddleware, rightMiddleware(),rightController.deleteRight);
 // prettier-ignore
 router.put("/catalog/rights",authMiddleware, rightMiddleware(), rightController.updateRight);
+
+//Типы документов
+// prettier-ignore
+router.get("/catalog/types",authMiddleware, rightMiddleware(),typeController.getTypes)
+// prettier-ignore
+router.post("/catalog/types",authMiddleware, rightMiddleware(),typeController.createNewType)
+// prettier-ignore
+router.delete("/catalog/types",authMiddleware, rightMiddleware(),typeController.deleteType);
+// prettier-ignore
+router.put("/catalog/types",authMiddleware, rightMiddleware(), typeController.updateType);
+
+//Маршруты
+// prettier-ignore
+router.get("/constructor/routes",authMiddleware, rightMiddleware(),routeController.getRoutes)
+// prettier-ignore
+router.post("/constructor/routes",authMiddleware, rightMiddleware(),routeController.createNewRoute)
+// prettier-ignore
+router.delete("/constructor/routes",authMiddleware, rightMiddleware(),routeController.deleteRoute);
+// prettier-ignore
+router.put("/constructor/routes",authMiddleware, rightMiddleware(), routeController.updateRoute);
 
 //Документы
 // prettier-ignore

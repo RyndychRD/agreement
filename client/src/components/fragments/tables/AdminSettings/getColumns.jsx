@@ -118,6 +118,24 @@ export default function getColumns({ dataSource, columns }) {
     },
   };
 
+  const typeColumns = {
+    type_id: {
+      title: "ID",
+      dataIndex: "type_id",
+      defaultSortOrder: "ascend",
+      align: "center",
+      sorter: (a, b) => sorterInt(a?.type_id, b?.type_id),
+    },
+    type_name: {
+      title: "Наименование типа документа",
+      dataIndex: "type_name",
+      align: "center",
+      sorter: (a, b) => sorterStringAlphabet(a?.type_name, b?.type_name),
+      filters: filterDataStringSorted(dataSource, "type_name"),
+      onFilter: (value, record) => record?.type_name?.indexOf(value) === 0,
+    },
+  };
+
   const rightColumns = {
     right_id: {
       title: "ID",
@@ -159,6 +177,7 @@ export default function getColumns({ dataSource, columns }) {
     ...positionColumns,
     ...userColumns,
     ...rightColumns,
+    ...typeColumns,
   };
 
   /**
