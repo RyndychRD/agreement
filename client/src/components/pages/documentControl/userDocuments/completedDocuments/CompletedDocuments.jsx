@@ -9,7 +9,7 @@ import { Provider } from "../../../../fragments/tables/Provider";
 // import DeleteButtonAction from "../../adminSettings/catalogs/users/buttonModals/delete";
 
 /** Список документов, созданных пользователем */
-export default function CreatedDocument() {
+export default function CompletedDocuments() {
   const currentUser = useSelector((state) => state.session.current_user);
   const columns = {
     data: [
@@ -34,6 +34,7 @@ export default function CreatedDocument() {
   } = useGetDocumentsQuery({
     isAddForeignTables: true,
     userId: currentUser?.id ? currentUser.id : "-1",
+    status: "10",
   });
 
   return (

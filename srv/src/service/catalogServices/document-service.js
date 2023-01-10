@@ -7,9 +7,20 @@ class DocumentService {
     if (query?.status && query?.status !== "0") {
       filter.document_status_id = query.status;
     }
+
+    //Мы обязательно должны передать пользователя.
     if (query?.userId && query?.userId !== "-1") {
       filter.creator_id = query.userId;
+    } else {
+      //Если мы не передали или передали пустого(-1) пользователя, то будем выводить ничего
+      filter.creator_id = "-1";
     }
+
+    //При передачи этого флага удаляем ограничения на пользователя
+    if (query?.isShowAllDocs === "true") {
+      delete filter.creator_id;
+    }
+
     const func = DocumentModels.find({
       isAddForeignTables: query?.isAddForeignTables === "true",
       isAddDocumentData: query?.isAddDocumentData === "true",

@@ -13,6 +13,7 @@ export const documentsApi = createApi({
         isAddForeignTables = false,
         userId = -1,
         isAddDocumentData = false,
+        isShowAllDocs = false,
       }) => {
         try {
           const response = await DocumentService.getAll({
@@ -20,6 +21,7 @@ export const documentsApi = createApi({
             isAddForeignTables,
             isAddDocumentData,
             userId,
+            isShowAllDocs,
           });
           return { data: response };
         } catch (e) {

@@ -4,50 +4,20 @@ import Layout from "antd/es/layout/layout";
 import { NavLink } from "react-router-dom";
 import { AMenu } from "../../../adapter";
 import { isAccessGranted } from "../../../../services/userAccessService";
-
-function getItem(label, key, icon, children, type) {
-  return {
-    key,
-    icon,
-    children,
-    label,
-    type,
-  };
-}
-
-function getLink(LinkKey) {
-  const dict = {
-    "created-doc": getItem(
-      <NavLink to="/document-control/user-documents/created-documents">
-        Созданные мною
-      </NavLink>,
-      "created-documents"
-    ),
-  };
-  return dict[LinkKey] ? dict[LinkKey] : null;
-}
+import getLink, { getItem } from "./linkDict";
 
 export default function Sider() {
   const { Sider: LayoutSider } = Layout;
 
   const items = [
     getItem("Мои документы", "UserDocuments", null, [
-      isAccessGranted("CreatedDocuments") ? getLink("created-doc") : null,
-      // isAccessGranted("ReworkDocuments")
-      //   ? getItem("На доработку", "FILL_ME")
-      //   : null,
-      // isAccessGranted("ApprovedDocuments")
-      //   ? getItem("Согласованные", "FILL_ME")
-      //   : null,
-      // isAccessGranted("CompletedDocuments")
-      //   ? getItem("Исполненные", "FILL_ME")
-      //   : null,
-      // isAccessGranted("RejectedDocuments")
-      //   ? getItem("Отклоненные", "FILL_ME")
-      //   : null,
-      // isAccessGranted("OnRegistrationDocuments")
-      //   ? getItem("Регистрация документов", "FILL_ME")
-      //   : null,
+      isAccessGranted("CreatedDocuments") ? getLink("created_doc") : null,
+      isAccessGranted("ReworkDocuments") ? getLink("rework_doc") : null,
+      isAccessGranted("ApprovedDocuments") ? getLink("approved_doc") : null,
+      isAccessGranted("CompletedDocuments") ? getLink("completed_doc") : null,
+      isAccessGranted("RejectedDocuments") ? getLink("rejected_doc") : null,
+      // prettier-ignore
+      isAccessGranted("OnRegistrationDocuments") ? getLink("registration_doc") : null,
     ]),
     // getItem("Подписание", "Signing", null, [
     //   isAccessGranted("ForApprovalDocuments")
@@ -63,9 +33,9 @@ export default function Sider() {
     // getItem("Задачи", "Tasks", null, [
     //   isAccessGranted("IncomeTasks") ? getItem("Входящие", "FILL_ME") : null,
     // ]),
-    // getItem("Список (Админ)", "AdminDocs", null, [
-    //   isAccessGranted("Admin") ? getItem("Все документы", "FILL_ME") : null,
-    // ]),
+    getItem("Список (Админ)", "AdminDocs", null, [
+      isAccessGranted("Admin") ? getLink("admin_all_doc") : null,
+    ]),
   ];
   return (
     <LayoutSider theme="dark" collapsible>
