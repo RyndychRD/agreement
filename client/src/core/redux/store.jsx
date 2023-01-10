@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
 import AuthReducer from "../../components/auth/AuthReducer";
 import { departmentsApi } from "./api/Globals/Catalogs/DepartamentApi";
-import { positionsApi } from "./api/Globals/Catalogs/PositionsApi";
 import { usersApi } from "./api/Globals/Catalogs/UserApi";
 import { rightsApi } from "./api/Globals/Catalogs/RightApi";
+import { positionsApi } from "./api/Globals/Catalogs/PositionsApi";
 import { documentsApi } from "./api/DocumentControl/Catalog/DocumentApi";
 import { typesApi } from "./api/Globals/Catalogs/TypeApi";
 import { routesApi } from "./api/AdminSettings/Constructor/RouteConstructorApi";
