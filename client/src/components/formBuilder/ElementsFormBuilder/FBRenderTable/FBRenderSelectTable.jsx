@@ -1,60 +1,117 @@
 import { Select } from "antd";
 import FBElementLayout from "../FBElementLayout";
-import { position, departments, users } from "../../FormBuilderInstanceForm";
+import { useGetDepartmentsQueryHook } from "../../../../core/redux/api/Globals/Catalogs/DepartamentApi";
+import { useGetPositionsQueryHook } from "../../../../core/redux/api/Globals/Catalogs/PositionsApi";
+import {useGetUsersQueryHook } from "../../../../core/redux/api/Globals/Catalogs/UserApi";
+
+/**
+ * 
+ * @param {{AreaType:<string>, form:<Form>,CurrentElement<json>,CurrentElementSelectValue<json> }} props 
+ * @example
+ * CurrentElement:{
+ * 					id:number,
+ * 					key:string,
+ * 					name:string,
+ * 					select_value:{(table:string)|(select_id:[{value:string,label:string})}
+ * 					}>
+ * CurrentElementSelectValue:{[{value:string,label:string}]}
+ */
+function FBSelect(props) {
+	const { AreaType, form, CurrentElement, CurrentElementSelectValue } = props;
+	const setValueInSelectOnForm = (value) => {
+		console.log(
+			`В выпадающем меню ${AreaType} было установленно значение =>`,
+			value
+		);
+		form.setFieldValue(AreaType, value);
+	};
+	return (
+		<FBElementLayout name={CurrentElement.name}>
+			<Select
+				showSearch
+				optionFilterProp="children"
+				onChange={setValueInSelectOnForm}
+				filterOption={(input, option) =>
+					(option?.label.toLowerCase() ?? "").includes(input.toLowerCase())
+				}
+				id={AreaType}
+				options={CurrentElementSelectValue}
+			/>
+		</FBElementLayout>
+	);
+}
+
+function SelectTablePosition(props) {
+	// Создаем переменную в которую будет хранится данные для выпадающих списков
+	const { data = [] } = useGetPositionsQueryHook();
+	const CurrentElementSelectValue = data.map((i) => ({
+		value: i.id,
+		label: i.name,
+	}));
+
+	return (
+		<FBSelect
+			CurrentElementSelectValue={CurrentElementSelectValue}
+			{...props}
+		/>
+	);
+}
+
+function SelectTableDepartments(props) {
+	// Создаем переменную в которую будет хранится данные для выпадающих списков
+	const { data = [] } = useGetDepartmentsQueryHook();
+
+	const CurrentElementSelectValue = data.map((i) => ({
+		value: i.id,
+		label: i.name,
+	}));
+	return (
+		<FBSelect
+			CurrentElementSelectValue={CurrentElementSelectValue}
+			{...props}
+		/>
+	);
+}
+
+function SelectTableUsers(props) {
+	// Создаем переменную в которую будет хранится данные для выпадающих списков
+	const { data = [] } = useGetUsersQueryHook();
+	// Переменная для манипуляции с фио
+	let fio = "Фамилии еще не определенны";
+	const CurrentElementSelectValue = data.map((i) => {
+		fio = `${i.last_name} ${i.first_name}.${i.middle_name}.`;
+		return { value: i.id, label: fio };
+	});
+	return (
+		<FBSelect
+			CurrentElementSelectValue={CurrentElementSelectValue}
+			{...props}
+		/>
+	);
+}
 
 export default function RenderSelectTable(props) {
-  const { AreaType, form, CurrentElement } = props;
+	const { CurrentElement } = props;
 
-  const CurrentElementSelectValueTable = CurrentElement?.select_value?.table;
+	const CurrentElementSelectValueTable = CurrentElement?.select_value?.table;
 
-  const setValueInSelectOnForm = (value) => {
-    console.log(
-      `В выпадающем меню ${AreaType} было установленно значение =>`,
-      value
-    );
-    form.setFieldValue(AreaType, value);
-  };
+	if (CurrentElementSelectValueTable) {
+		switch (CurrentElementSelectValueTable) {
+			case "position": {
+				return <SelectTablePosition {...props} />;
+			}
 
-  if (CurrentElementSelectValueTable) {
-    let CurrentElementSelectValue = null;
-    switch (CurrentElementSelectValueTable) {
-      case "position":
-        CurrentElementSelectValue = position.map((i) => ({
-          value: i.name,
-          label: i.name,
-        }));
-        break;
-      case "departments":
-        CurrentElementSelectValue = departments.map((i) => ({
-          value: i.name,
-          label: i.name,
-        }));
-        break;
-      case "users":
-        CurrentElementSelectValue = users.map((i) => {
-          const name = `${i.last_name} ${i.first_name}. ${i.middle_name}.`;
-          return { value: name, label: name };
-        });
-        break;
-      default:
-        throw new Error(
-          "Не могу найти таблицу,",
-          CurrentElementSelectValueTable
-        );
-    }
-    return (
-      <FBElementLayout name={CurrentElement.name}>
-        <Select
-          showSearch
-          optionFilterProp="children"
-          onChange={setValueInSelectOnForm}
-          filterOption={(input, option) =>
-            (option?.label.toLowerCase() ?? "").includes(input.toLowerCase())
-          }
-          id={AreaType}
-          options={CurrentElementSelectValue}
-        />
-      </FBElementLayout>
-    );
-  }
+			case "departments": {
+				return <SelectTableDepartments {...props} />;
+			}
+			case "users": {
+				return <SelectTableUsers {...props} />;
+			}
+			default:
+				throw new Error(
+					"Не могу найти таблицу,",
+					CurrentElementSelectValueTable
+				);
+		}
+	}
 }

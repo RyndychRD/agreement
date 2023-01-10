@@ -6,7 +6,7 @@ import CreateButtonModel from "./buttonModals/create";
 import DeleteButtonAction from "./buttonModals/delete";
 import UpdateButtonModel from "./buttonModals/update";
 
-import { useGetUsersQuery } from "../../../../../core/redux/api/Globals/Catalogs/UserApi";
+import { useGetUsersQueryHook } from "../../../../../core/redux/api/Globals/Catalogs/UserApi";
 import UserService from "../../../../../services/AdminServices/UserService";
 
 /** Справочник Пользователей */
@@ -30,7 +30,7 @@ export default function Users() {
     data = [],
     isLoading,
     isError,
-  } = useGetUsersQuery({ isAddForeignTables: true, isAddRights: true });
+  } = useGetUsersQueryHook({ isAddForeignTables: true, isAddRights: true });
   return (
     <Provider>
       <AdminSettingsTable

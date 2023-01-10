@@ -97,4 +97,6 @@ router.delete("/catalog/documents",authMiddleware,documentController.deleteDocum
 // prettier-ignore
 router.put("/catalog/documents",authMiddleware, documentController.updateDocument);
 
+
+
 module.exports = router;

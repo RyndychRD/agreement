@@ -3,20 +3,20 @@ import { AForm } from "../../../../../adapter";
 import SelectInputFormItem from "../../../../../fragments/inputs/selectInputs";
 import TextInputFormItem from "../../../../../fragments/inputs/textInputs";
 import {
-  useGetPositionsQuery,
-  useGetPositionQuery,
+  useGetPositionsQueryHook,
+  useGetPositionQueryHook,
 } from "../../../../../../core/redux/api/Globals/Catalogs/PositionsApi";
 import CheckboxInputFormItem from "../../../../../fragments/inputs/checkboxInputs";
-import { useGetRightsQuery } from "../../../../../../core/redux/api/Globals/Catalogs/RightApi";
+import { useGetRightsQueryHook } from "../../../../../../core/redux/api/Globals/Catalogs/RightApi";
 import getUniqNotNullIds from "../../../../../../services/CommonFunctions";
 
 export default function CreateUpdateForm({ form, isAddUpdateOnlyFields }) {
-  const { data: positions = {}, isLoading, isError } = useGetPositionsQuery({});
+  const { data: positions = {}, isLoading, isError } = useGetPositionsQueryHook({});
   const {
     data: rights = {},
     isError: isErrorRights,
     isLoading: isLoadingRights,
-  } = useGetRightsQuery();
+  } = useGetRightsQueryHook();
 
   const checkbox = isAddUpdateOnlyFields ? (
     <CheckboxInputFormItem title="Заблокирован?" name="isDisabled" />
@@ -30,7 +30,7 @@ export default function CreateUpdateForm({ form, isAddUpdateOnlyFields }) {
   });
   // Сама функция подтягивания новых прав по департаменту
   const { data: result, isLoading: isLoadingPositionRights } =
-    useGetPositionQuery(triggerGetPositionRights);
+    useGetPositionQueryHook(triggerGetPositionRights);
   // Отрабатывает когда срабатывает триггер(чтобы отрабатывало с кешированными данными) и когда загружаются новые данные
   useEffect(
     () => {
