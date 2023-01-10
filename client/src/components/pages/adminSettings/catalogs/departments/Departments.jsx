@@ -7,7 +7,7 @@ import DeleteButtonAction from "./buttonModals/delete";
 import UpdateButtonModel from "./buttonModals/update";
 
 import DepartmentService from "../../../../../services/AdminServices/DepartmentService";
-import { useGetDepartmentsQuery } from "../../../../../core/redux/api/Globals/Catalogs/DepartamentApi";
+import { useGetDepartmentsQueryHook } from "../../../../../core/redux/api/Globals/Catalogs/DepartamentApi";
 
 /** Справочник Департаментов */
 export default function Departments() {
@@ -18,7 +18,7 @@ export default function Departments() {
   /**
    * При открытии форму подгружаем новые необходимые данные
    */
-  const { data = [], isLoading, isError } = useGetDepartmentsQuery(true);
+  const { data = [], isLoading, isError } = useGetDepartmentsQueryHook(true);
   return (
     <Provider>
       <AdminSettingsTable
