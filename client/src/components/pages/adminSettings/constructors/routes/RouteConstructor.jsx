@@ -13,7 +13,7 @@ import RouteService from "./../../../../../services/AdminServices/constructor/Ro
 
 export default function RouteConstructor() {
   const columns = {
-    data: ["type_name", "position_name", "user_fio"],
+    data: ["route_id", "type_name", "position_name", "user_fio"],
   };
   /**
    * При открытии форму подгружаем новые необходимые данные
@@ -23,6 +23,10 @@ export default function RouteConstructor() {
     isLoading,
     isError,
   } = useGetRoutesQuery({ isAddForeignTables: true, isAddRights: true });
+  console.log(
+    "RouteService.prepareForTable(data)",
+    RouteService.prepareForTable(data)
+  );
   return (
     <Provider>
       <AdminSettingsTable

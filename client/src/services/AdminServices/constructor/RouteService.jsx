@@ -9,9 +9,16 @@ export default class RouteService {
     try {
       return data.map((el) => ({
         key: el.id,
-        type_name: el.type_name,
-        position_name: el.position_name,
-        user_fio: userNameMask(el),
+        route_id: el.id,
+        type_name: el.document_type_name,
+        children: el.route?.map((route, index) => {
+          return {
+            key: el.id + "-" + index,
+            route_id: index + 1,
+            position_name: route.position.name,
+            user_fio: userNameMask(route.default_signer),
+          };
+        }),
       }));
     } catch (e) {
       console.log("Ошибка пред-обработки данных:", e);

@@ -140,20 +140,20 @@ class LoginService {
    * @returns
    */
   async refresh(refreshToken) {
-    console.log("console.log(refreshToken)", refreshToken);
+    // console.log("console.log(refreshToken)", refreshToken);
     if (!refreshToken) {
       throw ApiError.UnauthorizedError();
     }
     const userData = TokenService.validateRefreshToken(refreshToken);
-    console.log("console.log(userData)", userData);
+    // console.log("console.log(userData)", userData);
     const tokenFromDb = await TokenService.findToken({
       refresh_token: refreshToken,
     });
-    console.log("console.log(tokenFromDb)", tokenFromDb);
-    console.log(
-      "console.log(!userData || !tokenFromDb)",
-      !userData || !tokenFromDb
-    );
+    // console.log("console.log(tokenFromDb)", tokenFromDb);
+    // console.log(
+    //   "console.log(!userData || !tokenFromDb)",
+    //   !userData || !tokenFromDb
+    // );
     if (!userData || !tokenFromDb) {
       throw ApiError.UnauthorizedError();
     }

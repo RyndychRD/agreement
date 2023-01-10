@@ -72,6 +72,16 @@ export default function getColumns({ dataSource, columns }) {
     },
   };
 
+  const constructorColumns = {
+    route_id: {
+      title: "ID",
+      dataIndex: "route_id",
+      defaultSortOrder: "ascend",
+      align: "center",
+      sorter: (a, b) => sorterInt(a?.route_id, b?.route_id),
+    },
+  };
+
   const userColumns = {
     user_id: {
       title: "ID",
@@ -178,6 +188,7 @@ export default function getColumns({ dataSource, columns }) {
     ...userColumns,
     ...rightColumns,
     ...typeColumns,
+    ...constructorColumns,
   };
 
   /**

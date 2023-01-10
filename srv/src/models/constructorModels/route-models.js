@@ -7,6 +7,12 @@ class RouteSchema {
   }
 
   addForeignTables(query) {
+    query = query.select("document_types.name as document_type_name");
+    query = query.leftJoin(
+      "document_types",
+      "document_type_default_routes.document_type_id",
+      "document_types.id"
+    );
     return query;
   }
 
