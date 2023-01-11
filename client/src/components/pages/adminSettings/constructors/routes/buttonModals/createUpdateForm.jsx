@@ -39,12 +39,7 @@ export default function CreateUpdateForm({ form, isAddUpdateOnlyFields }) {
   const {data: users = {},isLoading:isLoadingUsers,isError:isErrorUsers} = useGetUsersQueryHook({});
 
   return (
-    <Form
-      form={form}
-      initialValues={{ routeSteps: [null] }}
-      name="dynamic_form_nest_item"
-      autoComplete="off"
-    >
+    <Form form={form} name="dynamic_form_nest_item" autoComplete="off">
       <SelectInputFormItem
         title="Тип документа"
         isLoading={isLoadingTypes || isLoadingRoutes}
