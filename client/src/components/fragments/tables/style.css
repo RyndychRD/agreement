@@ -37,3 +37,7 @@
   text-align: center;
   width: 50px;
 }
+
+.ant-table-row-level-1 {
+  background-color: lightgrey;
+}

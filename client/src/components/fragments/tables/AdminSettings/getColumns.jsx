@@ -80,6 +80,16 @@ export default function getColumns({ dataSource, columns }) {
       align: "center",
       sorter: (a, b) => sorterInt(a?.route_id, b?.route_id),
     },
+    user_fio_route_constructor: {
+      title: "ФИО предлагаемого подписанта",
+      dataIndex: "user_fio_route_constructor",
+      align: "center",
+    },
+    position_route_constructor: {
+      title: "Подписывающая должность",
+      dataIndex: "position_route_constructor",
+      align: "center",
+    },
   };
 
   const userColumns = {

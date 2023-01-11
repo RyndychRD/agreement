@@ -15,8 +15,8 @@ export default class RouteService {
           return {
             key: el.id + "-" + index,
             route_id: index + 1,
-            position_name: route.position.name,
-            user_fio: userNameMask(route.default_signer),
+            position_route_constructor: route.position.name,
+            user_fio_route_constructor: userNameMask(route.default_signer),
           };
         }),
       }));

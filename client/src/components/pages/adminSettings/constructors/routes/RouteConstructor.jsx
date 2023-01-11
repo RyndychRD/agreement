@@ -13,7 +13,12 @@ import RouteService from "./../../../../../services/AdminServices/constructor/Ro
 
 export default function RouteConstructor() {
   const columns = {
-    data: ["route_id", "type_name", "position_name", "user_fio"],
+    data: [
+      "route_id",
+      "type_name",
+      "position_route_constructor",
+      "user_fio_route_constructor",
+    ],
   };
   /**
    * При открытии форму подгружаем новые необходимые данные
