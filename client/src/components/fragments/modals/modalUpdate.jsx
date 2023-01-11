@@ -70,7 +70,7 @@ export default function ModalUpdate({
         }
       })
       .catch((info) => {
-        console.log("Ошибка на форме создания департамента:", info);
+        console.log("Ошибка на форме обновления:", info);
       });
   };
 
@@ -84,6 +84,7 @@ export default function ModalUpdate({
       if (!isErrorUpdate && state.isShowUpdateModal) {
         form.resetFields();
         form.setFieldsValue(formDefaultValues(data));
+        console.log(form.getFieldsValue());
         replaceUrlQueryWithId(state.currentRow?.key);
       }
     },

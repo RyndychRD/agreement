@@ -51,7 +51,7 @@ class RouteService {
   async getOneRoute(query) {
     const func = RouteModels.findOne({
       filter: {
-        id: query.id,
+        "document_type_default_routes.id": query.id,
       },
     });
     const routeAndType = await DevTools.addDelay(func);

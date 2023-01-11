@@ -35,7 +35,7 @@ export function AForm(props) {
   return <Form {...props}>{children}</Form>;
 }
 
-export function AFromList(props) {
+export function AFormList(props) {
   const { children } = props;
   return <Form.List {...props}>{children}</Form.List>;
 }
