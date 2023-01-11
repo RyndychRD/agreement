@@ -16,7 +16,6 @@ class UserService {
     if (query?.id && query.id !== -1) {
       filter["users.id"] = query.id;
     }
-    console.log(customFilter);
     const func = UserModels.findOne({
       filter,
       isAddForeignTables: query?.isAddForeignTables === "true",

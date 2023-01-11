@@ -1,6 +1,6 @@
 import {
-  useGetTypeQuery,
-  useUpdateTypeMutation,
+  useGetTypeQueryHook,
+  useUpdateTypeMutationHook,
 } from "../../../../../../core/redux/api/Globals/Catalogs/TypeApi";
 import { AUseForm } from "../../../../../adapter";
 import ModalUpdate from "../../../../../fragments/modals/modalUpdate";
@@ -14,8 +14,8 @@ export default function UpdateButtonModel() {
   });
   return (
     <ModalUpdate
-      getQuery={useGetTypeQuery}
-      updateMutation={useUpdateTypeMutation}
+      getQuery={useGetTypeQueryHook}
+      updateMutation={useUpdateTypeMutationHook}
       form={form}
       CreateUpdateForm={CreateUpdateForm}
       formDefaultValues={formDefaultValues}

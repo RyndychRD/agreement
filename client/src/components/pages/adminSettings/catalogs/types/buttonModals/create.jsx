@@ -1,7 +1,7 @@
 import { AUseForm } from "../../../../../adapter";
 import ModalInput from "../../../../../fragments/modals/modalInput";
 
-import { useAddTypeMutation } from "../../../../../../core/redux/api/Globals/Catalogs/TypeApi";
+import { useAddTypeMutationHook } from "../../../../../../core/redux/api/Globals/Catalogs/TypeApi";
 import CreateUpdateForm from "./createUpdateForm";
 /**
  * @return Модальное окно для создания нового департамента
@@ -11,7 +11,7 @@ export default function CreateButtonModel() {
   const [form] = AUseForm();
   return (
     <ModalInput
-      addMutation={useAddTypeMutation}
+      addMutation={useAddTypeMutationHook}
       form={form}
       CreateUpdateForm={CreateUpdateForm}
     />

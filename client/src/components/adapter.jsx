@@ -35,6 +35,11 @@ export function AForm(props) {
   return <Form {...props}>{children}</Form>;
 }
 
+export function AFromList(props) {
+  const { children } = props;
+  return <Form.List {...props}>{children}</Form.List>;
+}
+
 export function AUseForm() {
   return Form.useForm();
 }
@@ -49,6 +54,14 @@ export function ASelect(props) {
 export function ATag(props) {
   const { children } = props;
   return <Tag {...props}>{children}</Tag>;
+}
+export function ASpace(props) {
+  const { children } = props;
+  return <ASpace {...props}>{children}</ASpace>;
+}
+export function ACard(props) {
+  const { children } = props;
+  return <ACard {...props}>{children}</ACard>;
 }
 export function ASpin(props) {
   const { children } = props;

@@ -8,7 +8,7 @@ export const routesApi = createApi({
   tagTypes: [TAG_TYPE],
   endpoints: (build) => ({
     getRoutes: build.query({
-      queryFn: async ({}) => {
+      queryFn: async () => {
         try {
           const response = await RouteService.getAll();
           return { data: response };

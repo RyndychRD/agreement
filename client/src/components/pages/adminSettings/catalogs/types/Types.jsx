@@ -6,7 +6,7 @@ import CreateButtonModel from "./buttonModals/create";
 import DeleteButtonAction from "./buttonModals/delete";
 import UpdateButtonModel from "./buttonModals/update";
 
-import { useGetTypesQuery } from "../../../../../core/redux/api/Globals/Catalogs/TypeApi";
+import { useGetTypesQueryHook } from "../../../../../core/redux/api/Globals/Catalogs/TypeApi";
 import TypeService from "../../../../../services/AdminServices/TypeService";
 
 /** Справочник Прав */
@@ -15,7 +15,7 @@ export default function Types() {
   /**
    * При открытии форму подгружаем новые необходимые данные
    */
-  const { data = [], isLoading, isError } = useGetTypesQuery();
+  const { data = [], isLoading, isError } = useGetTypesQueryHook();
   return (
     <Provider>
       <AdminSettingsTable

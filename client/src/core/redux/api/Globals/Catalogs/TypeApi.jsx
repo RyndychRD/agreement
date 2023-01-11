@@ -93,3 +93,32 @@ export const {
   useUpdateTypeMutation,
   useDeleteTypeMutation,
 } = typesApi;
+
+/**
+ * `useGetDepartmentsQueryHook` Хук для запроса всех данных по типам документа
+ */
+export const useGetTypesQueryHook = useGetTypesQuery;
+
+/**
+ * `useGetDepartmentQuery` Хук для запроса данных по типу документа
+ * @param {string} [id=""] Id элемента в таблице типов документов
+ * @param {string} [currentRow = {}] Если определенно что выбрано строчка в таблице `currentRow` то передаем ее, иначе ожидается id
+ * @param {boolean} [isStart=true] Загружаем данные когда нам они нужны
+ * useGetDepartmentQueryHook(data)
+ */
+export const useGetTypeQueryHook = useGetTypeQuery;
+
+/**
+ * `useAddDepartmentMutation` Хук
+ */
+export const useAddTypeMutationHook = useAddTypeMutation;
+
+/**
+ * `useAddDepartmentMutation` Хук
+ */
+export const useUpdateTypeMutationHook = useUpdateTypeMutation;
+
+/**
+ * `useDeleteDepartmentMutation` Хук для удаления типа документа
+ */
+export const useDeleteTypeMutationHook = useDeleteTypeMutation;
