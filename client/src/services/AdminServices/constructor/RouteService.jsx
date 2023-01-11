@@ -11,8 +11,10 @@ export default class RouteService {
         key: el.id,
         route_id: el.id,
         type_name: el.document_type_name,
+        type_name_for_delete: el.document_type_name,
         children: el.route?.map((route, index) => ({
           key: `${el.id}-${index}`,
+          type_name_for_delete: el.document_type_name,
           route_id: index + 1,
           position_route_constructor: route.position.name,
           user_fio_route_constructor: userNameMask(route.default_signer),
@@ -37,7 +39,7 @@ export default class RouteService {
   static async update(values) {
     console.log("вызов в RouteService -> Изменить существующую запись", values);
     const response = await api.put(
-      `${this.API_ROUTE}?id=${values.right_id}`,
+      `${this.API_ROUTE}?id=${values.route_id}`,
       values
     );
     console.log(
@@ -50,7 +52,7 @@ export default class RouteService {
   static async delete(values) {
     console.log("вызов в RouteService -> Удалить запись", values);
     const response = await api.delete(
-      `${this.API_ROUTE}?id=${values.right_id}`
+      `${this.API_ROUTE}?id=${values.route_id}`
     );
     console.log(
       "вызов в RouteService -> Удалить запись -> результат",

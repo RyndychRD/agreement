@@ -37,8 +37,8 @@ class RouteService {
   //Мы сначала получаем начальные значения по маршруту, а потом с помощью других моделей разыменовываем
   async getAllRoutes() {
     const func = RouteModels.find({});
-    let routeAndTypes = await DevTools.addDelay(func);
-    routeAndTypes = await Promise.all(
+    const routeAndTypes = await DevTools.addDelay(func);
+    return await Promise.all(
       routeAndTypes.map(async (routeAndType) => {
         return {
           ...routeAndType,
@@ -46,15 +46,19 @@ class RouteService {
         };
       })
     );
-    return routeAndTypes;
   }
+
   async getOneRoute(query) {
     const func = RouteModels.findOne({
       filter: {
         id: query.id,
       },
     });
-    return await DevTools.addDelay(func);
+    const routeAndType = await DevTools.addDelay(func);
+    return {
+      ...routeAndType,
+      route: await this.getRouteInformation(routeAndType.route.routeSteps),
+    };
   }
   async createNewRoute(body) {
     const func = await RouteModels.create({

@@ -10,7 +10,7 @@ export const routesApi = createApi({
     getRoutes: build.query({
       queryFn: async ({}) => {
         try {
-          const response = await RouteService.getAll({});
+          const response = await RouteService.getAll();
           return { data: response };
         } catch (e) {
           return { error: e.message };
@@ -91,3 +91,40 @@ export const {
   useUpdateRouteMutation,
   useDeleteRouteMutation,
 } = routesApi;
+
+/**
+ * `useGetRoutesQueryHook` Хук для запроса всех данных по маршрутам
+ */
+export const useGetRoutesQueryHook = useGetRoutesQuery;
+
+/**
+ * `useGetRouteQuery` Хук для запроса данных по маршруту
+ * @param {string} [id=""] Id элемента в таблице департамента
+ * @param {string} [currentRow = {}] Если определенно что выбрано строчка в таблице `currentRow` то передаем ее, иначе ожидается id
+ * @param {boolean} [isStart=true] Загружаем данные когда нам они нужны
+ * @param {boolean} [isAddRights=true]   Флаг true включает параметризированный запрос
+ * @example 
+ * const data = {
+				id = "", // Id элемента в таблице департамента
+				currentRow = {}, // Если определенно что выбрано строчка в таблице `currentRow` то передаем ее, иначе ожидается id
+				isStart = true, // Загружаем данные когда нам они нужны
+				isAddRights = false, //Флаг true включает параметризированный запрос
+			}
+ * useGetRouteQueryHook(data)
+ */
+export const useGetRouteQueryHook = useGetRouteQuery;
+
+/**
+ * `useAddRouteMutationHook` Хук
+ */
+export const useAddRouteMutationHook = useAddRouteMutation;
+
+/**
+ * `useUpdateRouteMutationHook` Хук
+ */
+export const useUpdateRouteMutationHook = useUpdateRouteMutation;
+
+/**
+ * `useDeleteRouteMutationHook` Хук для удаления маршрута
+ */
+export const useDeleteRouteMutationHook = useDeleteRouteMutation;

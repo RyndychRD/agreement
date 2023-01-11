@@ -48,7 +48,9 @@ class RouteSchema {
    * @returns
    */
   async create(right) {
-    return await this.knexProvider("document_Routes").insert(right);
+    return await this.knexProvider("document_type_default_routes").insert(
+      right
+    );
   }
   /**
    * Удаляет должность
@@ -56,7 +58,9 @@ class RouteSchema {
    * @returns
    */
   async deleteOne(filter) {
-    return await this.knexProvider("document_Routes").where(filter).delete();
+    return await this.knexProvider("document_type_default_routes")
+      .where(filter)
+      .delete();
   }
 
   /**
@@ -65,7 +69,7 @@ class RouteSchema {
    * @returns
    */
   async update(filter, Right) {
-    return await this.knexProvider("document_Routes")
+    return await this.knexProvider("document_type_default_routes")
       .where(filter)
       .update(Right);
   }
