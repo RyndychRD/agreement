@@ -10,6 +10,7 @@ export default class RouteService {
       return data.map((el) => ({
         key: el.id,
         route_id: el.id,
+        type_id: el.document_type_id,
         type_name: el.document_type_name,
         type_name_for_delete: el.document_type_name,
         children: el.route?.map((route, index) => ({
