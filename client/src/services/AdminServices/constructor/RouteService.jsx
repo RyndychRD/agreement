@@ -1,5 +1,5 @@
 import { api } from "../../../http/index";
-import { userNameMask } from "./../../CommonFunctions";
+import { userNameMask } from "../../CommonFunctions";
 
 export default class RouteService {
   static API_ROUTE = "/constructor/routes";
@@ -11,14 +11,12 @@ export default class RouteService {
         key: el.id,
         route_id: el.id,
         type_name: el.document_type_name,
-        children: el.route?.map((route, index) => {
-          return {
-            key: el.id + "-" + index,
-            route_id: index + 1,
-            position_route_constructor: route.position.name,
-            user_fio_route_constructor: userNameMask(route.default_signer),
-          };
-        }),
+        children: el.route?.map((route, index) => ({
+          key: `${el.id}-${index}`,
+          route_id: index + 1,
+          position_route_constructor: route.position.name,
+          user_fio_route_constructor: userNameMask(route.default_signer),
+        })),
       }));
     } catch (e) {
       console.log("Ошибка пред-обработки данных:", e);

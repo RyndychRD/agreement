@@ -7,7 +7,7 @@ import { Provider } from "../../../../fragments/tables/Provider";
 // import UpdateButtonModel from "./buttonModals/update";
 
 import { useGetRoutesQuery } from "../../../../../core/redux/api/AdminSettings/Constructor/RouteConstructorApi";
-import RouteService from "./../../../../../services/AdminServices/constructor/RouteService";
+import RouteService from "../../../../../services/AdminServices/constructor/RouteService";
 
 /** конструктор маршрутов */
 

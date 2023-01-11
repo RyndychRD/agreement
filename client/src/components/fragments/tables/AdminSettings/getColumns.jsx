@@ -86,7 +86,7 @@ export default function getColumns({ dataSource, columns }) {
       align: "center",
     },
     position_route_constructor: {
-      title: "Подписывающая должность",
+      title: "Должность подписанта",
       dataIndex: "position_route_constructor",
       align: "center",
     },
