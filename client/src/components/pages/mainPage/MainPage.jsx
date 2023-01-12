@@ -11,7 +11,6 @@ import {
   ASpan,
   ATooltip,
 } from "../../adapter";
-import FormBuilder from "../../formBuilder/FormBuilder";
 import "./style.css";
 
 function DocumentControlP() {
@@ -28,7 +27,6 @@ function DocumentControlP() {
           </AButton>
         </NavLink>
       </ATooltip>
-      <FormBuilder />
     </ACol>
   );
 }

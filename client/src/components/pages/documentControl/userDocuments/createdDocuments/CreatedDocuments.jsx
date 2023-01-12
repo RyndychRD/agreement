@@ -4,9 +4,9 @@ import DocumentService from "../../../../../services/DocumentServices/DocumentSe
 // import FormBuilder from "../../../../formBuilder/FormBuilder";
 import DocumentControlTableViewer from "../../../../fragments/tables/DocumentControl/DocumentControlTableViewer";
 import { Provider } from "../../../../fragments/tables/Provider";
-// import CreateButtonModel from "../../adminSettings/catalogs/positions/buttonModals/create";
-// import UpdateButtonModel from "../../adminSettings/catalogs/rights/buttonModals/update";
-// import DeleteButtonAction from "../../adminSettings/catalogs/users/buttonModals/delete";
+import CreateButtonModel from "./buttonModals/create";
+import UpdateButtonModel from "./buttonModals/update";
+import DeleteButtonAction from "./buttonModals/delete";
 
 /** Список документов, созданных пользователем */
 export default function CreatedDocument() {
@@ -47,9 +47,9 @@ export default function CreatedDocument() {
           dataSource={data ? DocumentService.prepareForTable(data) : null}
           title="Документы"
         />
-        {/* <CreateButtonModel />
-			<UpdateButtonModel />
-			<DeleteButtonAction /> */}
+        <CreateButtonModel />
+        <UpdateButtonModel />
+        <DeleteButtonAction />
       </Provider>
     </>
   );

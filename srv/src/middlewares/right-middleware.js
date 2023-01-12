@@ -17,9 +17,9 @@ module.exports = function rightMiddleware(requiredRights = []) {
         requiredRights.filter((right) => userRights.indexOf(right) !== -1)
           .length > 0;
       if (isRightsIntersect) {
-        console.log(
-          `У пользователя ${req.user.login} есть права для доступа к ${req.route.path}`
-        );
+        // console.log(
+        //   `У пользователя ${req.user.login} есть права для доступа к ${req.route.path}`
+        // );
         next();
       } else {
         return next(

@@ -53,7 +53,7 @@ export default class DocumentService {
   static async delete(values) {
     console.log("вызов в DocumentService -> Удалить запись", values);
     const response = await api.delete(
-      `${this.API_ROUTE}?id=${values.documents_id}`
+      `${this.API_ROUTE}?id=${values.document_id}`
     );
     console.log(
       "вызов в DocumentService -> Удалить запись -> результат",
