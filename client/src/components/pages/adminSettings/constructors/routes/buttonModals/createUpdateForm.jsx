@@ -101,6 +101,7 @@ export default function CreateUpdateForm({ form, isAddUpdateOnlyFields }) {
                 </Card>
               </Space>
             ))}
+            <ButtonAddComponentOnForm add={add} />
           </>
         )}
       </Form.List>

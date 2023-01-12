@@ -76,7 +76,7 @@ export const routesApi = createApi({
         try {
           const bodyPrepared = (bodyValues) => ({
             ...bodyValues,
-            route_id: bodyValues?.key || bodyValues?.currentRow?.key,
+            route_id: bodyValues?.route_id || bodyValues?.currentRow?.route_id,
           });
           const response = await RouteService.update(bodyPrepared(body));
           return { data: response };

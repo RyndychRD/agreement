@@ -1,4 +1,3 @@
-import { Alert } from "antd";
 import { api } from "../../../http/index";
 import { userNameMask } from "../../CommonFunctions";
 
@@ -19,14 +18,9 @@ export default class RouteService {
           type_name_for_delete: el.document_type_name,
           route_id: index + 1,
           position_route_constructor: route.position.name,
-          user_fio_route_constructor: route.default_signer ? (
-            userNameMask(route.default_signer)
-          ) : (
-            <Alert
-              message="НА ДОЛЖНОСТЬ НЕ НАЗНАЧЕНО НИ ОДНОГО ПОЛЬЗОВАТЕЛЯ!"
-              type="error"
-            />
-          ),
+          user_fio_route_constructor: route.default_signer
+            ? userNameMask(route.default_signer)
+            : "НА ДОЛЖНОСТЬ НЕ НАЗНАЧЕНО НИ ОДНОГО ПОЛЬЗОВАТЕЛЯ!",
         })),
       }));
     } catch (e) {
