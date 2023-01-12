@@ -25,10 +25,10 @@ export default function CreateUpdateForm({ form, isAddUpdateOnlyFields }) {
       !isLoadingTypes
     ) {
       const filledTypesIds = routes?.map((route) => route.document_type_id);
-      const tempAvailableOptions = types?.filter(
+      const filletedAvailableOptions = types?.filter(
         (type) => filledTypesIds.indexOf(type.id) === -1
       );
-      setAvailableOptions(tempAvailableOptions);
+      setAvailableOptions(filletedAvailableOptions);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [routes, types]);
@@ -37,6 +37,17 @@ export default function CreateUpdateForm({ form, isAddUpdateOnlyFields }) {
   const {data: positions = {},isLoading:isLoadingPositions,isError:isErrorPositions} = useGetPositionsQueryHook({});
   // prettier-ignore
   const {data: users = {},isLoading:isLoadingUsers,isError:isErrorUsers} = useGetUsersQueryHook({});
+
+  function getUserOptions(usersTemp) {
+    const result = [{ id: -1, name: "По умолчанию" }];
+    if (Object.keys(usersTemp).length === 0) return result;
+    return result.concat(
+      usersTemp?.map((user) => ({
+        id: user.id,
+        name: userNameMask(user),
+      }))
+    );
+  }
 
   return (
     <Form form={form} name="dynamic_form_nest_item" autoComplete="off">
@@ -84,12 +95,7 @@ export default function CreateUpdateForm({ form, isAddUpdateOnlyFields }) {
                     isLoading={isLoadingUsers}
                     isError={isErrorUsers}
                     name={[name, `specified_signer_id`]}
-                    options={[{ id: -1, name: "По умолчанию" }].concat(
-                      users.map((user) => ({
-                        id: user.id,
-                        name: userNameMask(user),
-                      }))
-                    )}
+                    options={getUserOptions(users)}
                     rules={[]}
                   />
                 </Card>

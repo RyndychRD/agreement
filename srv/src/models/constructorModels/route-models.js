@@ -44,12 +44,12 @@ class RouteSchema {
 
   /**
    * Создаёт новую должность
-   * @param {*} right
+   * @param {*} route
    * @returns
    */
-  async create(right) {
+  async create(route) {
     return await this.knexProvider("document_type_default_routes").insert(
-      right
+      route
     );
   }
   /**
@@ -68,10 +68,12 @@ class RouteSchema {
    * @param {*} filter
    * @returns
    */
-  async update(filter, Right) {
-    return await this.knexProvider("document_type_default_routes")
+  async update(filter, route) {
+    const query = this.knexProvider("document_type_default_routes")
       .where(filter)
-      .update(Right);
+      .update(route);
+    console.log(query.toString());
+    return await query;
   }
 }
 

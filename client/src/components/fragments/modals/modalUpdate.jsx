@@ -84,7 +84,6 @@ export default function ModalUpdate({
       if (!isErrorUpdate && state.isShowUpdateModal) {
         form.resetFields();
         form.setFieldsValue(formDefaultValues(data));
-        console.log(form.getFieldsValue());
         replaceUrlQueryWithId(state.currentRow?.key);
       }
     },
