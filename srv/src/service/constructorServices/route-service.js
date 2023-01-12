@@ -62,7 +62,17 @@ class RouteService {
   }
   async createNewRoute(body) {
     const func = await RouteModels.create({
-      name: body.newRouteName,
+      document_type_id: body.typeId,
+      route: {
+        routeSteps: body.routeSteps.map((step) => {
+          return {
+            ...step,
+            specified_signer_id: step.specified_signer_id
+              ? step.specified_signer_id
+              : -1,
+          };
+        }),
+      },
     });
     return await DevTools.addDelay(func);
   }
@@ -78,7 +88,17 @@ class RouteService {
         id: query.id,
       },
       {
-        name: body.newRouteName,
+        document_type_id: body.typeId,
+        route: {
+          routeSteps: body.routeSteps.map((step) => {
+            return {
+              ...step,
+              specified_signer_id: step.specified_signer_id
+                ? step.specified_signer_id
+                : -1,
+            };
+          }),
+        },
       }
     );
     return await DevTools.addDelay(func);

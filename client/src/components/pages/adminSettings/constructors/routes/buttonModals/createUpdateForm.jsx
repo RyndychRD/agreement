@@ -84,16 +84,13 @@ export default function CreateUpdateForm({ form, isAddUpdateOnlyFields }) {
                     isLoading={isLoadingUsers}
                     isError={isErrorUsers}
                     name={[name, `specified_signer_id`]}
-                    options={users.map((user) => ({
-                      id: user.id,
-                      name: userNameMask(user),
-                    }))}
-                    rules={[
-                      {
-                        required: true,
-                        message: "Выберите пользователя по умолчанию",
-                      },
-                    ]}
+                    options={[{ id: -1, name: "По умолчанию" }].concat(
+                      users.map((user) => ({
+                        id: user.id,
+                        name: userNameMask(user),
+                      }))
+                    )}
+                    rules={[]}
                   />
                 </Card>
               </Space>
