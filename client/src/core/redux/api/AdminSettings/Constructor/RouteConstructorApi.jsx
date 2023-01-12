@@ -28,7 +28,12 @@ export const routesApi = createApi({
       queryFn: async ({ id = "", currentRow = {}, isStart = true }) => {
         if (isStart) {
           try {
-            const response = await RouteService.getOne(id || currentRow?.key);
+            const response = await RouteService.getOne(
+              id ||
+                (typeof currentRow?.key === "string"
+                  ? currentRow.key.split("-")[0]
+                  : currentRow?.key)
+            );
             return { data: response };
           } catch (e) {
             return { error: e.message };
