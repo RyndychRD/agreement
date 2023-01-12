@@ -88,7 +88,6 @@ class RouteService {
         id: query.id,
       },
       {
-        document_type_id: body.typeId,
         route: {
           routeSteps: body.routeSteps.map((step) => {
             return {

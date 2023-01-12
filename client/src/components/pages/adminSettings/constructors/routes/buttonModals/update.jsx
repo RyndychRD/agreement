@@ -12,8 +12,9 @@ export default function UpdateButtonModel() {
 
   const formDefaultValues = (data) => ({
     typeId: data?.document_type_name,
-    routeSteps: data?.route?.routeSteps,
+    routeSteps: data?.route,
   });
+
   return (
     <ModalUpdate
       getQuery={useGetRouteQueryHook}
