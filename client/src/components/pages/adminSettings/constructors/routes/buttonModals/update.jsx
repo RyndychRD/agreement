@@ -1,21 +1,24 @@
-import {
-  useGetTypeQueryHook,
-  useUpdateTypeMutationHook,
-} from "../../../../../../core/redux/api/Globals/Catalogs/TypeApi";
 import { AUseForm } from "../../../../../adapter";
 import ModalUpdate from "../../../../../fragments/modals/modalUpdate";
 import CreateUpdateForm from "./createUpdateForm";
+import {
+  useGetRouteQueryHook,
+  useUpdateRouteMutationHook,
+} from "../../../../../../core/redux/api/AdminSettings/Constructor/RouteConstructorApi";
 
 export default function UpdateButtonModel() {
   // Служит для отслеживания формы из модального окна для обработки по кнопке
   const [form] = AUseForm();
+
   const formDefaultValues = (data) => ({
-    newTypeName: data?.name,
+    typeId: data?.document_type_name,
+    routeSteps: data?.route,
   });
+
   return (
     <ModalUpdate
-      getQuery={useGetTypeQueryHook}
-      updateMutation={useUpdateTypeMutationHook}
+      getQuery={useGetRouteQueryHook}
+      updateMutation={useUpdateRouteMutationHook}
       form={form}
       CreateUpdateForm={CreateUpdateForm}
       formDefaultValues={formDefaultValues}

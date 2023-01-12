@@ -2,18 +2,23 @@
 import AdminSettingsTable from "../../../../fragments/tables/AdminSettings/AdminSettingsTable";
 
 import { Provider } from "../../../../fragments/tables/Provider";
-// import CreateButtonModel from "./buttonModals/create";
-// import DeleteButtonAction from "./buttonModals/delete";
-// import UpdateButtonModel from "./buttonModals/update";
+import CreateButtonModel from "./buttonModals/create";
+import DeleteButtonAction from "./buttonModals/delete";
+import UpdateButtonModel from "./buttonModals/update";
 
-import { useGetRoutesQuery } from "../../../../../core/redux/api/AdminSettings/Constructor/RouteConstructorApi";
-import RouteService from "./../../../../../services/AdminServices/constructor/RouteService";
+import { useGetRoutesQueryHook } from "../../../../../core/redux/api/AdminSettings/Constructor/RouteConstructorApi";
+import RouteService from "../../../../../services/AdminServices/constructor/RouteService";
 
 /** конструктор маршрутов */
 
 export default function RouteConstructor() {
   const columns = {
-    data: ["type_name", "position_name", "user_fio"],
+    data: [
+      "route_id",
+      "type_name",
+      "position_route_constructor",
+      "user_fio_route_constructor",
+    ],
   };
   /**
    * При открытии форму подгружаем новые необходимые данные
@@ -22,7 +27,7 @@ export default function RouteConstructor() {
     data = [],
     isLoading,
     isError,
-  } = useGetRoutesQuery({ isAddForeignTables: true, isAddRights: true });
+  } = useGetRoutesQueryHook({ isAddForeignTables: true, isAddRights: true });
   return (
     <Provider>
       <AdminSettingsTable
@@ -32,9 +37,9 @@ export default function RouteConstructor() {
         dataSource={data ? RouteService.prepareForTable(data) : null}
         title="Маршруты по должностям"
       />
-      {/* <CreateButtonModel />
+      <CreateButtonModel />
       <UpdateButtonModel />
-      <DeleteButtonAction /> */}
+      <DeleteButtonAction />
     </Provider>
   );
 }

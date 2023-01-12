@@ -32,7 +32,7 @@ export default function ModalInput({ form, addMutation, CreateUpdateForm }) {
         }
       })
       .catch((info) => {
-        console.log("Ошибка на форме создания департамента:", info);
+        console.log("Ошибка на форме создания:", info);
       });
   };
   return (

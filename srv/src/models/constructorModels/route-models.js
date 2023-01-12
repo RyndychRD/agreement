@@ -7,6 +7,12 @@ class RouteSchema {
   }
 
   addForeignTables(query) {
+    query = query.select("document_types.name as document_type_name");
+    query = query.leftJoin(
+      "document_types",
+      "document_type_default_routes.document_type_id",
+      "document_types.id"
+    );
     return query;
   }
 
@@ -38,11 +44,13 @@ class RouteSchema {
 
   /**
    * Создаёт новую должность
-   * @param {*} right
+   * @param {*} route
    * @returns
    */
-  async create(right) {
-    return await this.knexProvider("document_Routes").insert(right);
+  async create(route) {
+    return await this.knexProvider("document_type_default_routes").insert(
+      route
+    );
   }
   /**
    * Удаляет должность
@@ -50,7 +58,9 @@ class RouteSchema {
    * @returns
    */
   async deleteOne(filter) {
-    return await this.knexProvider("document_Routes").where(filter).delete();
+    return await this.knexProvider("document_type_default_routes")
+      .where(filter)
+      .delete();
   }
 
   /**
@@ -58,10 +68,11 @@ class RouteSchema {
    * @param {*} filter
    * @returns
    */
-  async update(filter, Right) {
-    return await this.knexProvider("document_Routes")
+  async update(filter, route) {
+    const query = this.knexProvider("document_type_default_routes")
       .where(filter)
-      .update(Right);
+      .update(route);
+    return await query;
   }
 }
 

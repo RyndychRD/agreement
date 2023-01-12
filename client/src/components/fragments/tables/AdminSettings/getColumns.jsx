@@ -72,6 +72,26 @@ export default function getColumns({ dataSource, columns }) {
     },
   };
 
+  const constructorColumns = {
+    route_id: {
+      title: "ID",
+      dataIndex: "route_id",
+      defaultSortOrder: "ascend",
+      align: "center",
+      sorter: (a, b) => sorterInt(a?.route_id, b?.route_id),
+    },
+    user_fio_route_constructor: {
+      title: "ФИО предлагаемого подписанта",
+      dataIndex: "user_fio_route_constructor",
+      align: "center",
+    },
+    position_route_constructor: {
+      title: "Должность подписанта",
+      dataIndex: "position_route_constructor",
+      align: "center",
+    },
+  };
+
   const userColumns = {
     user_id: {
       title: "ID",
@@ -178,6 +198,7 @@ export default function getColumns({ dataSource, columns }) {
     ...userColumns,
     ...rightColumns,
     ...typeColumns,
+    ...constructorColumns,
   };
 
   /**

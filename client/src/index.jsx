@@ -8,6 +8,8 @@ import Auth from "./components/auth/Auth";
 import Layout from "./components/pages/Layout";
 import store from "./core/redux/store";
 import "./css/index.css";
+import "./components/formBuilder/FormBuilderStyle.css";
+
 /**
  * `root` Rjvtynfhbb
  */

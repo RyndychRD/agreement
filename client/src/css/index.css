@@ -21,3 +21,7 @@ body {
 .content {
   height: 99vh;
 }
+
+.w-100 {
+  width: 100%;
+}

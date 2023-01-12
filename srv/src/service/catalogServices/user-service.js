@@ -11,11 +11,13 @@ class UserService {
     return await DevTools.addDelay(func);
   }
 
-  async getOneUser(query) {
+  async getOneUser(query, customFilter = {}) {
+    let filter = { ...customFilter };
+    if (query?.id && query.id !== -1) {
+      filter["users.id"] = query.id;
+    }
     const func = UserModels.findOne({
-      filter: {
-        "users.id": query.id,
-      },
+      filter,
       isAddForeignTables: query?.isAddForeignTables === "true",
       isAddRights: query?.isAddRights === "true",
     });
