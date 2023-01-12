@@ -5,9 +5,11 @@ import ButtonAddComponentOnForm from "./FBButtonAddComponentOnForm";
 import InputElementForm from "./FBInputElementForm";
 import SelectElementForm from "./FBSelectElementsForm";
 import ButtonOnCarts from "./FBButtonOnCartsForm";
-import { documentElementIODictionary } from "../FormBuilderInstanceForm";
+import { useGetElementsHook } from "../../../core/redux/api/Globals/Catalogs/DocumentElementIODictionaryApi";
+
 
 export default function CustomInput({ form }) {
+  const { data:DocumentElementIODictionaries = [] } = useGetElementsHook();
   const dispatch = useCustomDispatch();
   const onFinish = useCallback(
     (value) => {
@@ -30,7 +32,7 @@ export default function CustomInput({ form }) {
         type="primary"
         htmlType="submit"
         onClick={() => {
-          const TestValue = documentElementIODictionary.map((i) => ({
+          const TestValue = DocumentElementIODictionaries.map((i) => ({
             AreaName: i.name,
             AreaType: i.key,
           }));

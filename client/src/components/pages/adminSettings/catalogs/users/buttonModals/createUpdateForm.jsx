@@ -11,7 +11,11 @@ import { useGetRightsQueryHook } from "../../../../../../core/redux/api/Globals/
 import getUniqNotNullIds from "../../../../../../services/CommonFunctions";
 
 export default function CreateUpdateForm({ form, isAddUpdateOnlyFields }) {
-  const { data: positions = {}, isLoading, isError } = useGetPositionsQueryHook({});
+  const {
+    data: positions = {},
+    isLoading,
+    isError,
+  } = useGetPositionsQueryHook({});
   const {
     data: rights = {},
     isError: isErrorRights,

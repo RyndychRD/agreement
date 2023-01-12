@@ -1,7 +1,5 @@
 // import { Tag } from "antd";
-import _ from "lodash";
 import {
-  filterData,
   filterDataStringSorted,
   renderDate,
   sorterDate,
@@ -89,7 +87,8 @@ export default function getColumns({ dataSource, columns }) {
       sorter: (a, b) =>
         sorterStringAlphabet(a?.document_creator, b?.document_creator),
       filters: filterDataStringSorted(dataSource, "document_creator"),
-      onFilter: (value, record) => record?.document_creator?.indexOf(value) === 0,
+      onFilter: (value, record) =>
+        record?.document_creator?.indexOf(value) === 0,
     },
     document_current_signer: {
       title: "На подписи (доделать)",
