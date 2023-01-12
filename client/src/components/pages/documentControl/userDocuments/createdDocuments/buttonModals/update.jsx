@@ -1,25 +1,44 @@
-import { AUseForm } from "../../../../../adapter";
-import ModalUpdate from "../../../../../fragments/modals/modalUpdate";
+import { Button, Modal } from "antd";
 import {
-  useGetRouteQueryHook,
-  useUpdateRouteMutationHook,
-} from "../../../../../../core/redux/api/AdminSettings/Constructor/RouteConstructorApi";
+  useCustomDispatch,
+  useCustomState,
+} from "../../../../../fragments/tables/Provider";
+import DocumentRouteService from "../../../../../../services/DocumentServices/DocumentRouteService";
 
 export default function UpdateButtonModel() {
-  // Служит для отслеживания формы из модального окна для обработки по кнопке
-  const [form] = AUseForm();
+  const state = useCustomState();
+  const dispatch = useCustomDispatch();
+  const isOpen = state.isShowUpdateModal && state.currentRow;
 
-  const formDefaultValues = (data) => ({
-    typeId: data?.document_type_name,
-    routeSteps: data?.route,
-  });
+  const onCancel = () => {
+    dispatch({ type: "closeAllModal" });
+  };
 
-  return (
-    <ModalUpdate
-      getQuery={useGetRouteQueryHook}
-      updateMutation={useUpdateRouteMutationHook}
-      form={form}
-      formDefaultValues={formDefaultValues}
-    />
-  );
+  if (isOpen)
+    return (
+      <Modal
+        open={isOpen}
+        onCancel={onCancel}
+        footer={[
+          <Button key="back" onClick={onCancel}>
+            Закрыть
+          </Button>,
+        ]}
+      >
+        <span>
+          Текущий выбранный договор: {state.currentRow?.document_name}
+        </span>
+        <Button
+          onClick={() => {
+            DocumentRouteService.submitDocumentRoute({
+              usersToSign: [{ signer_id: 1 }, { signer_id: 3 }],
+              documentId: state.currentRow?.document_id,
+            });
+          }}
+        >
+          Начать проведение договора
+        </Button>
+      </Modal>
+    );
+  return null;
 }

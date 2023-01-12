@@ -11,29 +11,29 @@ import { documentElementApi } from "./api/Globals/Catalogs/DocumentElementIODict
 import { documentTypesViewsApi } from "./api/Globals/Catalogs/DocumentTypesViewsApi";
 
 const store = configureStore({
-	reducer: {
-		session: AuthReducer,
-		departmentsApi: departmentsApi.reducer,
-		positionsApi: positionsApi.reducer,
-		usersApi: usersApi.reducer,
-		rightsApi: rightsApi.reducer,
-		documentsApi: documentsApi.reducer,
-		typesApi: typesApi.reducer,
-		routesApi: routesApi.reducer,
-		documentElementApi: documentElementApi.reducer,
-		documentTypesViewsApi: documentTypesViewsApi.reducer,
-	},
-	middleware: (getDefaultMiddlware) =>
-		getDefaultMiddlware()
-			.concat(departmentsApi.middleware)
-			.concat(positionsApi.middleware)
-			.concat(usersApi.middleware)
-			.concat(rightsApi.middleware)
-			.concat(documentsApi.middleware)
-			.concat(typesApi.middleware)
-			.concat(routesApi.middleware)
-			.concat(documentElementApi.middleware)
-			.concat(documentTypesViewsApi.middleware),
+  reducer: {
+    session: AuthReducer,
+    departmentsApi: departmentsApi.reducer,
+    positionsApi: positionsApi.reducer,
+    usersApi: usersApi.reducer,
+    rightsApi: rightsApi.reducer,
+    documentsApi: documentsApi.reducer,
+    typesApi: typesApi.reducer,
+    routesApi: routesApi.reducer,
+    documentElementApi: documentElementApi.reducer,
+    documentTypesViewsApi: documentTypesViewsApi.reducer,
+  },
+  middleware: (getDefaultMiddlware) =>
+    getDefaultMiddlware()
+      .concat(departmentsApi.middleware)
+      .concat(positionsApi.middleware)
+      .concat(usersApi.middleware)
+      .concat(rightsApi.middleware)
+      .concat(documentsApi.middleware)
+      .concat(typesApi.middleware)
+      .concat(routesApi.middleware)
+      .concat(documentElementApi.middleware)
+      .concat(documentTypesViewsApi.middleware),
 });
 
 export default store;
