@@ -1,6 +1,8 @@
 const { departmentsSeed } = require("./seeds/departments");
 const { departmentRightsSeed } = require("./seeds/departments-rights");
-const { document_element_IO_dictionarySeed } = require("./seeds/document_element_IO_dictionary");
+const {
+	document_element_IO_dictionarySeed,
+} = require("./seeds/document_element_IO_dictionary");
 const {
 	documentSignatureTypesSeed,
 } = require("./seeds/document_signature_types");
@@ -14,6 +16,7 @@ const { positionRightsSeed } = require("./seeds/positions-rights");
 const { rightsSeed } = require("./seeds/rights");
 const { usersSeed } = require("./seeds/users");
 const { userRightsSeed } = require("./seeds/users-rights");
+const { document_type_viewsSeed } = require("./seeds/document_type_views");
 
 /**
  * @param { import("knex").Knex } knex
@@ -32,4 +35,5 @@ exports.seed = async function (knex) {
 	await userRightsSeed(knex);
 	await documentTypeDefaultRoutesSeed(knex);
 	await document_element_IO_dictionarySeed(knex);
+	await document_type_viewsSeed(knex);
 };

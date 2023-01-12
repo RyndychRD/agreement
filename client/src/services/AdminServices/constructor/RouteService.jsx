@@ -1,5 +1,5 @@
 import { api } from "../../../http/index";
-import { userNameMask } from "./../../CommonFunctions";
+import { userNameMask } from "../../CommonFunctions";
 
 export default class RouteService {
   static API_ROUTE = "/constructor/routes";

@@ -1,16 +1,16 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
-import DocumentElementIODictionaryService from "../../../../../services/DocumentServices/DocumentElementIODictionaryService";
+import DocumentStatusService from "../../../../../services/DocumentServices/DocumentStatusService";
 
-const TAG_TYPE = "DocumentElement";
+const TAG_TYPE = "documentStatus";
 
-export const documentElementApi = createApi({
-	reducerPath: "documentElementApi",
+export const documentStatusApi = createApi({
+	reducerPath: "documentStatusApi",
 	tagTypes: [TAG_TYPE],
 	endpoints: (build) => ({
-		getElements: build.query({
+		getStatuses: build.query({
 			queryFn: async () => {
 				try {
-					const response = await DocumentElementIODictionaryService.getAll();
+					const response = await DocumentStatusService.getAll();
 					return { data: response };
 				} catch (e) {
 					return { error: e.message };
@@ -25,11 +25,11 @@ export const documentElementApi = createApi({
 					: [{ type: TAG_TYPE, id: "LIST" }],
 		}),
 
-		getElement: build.query({
+		getStatus: build.query({
 			queryFn: async ({ id = "", currentRow = {}, isStart = true }) => {
 				if (isStart) {
 					try {
-						const response = await DocumentElementIODictionaryService.getOne({
+						const response = await DocumentStatusService.getOne({
 							id: id || currentRow?.position_id,
 						});
 						return { data: response };
@@ -48,12 +48,10 @@ export const documentElementApi = createApi({
 					: [{ type: TAG_TYPE, id: "LIST" }],
 		}),
 
-		addElement: build.mutation({
+		addStatus: build.mutation({
 			queryFn: async (body) => {
 				try {
-					const response = await DocumentElementIODictionaryService.create(
-						body
-					);
+					const response = await DocumentStatusService.create(body);
 					return { data: response };
 				} catch (e) {
 					return { error: e.message };
@@ -62,12 +60,10 @@ export const documentElementApi = createApi({
 			invalidatesTags: [{ type: TAG_TYPE, id: "LIST" }],
 		}),
 
-		deleteElement: build.mutation({
+		deleteStatus: build.mutation({
 			queryFn: async (body) => {
 				try {
-					const response = await DocumentElementIODictionaryService.delete(
-						body
-					);
+					const response = await DocumentStatusService.delete(body);
 					return { data: response };
 				} catch (e) {
 					return { error: e.message };
@@ -76,7 +72,7 @@ export const documentElementApi = createApi({
 			invalidatesTags: [{ type: TAG_TYPE, id: "LIST" }],
 		}),
 
-		updateElement: build.mutation({
+		updateStatus: build.mutation({
 			queryFn: async (body) => {
 				try {
 					const bodyPrepared = (bodyValues) => ({
@@ -84,7 +80,7 @@ export const documentElementApi = createApi({
 						position_id:
 							bodyValues?.position_id || bodyValues?.currentRow?.position_id,
 					});
-					const response = await DocumentElementIODictionaryService.update(
+					const response = await DocumentStatusService.update(
 						bodyPrepared(body)
 					);
 					return { data: response };
@@ -98,20 +94,20 @@ export const documentElementApi = createApi({
 });
 
 const {
-	useGetElementsQuery,
-	useGetElementQuery,
-	useAddElementsQuery,
-	useDeleteElementQuery,
-	useUpdateElementQuery,
-} = documentElementApi;
+	useGetStatusesQuery,
+	useGetStatusQuery,
+	useAddStatusesQuery,
+	useDeleteStatusQuery,
+	useUpdateStatusQuery,
+} = documentStatusApi;
 
 // TODO: Доделать документацию
-export const useGetElementsHook = useGetElementsQuery;
+export const useGetStatusesHook = useGetStatusesQuery;
 // TODO: Доделать документацию
-export const useGetElementHook = useGetElementQuery;
+export const useGetStatusHook = useGetStatusQuery;
 // TODO: Доделать документацию
-export const useAddElementHook = useAddElementsQuery;
+export const useAddStatusHook = useAddStatusesQuery;
 // TODO: Доделать документацию
-export const useDeleteElementHook = useDeleteElementQuery;
+export const useDeleteStatusHook = useDeleteStatusQuery;
 // TODO: Доделать документацию
-export const useUpdateElementHook = useUpdateElementQuery;
+export const useUpdateStatusHook = useUpdateStatusQuery;
