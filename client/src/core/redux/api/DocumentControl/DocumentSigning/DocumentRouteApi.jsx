@@ -1,5 +1,5 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
-import DocumentService from "../../../../../services/DocumentServices/DocumentService";
+import DocumentRouteService from "../../../../../services/DocumentServices/DocumentSigning/DocumentRouteService";
 
 const TAG_TYPE = "DocumentSigningRoute";
 
@@ -7,12 +7,12 @@ export const documentRouteApi = createApi({
   reducerPath: "documentRouteApi",
   tagTypes: [TAG_TYPE],
   endpoints: (build) => ({
-    getDocument: build.query({
-      queryFn: async ({ id = "", currentRow = {}, isStart = true }) => {
+    getDocumentRoute: build.query({
+      queryFn: async ({ documentId = "", currentRow = {}, isStart = true }) => {
         if (isStart) {
           try {
-            const response = await DocumentService.getOne(
-              id || currentRow?.Document_id
+            const response = await DocumentRouteService.getOne(
+              documentId || currentRow?.document_id
             );
             return { data: response };
           } catch (e) {
@@ -29,49 +29,42 @@ export const documentRouteApi = createApi({
             ]
           : [{ type: TAG_TYPE, id: "LIST" }],
     }),
-    addDocument: build.mutation({
-      queryFn: async (body) => {
-        try {
-          const response = await DocumentService.create(body);
-          return { data: response };
-        } catch (e) {
-          return { error: e.message };
-        }
-      },
-      invalidatesTags: [{ type: TAG_TYPE, id: "LIST" }],
-    }),
+    // addDocumentRoute: build.mutation({
+    //   queryFn: async (body) => {
+    //     try {
+    //       const response = await DocumentService.create(body);
+    //       return { data: response };
+    //     } catch (e) {
+    //       return { error: e.message };
+    //     }
+    //   },
+    //   invalidatesTags: [{ type: TAG_TYPE, id: "LIST" }],
+    // }),
 
-    updateDocument: build.mutation({
-      queryFn: async (body) => {
-        try {
-          const bodyPrepared = (bodyValues) => ({
-            ...bodyValues,
-            Document_id:
-              bodyValues?.Document_id || bodyValues?.currentRow?.Document_id,
-          });
-          const response = await DocumentService.update(bodyPrepared(body));
-          return { data: response };
-        } catch (e) {
-          return { error: e.message };
-        }
-      },
-      invalidatesTags: [{ type: TAG_TYPE, id: "LIST" }],
-    }),
+    // updateDocumentRoute: build.mutation({
+    //   queryFn: async (body) => {
+    //     try {
+    //       const bodyPrepared = (bodyValues) => ({
+    //         ...bodyValues,
+    //         Document_id:
+    //           bodyValues?.Document_id || bodyValues?.currentRow?.Document_id,
+    //       });
+    //       const response = await DocumentService.update(bodyPrepared(body));
+    //       return { data: response };
+    //     } catch (e) {
+    //       return { error: e.message };
+    //     }
+    //   },
+    //   invalidatesTags: [{ type: TAG_TYPE, id: "LIST" }],
+    // }),
   }),
 });
 
 export const {
-  useGetDocumentsQuery,
-  useGetDocumentQuery,
-  useAddDocumentMutation,
-  useUpdateDocumentMutation,
-  useDeleteDocumentMutation,
+  useGetDocumentRouteQuery,
+  useAddDocumentRouteMutation,
+  useUpdateDocumentRouteMutation,
 } = documentRouteApi;
-
-/**
- * `useGetRoutesQueryHook` Хук для запроса всех данных по документам
- */
-export const useGetDocumentsQueryHook = useGetDocumentsQuery;
 
 /**
  * `useGetDocumentQueryHook` Хук для запроса данных по документу
@@ -88,19 +81,15 @@ export const useGetDocumentsQueryHook = useGetDocumentsQuery;
 			}
  * useGetRouteQueryHook(data)
  */
-export const useGetDocumentQueryHook = useGetDocumentQuery;
+export const useGetDocumentRouteQueryHook = useGetDocumentRouteQuery;
 
 /**
  * `useAddDocumentMutationHook` Хук
  */
-export const useAddDocumentMutationHook = useAddDocumentMutation;
+export const useAddDocumentRouteMutationHook = useAddDocumentRouteMutation;
 
 /**
  * `useUpdateDocumentMutationHook` Хук
  */
-export const useUpdateDocumentMutationHook = useUpdateDocumentMutation;
-
-/**
- * `useDeleteDocumentMutationHook` Хук для удаления документа
- */
-export const useDeleteDocumentMutationHook = useDeleteDocumentMutation;
+export const useUpdateDocumentRouteMutationHook =
+  useUpdateDocumentRouteMutation;

@@ -12,6 +12,7 @@ const documentStatusRouter = require("./catalog/documents/status");
 const documentElementIODictionaryRouter = require("./catalog/documents/document-element-io-dictionary");
 const documentRouter = require("./catalog/document");
 const routeConstructorRouter = require("./constructor/routes");
+const documentSigningRouter = require("./documents/signing/document-signing");
 
 //Авторизация
 router.use("/", authRouter);
@@ -39,5 +40,8 @@ router.use("/catalog/documents", documentRouter);
 /** Конструкторы */
 //Маршруты
 router.use("/constructor/routes", routeConstructorRouter);
+
+/** Подписание документов */
+router.use("/document-signing/", documentSigningRouter);
 
 module.exports = router;

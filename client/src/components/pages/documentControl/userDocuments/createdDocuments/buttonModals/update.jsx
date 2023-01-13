@@ -1,9 +1,9 @@
 import { Button, Modal } from "antd";
+import RouteStepsFragment from "../../../../../fragments/documentControl/route/RouteStepsFragment";
 import {
   useCustomDispatch,
   useCustomState,
 } from "../../../../../fragments/tables/Provider";
-import DocumentRouteService from "../../../../../../services/DocumentServices/DocumentRouteService";
 
 export default function UpdateButtonModel() {
   const state = useCustomState();
@@ -13,7 +13,6 @@ export default function UpdateButtonModel() {
   const onCancel = () => {
     dispatch({ type: "closeAllModal" });
   };
-
   if (isOpen)
     return (
       <Modal
@@ -28,17 +27,10 @@ export default function UpdateButtonModel() {
         <span>
           Текущий выбранный договор: {state.currentRow?.document_name}
         </span>
-        <Button
-          onClick={() => {
-            DocumentRouteService.submitDocumentRoute({
-              usersToSign: [{ signer_id: 1 }, { signer_id: 3 }],
-              documentId: state.currentRow?.document_id,
-            });
-          }}
-        >
-          Начать проведение договора
-        </Button>
+        <RouteStepsFragment
+          isStart={state.isShowUpdateModal}
+          documentId={state.currentRow?.document_id}
+        />
       </Modal>
     );
-  return null;
 }
