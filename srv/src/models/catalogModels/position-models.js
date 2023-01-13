@@ -63,7 +63,7 @@ class PositionSchema {
     if (filter) query = query.where(filter);
     if (isAddForeignTables)
       query = query
-        .first("departments.name as department_name")
+        .select("departments.name as department_name")
         .leftJoin("departments", "positions.department_id", "departments.id");
     if (isAddRights) query = this.rightsJoin(query, isAddForeignTables);
     return await query;

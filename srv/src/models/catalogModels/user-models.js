@@ -72,8 +72,8 @@ class UserSchema {
     if (filter) query = query.where(filter);
     if (isAddForeignTables)
       query = query
-        .first("positions.name as position_name")
-        .first("departments.name as department_name")
+        .select("positions.name as position_name")
+        .select("departments.name as department_name")
         .leftJoin("positions", "users.position_id", "positions.id")
         .leftJoin("departments", "positions.department_id", "departments.id");
     if (isAddRights) query = this.rightsJoin(query, isAddForeignTables);
