@@ -1,13 +1,11 @@
 /* cSpell:disable */
-/**
- * @param { import("knex").Knex } knex
- * @returns { Promise<void> }
- */
-exports.seed = async function (knex) {
+
+async function seedDocs(knex) {
   await knex("documents").del();
   await knex.raw("SELECT setval('documents_id_seq', 1, true);");
   await knex("documents").insert([
     {
+      id: 1,
       name: "Я Закуп ТРУ, который должен отображаться в Созданные мною и Все документы",
       document_status_id: "5",
       document_type_id: "10",
@@ -50,4 +48,36 @@ exports.seed = async function (knex) {
       creator_id: "3",
     },
   ]);
+}
+
+async function seedDocRoute(knex) {
+  await knex("documents-signers_route").del();
+  await knex.raw("SELECT setval('documents-signers_route_id_seq', 1, true);");
+  await knex("documents-signers_route").insert([
+    {
+      document_id: 1,
+      signer_id: 1,
+      step: 1,
+    },
+    {
+      document_id: 1,
+      signer_id: 3,
+      step: 2,
+    },
+    {
+      document_id: 1,
+      signer_id: 3,
+      deputy_signer_id: 1,
+      step: 3,
+    },
+  ]);
+}
+
+/**
+ * @param { import("knex").Knex } knex
+ * @returns { Promise<void> }
+ */
+exports.seed = async function (knex) {
+  await seedDocs(knex);
+  await seedDocRoute(knex);
 };
