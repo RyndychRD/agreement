@@ -25,3 +25,40 @@ body {
 .w-100 {
   width: 100%;
 }
+
+.mt-5 {
+  margin-top: 5px !important;
+}
+
+.warning-button {
+  border-color: orange;
+  color: orange;
+}
+
+.warning-button:focus,
+.warning-button:hover {
+  background-color: orange;
+  border: none;
+  color: black !important;
+}
+
+.ant-btn-dangerous:focus,
+.ant-btn-dangerous:hover {
+  background-color: red;
+  border: none;
+  color: white !important;
+}
+
+.ant-btn-info {
+  color: grey;
+  border-color: lightgray;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.ant-btn-info:focus,
+.ant-btn-info:hover {
+  background-color: white;
+  border: 1px solid black;
+  color: black !important;
+}

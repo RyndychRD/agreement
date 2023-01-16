@@ -5,6 +5,7 @@ import SimpleSpinner from "../../messages/Spinner";
 import SimpleError from "../../messages/Error";
 import RouteStepsEdit from "./RouteStepsEdit/RouteStepsEdit";
 import RouteStepsShow from "./RouteStepsShow/RouteStepsShow";
+import "./style.css";
 
 export default function RouteStepsFragment(props) {
   const { isStart = false, documentId } = props;
@@ -39,13 +40,14 @@ export default function RouteStepsFragment(props) {
   }
   return (
     <>
-      <Button
+      {/* Этот функционал будет добавлен позже */}
+      {/* <Button
         onClick={() => {
           setIsEdit(!isEdit);
         }}
       >
-        Редактировать маршрут
-      </Button>
+        Редактировать маршрут */}
+      {/* </Button> */}
       <br />
       <RouteStepsShow routeSteps={routeSteps} />
     </>

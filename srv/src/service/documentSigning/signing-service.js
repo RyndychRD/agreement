@@ -1,5 +1,8 @@
 const signingModel = require("../../models/documentSigning/signing-model");
 const { getOneUser } = require("../catalogServices/user-service");
+const {
+  getOneType,
+} = require("../catalogServices/document-signature-type-service");
 const DevTools = require("../DevTools");
 
 class SigningService {
@@ -26,6 +29,11 @@ class SigningService {
           actual_signer: await getOneUser({
             id: step.actual_signer_id ? step.actual_signer_id : "-1",
             isAddForeignTables: "true",
+          }),
+          document_signature_type: await getOneType({
+            id: step.document_signature_type_id
+              ? step.document_signature_type_id
+              : "-1",
           }),
         };
       })

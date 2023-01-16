@@ -44,6 +44,7 @@ exports.up = function (knex) {
       .integer("document_signature_type_id")
       .unsigned()
       .comment("Тип подписи");
+    table.string("remark").comment("Замечание при подписи");
     table.timestamp("sign_date").comment("Когда была поставлена подпись");
     table.comment(
       "Таблица с роутом для документа. Состоит из списка подписантов, которые должны подписать документ, а также содержит информацию о том, кто и когда подписал документ"

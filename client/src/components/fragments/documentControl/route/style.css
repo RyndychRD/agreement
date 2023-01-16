@@ -1,0 +1,25 @@
+.routeCard:not(:first-child) {
+  margin-top: 5px;
+}
+.routeCard:not(:last-child) {
+  margin-bottom: 5px;
+}
+.routeCard p {
+  margin: 0;
+}
+
+.buttonRow {
+  margin-right: 5px;
+}
+
+.signed {
+  display: none;
+}
+
+.routeBlock > .not-signed ~ .not-signed {
+  display: none;
+}
+
+.displayBlockImportant {
+  display: block !important;
+}

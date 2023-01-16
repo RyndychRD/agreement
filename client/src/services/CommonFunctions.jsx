@@ -22,7 +22,7 @@ export function replaceUrlQueryWithId(id) {
 }
 
 export function userNameMask(el) {
-  return `${el?.last_name} ${el?.first_name} ${
-    el?.middle_name ? el?.middle_name : ""
+  return `${el?.last_name} ${el?.first_name}. ${
+    el?.middle_name ? `${el?.middle_name}.` : ""
   }`;
 }
