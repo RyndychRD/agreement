@@ -2,19 +2,15 @@ const DocumentModels = require("../../models/catalogModels/document-models");
 const DevTools = require("../DevTools");
 
 class DocumentService {
-  async getAllDocuments(query) {
+  async getAllDocuments({ query, userId }) {
     let filter = {};
-    if (query?.status && query?.status !== "0") {
-      filter.document_status_id = query.status;
+    if (query?.status && query?.status.trim() !== "0") {
+      filter.document_status_id = query.status.trim();
     }
 
     //Мы обязательно должны передать пользователя.
-    if (query?.userId && query?.userId !== "-1") {
-      filter.creator_id = query.userId;
-    } else {
-      //Если мы не передали или передали пустого(-1) пользователя, то будем выводить ничего
-      filter.creator_id = "-1";
-    }
+    //Если мы не передали или передали пустого(-1) пользователя, то будем выводить ничего
+    filter.creator_id = userId ? userId : -1;
 
     //При передачи этого флага удаляем ограничения на пользователя
     if (query?.isShowAllDocs === "true") {
@@ -22,9 +18,13 @@ class DocumentService {
     }
 
     const func = DocumentModels.find({
-      isAddForeignTables: query?.isAddForeignTables === "true",
-      isAddDocumentData: query?.isAddDocumentData === "true",
+      isAddForeignTables: query?.isAddForeignTables.trim() === "true",
+      isAddDocumentData: query?.isAddDocumentData.trim() === "true",
+      isOnlyForSigningDocuments:
+        query?.isOnlyForSigningDocuments.trim() === "true",
+      isOnlyMySignedDocuments: query?.isOnlyMySignedDocuments.trim() === "true",
       filter,
+      currentUser: userId,
     });
     return await DevTools.addDelay(func);
   }

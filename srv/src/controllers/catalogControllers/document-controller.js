@@ -5,7 +5,7 @@ class DocumentController {
     try {
       const data = req?.query?.id
         ? await DocumentService.getOneDocument(req?.query)
-        : await DocumentService.getAllDocuments(req?.query);
+        : await DocumentService.getAllDocuments({query:req?.query, userId:req.user.id});
       return res.json(data);
     } catch (e) {
       next(e);

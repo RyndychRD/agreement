@@ -11,17 +11,19 @@ export const documentsApi = createApi({
       queryFn: async ({
         status = 0,
         isAddForeignTables = false,
-        userId = -1,
         isAddDocumentData = false,
         isShowAllDocs = false,
+        isOnlyForSigningDocuments = false,
+        isOnlyMySignedDocuments = false,
       }) => {
         try {
           const response = await DocumentService.getAll({
             status,
             isAddForeignTables,
             isAddDocumentData,
-            userId,
             isShowAllDocs,
+            isOnlyForSigningDocuments,
+            isOnlyMySignedDocuments,
           });
           return { data: response };
         } catch (e) {

@@ -46,6 +46,51 @@ class DocumentSchema {
   }
 
   /**
+   * Фильтрует по подписанию документов в таблице documents-signers_route и возвращает только те, которые подписал этот пользователь
+   * @param {*} query
+   * @returns
+   */
+  addOnlyMySignedDocuments(query, currentUser) {
+    query = query.where(
+      this.knexProvider.raw(
+        `"documents"."id" IN
+         (SELECT 
+            "documents-signers_route"."document_id" 
+          FROM 
+            "documents-signers_route" 
+          WHERE 
+            "documents-signers_route".actual_signer_id='${currentUser}' 
+          )`
+      )
+    );
+    return query;
+  }
+  /**
+   * Фильтрует по подписанию документов в таблице documents-signers_route и возвращает только те, которые должен подписать этот пользователь
+   * @param {*} query
+   * @returns
+   */
+  addOnlyForSigningDocuments(query, currentUser) {
+    query = query.where(
+      this.knexProvider.raw(
+        `"documents"."id" IN
+         (SELECT 
+            "documents-signers_route"."document_id" 
+          FROM 
+            "documents-signers_route" 
+          WHERE 
+            ("documents-signers_route".signer_id='${currentUser}' 
+              OR 
+            "documents-signers_route".deputy_signer_id='${currentUser}')
+            AND
+            "documents-signers_route".actual_signer_id IS NULL
+          )`
+      )
+    );
+    return query;
+  }
+
+  /**
    * Находит первое вхождение в таблице
    * @param {json} filter
    * @param {boolean} isAddForeignTables - Добавить разыменование метаданных документа?
@@ -68,13 +113,24 @@ class DocumentSchema {
    * @param {boolean} isAddForeignTables - Добавить разыменование метаданных документа?
    * @param {boolean} isAddDocumentData - Добавить разыменование данных документа, введенных пользователем?
    */
-  async find({ filter, isAddForeignTables, isAddDocumentData }) {
+  async find({
+    filter,
+    isAddForeignTables,
+    isAddDocumentData,
+    isOnlyMySignedDocuments,
+    isOnlyForSigningDocuments,
+    currentUser,
+  }) {
     let query = this.knexProvider("documents")
       .select("documents.*")
       .orderBy("documents.id", "asc");
     if (filter) query = query.where(filter);
     if (isAddForeignTables) query = this.addForeignTablesInformation(query);
     if (isAddDocumentData) query = this.addDocumentData(query);
+    if (isOnlyMySignedDocuments)
+      query = this.addOnlyMySignedDocuments(query, currentUser);
+    if (isOnlyForSigningDocuments)
+      query = this.addOnlyForSigningDocuments(query, currentUser);
     return await query;
   }
 

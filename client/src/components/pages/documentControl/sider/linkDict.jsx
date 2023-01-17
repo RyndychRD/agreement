@@ -53,6 +53,18 @@ const dict = {
     </NavLink>,
     "admin-all-doc-documents"
   ),
+  documents_for_signing: getItem(
+    <NavLink to="/document-control/signing/documents-for-signing">
+      Входящие
+    </NavLink>,
+    "documents_for_signing"
+  ),
+  my_signed_documents: getItem(
+    <NavLink to="/document-control/signing/my-signed-documents">
+      Подписанные мною
+    </NavLink>,
+    "my_signed_documents"
+  ),
 };
 
 function getLink(LinkKey) {
