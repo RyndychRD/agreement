@@ -18,17 +18,17 @@ export default function Sider() {
       // prettier-ignore
       isAccessGranted("OnRegistrationDocuments") ? getLink("registration_doc") : null,
     ]),
-    // getItem("Подписание", "Signing", null, [
-    //   isAccessGranted("ForApprovalDocuments")
-    //     ? getItem("Входящие", "FILL_ME")
-    //     : null,
-    //   isAccessGranted("MySignedForApprovalDocuments")
-    //     ? getItem("Подписанные мною", "FILL_ME")
-    //     : null,
-    //   isAccessGranted("SignedInOOPZDocuments")
-    //     ? getItem("Документы подписанные в ООПЗ", "FILL_ME7")
-    //     : null,
-    // ]),
+    getItem("Подписание", "Signing", null, [
+      isAccessGranted("ForSigningDocuments")
+        ? getLink("documents_for_signing")
+        : null,
+      isAccessGranted("MySignedDocuments")
+        ? getLink("my_signed_documents")
+        : null,
+      // isAccessGranted("SignedInOOPZDocuments")
+      //   ? getItem("Документы подписанные в ООПЗ", "FILL_ME7")
+      //   : null,
+    ]),
     // getItem("Задачи", "Tasks", null, [
     //   isAccessGranted("IncomeTasks") ? getItem("Входящие", "FILL_ME") : null,
     // ]),

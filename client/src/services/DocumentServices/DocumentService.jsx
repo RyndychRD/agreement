@@ -65,13 +65,19 @@ export default class DocumentService {
   static async getAll({
     isAddForeignTables,
     status,
-    userId,
     isAddDocumentData,
     isShowAllDocs,
+    isOnlyForSigningDocuments,
+    isOnlyMySignedDocuments,
   }) {
     console.log("вызов в DocumentService -> Взять все записи");
     const response = await api.get(
-      `${this.API_ROUTE}?isAddForeignTables=${isAddForeignTables}&status=${status}&userId=${userId}&isAddDocumentData=${isAddDocumentData}&isShowAllDocs=${isShowAllDocs}`
+      `${this.API_ROUTE}?isAddForeignTables=${isAddForeignTables}
+      &status=${status}
+      &isAddDocumentData=${isAddDocumentData}
+      &isShowAllDocs=${isShowAllDocs}
+      &isOnlyForSigningDocuments=${isOnlyForSigningDocuments}
+      &isOnlyMySignedDocuments=${isOnlyMySignedDocuments}`
     );
     console.log(
       "вызов в DocumentService -> Взять все записи -> результат",
