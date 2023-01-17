@@ -1,13 +1,13 @@
 import { Button, Modal } from "antd";
 import RouteStepsFragment from "../../../../../fragments/documentControl/route/RouteStepsFragment";
 import {
-  useCustomDispatch,
-  useCustomState,
-} from "../../../../../fragments/tables/Provider";
+  useTableModalDispatch,
+  useTableModalsState,
+} from "../../../../../fragments/tables/TableModalProvider";
 
 export default function UpdateButtonModel() {
-  const state = useCustomState();
-  const dispatch = useCustomDispatch();
+  const state = useTableModalsState();
+  const dispatch = useTableModalDispatch();
   const isOpen = state.isShowUpdateModal && state.currentRow;
 
   const onCancel = () => {

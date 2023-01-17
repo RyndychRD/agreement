@@ -3,7 +3,7 @@ import { useGetDocumentsQuery } from "../../../../../core/redux/api/DocumentCont
 import DocumentService from "../../../../../services/DocumentServices/DocumentService";
 // import FormBuilder from "../../../../formBuilder/FormBuilder";
 import DocumentControlTableViewer from "../../../../fragments/tables/DocumentControl/DocumentControlTableViewer";
-import { Provider } from "../../../../fragments/tables/Provider";
+import { TableModalProvider } from "../../../../fragments/tables/TableModalProvider";
 import CreateButtonModel from "./buttonModals/create";
 import UpdateButtonModel from "./buttonModals/update";
 import DeleteButtonAction from "./buttonModals/delete";
@@ -37,7 +37,7 @@ export default function CreatedDocument() {
   });
 
   return (
-    <Provider>
+    <TableModalProvider>
       <DocumentControlTableViewer
         isLoading={isLoading}
         isError={isError}
@@ -48,6 +48,6 @@ export default function CreatedDocument() {
       <CreateButtonModel />
       <UpdateButtonModel />
       <DeleteButtonAction />
-    </Provider>
+    </TableModalProvider>
   );
 }

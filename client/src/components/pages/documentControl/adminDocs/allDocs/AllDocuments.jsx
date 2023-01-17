@@ -3,7 +3,7 @@ import { useGetDocumentsQuery } from "../../../../../core/redux/api/DocumentCont
 import DocumentService from "../../../../../services/DocumentServices/DocumentService";
 // import FormBuilder from "../../../../formBuilder/FormBuilder";
 import DocumentControlTableViewer from "../../../../fragments/tables/DocumentControl/DocumentControlTableViewer";
-import { Provider } from "../../../../fragments/tables/Provider";
+import { TableModalProvider } from "../../../../fragments/tables/TableModalProvider";
 // import CreateButtonModel from "../../adminSettings/catalogs/positions/buttonModals/create";
 // import UpdateButtonModel from "../../adminSettings/catalogs/rights/buttonModals/update";
 // import DeleteButtonAction from "../../adminSettings/catalogs/users/buttonModals/delete";
@@ -41,7 +41,7 @@ export default function AllDocuments() {
   return (
     <>
       {/* <FormBuilder /> */}
-      <Provider>
+      <TableModalProvider>
         <DocumentControlTableViewer
           isLoading={isLoading}
           isError={isError}
@@ -52,7 +52,7 @@ export default function AllDocuments() {
         {/* <CreateButtonModel />
 			<UpdateButtonModel />
 			<DeleteButtonAction /> */}
-      </Provider>
+      </TableModalProvider>
     </>
   );
 }

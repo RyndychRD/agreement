@@ -1,4 +1,7 @@
-import { useCustomDispatch, useCustomState } from "../Provider";
+import {
+  useTableModalDispatch,
+  useTableModalsState,
+} from "../TableModalProvider";
 import { ATable } from "../../../adapter";
 import getTitle from "../CommonFunctions";
 import "../style.css";
@@ -20,8 +23,8 @@ export default function DocumentControlTableViewer({
   isLoading = false,
   isError = false,
 }) {
-  const state = useCustomState();
-  const dispatch = useCustomDispatch();
+  const state = useTableModalsState();
+  const dispatch = useTableModalDispatch();
   /**
    * Дефолтная логика для кнопок. Пока что нет задачи изменять количество кнопок
    */

@@ -6,45 +6,38 @@ const CustomDispatchContext = React.createContext();
 
 // Описание редукторов
 // (каких либо действий если мы не хотим светиться в редаксе)
-function CustomReducer(state, action) {
-  switch (action.type) {
-    case "selectRow": {
-      return { ...state, currentRow: action.currentRow };
-    }
-    case "openCreateModal": {
+function RouteStepFragmentReducer(state, action) {
+  switch (action) {
+    case "openConfirmModal_Confirm": {
       return {
         ...state,
-        isShowCreateModal: true,
-        isShowDeleteModal: false,
-        isShowUpdateModal: false,
+        isOpen: true,
+        modalType: "confirm",
       };
     }
-    case "closeAllModal": {
+    case "closeModal": {
       return {
         ...state,
-        isShowCreateModal: false,
-        isShowDeleteModal: false,
-        isShowUpdateModal: false,
+        isOpen: false,
+        modalType: "",
       };
     }
-    case "openDeleteModal": {
+    case "openConfirmModal_ConfirmWithRemark": {
       return {
         ...state,
-        isShowDeleteModal: true,
-        isShowCreateModal: false,
-        isShowUpdateModal: false,
+        isOpen: true,
+        modalType: "confirmWithRemark",
       };
     }
-    case "openUpdateModal": {
+    case "openConfirmModal_RejectWithRemark": {
       return {
         ...state,
-        isShowUpdateModal: true,
-        isShowCreateModal: false,
-        isShowDeleteModal: false,
+        isOpen: true,
+        modalType: "rejectWithRemark",
       };
     }
     default: {
-      throw new Error(`Unhandled action type: ${action.type}`);
+      throw new Error(`Unhandled action type: ${action}`);
     }
   }
 }
@@ -52,36 +45,34 @@ function CustomReducer(state, action) {
 // Инициализация
 function createInitialState() {
   return {
-    currentRow: null,
-    isShowCreateModal: false,
-    isShowDeleteModal: false,
-    isShowUpdateModal: false,
+    isOpen: false,
+    modalType: "",
   };
 }
 
-export function useCustomState() {
+export function useRouteStepFragmentState() {
   const context = React.useContext(CustomStateContext);
   if (context === undefined) {
     throw new Error(
-      'useCountState должен вызываться внутри Provider"а от Cерого'
+      'useCountState должен вызываться внутри RouteStepFragmentProvider"а'
     );
   }
   return context;
 }
 
-export function useCustomDispatch() {
+export function useRouteStepFragmentDispatch() {
   const context = React.useContext(CustomDispatchContext);
   if (context === undefined) {
     throw new Error(
-      'useCountDispatch должен вызываться внутри Provider"а от Cерого'
+      'useCountDispatch должен вызываться внутри RouteStepFragmentProvider"а'
     );
   }
   return context;
 }
 
-export function Provider({ children }) {
+export function RouteStepFragmentProvider({ children }) {
   const [state, dispatch] = React.useReducer(
-    CustomReducer,
+    RouteStepFragmentReducer,
     {},
     createInitialState
   );

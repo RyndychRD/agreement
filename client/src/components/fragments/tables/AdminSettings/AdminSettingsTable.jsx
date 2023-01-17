@@ -1,6 +1,9 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { useCustomDispatch, useCustomState } from "../Provider";
+import {
+  useTableModalDispatch,
+  useTableModalsState,
+} from "../TableModalProvider";
 import { ATable } from "../../../adapter";
 import getTitle from "../CommonFunctions";
 import "../style.css";
@@ -22,8 +25,8 @@ export default function AdminSettingsTable({
   isLoading = false,
   isError = false,
 }) {
-  const state = useCustomState();
-  const dispatch = useCustomDispatch();
+  const state = useTableModalsState();
+  const dispatch = useTableModalDispatch();
 
   // Этот блок отвечает за открытие элемента по id
   const query = useLocation().search;

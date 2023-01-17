@@ -4,8 +4,10 @@ import RouteStepShow from "./RouteStepShow";
 import ButtonShowSigned from "./buttons/showSignedButton";
 import ButtonShowUnsigned from "./buttons/showUnsignedButton";
 import ConfirmAndRemark from "./modals/confirmAndRemark";
+import { useRouteStepFragmentDispatch } from "../RouteStepFragmentProvider";
 
 export default function RouteStepsShow({ routeSteps }) {
+  const dispatch = useRouteStepFragmentDispatch();
   const [showSignedSteps, setShowSignedSteps] = useState(false);
   const [showUnsignedSteps, setShowUnsignedSteps] = useState(false);
 
@@ -34,13 +36,31 @@ export default function RouteStepsShow({ routeSteps }) {
         showUnsignedSteps={showUnsignedSteps}
       />
       <div className="mt-5">
-        <Button className="buttonRow" type="primary">
+        <Button
+          onClick={() => {
+            dispatch("openConfirmModal_Confirm");
+          }}
+          className="buttonRow"
+          type="primary"
+        >
           Согласовать
         </Button>
-        <Button className="buttonRow warning-button">
+        <Button
+          onClick={() => {
+            dispatch("openConfirmModal_ConfirmWithRemark");
+          }}
+          className="buttonRow warning-button"
+        >
           Согласовать с замечанием
         </Button>
-        <Button danger>Не согласовать</Button>
+        <Button
+          onClick={() => {
+            dispatch("openConfirmModal_RejectWithRemark");
+          }}
+          danger
+        >
+          Не согласовать
+        </Button>
       </div>
       <ConfirmAndRemark />
     </>

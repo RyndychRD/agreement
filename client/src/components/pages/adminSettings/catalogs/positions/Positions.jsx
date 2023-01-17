@@ -1,7 +1,7 @@
 // import { useSelector } from "react-redux";
 import AdminSettingsTable from "../../../../fragments/tables/AdminSettings/AdminSettingsTable";
 
-import { Provider } from "../../../../fragments/tables/Provider";
+import { TableModalProvider } from "../../../../fragments/tables/TableModalProvider";
 import CreateButtonModel from "./buttonModals/create";
 import DeleteButtonAction from "./buttonModals/delete";
 import UpdateButtonModel from "./buttonModals/update";
@@ -29,7 +29,7 @@ export default function Positions() {
     isError,
   } = useGetPositionsQueryHook({ isAddForeignTables: true, isAddRights: true });
   return (
-    <Provider>
+    <TableModalProvider>
       <AdminSettingsTable
         isLoading={isLoading}
         isError={isError}
@@ -40,6 +40,6 @@ export default function Positions() {
       <CreateButtonModel />
       <UpdateButtonModel />
       <DeleteButtonAction />
-    </Provider>
+    </TableModalProvider>
   );
 }
