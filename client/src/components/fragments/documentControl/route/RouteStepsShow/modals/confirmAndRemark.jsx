@@ -1,9 +1,12 @@
 import { Form, Modal } from "antd";
 import TextInputFormItem from "../../../../inputs/textInputs";
+import SimpleSpinner from "../../../../messages/Spinner";
+import SimpleError from "../../../../messages/Error";
 import {
   useRouteStepFragmentDispatch,
   useRouteStepFragmentState,
 } from "../../RouteStepFragmentProvider";
+import { useSignCurrentDocumentStepMutationHook } from "../../../../../../core/redux/api/DocumentControl/DocumentSigning/DocumentRouteApi";
 
 function getMessage(type) {
   switch (type) {
@@ -30,7 +33,7 @@ function getRemarkIfNeeded(type, form) {
             rules={[
               {
                 required: true,
-                message: "Введите название департамента",
+                message: "Введите замечание",
               },
             ]}
           />
@@ -43,16 +46,43 @@ function getRemarkIfNeeded(type, form) {
   }
 }
 
-export default function ConfirmAndRemark() {
+export default function ConfirmAndRemark({ currentStepId }) {
   const state = useRouteStepFragmentState();
   const dispatch = useRouteStepFragmentDispatch();
-
   const [form] = Form.useForm();
+  const [
+    updateFunc,
+    { isLoading: isLoadingUpdate, isError: isErrorUpdate, reset: resetUpdate },
+  ] = useSignCurrentDocumentStepMutationHook();
+
+  const onFinish = () => {
+    form
+      .validateFields()
+      .then(async (values) => {
+        const valuesToSend = {
+          ...values,
+          signatureTypeId: state.signatureTypeId,
+          currentStepId,
+        };
+
+        await updateFunc(valuesToSend).unwrap();
+        form.resetFields();
+        if (!isErrorUpdate) {
+          dispatch("closeModal");
+        }
+      })
+      .catch((info) => {
+        console.log("Ошибка на форме создания:", info);
+      });
+  };
+
   return (
     <Modal
       onCancel={() => {
+        resetUpdate();
         dispatch("closeModal");
       }}
+      onOk={onFinish}
       okText="Сохранить"
       cancelText="Отмена"
       open={state.isOpen}
@@ -62,6 +92,8 @@ export default function ConfirmAndRemark() {
       </div>
 
       {getRemarkIfNeeded(state.modalType, form)}
+      {isLoadingUpdate ? <SimpleSpinner /> : ""}
+      {isErrorUpdate ? <SimpleError /> : ""}
     </Modal>
   );
 }

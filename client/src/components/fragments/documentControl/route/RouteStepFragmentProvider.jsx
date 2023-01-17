@@ -13,6 +13,7 @@ function RouteStepFragmentReducer(state, action) {
         ...state,
         isOpen: true,
         modalType: "confirm",
+        signatureTypeId: 1,
       };
     }
     case "closeModal": {
@@ -20,6 +21,7 @@ function RouteStepFragmentReducer(state, action) {
         ...state,
         isOpen: false,
         modalType: "",
+        signatureTypeId: 0,
       };
     }
     case "openConfirmModal_ConfirmWithRemark": {
@@ -27,6 +29,7 @@ function RouteStepFragmentReducer(state, action) {
         ...state,
         isOpen: true,
         modalType: "confirmWithRemark",
+        signatureTypeId: 3,
       };
     }
     case "openConfirmModal_RejectWithRemark": {
@@ -34,6 +37,7 @@ function RouteStepFragmentReducer(state, action) {
         ...state,
         isOpen: true,
         modalType: "rejectWithRemark",
+        signatureTypeId: 2,
       };
     }
     default: {
@@ -47,6 +51,8 @@ function createInitialState() {
   return {
     isOpen: false,
     modalType: "",
+    signatureTypeId: 0,
+    currentStepId: 0,
   };
 }
 

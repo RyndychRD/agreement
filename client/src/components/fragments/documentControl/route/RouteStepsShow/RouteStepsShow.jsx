@@ -1,15 +1,16 @@
-import { Button } from "antd";
 import { useState } from "react";
 import RouteStepShow from "./RouteStepShow";
 import ButtonShowSigned from "./buttons/showSignedButton";
 import ButtonShowUnsigned from "./buttons/showUnsignedButton";
 import ConfirmAndRemark from "./modals/confirmAndRemark";
-import { useRouteStepFragmentDispatch } from "../RouteStepFragmentProvider";
+import SigningButtons from "./buttons/signingButtons";
 
-export default function RouteStepsShow({ routeSteps }) {
-  const dispatch = useRouteStepFragmentDispatch();
-  const [showSignedSteps, setShowSignedSteps] = useState(false);
-  const [showUnsignedSteps, setShowUnsignedSteps] = useState(false);
+export default function RouteStepsShow({ routeSteps, isAbleToSign }) {
+  const currentSignStep = routeSteps.filter((el) => !el.actual_signer_id)[0];
+  const [showSignedSteps, setShowSignedSteps] = useState(
+    !currentSignStep?.id || !isAbleToSign
+  );
+  const [showUnsignedSteps, setShowUnsignedSteps] = useState(!isAbleToSign);
 
   if (routeSteps.length === 0) {
     return <h3>У документа отсутствует маршрут</h3>;
@@ -31,38 +32,18 @@ export default function RouteStepsShow({ routeSteps }) {
           />
         ))}
       </div>
-      <ButtonShowUnsigned
-        setShowUnsignedSteps={setShowUnsignedSteps}
-        showUnsignedSteps={showUnsignedSteps}
-      />
-      <div className="mt-5">
-        <Button
-          onClick={() => {
-            dispatch("openConfirmModal_Confirm");
-          }}
-          className="buttonRow"
-          type="primary"
-        >
-          Согласовать
-        </Button>
-        <Button
-          onClick={() => {
-            dispatch("openConfirmModal_ConfirmWithRemark");
-          }}
-          className="buttonRow warning-button"
-        >
-          Согласовать с замечанием
-        </Button>
-        <Button
-          onClick={() => {
-            dispatch("openConfirmModal_RejectWithRemark");
-          }}
-          danger
-        >
-          Не согласовать
-        </Button>
-      </div>
-      <ConfirmAndRemark />
+      {currentSignStep?.id && isAbleToSign ? (
+        <>
+          <ButtonShowUnsigned
+            setShowUnsignedSteps={setShowUnsignedSteps}
+            showUnsignedSteps={showUnsignedSteps}
+          />
+          <SigningButtons />
+          <ConfirmAndRemark currentStepId={currentSignStep?.id} />
+        </>
+      ) : (
+        ""
+      )}
     </>
   );
 }

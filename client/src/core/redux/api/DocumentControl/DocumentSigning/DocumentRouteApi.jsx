@@ -41,6 +41,17 @@ export const documentRouteApi = createApi({
     //   invalidatesTags: [{ type: TAG_TYPE, id: "LIST" }],
     // }),
 
+    signCurrentDocumentStep: build.mutation({
+      queryFn: async (body) => {
+        try {
+          const response = await DocumentRouteService.signCurrentStep(body);
+          return { data: response };
+        } catch (e) {
+          return { error: e.message };
+        }
+      },
+      invalidatesTags: [{ type: TAG_TYPE, id: "LIST" }],
+    }),
     // updateDocumentRoute: build.mutation({
     //   queryFn: async (body) => {
     //     try {
@@ -64,6 +75,7 @@ export const {
   useGetDocumentRouteQuery,
   useAddDocumentRouteMutation,
   useUpdateDocumentRouteMutation,
+  useSignCurrentDocumentStepMutation,
 } = documentRouteApi;
 
 /**
@@ -93,3 +105,8 @@ export const useAddDocumentRouteMutationHook = useAddDocumentRouteMutation;
  */
 export const useUpdateDocumentRouteMutationHook =
   useUpdateDocumentRouteMutation;
+/**
+ * Для текущего неподписанного шага устанавливает подписантом текущего пользователя и сохраняет мету по подписанию документа
+ */
+export const useSignCurrentDocumentStepMutationHook =
+  useSignCurrentDocumentStepMutation;

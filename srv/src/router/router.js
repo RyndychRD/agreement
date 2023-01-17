@@ -42,6 +42,6 @@ router.use("/catalog/documents", documentRouter);
 router.use("/constructor/routes", routeConstructorRouter);
 
 /** Подписание документов */
-router.use("/document-signing/", documentSigningRouter);
+router.use("/document-signing/route", documentSigningRouter);
 
 module.exports = router;

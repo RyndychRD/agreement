@@ -18,6 +18,14 @@ class SigningSchema {
     // query = this.addForeignTables(query);
     return await query;
   }
+
+  async signCurrentStep({ filter, sign }) {
+    const query = this.knexProvider("documents-signers_route")
+      .where(filter)
+      .update(sign);
+
+    return await query;
+  }
 }
 
 module.exports = new SigningSchema();

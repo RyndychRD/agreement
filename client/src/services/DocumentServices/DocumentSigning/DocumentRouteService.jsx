@@ -8,7 +8,7 @@ export default class DocumentRouteService {
       `вызов в DocumentRouteService -> Взять записи по одному документу c ID=${documentId}`
     );
     const response = await api.get(
-      `${this.API_ROUTE}?documentId=${documentId}`
+      `${this.API_ROUTE}/get-route?documentId=${documentId}`
     );
     console.log(
       "вызов в DocumentRouteService -> Взять записи по одному документу -> результат",
@@ -22,6 +22,22 @@ export default class DocumentRouteService {
     const response = await api.post(`${this.API_ROUTE}/create-route`, values);
     console.log(
       "вызов в DocumentRouteService -> Создать новую запись -> результат",
+      response
+    );
+    return response.data;
+  }
+
+  static async signCurrentStep(values) {
+    console.log(
+      "вызов в DocumentRouteService -> Подписать текущий шаг документа",
+      values
+    );
+    const response = await api.put(
+      `${this.API_ROUTE}/sign-current-step`,
+      values
+    );
+    console.log(
+      "вызов в DocumentRouteService -> Подписать текущий шаг документа -> результат",
       response
     );
     return response.data;

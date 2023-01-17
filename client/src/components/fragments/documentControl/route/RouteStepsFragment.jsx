@@ -9,7 +9,7 @@ import "./style.css";
 import { RouteStepFragmentProvider } from "./RouteStepFragmentProvider";
 
 export default function RouteStepsFragment(props) {
-  const { isStart = false, documentId } = props;
+  const { isStart = false, documentId, isAbleToSign = false } = props;
   const {
     data: routeSteps = {},
     isLoading,
@@ -49,7 +49,7 @@ export default function RouteStepsFragment(props) {
       >
         Редактировать маршрут */}
       {/* </Button> */}
-      <RouteStepsShow routeSteps={routeSteps} />
+      <RouteStepsShow routeSteps={routeSteps} isAbleToSign={isAbleToSign} />
     </RouteStepFragmentProvider>
   );
 }

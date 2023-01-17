@@ -31,6 +31,39 @@ function getSignedCard(step) {
         <p>Должность подписанта: {step.actual_signer.position_name}</p>
         <p>Имя подписанта: {userNameMask(step.actual_signer)}</p>
         <p>Дата подписания: {renderDate(step.sign_date)}</p>
+        {step?.remark ? <p>Замечание: {step.remark}</p> : ""}
+      </div>
+    );
+  }
+  if (step.actual_signer_id === step.deputy_signer_id) {
+    return (
+      <div>
+        <p>
+          Должность замещающего подписанта: {step.actual_signer.position_name}
+        </p>
+        <p>Имя замещающего подписанта: {userNameMask(step.actual_signer)}</p>
+        <p>Дата подписания: {renderDate(step.sign_date)}</p>
+        {step?.remark ? <p>Замечание: {step.remark}</p> : ""}
+      </div>
+    );
+  }
+  if (step.deputy_signer_id) {
+    return (
+      <div>
+        <p>
+          Должность предполагаемого замещающего подписанта:
+          {step.deputy_signer.position_name}
+        </p>
+        <p>
+          Имя предполагаемого замещающего подписанта:
+          {userNameMask(step.deputy_signer)}
+        </p>
+        <p>
+          Должность фактического подписанта: {step.actual_signer.position_name}
+        </p>
+        <p>Имя фактического подписанта: {userNameMask(step.actual_signer)}</p>
+        <p>Дата подписания: {renderDate(step.sign_date)}</p>
+        {step?.remark ? <p>Замечание: {step.remark}</p> : ""}
       </div>
     );
   }
@@ -43,6 +76,7 @@ function getSignedCard(step) {
       </p>
       <p>Имя фактического подписанта: {userNameMask(step.actual_signer)}</p>
       <p>Дата подписания: {renderDate(step.sign_date)}</p>
+      {step?.remark ? <p>Замечание: {step.remark}</p> : ""}
     </div>
   );
 }

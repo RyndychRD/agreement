@@ -39,6 +39,21 @@ class SigningService {
       })
     );
   }
+
+  async signCurrentDocumentStep({ body, userId }) {
+    const func = signingModel.signCurrentStep({
+      filter: {
+        id: body.currentStepId,
+      },
+      sign: {
+        remark: body?.remark,
+        document_signature_type_id: body.signatureTypeId,
+        actual_signer_id: userId,
+        sign_date: "now",
+      },
+    });
+    return await DevTools.addDelay(func);
+  }
 }
 
 module.exports = new SigningService();
