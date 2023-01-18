@@ -7,9 +7,8 @@ import SelectElementForm from "./FBSelectElementsForm";
 import ButtonOnCarts from "./FBButtonOnCartsForm";
 import { useGetElementsHook } from "../../../core/redux/api/Globals/Catalogs/DocumentElementIODictionaryApi";
 
-
 export default function CustomInput({ form }) {
-  const { data:DocumentElementIODictionaries = [] } = useGetElementsHook();
+  const { data: DocumentElementIODictionaries = [] } = useGetElementsHook();
   const dispatch = useCustomDispatch();
   const onFinish = useCallback(
     (value) => {
