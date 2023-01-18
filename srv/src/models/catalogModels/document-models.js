@@ -1,4 +1,5 @@
 //Доступ в БД
+const { default: knex } = require("knex");
 const knexConfig = require("../../../db/knexfile");
 
 class DocumentSchema {
@@ -28,12 +29,17 @@ class DocumentSchema {
         "documents.document_type_id",
         "document_types.id"
       );
-    //подтягиваем создателя документа
+    //подтягиваем текущего подписанта/подписантов
     query = query
-      .select("users.last_name as user_last_name")
-      .select("users.first_name as user_first_name")
-      .select("users.middle_name as user_middle_name")
-      .leftJoin("users", "documents.creator_id", "users.id");
+      .select("currentSigner.signer_id as current_signer_id")
+      .select("currentSigner.deputy_signer_id as current_deputy_signer_id")
+      .leftJoin(
+        this.knexProvider.raw(
+          '"documents-signers_route" AS "currentSigner" ON "documents"."id"' +
+            ' = "currentSigner"."document_id" AND "documents"."last_signed_step"+1' +
+            ' = "currentSigner"."step"'
+        )
+      );
     return query;
   }
   /**
@@ -71,22 +77,20 @@ class DocumentSchema {
    * @returns
    */
   addOnlyForSigningDocuments(query, currentUser) {
-    query = query.where(
-      this.knexProvider.raw(
-        `"documents"."id" IN
-         (SELECT 
-            "documents-signers_route"."document_id" 
-          FROM 
-            "documents-signers_route" 
-          WHERE 
-            ("documents-signers_route".signer_id='${currentUser}' 
-              OR 
-            "documents-signers_route".deputy_signer_id='${currentUser}')
-            AND
-            "documents-signers_route".actual_signer_id IS NULL
-          )`
+    query = query
+      .leftJoin(
+        "documents-signers_route",
+        "documents.id",
+        "documents-signers_route.document_id"
       )
-    );
+      .whereRaw('documents.last_signed_step+1="documents-signers_route".step')
+      .where(function () {
+        this.where({
+          "documents-signers_route.signer_id": currentUser,
+        }).orWhere({
+          "documents-signers_route.deputy_signer_id": currentUser,
+        });
+      });
     return query;
   }
 
@@ -136,11 +140,11 @@ class DocumentSchema {
 
   /**
    * Создаёт новую должность
-   * @param {*} Document
+   * @param {*} document
    * @returns
    */
-  async create(Document) {
-    return await this.knexProvider("documents").insert(Document);
+  async create(document) {
+    return await this.knexProvider("documents").insert(document);
   }
   /**
    * Удаляет должность
@@ -156,8 +160,24 @@ class DocumentSchema {
    * @param {*} filter
    * @returns
    */
-  async update(filter, Document) {
-    return await this.knexProvider("documents").where(filter).update(Document);
+  async update(filter, document) {
+    return await this.knexProvider("documents").where(filter).update(document);
+  }
+  async incrementLastSignedStepByStepId({ stepId }) {
+    const query = this.knexProvider("documents")
+      .increment("last_signed_step")
+      .whereIn(
+        "documents.id",
+        this.knexProvider("documents-signers_route")
+          .select("document_id")
+          .where({ id: stepId })
+      )
+      .update({ updated_at: "now" })
+      .returning("*");
+    const result = await query;
+
+    //Мы всегда будем получать результат как массив из 1 элемента, так как мы обновляем конкретный документ
+    return result[0];
   }
 }
 

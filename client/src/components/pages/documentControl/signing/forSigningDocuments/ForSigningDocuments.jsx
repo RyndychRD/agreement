@@ -2,10 +2,8 @@ import DocumentService from "../../../../../services/DocumentServices/DocumentSe
 // import FormBuilder from "../../../../formBuilder/FormBuilder";
 import DocumentControlTableViewer from "../../../../fragments/tables/DocumentControl/DocumentControlTableViewer";
 import { TableModalProvider } from "../../../../fragments/tables/TableModalProvider";
-// import CreateButtonModel from "./buttonModals/create";
-// import UpdateButtonModel from "./buttonModals/update";
-// import DeleteButtonAction from "./buttonModals/delete";
-import { useGetDocumentsQueryHook } from "../../../../../core/redux/api/DocumentControl/Catalog/DocumentApi";
+import UpdateButtonModel from "./buttonModals/update";
+import { useGetDocumentsQueryHook } from "../../../../../core/redux/api/DocumentControl/DocumentApi";
 
 /** Список документов, созданных пользователем */
 export default function ForSigningDocuments() {
@@ -30,6 +28,7 @@ export default function ForSigningDocuments() {
   } = useGetDocumentsQueryHook({
     isAddForeignTables: true,
     isOnlyForSigningDocuments: true,
+    status: 0,
   });
 
   return (
@@ -41,9 +40,7 @@ export default function ForSigningDocuments() {
         dataSource={data ? DocumentService.prepareForTable(data) : null}
         title="Документы"
       />
-      {/* <CreateButtonModel />
       <UpdateButtonModel />
-      <DeleteButtonAction /> */}
     </TableModalProvider>
   );
 }

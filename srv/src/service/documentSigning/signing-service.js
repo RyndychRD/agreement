@@ -4,6 +4,9 @@ const {
   getOneType,
 } = require("../catalogServices/document-signature-type-service");
 const DevTools = require("../DevTools");
+const {
+  incrementDocumentLastSignedStepBySignedStepId,
+} = require("../catalogServices/document-service");
 
 class SigningService {
   async getOneDocumentRoute(query) {
@@ -52,7 +55,12 @@ class SigningService {
         sign_date: "now",
       },
     });
-    return await DevTools.addDelay(func);
+    await func;
+    return await DevTools.addDelay(
+      incrementDocumentLastSignedStepBySignedStepId({
+        stepId: body.currentStepId,
+      })
+    );
   }
 }
 

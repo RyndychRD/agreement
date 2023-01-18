@@ -1,6 +1,6 @@
 // import { useState } from "react";
 // import { Button } from "antd";
-import { useGetDocumentRouteQueryHook } from "../../../../core/redux/api/DocumentControl/DocumentSigning/DocumentRouteApi";
+import { useGetDocumentRouteQueryHook } from "../../../../core/redux/api/DocumentControl/DocumentApi";
 import SimpleSpinner from "../../messages/Spinner";
 import SimpleError from "../../messages/Error";
 // import RouteStepsEdit from "./RouteStepsEdit/RouteStepsEdit";

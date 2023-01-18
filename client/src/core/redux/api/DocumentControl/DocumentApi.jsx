@@ -1,11 +1,13 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
-import DocumentService from "../../../../../services/DocumentServices/DocumentService";
+import DocumentService from "../../../../services/DocumentServices/DocumentService";
+import DocumentRouteService from "../../../../services/DocumentServices/DocumentSigning/DocumentRouteService";
 
-const TAG_TYPE = "Documents";
+const TAG_TYPE_DOCUMENT = "Documents";
+const TAG_TYPE_ROUTE = "DocumentSigningRoute";
 
 export const documentsApi = createApi({
   reducerPath: "documentsApi",
-  tagTypes: [TAG_TYPE],
+  tagTypes: [TAG_TYPE_DOCUMENT, TAG_TYPE_ROUTE],
   endpoints: (build) => ({
     getDocuments: build.query({
       queryFn: async ({
@@ -33,11 +35,12 @@ export const documentsApi = createApi({
       providesTags: (result) =>
         result
           ? [
-              ...result.map(({ id }) => ({ type: TAG_TYPE, id })),
-              { type: TAG_TYPE, id: "LIST" },
+              ...result.map(({ id }) => ({ type: TAG_TYPE_DOCUMENT, id })),
+              { type: TAG_TYPE_DOCUMENT, id: "LIST" },
             ]
-          : [{ type: TAG_TYPE, id: "LIST" }],
+          : [{ type: TAG_TYPE_DOCUMENT, id: "LIST" }],
     }),
+
     getDocument: build.query({
       queryFn: async ({ id = "", currentRow = {}, isStart = true }) => {
         if (isStart) {
@@ -55,11 +58,12 @@ export const documentsApi = createApi({
       providesTags: (result) =>
         result
           ? [
-              { ...result, type: TAG_TYPE, id: result?.id },
-              { type: TAG_TYPE, id: "LIST" },
+              { ...result, type: TAG_TYPE_DOCUMENT, id: result?.id },
+              { type: TAG_TYPE_DOCUMENT, id: "LIST" },
             ]
-          : [{ type: TAG_TYPE, id: "LIST" }],
+          : [{ type: TAG_TYPE_DOCUMENT, id: "LIST" }],
     }),
+
     addDocument: build.mutation({
       queryFn: async (body) => {
         try {
@@ -69,8 +73,9 @@ export const documentsApi = createApi({
           return { error: e.message };
         }
       },
-      invalidatesTags: [{ type: TAG_TYPE, id: "LIST" }],
+      invalidatesTags: [{ type: TAG_TYPE_DOCUMENT, id: "LIST" }],
     }),
+
     deleteDocument: build.mutation({
       queryFn: async (body) => {
         try {
@@ -80,8 +85,9 @@ export const documentsApi = createApi({
           return { error: e.message };
         }
       },
-      invalidatesTags: [{ type: TAG_TYPE, id: "LIST" }],
+      invalidatesTags: [{ type: TAG_TYPE_DOCUMENT, id: "LIST" }],
     }),
+
     updateDocument: build.mutation({
       queryFn: async (body) => {
         try {
@@ -96,7 +102,45 @@ export const documentsApi = createApi({
           return { error: e.message };
         }
       },
-      invalidatesTags: [{ type: TAG_TYPE, id: "LIST" }],
+      invalidatesTags: [{ type: TAG_TYPE_DOCUMENT, id: "LIST" }],
+    }),
+
+    signCurrentDocumentStep: build.mutation({
+      queryFn: async (body) => {
+        try {
+          const response = await DocumentRouteService.signCurrentStep(body);
+          return { data: response };
+        } catch (e) {
+          return { error: e.message };
+        }
+      },
+      invalidatesTags: [
+        { type: TAG_TYPE_DOCUMENT, id: "LIST" },
+        { type: TAG_TYPE_ROUTE, id: "LIST" },
+      ],
+    }),
+
+    getDocumentRoute: build.query({
+      queryFn: async ({ documentId = "", currentRow = {}, isStart = true }) => {
+        if (isStart) {
+          try {
+            const response = await DocumentRouteService.getOne(
+              documentId || currentRow?.document_id
+            );
+            return { data: response };
+          } catch (e) {
+            return { error: e.message };
+          }
+        }
+        return {};
+      },
+      providesTags: (result) =>
+        result
+          ? [
+              { ...result, type: TAG_TYPE_ROUTE, id: result?.id },
+              { type: TAG_TYPE_ROUTE, id: "LIST" },
+            ]
+          : [{ type: TAG_TYPE_ROUTE, id: "LIST" }],
     }),
   }),
 });
@@ -107,6 +151,9 @@ export const {
   useAddDocumentMutation,
   useUpdateDocumentMutation,
   useDeleteDocumentMutation,
+
+  useSignCurrentDocumentStepMutation,
+  useGetDocumentRouteQuery,
 } = documentsApi;
 
 /**
@@ -145,3 +192,25 @@ export const useUpdateDocumentMutationHook = useUpdateDocumentMutation;
  * `useDeleteDocumentMutationHook` Хук для удаления документа
  */
 export const useDeleteDocumentMutationHook = useDeleteDocumentMutation;
+/**
+ * Для текущего неподписанного шага устанавливает подписантом текущего пользователя и сохраняет мету по подписанию документа
+ */
+export const useSignCurrentDocumentStepMutationHook =
+  useSignCurrentDocumentStepMutation;
+
+/**
+ * `useGetDocumentQueryHook` Хук для запроса данных по документу
+ * @param {string} [id=""] Id элемента в таблице департамента
+ * @param {string} [currentRow = {}] Если определенно что выбрано строчка в таблице `currentRow` то передаем ее, иначе ожидается id
+ * @param {boolean} [isStart=true] Загружаем данные когда нам они нужны
+ * @param {boolean} [isAddRights=true]   Флаг true включает параметризированный запрос
+ * @example 
+ * const data = {
+				id = "", // Id элемента в таблице департамента
+				currentRow = {}, // Если определенно что выбрано строчка в таблице `currentRow` то передаем ее, иначе ожидается id
+				isStart = true, // Загружаем данные когда нам они нужны
+				isAddRights = false, //Флаг true включает параметризированный запрос
+			}
+ * useGetRouteQueryHook(data)
+ */
+export const useGetDocumentRouteQueryHook = useGetDocumentRouteQuery;

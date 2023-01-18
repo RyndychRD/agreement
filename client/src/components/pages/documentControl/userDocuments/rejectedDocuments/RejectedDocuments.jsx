@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { useGetDocumentsQuery } from "../../../../../core/redux/api/DocumentControl/Catalog/DocumentApi";
+import { useGetDocumentsQuery } from "../../../../../core/redux/api/DocumentControl/DocumentApi";
 import DocumentService from "../../../../../services/DocumentServices/DocumentService";
 // import FormBuilder from "../../../../formBuilder/FormBuilder";
 import DocumentControlTableViewer from "../../../../fragments/tables/DocumentControl/DocumentControlTableViewer";
@@ -17,8 +17,6 @@ export default function RejectedDocument() {
       "document_name",
       "document_type",
       "document_status",
-      "document_current_signer",
-      "document_stage",
       "document_created_at",
       "document_updated_at",
     ],

@@ -4,12 +4,11 @@ import { departmentsApi } from "./api/Globals/Catalogs/DepartamentApi";
 import { usersApi } from "./api/Globals/Catalogs/UserApi";
 import { rightsApi } from "./api/Globals/Catalogs/RightApi";
 import { positionsApi } from "./api/Globals/Catalogs/PositionsApi";
-import { documentsApi } from "./api/DocumentControl/Catalog/DocumentApi";
+import { documentsApi } from "./api/DocumentControl/DocumentApi";
 import { typesApi } from "./api/Globals/Catalogs/TypeApi";
 import { routesApi } from "./api/AdminSettings/Constructor/RouteConstructorApi";
 import { documentElementApi } from "./api/Globals/Catalogs/DocumentElementIODictionaryApi";
 import { documentTypesViewsApi } from "./api/Globals/Catalogs/DocumentTypesViewsApi";
-import { documentRouteApi } from "./api/DocumentControl/DocumentSigning/DocumentRouteApi";
 
 const store = configureStore({
   reducer: {
@@ -23,7 +22,6 @@ const store = configureStore({
     routesApi: routesApi.reducer,
     documentElementApi: documentElementApi.reducer,
     documentTypesViewsApi: documentTypesViewsApi.reducer,
-    documentRouteApi: documentRouteApi.reducer,
   },
   middleware: (getDefaultMiddlware) =>
     getDefaultMiddlware()
@@ -35,8 +33,7 @@ const store = configureStore({
       .concat(typesApi.middleware)
       .concat(routesApi.middleware)
       .concat(documentElementApi.middleware)
-      .concat(documentTypesViewsApi.middleware)
-      .concat(documentRouteApi.middleware),
+      .concat(documentTypesViewsApi.middleware),
 });
 
 export default store;

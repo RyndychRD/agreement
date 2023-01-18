@@ -7,7 +7,7 @@ export default function SigningButtons() {
     <div className="mt-5">
       <Button
         onClick={() => {
-          dispatch("openConfirmModal_Confirm");
+          dispatch({ type: "openConfirmModal_Confirm" });
         }}
         className="buttonRow"
         type="primary"
@@ -16,7 +16,7 @@ export default function SigningButtons() {
       </Button>
       <Button
         onClick={() => {
-          dispatch("openConfirmModal_ConfirmWithRemark");
+          dispatch({ type: "openConfirmModal_ConfirmWithRemark" });
         }}
         className="buttonRow warning-button"
       >
@@ -24,7 +24,7 @@ export default function SigningButtons() {
       </Button>
       <Button
         onClick={() => {
-          dispatch("openConfirmModal_RejectWithRemark");
+          dispatch({ type: "openConfirmModal_RejectWithRemark" });
         }}
         danger
       >

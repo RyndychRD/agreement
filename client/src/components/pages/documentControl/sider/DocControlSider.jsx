@@ -42,7 +42,7 @@ export default function Sider() {
         defaultSelectedKeys={window.location.pathname}
         className="siderMenu"
         mode="inline"
-        defaultOpenKeys={["UserDocuments"]}
+        defaultOpenKeys={["UserDocuments", "Signing", "AdminDocs"]}
         items={items}
       />
     </LayoutSider>

@@ -15,7 +15,6 @@ class SigningSchema {
       .select("documents-signers_route.*")
       .orderBy("documents-signers_route.step", "asc");
     if (filter) query = query.where(filter);
-    // query = this.addForeignTables(query);
     return await query;
   }
 
@@ -23,7 +22,14 @@ class SigningSchema {
     const query = this.knexProvider("documents-signers_route")
       .where(filter)
       .update(sign);
+    return await query;
+  }
 
+  async getOneStep({ filter }) {
+    let query = this.knexProvider("documents-signers_route")
+      .first("documents-signers_route.*")
+      .where(filter)
+      .orderBy("documents-signers_route.step", "asc");
     return await query;
   }
 }

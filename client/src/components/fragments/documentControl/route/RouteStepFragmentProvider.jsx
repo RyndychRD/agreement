@@ -7,7 +7,7 @@ const CustomDispatchContext = React.createContext();
 // Описание редукторов
 // (каких либо действий если мы не хотим светиться в редаксе)
 function RouteStepFragmentReducer(state, action) {
-  switch (action) {
+  switch (action.type) {
     case "openConfirmModal_Confirm": {
       return {
         ...state,
@@ -41,7 +41,7 @@ function RouteStepFragmentReducer(state, action) {
       };
     }
     default: {
-      throw new Error(`Unhandled action type: ${action}`);
+      throw new Error(`Unhandled action type: ${action.type}`);
     }
   }
 }

@@ -6,7 +6,8 @@ import {
   useRouteStepFragmentDispatch,
   useRouteStepFragmentState,
 } from "../../RouteStepFragmentProvider";
-import { useSignCurrentDocumentStepMutationHook } from "../../../../../../core/redux/api/DocumentControl/DocumentSigning/DocumentRouteApi";
+import { useSignCurrentDocumentStepMutationHook } from "../../../../../../core/redux/api/DocumentControl/DocumentApi";
+import { useTableModalDispatch } from "../../../../tables/TableModalProvider";
 
 function getMessage(type) {
   switch (type) {
@@ -48,7 +49,8 @@ function getRemarkIfNeeded(type, form) {
 
 export default function ConfirmAndRemark({ currentStepId }) {
   const state = useRouteStepFragmentState();
-  const dispatch = useRouteStepFragmentDispatch();
+  const dispatchConfirm = useRouteStepFragmentDispatch();
+  const dispatchTable = useTableModalDispatch();
   const [form] = Form.useForm();
   const [
     updateFunc,
@@ -68,7 +70,8 @@ export default function ConfirmAndRemark({ currentStepId }) {
         await updateFunc(valuesToSend).unwrap();
         form.resetFields();
         if (!isErrorUpdate) {
-          dispatch("closeModal");
+          dispatchConfirm({ type: "closeModal" });
+          dispatchTable({ type: "closeAllModal" });
         }
       })
       .catch((info) => {
@@ -80,7 +83,7 @@ export default function ConfirmAndRemark({ currentStepId }) {
     <Modal
       onCancel={() => {
         resetUpdate();
-        dispatch("closeModal");
+        dispatchConfirm({ type: "closeModal" });
       }}
       onOk={onFinish}
       okText="Сохранить"
