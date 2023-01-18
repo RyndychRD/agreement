@@ -7,6 +7,8 @@ import { TableModalProvider } from "../../../../fragments/tables/TableModalProvi
 // import CreateButtonModel from "../../adminSettings/catalogs/positions/buttonModals/create";
 // import UpdateButtonModel from "../../adminSettings/catalogs/rights/buttonModals/update";
 // import DeleteButtonAction from "../../adminSettings/catalogs/users/buttonModals/delete";
+import { isAccessGranted } from "../../../../../services/userAccessService";
+import { Error403 } from "../../../../fragments/messages/Error";
 
 /** Список документов, созданных пользователем */
 export default function RegistrationDocument() {
@@ -34,6 +36,7 @@ export default function RegistrationDocument() {
     status: "8",
   });
 
+  if (!isAccessGranted("OnRegistrationDocuments")) return <Error403 />;
   return (
     <>
       {/* <FormBuilder /> */}

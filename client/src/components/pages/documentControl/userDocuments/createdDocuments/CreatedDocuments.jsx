@@ -7,6 +7,8 @@ import { TableModalProvider } from "../../../../fragments/tables/TableModalProvi
 import CreateButtonModel from "./buttonModals/create";
 import UpdateButtonModel from "./buttonModals/update";
 import DeleteButtonAction from "./buttonModals/delete";
+import { isAccessGranted } from "../../../../../services/userAccessService";
+import { Error403 } from "../../../../fragments/messages/Error";
 
 /** Список документов, созданных пользователем */
 export default function CreatedDocument() {
@@ -36,6 +38,7 @@ export default function CreatedDocument() {
     userId: currentUser?.id ? currentUser.id : "-1",
   });
 
+  if (!isAccessGranted("CreatedDocuments")) return <Error403 />;
   return (
     <TableModalProvider>
       <DocumentControlTableViewer

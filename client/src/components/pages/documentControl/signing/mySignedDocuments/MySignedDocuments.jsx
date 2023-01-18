@@ -4,6 +4,8 @@ import DocumentControlTableViewer from "../../../../fragments/tables/DocumentCon
 import { TableModalProvider } from "../../../../fragments/tables/TableModalProvider";
 import UpdateButtonModel from "./buttonModals/update";
 import { useGetDocumentsQueryHook } from "../../../../../core/redux/api/DocumentControl/DocumentApi";
+import { isAccessGranted } from "../../../../../services/userAccessService";
+import { Error403 } from "../../../../fragments/messages/Error";
 
 /** Список документов, созданных пользователем */
 export default function MySingedDocuments() {
@@ -30,6 +32,7 @@ export default function MySingedDocuments() {
     isOnlyMySignedDocuments: true,
   });
 
+  if (!isAccessGranted("MySignedDocuments")) return <Error403 />;
   return (
     <TableModalProvider>
       <DocumentControlTableViewer
