@@ -44,6 +44,7 @@ export const logoutAsync = createAsyncThunk("AuthSlice/logout", async () => {
   try {
     // console.log('logoutAsync')
     await AuthService.logout();
+    window.location.reload(true);
     return "Выход произведён";
   } catch (error) {
     // console.log(error.response?.data?.message)
