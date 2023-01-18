@@ -46,12 +46,12 @@ exports.rightsSeed = async function (knex) {
     {
       id: "9",
       name: "Просмотр Подписание->Входящие",
-      code_name: "ForApprovalDocuments",
+      code_name: "ForSigningDocuments",
     },
     {
       id: "10",
       name: "Просмотр Подписание->Подписанные мною",
-      code_name: "MySignedForApprovalDocuments",
+      code_name: "MySignedDocuments",
     },
     {
       id: "11",
