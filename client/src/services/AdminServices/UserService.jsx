@@ -40,7 +40,7 @@ export default class UserService {
   static async getOne({ id, isAddRights, isAddForeignTables }) {
     console.log("вызов в UserService -> Взять одну записи");
     const response = await api.get(
-      `${this.API_ROUTE}?id=${id}isAddForeignTables=${isAddForeignTables}&isAddRights=${isAddRights}`
+      `${this.API_ROUTE}?id=${id}&isAddForeignTables=${isAddForeignTables}&isAddRights=${isAddRights}`
     );
     console.log(
       "вызов в UserService -> Взять одну запись -> результат",
