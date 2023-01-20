@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
-import AuthReducer from "../../components/auth/AuthReducer";
+import AuthReducer from "./reducers/AuthReducer";
+import DocumentCreation from "./reducers/documentCreationPipelineReducer";
 import { departmentsApi } from "./api/Globals/Catalogs/DepartamentApi";
 import { usersApi } from "./api/Globals/Catalogs/UserApi";
 import { rightsApi } from "./api/Globals/Catalogs/RightApi";
@@ -13,6 +14,7 @@ import { documentTypesViewsApi } from "./api/Globals/Catalogs/DocumentTypesViews
 const store = configureStore({
   reducer: {
     session: AuthReducer,
+    documentCreation: DocumentCreation,
     departmentsApi: departmentsApi.reducer,
     positionsApi: positionsApi.reducer,
     usersApi: usersApi.reducer,

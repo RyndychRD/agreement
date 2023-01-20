@@ -129,7 +129,7 @@ function getClassBySign(actualSignerId, showSignedSteps, showUnsignedSteps) {
 }
 
 export default function RouteStepShow({
-  step,
+  routeStep,
   showSignedSteps,
   showUnsignedSteps,
 }) {
@@ -139,16 +139,16 @@ export default function RouteStepShow({
     deputy_signer_id: deputySignerId,
     signer_id: signerId,
     document_signature_type: documentSignatureType,
-  } = step;
+  } = routeStep;
+
+  // Наполняем карточку данными
   let cardData = null;
-  if (cardData === null && actualSignerId) {
-    cardData = getSignedCard(step);
-  }
-  if (cardData === null && deputySignerId) {
-    cardData = getNotSignedDeputyCard(step);
-  }
-  if (cardData === null && signerId) {
-    cardData = getNotSignedNoDeputyCard(step);
+  if (actualSignerId) {
+    cardData = getSignedCard(routeStep);
+  } else if (deputySignerId) {
+    cardData = getNotSignedDeputyCard(routeStep);
+  } else if (signerId) {
+    cardData = getNotSignedNoDeputyCard(routeStep);
   }
   return (
     <Card
@@ -157,6 +157,7 @@ export default function RouteStepShow({
         showSignedSteps,
         showUnsignedSteps
       )} routeCard `}
+      key={`card ${stepNumber}`}
       size="small"
       title={getTitle(stepNumber, documentSignatureType)}
     >

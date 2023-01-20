@@ -4,6 +4,7 @@ import ButtonShowSigned from "./buttons/showSignedButton";
 import ButtonShowUnsigned from "./buttons/showUnsignedButton";
 import ConfirmAndRemark from "./modals/confirmAndRemark";
 import SigningButtons from "./buttons/signingButtons";
+import { HeaderTextOutput } from "../../../outputs/textOutputs";
 
 export default function RouteStepsShow({ routeSteps, isAbleToSign }) {
   const currentSignStep = routeSteps.filter((el) => !el.actual_signer_id)[0];
@@ -24,7 +25,7 @@ export default function RouteStepsShow({ routeSteps, isAbleToSign }) {
   }
   return (
     <>
-      <h3>Маршрут документа</h3>
+      <HeaderTextOutput text="Маршрут документа" />
       {isAnySignedSteps ? (
         <ButtonShowSigned
           setShowSignedSteps={setShowSignedSteps}
@@ -34,10 +35,10 @@ export default function RouteStepsShow({ routeSteps, isAbleToSign }) {
         ""
       )}
       <div className="routeBlock">
-        {routeSteps.map((step) => (
+        {routeSteps.map((routeStep) => (
           <RouteStepShow
-            key={step.step}
-            step={step}
+            key={routeStep.step}
+            routeStep={routeStep}
             showSignedSteps={showSignedSteps}
             showUnsignedSteps={showUnsignedSteps}
           />

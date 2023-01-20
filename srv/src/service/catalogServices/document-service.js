@@ -2,6 +2,7 @@ const { default: knex } = require("knex");
 const DocumentModels = require("../../models/catalogModels/document-models");
 const signingModel = require("../../models/documentSigning/signing-model");
 const DevTools = require("../DevTools");
+const SigningService = require("../documentSigning/signing-service");
 const { getOneUser } = require("./user-service");
 
 function getCurrentSigner(document) {
@@ -82,12 +83,33 @@ class DocumentService {
     });
     return await DevTools.addDelay(func);
   }
-  async createNewDocument(body) {
+
+  /**
+   * Создание документы проходит через стадии
+   * 1. Создание самого документа, заполнение имени, создателя, типа документа
+   * 2. Заполнение маршрута документа
+   * 3. Заполнение данных по документу
+   */
+  async createNewDocument(body, currentUserId) {
+    const newDocument = await DocumentService.createDocument(
+      body,
+      currentUserId
+    );
+    const newDocumentId = newDocument[0].id;
+    await SigningService.createDocumentSignerRoute(body, newDocumentId);
+    return newDocument;
+  }
+
+  static async createDocument(body, creatorId) {
     const func = await DocumentModels.create({
-      name: body.newDocumentName,
+      name: body.documentName,
+      document_status_id: body.documentStatusId,
+      document_type_id: body.documentTypeId,
+      creator_id: creatorId,
     });
     return await DevTools.addDelay(func);
   }
+
   async deleteDocument(query) {
     const func = await DocumentModels.deleteOne({
       id: query.id,

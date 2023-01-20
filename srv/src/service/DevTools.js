@@ -4,13 +4,13 @@ class DevTools {
    * @param {*} func
    * @returns
    */
-  async addDelay(func) {
+  async addDelay(func, waitTime = 3000) {
     let result;
     if (process.env.IS_ADD_DELAY !== "0") {
       result = new Promise((resolve) => {
         setTimeout(() => {
           resolve(func);
-        }, 3000);
+        }, waitTime);
       });
     } else {
       result = await func;

@@ -24,6 +24,7 @@ class RouteService {
    * @returns
    */
   async getRouteInformation(routeSteps) {
+    if (!routeSteps) return null;
     return await Promise.all(
       routeSteps.map(async (routeStep) => {
         return {
@@ -42,22 +43,30 @@ class RouteService {
       routeAndTypes.map(async (routeAndType) => {
         return {
           ...routeAndType,
-          route: await this.getRouteInformation(routeAndType.route.routeSteps),
+          route: await this.getRouteInformation(routeAndType?.route.routeSteps),
         };
       })
     );
   }
 
   async getOneRoute(query) {
+    let filter = {};
+    if (query?.id) {
+      filter = { ...filter, "document_type_default_routes.id": query.id };
+    }
+    if (query?.documentTypeId) {
+      filter = {
+        ...filter,
+        "document_type_default_routes.document_type_id": query.documentTypeId,
+      };
+    }
     const func = RouteModels.findOne({
-      filter: {
-        "document_type_default_routes.id": query.id,
-      },
+      filter,
     });
     const routeAndType = await DevTools.addDelay(func);
     return {
       ...routeAndType,
-      route: await this.getRouteInformation(routeAndType.route.routeSteps),
+      route: await this.getRouteInformation(routeAndType?.route.routeSteps),
     };
   }
   async createNewRoute(body) {

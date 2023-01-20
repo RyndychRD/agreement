@@ -144,7 +144,7 @@ class DocumentSchema {
    * @returns
    */
   async create(document) {
-    return await this.knexProvider("documents").insert(document);
+    return await this.knexProvider("documents").insert(document).returning("*");
   }
   /**
    * Удаляет должность

@@ -83,4 +83,14 @@ export default class RouteService {
     );
     return response.data;
   }
+
+  static async getOneByTypeId(id) {
+    console.log("вызов в RouteService -> Взять одну записи по типу документа");
+    const response = await api.get(`${this.API_ROUTE}?documentTypeId=${id}`);
+    console.log(
+      "вызов в RouteService -> Взять одну запись по типу документа -> результат",
+      response
+    );
+    return response.data;
+  }
 }

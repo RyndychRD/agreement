@@ -2,9 +2,9 @@
 
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import AuthService from "../../services/AuthService";
-import { API_URL } from "../../http";
-import { saveUserRights } from "../../services/userAccessService";
+import AuthService from "../../../services/AuthService";
+import { API_URL } from "../../../http";
+import { saveUserRights } from "../../../services/userAccessService";
 
 // Создаем преобразователя
 export const loginAsync = createAsyncThunk(

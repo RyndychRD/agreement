@@ -1,4 +1,4 @@
-const signingModel = require("../../models/documentSigning/signing-model");
+const SigningModel = require("../../models/documentSigning/signing-model");
 const { getOneUser } = require("../catalogServices/user-service");
 const {
   getOneType,
@@ -10,7 +10,7 @@ const {
 
 class SigningService {
   async getOneDocumentRoute(query) {
-    const func = signingModel.findOneDocument({
+    const func = SigningModel.findOneDocument({
       filter: {
         "documents-signers_route.document_id": query.documentId,
       },
@@ -44,7 +44,7 @@ class SigningService {
   }
 
   async signCurrentDocumentStep({ body, userId }) {
-    const func = signingModel.signCurrentStep({
+    const func = SigningModel.signCurrentStep({
       filter: {
         id: body.currentStepId,
       },
@@ -61,6 +61,17 @@ class SigningService {
         stepId: body.currentStepId,
       })
     );
+  }
+
+  async createDocumentSignerRoute(body, documentId) {
+    if (!body?.documentRoute) return null;
+    const insertArray = body.documentRoute.map((routeStep) => ({
+      document_id: documentId,
+      signer_id: routeStep.signerId,
+      step: routeStep.step,
+    }));
+    const func = SigningModel.create(insertArray);
+    return await DevTools.addDelay(func);
   }
 }
 

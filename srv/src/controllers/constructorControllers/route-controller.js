@@ -3,9 +3,10 @@ const RouteService = require("../../service/constructorServices/route-service");
 class RouteController {
   async getRoutes(req, res, next) {
     try {
-      const data = req?.query?.id
-        ? await RouteService.getOneRoute(req?.query)
-        : await RouteService.getAllRoutes(req?.query);
+      const data =
+        req?.query?.id || req?.query?.documentTypeId
+          ? await RouteService.getOneRoute(req?.query)
+          : await RouteService.getAllRoutes(req?.query);
       return res.json(data);
     } catch (e) {
       next(e);

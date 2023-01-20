@@ -4,6 +4,10 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
+  AuthCheckAsync,
+  loginAsync,
+} from "../../core/redux/reducers/AuthReducer";
+import {
   AAlert,
   AButton,
   ACol,
@@ -16,7 +20,6 @@ import {
   ARow,
   ASpan,
 } from "../adapter";
-import { AuthCheckAsync, loginAsync } from "./AuthReducer";
 import "./style.css";
 
 function Auth() {
