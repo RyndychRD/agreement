@@ -62,17 +62,6 @@ class SigningService {
       })
     );
   }
-
-  async createDocumentSignerRoute(body, documentId) {
-    if (!body?.documentRoute) return null;
-    const insertArray = body.documentRoute.map((routeStep) => ({
-      document_id: documentId,
-      signer_id: routeStep.signerId,
-      step: routeStep.step,
-    }));
-    const func = SigningModel.create(insertArray);
-    return await DevTools.addDelay(func);
-  }
 }
 
 module.exports = new SigningService();

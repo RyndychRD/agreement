@@ -1,8 +1,6 @@
-const { default: knex } = require("knex");
 const DocumentModels = require("../../models/catalogModels/document-models");
-const signingModel = require("../../models/documentSigning/signing-model");
+const SigningModel = require("../../models/documentSigning/signing-model");
 const DevTools = require("../DevTools");
-const SigningService = require("../documentSigning/signing-service");
 const { getOneUser } = require("./user-service");
 
 function getCurrentSigner(document) {
@@ -96,7 +94,7 @@ class DocumentService {
       currentUserId
     );
     const newDocumentId = newDocument[0].id;
-    await SigningService.createDocumentSignerRoute(body, newDocumentId);
+    await this.createDocumentSignerRoute(body, newDocumentId);
     return newDocument;
   }
 
@@ -109,6 +107,16 @@ class DocumentService {
     });
     return await DevTools.addDelay(func);
   }
+  async createDocumentSignerRoute(body, documentId) {
+    if (!body?.documentRoute) return null;
+    const insertArray = body.documentRoute.map((routeStep) => ({
+      document_id: documentId,
+      signer_id: routeStep.signerId,
+      step: routeStep.step,
+    }));
+    const func = SigningModel.create(insertArray);
+    return await DevTools.addDelay(func);
+  }
 
   async deleteDocument(query) {
     const func = await DocumentModels.deleteOne({
@@ -116,6 +124,7 @@ class DocumentService {
     });
     return await DevTools.addDelay(func);
   }
+
   async updateDocument(query, body) {
     const func = DocumentModels.update(
       {
@@ -127,9 +136,10 @@ class DocumentService {
     );
     return await DevTools.addDelay(func);
   }
+
   static async getOneDocumentRouteStepsCount(documentId) {
     if (!documentId) return null;
-    const func = signingModel.findOneDocument({
+    const func = SigningModel.findOneDocument({
       filter: {
         "documents-signers_route.document_id": documentId,
       },
@@ -137,6 +147,7 @@ class DocumentService {
     const steps = await DevTools.addDelay(func);
     return steps.length;
   }
+
   async incrementDocumentLastSignedStepBySignedStepId({ stepId }) {
     const func = DocumentModels.incrementLastSignedStepByStepId({ stepId });
     const documentAfterSigning = await DevTools.addDelay(func);

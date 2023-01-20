@@ -1,5 +1,4 @@
 const DepartmentService = require("../../service/catalogServices/department-service");
-
 class DepartmentController {
   async getDepartments(req, res, next) {
     try {
