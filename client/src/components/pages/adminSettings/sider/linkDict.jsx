@@ -37,6 +37,10 @@ const dict = {
     </NavLink>,
     "types"
   ),
+  forms: getItem(
+    <NavLink to="/admin-settings/constructor/forms">Формы</NavLink>,
+    "forms"
+  ),
 };
 
 function getLink(LinkKey) {

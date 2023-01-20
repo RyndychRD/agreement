@@ -11,6 +11,7 @@
     "seed": "npx knex seed:run --knexfile db/knexfile.js",
     "seedTestDocuments": "npx knex seed:run --specific=seedTestDocuments.js --knexfile db/knexfile.js",
     "seedTestRoutes": "npx knex seed:run --specific=seedTestRoutes.js --knexfile db/knexfile.js",
+    "seedTestForms": "npx knex seed:run --specific=seedTestForms.js --knexfile db/knexfile.js",
     "down": "npx knex migrate:down --knexfile db/knexfile.js",
     "rollback": "npx knex migrate:rollback --all --knexfile db/knexfile.js",
     "precommit": "lint-staged",

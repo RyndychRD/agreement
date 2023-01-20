@@ -1,16 +1,14 @@
-import { api } from "../../http/index";
+import { api } from "../../../../http/index";
 
 export default class DocumentTypesViewsService {
-  static API_ROUTE = "/catalog/documents/types-views";
+  static API_ROUTE = "/constructor/forms/types-views";
 
   static prepareForTable(data) {
     try {
       return data.map((el) => ({
         key: el.id,
-        document_types_views_id: el.id,
-        document_types_views_document_type_id: el.document_type_id,
-        document_types_views: el.view,
-        document_types_view_print: el.view_print,
+        type_view_id: el.id,
+        type_name: el.document_type_name,
       }));
     } catch (e) {
       console.log("Ошибка пред-обработки данных:", e);
@@ -18,9 +16,11 @@ export default class DocumentTypesViewsService {
     }
   }
 
-  static async getAll() {
+  static async getAll({ isAddForeignTables }) {
     console.log("вызов в DocumentTypesViewsService -> Взять все записи");
-    const response = await api.get(`${this.API_ROUTE}`);
+    const response = await api.get(
+      `${this.API_ROUTE}?isAddForeignTables=${isAddForeignTables}`
+    );
     console.log(
       "вызов в DocumentTypesViewsService -> Взять все записи -> результат",
       response
@@ -41,7 +41,7 @@ export default class DocumentTypesViewsService {
   static async delete(values) {
     console.log("вызов в DocumentTypesViewsService -> Удалить запись", values);
     const response = await api.delete(
-      `${this.API_ROUTE}?id=${values.document_types_views_id}`
+      `${this.API_ROUTE}?id=${values.type_view_id}`
     );
     console.log(
       "вызов в DocumentTypesViewsService -> Удалить запись -> результат",

@@ -1,16 +1,18 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
-import DocumentElementIODictionaryService from "../../../../../services/DocumentServices/DocumentElementIODictionaryService";
+import DocumentTypesViewsService from "../../../../../../services/AdminServices/constructor/formConstructor/DocumentTypeViewsService";
 
-const TAG_TYPE = "DocumentElement";
+const TAG_TYPE = "documentTypesViews";
 
-export const documentElementApi = createApi({
-  reducerPath: "documentElementApi",
+export const documentTypesViewsApi = createApi({
+  reducerPath: "documentTypesViewsApi",
   tagTypes: [TAG_TYPE],
   endpoints: (build) => ({
-    getElements: build.query({
-      queryFn: async () => {
+    getDocumentTypesViews: build.query({
+      queryFn: async ({ isAddForeignTables = false }) => {
         try {
-          const response = await DocumentElementIODictionaryService.getAll();
+          const response = await DocumentTypesViewsService.getAll({
+            isAddForeignTables,
+          });
           return { data: response };
         } catch (e) {
           return { error: e.message };
@@ -25,12 +27,12 @@ export const documentElementApi = createApi({
           : [{ type: TAG_TYPE, id: "LIST" }],
     }),
 
-    getElement: build.query({
+    getDocumentTypeView: build.query({
       queryFn: async ({ id = "", currentRow = {}, isStart = true }) => {
         if (isStart) {
           try {
-            const response = await DocumentElementIODictionaryService.getOne({
-              id: id || currentRow?.position_id,
+            const response = await DocumentTypesViewsService.getOne({
+              id: id || currentRow?.type_view_id,
             });
             return { data: response };
           } catch (e) {
@@ -48,12 +50,10 @@ export const documentElementApi = createApi({
           : [{ type: TAG_TYPE, id: "LIST" }],
     }),
 
-    addElement: build.mutation({
+    addDocumentTypeView: build.mutation({
       queryFn: async (body) => {
         try {
-          const response = await DocumentElementIODictionaryService.create(
-            body
-          );
+          const response = await DocumentTypesViewsService.create(body);
           return { data: response };
         } catch (e) {
           return { error: e.message };
@@ -62,12 +62,10 @@ export const documentElementApi = createApi({
       invalidatesTags: [{ type: TAG_TYPE, id: "LIST" }],
     }),
 
-    deleteElement: build.mutation({
+    deleteDocumentTypeView: build.mutation({
       queryFn: async (body) => {
         try {
-          const response = await DocumentElementIODictionaryService.delete(
-            body
-          );
+          const response = await DocumentTypesViewsService.delete(body);
           return { data: response };
         } catch (e) {
           return { error: e.message };
@@ -76,15 +74,15 @@ export const documentElementApi = createApi({
       invalidatesTags: [{ type: TAG_TYPE, id: "LIST" }],
     }),
 
-    updateElement: build.mutation({
+    updateDocumentTypeView: build.mutation({
       queryFn: async (body) => {
         try {
           const bodyPrepared = (bodyValues) => ({
             ...bodyValues,
-            position_id:
-              bodyValues?.position_id || bodyValues?.currentRow?.position_id,
+            type_view_id:
+              bodyValues?.type_view_id || bodyValues?.currentRow?.type_view_id,
           });
-          const response = await DocumentElementIODictionaryService.update(
+          const response = await DocumentTypesViewsService.update(
             bodyPrepared(body)
           );
           return { data: response };
@@ -98,20 +96,20 @@ export const documentElementApi = createApi({
 });
 
 const {
-  useGetElementsQuery,
-  useGetElementQuery,
-  useAddElementsQuery,
-  useDeleteElementQuery,
-  useUpdateElementQuery,
-} = documentElementApi;
+  useGetDocumentTypesViewsQuery,
+  useGetDocumentTypeViewQuery,
+  useAddDocumentTypeViewMutation,
+  useDeleteDocumentTypeViewMutation,
+  useUpdateDocumentTypeViewMutation,
+} = documentTypesViewsApi;
 
 // TODO: Доделать документацию
-export const useGetElementsHook = useGetElementsQuery;
+export const useGetDocumentTypesViewsHook = useGetDocumentTypesViewsQuery;
 // TODO: Доделать документацию
-export const useGetElementHook = useGetElementQuery;
+export const useGetDocumentTypeViewHook = useGetDocumentTypeViewQuery;
 // TODO: Доделать документацию
-export const useAddElementHook = useAddElementsQuery;
+export const useAddDocumentTypeViewHook = useAddDocumentTypeViewMutation;
 // TODO: Доделать документацию
-export const useDeleteElementHook = useDeleteElementQuery;
+export const useDeleteDocumentTypeViewHook = useDeleteDocumentTypeViewMutation;
 // TODO: Доделать документацию
-export const useUpdateElementHook = useUpdateElementQuery;
+export const useUpdateDocumentTypeViewHook = useUpdateDocumentTypeViewMutation;

@@ -6,19 +6,14 @@ import CreateButtonModel from "./buttonModals/create";
 import DeleteButtonAction from "./buttonModals/delete";
 import UpdateButtonModel from "./buttonModals/update";
 
-import { useGetRoutesQueryHook } from "../../../../../core/redux/api/AdminSettings/Constructor/RouteConstructorApi";
-import RouteService from "../../../../../services/AdminServices/constructor/RouteService";
+import { useGetDocumentTypesViewsHook } from "../../../../../core/redux/api/AdminSettings/Constructor/formConstructor/DocumentTypesViewsApi";
+import DocumentTypesViewsService from "../../../../../services/AdminServices/constructor/formConstructor/DocumentTypeViewsService";
 
 /** конструктор маршрутов */
 
-export default function RouteConstructor() {
+export default function FormConstructor() {
   const columns = {
-    data: [
-      "route_id",
-      "type_name",
-      "position_route_constructor",
-      "user_fio_route_constructor",
-    ],
+    data: ["type_view_id", "type_name"],
   };
   /**
    * При открытии форму подгружаем новые необходимые данные
@@ -27,15 +22,20 @@ export default function RouteConstructor() {
     data = [],
     isLoading,
     isError,
-  } = useGetRoutesQueryHook({ isAddForeignTables: true, isAddRights: true });
+  } = useGetDocumentTypesViewsHook({
+    isAddForeignTables: true,
+  });
+
   return (
     <TableModalProvider>
       <AdminSettingsTable
         isLoading={isLoading}
         isError={isError}
         columns={columns}
-        dataSource={data ? RouteService.prepareForTable(data) : null}
-        title="Стандартные маршруты по должностям для документов"
+        dataSource={
+          data ? DocumentTypesViewsService.prepareForTable(data) : null
+        }
+        title="Стандартные формы для типов документов"
       />
       <CreateButtonModel />
       <UpdateButtonModel />
