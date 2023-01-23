@@ -109,6 +109,10 @@ class RouteService {
               specified_signer_id: step.specified_signer_id
                 ? step.specified_signer_id
                 : -1,
+              //Вообще актуальные данные должны идти по position.id. Но при необходимости можно просто передать position_id
+              position_id: step?.position?.id
+                ? step.position.id
+                : step.position_id,
             };
           }),
         },

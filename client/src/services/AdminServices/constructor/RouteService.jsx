@@ -17,8 +17,10 @@ export default class RouteService {
           key: `${el.id}-${index}`,
           type_name_for_delete: el.document_type_name,
           route_id: index + 1,
-          position_route_constructor: route.position.name,
-          user_fio_route_constructor: route.default_signer
+          position_route_constructor: route?.position?.name
+            ? route.position.name
+            : "",
+          user_fio_route_constructor: route?.default_signer
             ? userNameMask(route.default_signer)
             : "НА ДОЛЖНОСТЬ НЕ НАЗНАЧЕНО НИ ОДНОГО ПОЛЬЗОВАТЕЛЯ!",
         })),

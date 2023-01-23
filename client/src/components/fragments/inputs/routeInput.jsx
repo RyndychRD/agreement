@@ -54,7 +54,7 @@ export default function RouteFormList(props) {
                     title="Должность"
                     isLoading={isLoadingPositions}
                     isError={isErrorPositions}
-                    name={[name, `position_id`]}
+                    name={[name, `position`, "id"]}
                     options={positions}
                     rules={[
                       {
