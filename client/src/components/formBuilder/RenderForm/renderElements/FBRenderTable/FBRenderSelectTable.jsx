@@ -1,8 +1,8 @@
 import { Select } from "antd";
+import { useGetPositionsQueryHook } from "../../../../../core/redux/api/Globals/Catalogs/PositionsApi";
+import { useGetUsersQueryHook } from "../../../../../core/redux/api/Globals/Catalogs/UserApi";
+import { useGetDepartmentsQueryHook } from "../../../../../core/redux/api/Globals/Catalogs/DepartamentApi";
 import FBElementLayout from "../FBElementLayout";
-import { useGetDepartmentsQueryHook } from "../../../../core/redux/api/Globals/Catalogs/DepartamentApi";
-import { useGetPositionsQueryHook } from "../../../../core/redux/api/Globals/Catalogs/PositionsApi";
-import { useGetUsersQueryHook } from "../../../../core/redux/api/Globals/Catalogs/UserApi";
 
 /**
  *

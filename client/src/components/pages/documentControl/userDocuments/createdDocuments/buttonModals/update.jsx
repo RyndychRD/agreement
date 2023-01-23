@@ -1,5 +1,5 @@
 import { Button, Modal } from "antd";
-import RouteStepsFragment from "../../../../../fragments/documentControl/route/RouteStepsFragment";
+import RouteStepsFragment from "../../../../../fragments/documentControl/documentRoute/RouteStepsFragment";
 import {
   useTableModalDispatch,
   useTableModalsState,

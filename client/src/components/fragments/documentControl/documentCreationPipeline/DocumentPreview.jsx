@@ -5,7 +5,7 @@ import {
   HeaderTextOutput,
   MainDocumentInformation,
 } from "../../outputs/textOutputs";
-import RouteStepsShow from "../route/RouteStepsShow/RouteStepsShow";
+import RouteStepsShow from "../documentRoute/RouteStepsShow/RouteStepsShow";
 import { useAddDocumentMutationHook } from "../../../../core/redux/api/DocumentControl/DocumentApi";
 import SimpleSpinner from "../../messages/Spinner";
 import SimpleError from "../../messages/Error";

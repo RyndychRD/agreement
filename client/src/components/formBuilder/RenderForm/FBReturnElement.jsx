@@ -1,16 +1,17 @@
-import RenderDataPicker from "../ElementsFormBuilder/FBRenderDataPicker/FBRenderDataPicker";
-import RenderEmailInput from "../ElementsFormBuilder/FBRenderEmailInput/FBEmailInput";
-import RenderPhone from "../ElementsFormBuilder/FBRenderPhone/FBRenderPhone";
-import RenderSelectID from "../ElementsFormBuilder/FBRenderSelectID/FBRenderSelectID";
-import RenderSelectTable from "../ElementsFormBuilder/FBRenderTable/FBRenderSelectTable";
-import RenderTextInput from "../ElementsFormBuilder/FBRenderTextInput/FBRenderTextInput";
-import { useGetElementsHook } from "../../../core/redux/api/Globals/Catalogs/DocumentElementIODictionaryApi";
-import { useGetDocumentTypeViewHook } from "../../../core/redux/api/Globals/Catalogs/DocumentTypesViewsApi";
+import RenderTextInput from "./renderElements/FBRenderTextInput/FBRenderTextInput";
+import RenderEmailInput from "./renderElements/FBRenderEmailInput/FBEmailInput";
+import RenderDataPicker from "./renderElements/FBRenderDataPicker/FBRenderDataPicker";
+import RenderPhone from "./renderElements/FBRenderPhone/FBRenderPhone";
+import RenderSelectID from "./renderElements/FBRenderSelectID/FBRenderSelectID";
+import RenderSelectTable from "./renderElements/FBRenderTable/FBRenderSelectTable";
+import { useGetDocumentTypeViewHook } from "../../../core/redux/api/AdminSettings/Constructor/formConstructor/DocumentTypesViewsApi";
+import { useGetDocumentIODictionaryElementsHook } from "../../../core/redux/api/AdminSettings/Constructor/formConstructor/DocumentIODictionaryElementApi";
 
 export default function ReturnElement(props) {
   const { AreaType } = props;
 
-  const { data: DocumentElementIODictionaries = [] } = useGetElementsHook();
+  const { data: DocumentElementIODictionaries = [] } =
+    useGetDocumentIODictionaryElementsHook();
 
   const CurrentElement = DocumentElementIODictionaries.filter(
     (i) => i.key === AreaType

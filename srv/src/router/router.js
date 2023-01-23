@@ -1,17 +1,18 @@
 const Router = require("express").Router;
 const router = new Router();
 
-const authRouter = require("./auth");
-const departmentRouter = require("./catalog/departments");
-const positionRouter = require("./catalog/positions");
-const usersRouter = require("./catalog/users");
-const rightsRouter = require("./catalog/rights");
-const documentTypeRouter = require("./catalog/documents/types");
-const documentStatusRouter = require("./catalog/documents/status");
-const documentRouter = require("./catalog/document");
-const routeConstructorRouter = require("./constructor/routes");
-const formConstructorTypeViewRouter = require("./constructor/formConstructor/document-types-views");
-const documentSigningRouter = require("./documents/signing/document-signing");
+const authRouter = require("./auth-router");
+const departmentRouter = require("./catalog/departments-router");
+const positionRouter = require("./catalog/positions-router");
+const usersRouter = require("./catalog/users-router");
+const rightsRouter = require("./catalog/rights-router");
+const documentTypeRouter = require("./catalog/documents/types-router");
+const documentStatusRouter = require("./catalog/documents/status-router");
+const documentRouter = require("./catalog/document-router");
+const routeConstructorRouter = require("./constructor/routes-router");
+const formConstructorTypeViewRouter = require("./constructor/formConstructor/document-types-views-router");
+const formConstructorIODictionaryRouter = require("./constructor/formConstructor/document-io-dictionary-elements-router");
+const documentSigningRouter = require("./documents/signing/document-signing-router");
 
 //Авторизация
 router.use("/", authRouter);
@@ -36,6 +37,9 @@ router.use("/catalog/documents", documentRouter);
 router.use("/constructor/routes", routeConstructorRouter);
 //Типы представления документов
 router.use("/constructor/forms/types-views", formConstructorTypeViewRouter);
+//Элементы конструктора
+// prettier-ignore
+router.use("/constructor/forms/types-io-elements",formConstructorIODictionaryRouter);
 
 /** Подписание документов */
 router.use("/document-signing/route", documentSigningRouter);

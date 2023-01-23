@@ -3,6 +3,8 @@ import { Form } from "antd";
 import { useGetTypesQueryHook } from "../../../../../../core/redux/api/Globals/Catalogs/TypeApi";
 import SelectInputFormItem from "../../../../../fragments/inputs/selectInputs";
 import { useGetDocumentTypesViewsHook } from "../../../../../../core/redux/api/AdminSettings/Constructor/formConstructor/DocumentTypesViewsApi";
+// import RenderForm from "../../../../../formBuilder/RenderForm/FBRenderForm";
+import FBConstructForm from "../../../../../formBuilder/ElementsFormBuilder/FBCustomInput";
 
 // Пока что мы можем только определить какой либо маршрут по одному из типов документа. Позже будет разнообразие в рамках одного типа
 export default function CreateUpdateForm({ form, isAddUpdateOnlyFields }) {
@@ -44,6 +46,7 @@ export default function CreateUpdateForm({ form, isAddUpdateOnlyFields }) {
           },
         ]}
       />
+      <FBConstructForm />
     </Form>
   );
 }

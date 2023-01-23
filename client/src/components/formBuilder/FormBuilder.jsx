@@ -2,11 +2,11 @@
 import { Button, Form, Modal } from "antd";
 import { useState } from "react";
 import {
-  Provider,
+  FormBuilderProvider,
   useCustomState,
   useCustomDispatch,
 } from "./FormBuilderProvider";
-import CustomInput from "./ElementsFormBuilder/FBCustomInput";
+import FBConstructForm from "./ElementsFormBuilder/FBCustomInput";
 import RenderForm from "./RenderForm/FBRenderForm";
 import "./FormBuilderStyle.css";
 
@@ -46,7 +46,7 @@ function CollectionCreateForm({ open, onCreate, onCancel }) {
           FormBuilderData={FormBuilderData?.FormBuilder}
         />
       ) : (
-        <CustomInput form={form} />
+        <FBConstructForm form={form} />
       )}
     </Modal>
   );
@@ -61,7 +61,7 @@ export default function FormBuilder() {
 
   return (
     <div>
-      <Provider>
+      <FormBuilderProvider>
         <Button
           type="primary"
           onClick={() => {
@@ -77,7 +77,7 @@ export default function FormBuilder() {
             setOpen(false);
           }}
         />
-      </Provider>
+      </FormBuilderProvider>
     </div>
   );
 }

@@ -9,6 +9,7 @@ import { documentsApi } from "./api/DocumentControl/DocumentApi";
 import { typesApi } from "./api/Globals/Catalogs/TypeApi";
 import { routesApi } from "./api/AdminSettings/Constructor/RouteConstructorApi";
 import { documentTypesViewsApi } from "./api/AdminSettings/Constructor/formConstructor/DocumentTypesViewsApi";
+import { documentIODictionaryElementApi } from "./api/AdminSettings/Constructor/formConstructor/DocumentIODictionaryElementApi";
 
 const store = configureStore({
   reducer: {
@@ -22,6 +23,7 @@ const store = configureStore({
     typesApi: typesApi.reducer,
     routesApi: routesApi.reducer,
     documentTypesViewsApi: documentTypesViewsApi.reducer,
+    documentIODictionaryElementApi: documentIODictionaryElementApi.reducer,
   },
   middleware: (getDefaultMiddlware) =>
     getDefaultMiddlware()
@@ -32,7 +34,8 @@ const store = configureStore({
       .concat(documentsApi.middleware)
       .concat(typesApi.middleware)
       .concat(routesApi.middleware)
-      .concat(documentTypesViewsApi.middleware),
+      .concat(documentTypesViewsApi.middleware)
+      .concat(documentIODictionaryElementApi.middleware),
 });
 
 export default store;

@@ -1,8 +1,8 @@
 import { Card, Form, Space } from "antd";
 import { useGetPositionsQueryHook } from "../../../core/redux/api/Globals/Catalogs/PositionsApi";
 import { useGetUsersQueryHook } from "../../../core/redux/api/Globals/Catalogs/UserApi";
-import ButtonAddComponentOnForm from "../../formBuilder/ElementsFormBuilder/FBButtonAddComponentOnForm";
-import ButtonOnCarts from "../../formBuilder/ElementsFormBuilder/FBButtonOnCartsForm";
+import ButtonAddComponentOnForm from "../../formBuilder/ElementsFormBuilder/formConstructElements/FBButtonAddComponentOnForm";
+import ButtonOnCarts from "../../formBuilder/ElementsFormBuilder/formConstructElements/FBButtonOnCartsForm";
 import SelectInputFormItem from "./selectInputs";
 import { userNameMask } from "../../../services/CommonFunctions";
 import SimpleSpinner from "../messages/Spinner";

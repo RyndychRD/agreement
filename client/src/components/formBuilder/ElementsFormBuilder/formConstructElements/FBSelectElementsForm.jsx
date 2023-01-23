@@ -1,8 +1,9 @@
 import { Form, Select } from "antd";
-import { useGetElementsHook } from "../../../core/redux/api/Globals/Catalogs/DocumentElementIODictionaryApi";
+import { useGetDocumentIODictionaryElementsHook } from "../../../../core/redux/api/AdminSettings/Constructor/formConstructor/DocumentIODictionaryElementApi";
 
 export default function SelectElementForm({ restField, name }) {
-  const { data: DocumentElementIODictionaries = [] } = useGetElementsHook();
+  const { data: DocumentElementIODictionaries = [] } =
+    useGetDocumentIODictionaryElementsHook();
 
   const options = DocumentElementIODictionaries.map((i) => ({
     value: i.key,

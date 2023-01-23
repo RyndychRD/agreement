@@ -3,7 +3,6 @@ import AdminSettingsTable from "../../../../fragments/tables/AdminSettings/Admin
 
 import { TableModalProvider } from "../../../../fragments/tables/TableModalProvider";
 import CreateButtonModel from "./buttonModals/create";
-import DeleteButtonAction from "./buttonModals/delete";
 import UpdateButtonModel from "./buttonModals/update";
 
 import { useGetDocumentTypesViewsHook } from "../../../../../core/redux/api/AdminSettings/Constructor/formConstructor/DocumentTypesViewsApi";
@@ -39,7 +38,6 @@ export default function FormConstructor() {
       />
       <CreateButtonModel />
       <UpdateButtonModel />
-      <DeleteButtonAction />
     </TableModalProvider>
   );
 }

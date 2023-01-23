@@ -3,7 +3,7 @@ import {
   MinusCircleOutlined,
   UpSquareTwoTone,
 } from "@ant-design/icons";
-import color from "../FormBuilderColorRow";
+import color from "../../FormBuilderColorRow";
 
 export default function ButtonOnCarts(remove, move, name, fields, key) {
   return (

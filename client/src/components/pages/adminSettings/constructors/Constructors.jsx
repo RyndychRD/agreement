@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import { Error404 } from "../../../fragments/messages/Error";
 import RouteConstructor from "./routes/RouteConstructor";
-import FormConstructor from "./forms/RouteConstructor";
+import FormConstructor from "./forms/FormConstructor";
 
 /**
  * Содержит список всех справочников, а также набивает первоначальные значения для отображения

@@ -1,18 +1,16 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
-import DocumentTypesViewsService from "../../../../../../services/AdminServices/constructor/formConstructor/DocumentTypeViewsService";
+import DocumentIODictionaryElementsService from "../../../../../../services/AdminServices/constructor/formConstructor/DocumentIODictionaryElementService";
 
-const TAG_TYPE = "documentTypesViews";
+const TAG_TYPE = "documentIODictionaryElement";
 
-export const documentTypesViewsApi = createApi({
-  reducerPath: "documentTypesViewsApi",
+export const documentIODictionaryElementApi = createApi({
+  reducerPath: "documentIODictionaryElementApi",
   tagTypes: [TAG_TYPE],
   endpoints: (build) => ({
-    getDocumentTypesViews: build.query({
-      queryFn: async ({ isAddForeignTables = false }) => {
+    getDocumentIODictionaryElements: build.query({
+      queryFn: async () => {
         try {
-          const response = await DocumentTypesViewsService.getAll({
-            isAddForeignTables,
-          });
+          const response = await DocumentIODictionaryElementsService.getAll();
           return { data: response };
         } catch (e) {
           return { error: e.message };
@@ -27,11 +25,11 @@ export const documentTypesViewsApi = createApi({
           : [{ type: TAG_TYPE, id: "LIST" }],
     }),
 
-    getDocumentTypeView: build.query({
+    getDocumentIODictionaryElement: build.query({
       queryFn: async ({ id = "", currentRow = {}, isStart = true }) => {
         if (isStart) {
           try {
-            const response = await DocumentTypesViewsService.getOne({
+            const response = await DocumentIODictionaryElementsService.getOne({
               id: id || currentRow?.type_view_id,
             });
             return { data: response };
@@ -52,10 +50,14 @@ export const documentTypesViewsApi = createApi({
   }),
 });
 
-const { useGetDocumentTypesViewsQuery, useGetDocumentTypeViewQuery } =
-  documentTypesViewsApi;
+const {
+  useGetDocumentIODictionaryElementsQuery,
+  useGetDocumentIODictionaryElementQuery,
+} = documentIODictionaryElementApi;
 
 // TODO: Доделать документацию
-export const useGetDocumentTypesViewsHook = useGetDocumentTypesViewsQuery;
+export const useGetDocumentIODictionaryElementsHook =
+  useGetDocumentIODictionaryElementsQuery;
 // TODO: Доделать документацию
-export const useGetDocumentTypeViewHook = useGetDocumentTypeViewQuery;
+export const useGetDocumentIODictionaryElementHook =
+  useGetDocumentIODictionaryElementQuery;

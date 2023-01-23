@@ -17,34 +17,6 @@ class DocumentTypeViewsModelsService {
 
     return await DevTools.addDelay(func);
   }
-  async createNewDocumentTypeView(body) {
-    const func = await DocumentTypeViewsModels.create({
-      key: body.newKey,
-      document_type_id: body.newDocumentTypeId,
-      view: body.newView,
-      view_print: body.newViewPrint,
-    });
-    return await DevTools.addDelay(func);
-  }
-  async deleteDocumentTypeView(query) {
-    const func = await DocumentTypeViewsModels.deleteOne({
-      id: query.id,
-    });
-    return await DevTools.addDelay(func);
-  }
-  async updateDocumentTypeView(query, body) {
-    const func = DocumentTypeViewsModels.update(
-      {
-        id: query.id,
-      },
-      {
-        document_type_id: body.newDocumentTypeId,
-        view: body.newView,
-        view_print: body.newViewPrint,
-      }
-    );
-    return await DevTools.addDelay(func);
-  }
 }
 
 module.exports = new DocumentTypeViewsModelsService();
