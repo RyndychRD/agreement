@@ -1,7 +1,7 @@
 import { AUseForm } from "../../../../../adapter";
 import CreateUpdateForm from "./createUpdateForm";
-import { useAddRouteMutationHook } from "../../../../../../core/redux/api/AdminSettings/Constructor/RouteConstructorApi";
 import ModalInput from "../../../../../fragments/modals/modalInput";
+import { useAddDocumentTypeViewHook } from "../../../../../../core/redux/api/AdminSettings/Constructor/formConstructor/DocumentTypesViewsApi";
 /**
  * @return Модальное окно для создания нового департамента
  */
@@ -10,7 +10,7 @@ export default function CreateButtonModel() {
   const [form] = AUseForm();
   return (
     <ModalInput
-      addMutation={useAddRouteMutationHook}
+      addMutation={useAddDocumentTypeViewHook}
       form={form}
       CreateUpdateForm={CreateUpdateForm}
     />

@@ -4,7 +4,7 @@ export default function InputElementForm({ restField, name }) {
   return (
     <Form.Item
       {...restField}
-      name={[name, "AreaName"]}
+      name={[name, "label"]}
       rules={[
         {
           required: true,

@@ -11,10 +11,55 @@ class DocumentTypeViewsModelsService {
   async getOneDocumentTypeView(query) {
     const func = DocumentTypeViewsModels.findOne({
       filter: {
-        id: query.id,
+        "document_type_views.id": query.id,
       },
+      isAddForeignTables: query?.isAddForeignTables === "true",
     });
 
+    return await DevTools.addDelay(func);
+  }
+  async createNewDocumentTypeView(body) {
+    const func = await DocumentTypeViewsModels.create({
+      document_type_id: body.typeId,
+      view: {
+        elements_order: body.elementsOrder.map((element) => {
+          return {
+            ...element,
+          };
+        }),
+      },
+      view_print: {
+        elements_order: body.elementsOrder.map((element) => {
+          return {
+            ...element,
+          };
+        }),
+      },
+    });
+    return await DevTools.addDelay(func);
+  }
+  async updateDocumentTypeView(query, body) {
+    const func = DocumentTypeViewsModels.update(
+      {
+        id: query.id,
+      },
+      {
+        view: {
+          elements_order: body.elementsOrder.map((element) => {
+            return {
+              ...element,
+            };
+          }),
+        },
+        view_print: {
+          elements_order: body.elementsOrder.map((element) => {
+            return {
+              ...element,
+            };
+          }),
+        },
+      }
+    );
     return await DevTools.addDelay(func);
   }
 }

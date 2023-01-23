@@ -6,5 +6,9 @@ const DocumentTypeViewsController = require("../../../controllers/constructorCon
 
 // prettier-ignore
 router.get("/",authMiddleware, rightMiddleware(),DocumentTypeViewsController.getTypeView);
+// prettier-ignore
+router.post("/",authMiddleware, rightMiddleware(),DocumentTypeViewsController.createNewTypeView);
+// prettier-ignore
+router.put("/",authMiddleware, rightMiddleware(),DocumentTypeViewsController.updateTypeView);
 
 module.exports = router;

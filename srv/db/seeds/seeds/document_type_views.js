@@ -15,120 +15,64 @@ exports.documentTypeViewsSeed = async function (knex) {
       view: {
         elements_order: [
           {
-            key: "From_whom",
-            typeData: "table",
-          },
-          {
-            key: "Job_title",
-            typeData: "table",
-          },
-          {
-            key: "Position_type",
-            typeData: "table",
-          },
-          {
-            key: "Name_of_Goods_Works_Services",
-            typeData: "text",
-          },
-          {
-            key: "Suppliers_of_Goods_Works_Services",
-            typeData: "text",
-          },
-          {
-            key: "Base",
-            typeData: "text",
-          },
-          {
-            key: "Total_contract_amount",
-            typeData: "text",
-          },
-          {
+            label: "Валюта",
             key: "Payment_currency",
-            typeData: "select_id",
           },
           {
+            label: "Дата",
             key: "Data_Document",
-            typeData: "datePicker",
+          },
+          {
+            label: "Контакты",
+            key: "Counterparty_contacts",
           },
           {
             key: "Subdivision_name",
-            typeData: "table",
-          },
-          {
-            key: "Surname_of_the_responsible_person",
-            typeData: "table",
+            label: "Подразделение",
           },
           {
             key: "Contractors_phone_number",
-            typeData: "phone",
-          },
-          {
-            key: "Counterparty_contacts",
-            typeData: "phone",
+            label: "Телефон",
           },
           {
             key: "Email_contacts",
-            typeData: "email",
+            label: "Мыло",
+          },
+          {
+            key: "Name_of_Goods_Works_Services",
+            label: "Поле ввода",
           },
         ],
       },
       view_print: {
         elements_order: [
           {
-            key: "From_whom",
-            typeData: "table",
-          },
-          {
-            key: "Job_title",
-            typeData: "text",
-          },
-          {
-            key: "Position_type",
-            typeData: "table",
-          },
-          {
-            key: "Name_of_Goods_Works_Services",
-            typeData: "text",
-          },
-          {
-            key: "Suppliers_of_Goods_Works_Services",
-            typeData: "text",
-          },
-          {
-            key: "Base",
-            typeData: "text",
-          },
-          {
-            key: "Total_contract_amount",
-            typeData: "text",
-          },
-          {
+            label: "Валюта",
             key: "Payment_currency",
-            typeData: "select_id",
           },
           {
+            label: "Дата",
             key: "Data_Document",
-            typeData: "datePicker",
+          },
+          {
+            label: "Контакты",
+            key: "Counterparty_contacts",
           },
           {
             key: "Subdivision_name",
-            typeData: "table",
-          },
-          {
-            key: "Surname_of_the_responsible_person",
-            typeData: "table",
+            label: "Подразделение",
           },
           {
             key: "Contractors_phone_number",
-            typeData: "phone",
-          },
-          {
-            key: "Counterparty_contacts",
-            typeData: "phone",
+            label: "Телефон",
           },
           {
             key: "Email_contacts",
-            typeData: "email",
+            label: "Мыло",
+          },
+          {
+            key: "Name_of_Goods_Works_Services",
+            label: "Поле ввода",
           },
         ],
       },

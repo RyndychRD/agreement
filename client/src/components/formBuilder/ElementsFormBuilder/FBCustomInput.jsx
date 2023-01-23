@@ -5,22 +5,10 @@ import SelectElementForm from "./formConstructElements/FBSelectElementsForm";
 import ButtonOnCarts from "./formConstructElements/FBButtonOnCartsForm";
 
 export default function FBConstructForm() {
-  // const dispatch = useCustomDispatch();
-  // const onFinish = useCallback(
-  //   (value) => {
-  //     if (value) {
-  //       dispatch({ type: "SaveFormButton", FormBuilderData: value });
-  //       console.log("onFinish => useCallback => value", value);
-  //     }
-  //   },
-  //   [dispatch]
-  // );
-
   return (
-    <Form.List name="FormBuilder">
+    <Form.List name="elementsOrder">
       {(fields, { add, remove, move }) => (
         <>
-          <ButtonAddComponentOnForm add={add} />
           {fields.map(({ key, name, ...restField }) => (
             <Space key={key} className="background-Cart" align="baseline">
               <Card
@@ -33,6 +21,7 @@ export default function FBConstructForm() {
               </Card>
             </Space>
           ))}
+          <ButtonAddComponentOnForm add={add} />
         </>
       )}
     </Form.List>

@@ -13,7 +13,7 @@ export default function SelectElementForm({ restField, name }) {
   return (
     <Form.Item
       {...restField}
-      name={[name, "AreaType"]}
+      name={[name, "key"]}
       rules={[
         {
           required: true,

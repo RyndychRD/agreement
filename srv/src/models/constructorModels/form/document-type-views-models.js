@@ -18,11 +18,12 @@ class DocumentTypeViewSchema {
    * Находит первое вхождение в таблице
    * @param {json} filter
    */
-  async findOne({ filter }) {
+  async findOne({ filter, isAddForeignTables }) {
     let query = this.knexProvider("document_type_views")
       .first("document_type_views.*")
       .orderBy("document_type_views.id", "asc");
     if (filter) query = query.where(filter);
+    if (isAddForeignTables) query = this.addForeignTables(query);
     return await query;
   }
 

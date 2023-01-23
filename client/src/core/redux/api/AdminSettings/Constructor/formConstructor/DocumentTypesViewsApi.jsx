@@ -28,11 +28,17 @@ export const documentTypesViewsApi = createApi({
     }),
 
     getDocumentTypeView: build.query({
-      queryFn: async ({ id = "", currentRow = {}, isStart = true }) => {
+      queryFn: async ({
+        id = "",
+        currentRow = {},
+        isStart = true,
+        isAddForeignTables = true,
+      }) => {
         if (isStart) {
           try {
             const response = await DocumentTypesViewsService.getOne({
               id: id || currentRow?.type_view_id,
+              isAddForeignTables,
             });
             return { data: response };
           } catch (e) {
@@ -49,13 +55,50 @@ export const documentTypesViewsApi = createApi({
             ]
           : [{ type: TAG_TYPE, id: "LIST" }],
     }),
+    addDocumentTypeView: build.mutation({
+      queryFn: async (body) => {
+        try {
+          const response = await DocumentTypesViewsService.create(body);
+          return { data: response };
+        } catch (e) {
+          return { error: e.message };
+        }
+      },
+      invalidatesTags: [{ type: TAG_TYPE, id: "LIST" }],
+    }),
+    updateDocumentTypeView: build.mutation({
+      queryFn: async (body) => {
+        const bodyPrepared = (bodyValues) => ({
+          ...bodyValues,
+          type_view_id:
+            bodyValues?.type_view_id || bodyValues?.currentRow?.type_view_id,
+        });
+        try {
+          const response = await DocumentTypesViewsService.update(
+            bodyPrepared(body)
+          );
+          return { data: response };
+        } catch (e) {
+          return { error: e.message };
+        }
+      },
+      invalidatesTags: [{ type: TAG_TYPE, id: "LIST" }],
+    }),
   }),
 });
 
-const { useGetDocumentTypesViewsQuery, useGetDocumentTypeViewQuery } =
-  documentTypesViewsApi;
+const {
+  useGetDocumentTypesViewsQuery,
+  useGetDocumentTypeViewQuery,
+  useAddDocumentTypeViewMutation,
+  useUpdateDocumentTypeViewMutation,
+} = documentTypesViewsApi;
 
 // TODO: Доделать документацию
 export const useGetDocumentTypesViewsHook = useGetDocumentTypesViewsQuery;
 // TODO: Доделать документацию
 export const useGetDocumentTypeViewHook = useGetDocumentTypeViewQuery;
+// TODO: Доделать документацию
+export const useAddDocumentTypeViewHook = useAddDocumentTypeViewMutation;
+// TODO: Доделать документацию
+export const useUpdateDocumentTypeViewHook = useUpdateDocumentTypeViewMutation;

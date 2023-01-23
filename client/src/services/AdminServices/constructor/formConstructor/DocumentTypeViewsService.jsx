@@ -28,11 +28,42 @@ export default class DocumentTypesViewsService {
     return response.data;
   }
 
-  static async getOne({ id }) {
+  static async getOne({ id, isAddForeignTables }) {
     console.log("вызов в DocumentTypesViewsService -> Взять одну запись");
-    const response = await api.get(`${this.API_ROUTE}?id=${id}`);
+    const response = await api.get(
+      `${this.API_ROUTE}?id=${id}&isAddForeignTables=${isAddForeignTables}`
+    );
     console.log(
       "вызов в DocumentTypesViewsService -> Взять одну запись -> результат",
+      response
+    );
+    return response.data;
+  }
+
+  static async create(values) {
+    console.log(
+      "вызов в DocumentTypesViewsService -> Создать новую запись",
+      values
+    );
+    const response = await api.post(`${this.API_ROUTE}`, values);
+    console.log(
+      "вызов в DocumentTypesViewsService -> Создать новую запись -> результат",
+      response
+    );
+    return response.data;
+  }
+
+  static async update(values) {
+    console.log(
+      "вызов в DocumentTypesViewsService -> Изменить существующую запись",
+      values
+    );
+    const response = await api.put(
+      `${this.API_ROUTE}?id=${values.type_view_id}`,
+      values
+    );
+    console.log(
+      "вызов в DocumentTypesViewsService -> Изменить существующую запись -> результат",
       response
     );
     return response.data;
