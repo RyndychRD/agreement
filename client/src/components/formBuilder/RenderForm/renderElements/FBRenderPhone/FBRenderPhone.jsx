@@ -3,18 +3,14 @@ import { useRef } from "react";
 import FBElementLayout from "../FBElementLayout";
 
 export default function RenderPhone(props) {
-  const { AreaType, form, CurrentElement } = props;
+  const { elemNameForForm, form, CurrentElement } = props;
 
   const PhoneBodyRef = useRef("");
   const CustomPhoneCodeCountryRef = useRef("");
   const CustomPhoneBodyRef = useRef("");
   const CustomPhoneAdditionalNumberRef = useRef("");
 
-  function setPhoneBodyRef(value) {
-    console.log(
-      `В выпадающем меню ${AreaType} было установленно значение =>`,
-      value
-    );
+  function setPhoneBodyRef() {
     PhoneBodyRef.current = `${
       CustomPhoneCodeCountryRef.current ? CustomPhoneCodeCountryRef.current : ""
     }${CustomPhoneBodyRef.current ? CustomPhoneBodyRef.current : ""}${
@@ -23,7 +19,7 @@ export default function RenderPhone(props) {
         : ""
     }`;
     console.log(PhoneBodyRef.current);
-    form.setFieldValue(AreaType, PhoneBodyRef.current);
+    form.setFieldValue(elemNameForForm, PhoneBodyRef.current);
   }
   const setValueInCustomPhoneCodeCountryOnForm = (value) => {
     CustomPhoneCodeCountryRef.current = value;

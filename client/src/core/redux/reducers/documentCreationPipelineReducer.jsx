@@ -6,9 +6,9 @@ const initialState = {
   // Подразумевается, что изначально есть только MainModal. Потом массив заполняется фактическим маршрутом при выборе типа документа. Пока что это не реализовано
   pipelineModals: [
     { modal: "MainModal", json: {} },
-    { modal: "RouteConstruct", json: {} },
-    // { modal: "FormConstruct", json: {} },
-    // { modal: "FormFill", json: {} },
+    { modal: "FormConstruct", json: {} },
+    { modal: "FormFill", json: {} },
+    // { modal: "RouteConstruct", json: {} },
     { modal: "DocumentPreview" },
   ],
   currentModal: 0,
@@ -20,6 +20,9 @@ export const getCurrentStepModal = (state) => getCurrentStep(state).modal;
 export const getCurrentStepJson = (state) => getCurrentStep(state).json;
 export const getFirstStepJson = (state) =>
   state.documentCreation.pipelineModals[0].json;
+export const getPreviousStepJson = (state) =>
+  state.documentCreation.pipelineModals[state.documentCreation.currentModal - 1]
+    .json;
 export const getSteps = (state) => state.documentCreation.pipelineModals;
 
 export const documentCreationSlice = createSlice({

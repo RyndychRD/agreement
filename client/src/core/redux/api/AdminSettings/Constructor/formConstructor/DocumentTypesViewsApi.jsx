@@ -26,7 +26,25 @@ export const documentTypesViewsApi = createApi({
             ]
           : [{ type: TAG_TYPE, id: "LIST" }],
     }),
-
+    getDocumentTypeViewByDocumentType: build.query({
+      queryFn: async ({ typeId = "" }) => {
+        try {
+          const response = await DocumentTypesViewsService.getOneByTypeId(
+            typeId
+          );
+          return { data: response };
+        } catch (e) {
+          return { error: e.message };
+        }
+      },
+      providesTags: (result) =>
+        result
+          ? [
+              { ...result, type: TAG_TYPE, id: result?.id },
+              { type: TAG_TYPE, id: "LIST" },
+            ]
+          : [{ type: TAG_TYPE, id: "LIST" }],
+    }),
     getDocumentTypeView: build.query({
       queryFn: async ({
         id = "",
@@ -90,6 +108,7 @@ export const documentTypesViewsApi = createApi({
 const {
   useGetDocumentTypesViewsQuery,
   useGetDocumentTypeViewQuery,
+  useGetDocumentTypeViewByDocumentTypeQuery,
   useAddDocumentTypeViewMutation,
   useUpdateDocumentTypeViewMutation,
 } = documentTypesViewsApi;
@@ -98,6 +117,11 @@ const {
 export const useGetDocumentTypesViewsHook = useGetDocumentTypesViewsQuery;
 // TODO: Доделать документацию
 export const useGetDocumentTypeViewHook = useGetDocumentTypeViewQuery;
+
+// TODO: Доделать документацию
+export const useGetDocumentTypeViewByDocumentTypeHook =
+  useGetDocumentTypeViewByDocumentTypeQuery;
+
 // TODO: Доделать документацию
 export const useAddDocumentTypeViewHook = useAddDocumentTypeViewMutation;
 // TODO: Доделать документацию

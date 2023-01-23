@@ -9,6 +9,7 @@ import RouteStepsShow from "../documentRoute/RouteStepsShow/RouteStepsShow";
 import { useAddDocumentMutationHook } from "../../../../core/redux/api/DocumentControl/DocumentApi";
 import SimpleSpinner from "../../messages/Spinner";
 import SimpleError from "../../messages/Error";
+import ShowFilledDocumentInformation from "../documentInformation/documentInfromationShow";
 
 const DOCUMENT_CREATION_STATUS = 5;
 
@@ -46,6 +47,10 @@ export default function DocumentPreview({ onCancel }) {
           signerId: routeStep.signer_id,
           step: routeStep.step,
         }));
+        break;
+      case "FormFill":
+        result.push(<ShowFilledDocumentInformation key="FormFill" />);
+        preparedValuesToSave.documentFilledInformation = element.json;
         break;
       default:
     }

@@ -4,50 +4,79 @@ import RenderDataPicker from "./renderElements/FBRenderDataPicker/FBRenderDataPi
 import RenderPhone from "./renderElements/FBRenderPhone/FBRenderPhone";
 import RenderSelectID from "./renderElements/FBRenderSelectID/FBRenderSelectID";
 import RenderSelectTable from "./renderElements/FBRenderTable/FBRenderSelectTable";
-import { useGetDocumentTypeViewHook } from "../../../core/redux/api/AdminSettings/Constructor/formConstructor/DocumentTypesViewsApi";
 import { useGetDocumentIODictionaryElementsHook } from "../../../core/redux/api/AdminSettings/Constructor/formConstructor/DocumentIODictionaryElementApi";
+import SimpleSpinner from "../../fragments/messages/Spinner";
+import SimpleError from "../../fragments/messages/Error";
 
 export default function ReturnElement(props) {
-  const { AreaType } = props;
+  const { ComponentNameForForm, ComponentKey, form } = props;
+  const {
+    data: DocumentElementIODictionaries = [],
+    isLoading: isLoadingDictionary,
+    isError: isErrorDictionary,
+  } = useGetDocumentIODictionaryElementsHook();
 
-  const { data: DocumentElementIODictionaries = [] } =
-    useGetDocumentIODictionaryElementsHook();
+  const CurrentDictElement = DocumentElementIODictionaries.find(
+    (i) => i.key === ComponentKey
+  );
 
-  const CurrentElement = DocumentElementIODictionaries.filter(
-    (i) => i.key === AreaType
-  )[0];
+  if (isLoadingDictionary) return <SimpleSpinner />;
+  if (isErrorDictionary) return <SimpleError />;
+  switch (CurrentDictElement.data_type) {
+    case "text":
+      return (
+        <RenderTextInput
+          CurrentElement={CurrentDictElement}
+          elemNameForForm={ComponentNameForForm}
+        />
+      );
+    case "email":
+      return (
+        <RenderEmailInput
+          CurrentElement={CurrentDictElement}
+          elemNameForForm={ComponentNameForForm}
+        />
+      );
+    case "datePicker":
+      return (
+        <RenderDataPicker
+          CurrentElement={CurrentDictElement}
+          elemNameForForm={ComponentNameForForm}
+          form={form}
+        />
+      );
+    case "phone":
+      return (
+        <RenderPhone
+          CurrentElement={CurrentDictElement}
+          elemNameForForm={ComponentNameForForm}
+          form={form}
+        />
+      );
+    case "select_id":
+      return (
+        <RenderSelectID
+          CurrentElement={CurrentDictElement}
+          elemNameForForm={ComponentNameForForm}
+          form={form}
+        />
+      );
+    // Здесь уже не стал расписывать что передается в пропсах
+    case "table":
+      return (
+        <RenderSelectTable
+          CurrentElement={CurrentDictElement}
+          elemNameForForm={ComponentNameForForm}
+          {...props}
+        />
+      );
 
-  const { data: DocumentTypeViews = [], isLoading } =
-    useGetDocumentTypeViewHook({ id: "1" });
-
-  if (!isLoading) {
-    const DataKey = DocumentTypeViews?.view?.elements_order.find(
-      (i) => i.key === AreaType
-    );
-    switch (DataKey.typeData) {
-      case "text":
-        return <RenderTextInput CurrentElement={CurrentElement} {...props} />;
-      case "email":
-        return <RenderEmailInput CurrentElement={CurrentElement} {...props} />;
-      case "datePicker":
-        return <RenderDataPicker CurrentElement={CurrentElement} {...props} />;
-      case "phone": {
-        return <RenderPhone CurrentElement={CurrentElement} {...props} />;
-      }
-      case "select_id": {
-        return <RenderSelectID CurrentElement={CurrentElement} {...props} />;
-      }
-      case "table": {
-        return <RenderSelectTable CurrentElement={CurrentElement} {...props} />;
-      }
-
-      default: {
-        console.error(
-          "Попытались найти элемент но такого не существует в списке элементов =>",
-          DataKey
-        );
-        return <span>Не найдено нечего !</span>;
-      }
+    default: {
+      console.error(
+        "Попытались найти элемент но такого не существует в списке элементов =>",
+        CurrentDictElement.data_type
+      );
+      return <span>Не найдено нечего !</span>;
     }
   }
 }

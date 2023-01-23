@@ -11,13 +11,13 @@ export default function CreateUpdateForm({ form, isAddUpdateOnlyFields }) {
   // prettier-ignore
   const {data: types = [], isError: isErrorTypes, isLoading: isLoadingTypes} = useGetTypesQueryHook();
   // prettier-ignore
-  const {data: routes = [], isError:isErrorRoutes, isLoading:isLoadingRoutes} = useGetDocumentTypesViewsHook({});
+  const {data: routes = [], isError:isErrorDocumentTypeViews, isLoading:isLoadingDocumentTypeViews} = useGetDocumentTypesViewsHook({});
   const [availableOptions, setAvailableOptions] = useState(types);
   // После того как загрузка закончена, мы удаляем те маршруты, которые уже заполнены
   useEffect(() => {
     if (
-      !isLoadingRoutes &&
-      !isErrorRoutes &&
+      !isLoadingDocumentTypeViews &&
+      !isErrorDocumentTypeViews &&
       !isErrorTypes &&
       !isLoadingTypes
     ) {
@@ -34,8 +34,8 @@ export default function CreateUpdateForm({ form, isAddUpdateOnlyFields }) {
     <Form form={form} name="dynamic_form_nest_item" autoComplete="off">
       <SelectInputFormItem
         title="Тип документа"
-        isLoading={isLoadingTypes || isLoadingRoutes}
-        isError={isErrorTypes || isErrorRoutes}
+        isLoading={isLoadingTypes || isLoadingDocumentTypeViews}
+        isError={isErrorTypes || isErrorDocumentTypeViews}
         name="typeId"
         options={availableOptions}
         disabled={isAddUpdateOnlyFields}

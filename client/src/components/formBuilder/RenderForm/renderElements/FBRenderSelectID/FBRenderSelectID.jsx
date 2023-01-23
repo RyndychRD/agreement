@@ -2,15 +2,11 @@ import { Select } from "antd";
 import FBElementLayout from "../FBElementLayout";
 
 export default function RenderSelectID(props) {
-  const { AreaType, form, CurrentElement } = props;
+  const { elemNameForForm, form, CurrentElement } = props;
 
   const CurrentElementSelect = CurrentElement?.select_value?.select_id;
   const setValueInSelectOnForm = (value) => {
-    console.log(
-      `В выпадающем меню ${AreaType} было установленно значение =>`,
-      value
-    );
-    form.setFieldValue(AreaType, value);
+    form.setFieldValue(elemNameForForm, value);
   };
   return (
     <FBElementLayout name={CurrentElement.name}>
@@ -21,7 +17,7 @@ export default function RenderSelectID(props) {
         filterOption={(input, option) =>
           (option?.label.toLowerCase() ?? "").includes(input.toLowerCase())
         }
-        id={AreaType}
+        id={elemNameForForm}
         options={CurrentElementSelect}
       />
     </FBElementLayout>

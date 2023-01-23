@@ -2,20 +2,16 @@ import { DatePicker } from "antd";
 import FBElementLayout from "../FBElementLayout";
 
 export default function RenderDataPicker(props) {
-  const { AreaType, form, CurrentElement } = props;
+  const { elemNameForForm, CurrentElement, form } = props;
 
   const setValueInDatePickerOnForm = (value) => {
-    console.log(
-      `В выпадающем меню ${AreaType} было установленно значение =>`,
-      value
-    );
-    form.setFieldValue(AreaType, value);
+    form.setFieldValue(elemNameForForm, value.format("YYYY-MM-DD"));
   };
   return (
     <FBElementLayout name={CurrentElement.name}>
       <DatePicker
         onChange={setValueInDatePickerOnForm}
-        id={AreaType}
+        id={elemNameForForm}
         type="text"
         format={(value) => `Выбранная дата: ${value.format("DD/MM/YY")}`}
       />

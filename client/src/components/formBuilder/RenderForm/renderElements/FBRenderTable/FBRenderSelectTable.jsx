@@ -6,25 +6,22 @@ import FBElementLayout from "../FBElementLayout";
 
 /**
  *
- * @param {{AreaType:<string>, form:<Form>,CurrentElement<json>,CurrentElementSelectValue<json> }} props
+ * @param {{elemNameForForm:<string>, form:<Form>,CurrentElement<json>,CurrentElementSelectValue<json> }} props
  * @example
  * CurrentElement:{
  * 					id:number,
- * 					key:string,
+ * 					elemNameForForm:string,
  * 					name:string,
  * 					select_value:{(table:string)|(select_id:[{value:string,label:string})}
  * 					}>
  * CurrentElementSelectValue:{[{value:string,label:string}]}
  */
 function FBSelect(props) {
-  const { AreaType, form, CurrentElement, CurrentElementSelectValue } = props;
+  const { elemNameForForm, form, CurrentElement, CurrentElementSelectValue } =
+    props;
   const {
     setValueInSelectOnForm = (value) => {
-      console.log(
-        `В выпадающем меню ${AreaType} было установленно значение =>`,
-        value
-      );
-      form.setFieldValue(AreaType, value);
+      form.setFieldValue(elemNameForForm, value);
     },
   } = props;
   return (
@@ -36,7 +33,7 @@ function FBSelect(props) {
         filterOption={(input, option) =>
           (option?.label.toLowerCase() ?? "").includes(input.toLowerCase())
         }
-        id={AreaType}
+        id={elemNameForForm}
         options={CurrentElementSelectValue}
       />
     </FBElementLayout>

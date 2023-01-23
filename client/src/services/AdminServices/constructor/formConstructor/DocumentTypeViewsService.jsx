@@ -40,6 +40,20 @@ export default class DocumentTypesViewsService {
     return response.data;
   }
 
+  static async getOneByTypeId(typeId) {
+    console.log(
+      `вызов в DocumentTypesViewsService -> Взять одну запись по ID типа документа = ${typeId}`
+    );
+    const response = await api.get(
+      `${this.API_ROUTE}?documentTypeId=${typeId}`
+    );
+    console.log(
+      `вызов в DocumentTypesViewsService -> Взять одну запись по ID типа документа = ${typeId} -> результат`,
+      response
+    );
+    return response.data;
+  }
+
   static async create(values) {
     console.log(
       "вызов в DocumentTypesViewsService -> Создать новую запись",

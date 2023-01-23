@@ -5,11 +5,11 @@ import "./FBEmailInput.css";
 import FBElementLayout from "../FBElementLayout";
 
 export default function RenderEmailInput(props) {
-  const { id, CurrentElement } = props;
+  const { elemNameForForm, CurrentElement } = props;
 
   const [statusWarningEmail, setWarning] = useState("empty-email");
   const valueEmail = useRef();
-  const onPressEnter = (e) => {
+  const verifyEmail = (e) => {
     const { value } = e.target;
     if (value === "" || value === " ") {
       setWarning("empty-email");
@@ -26,9 +26,9 @@ export default function RenderEmailInput(props) {
         <Input
           ref={valueEmail}
           prefix={<MailTwoTone />}
-          id={id}
+          id={elemNameForForm}
           placeholder="Электронная почта"
-          onChange={onPressEnter}
+          onChange={verifyEmail}
         />
       </div>
     </FBElementLayout>

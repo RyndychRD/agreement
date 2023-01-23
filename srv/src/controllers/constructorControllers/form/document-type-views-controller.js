@@ -6,9 +6,10 @@ const DocumentTypeViewsService = require("../../../service/constructorServices/f
 class DocumentTypeViewsController {
   async getTypeView(req, res, next) {
     try {
-      const data = req?.query?.id
-        ? await DocumentTypeViewsService.getOneDocumentTypeView(req?.query)
-        : await DocumentTypeViewsService.getAllDocumentsTypeViews(req?.query);
+      const data =
+        req?.query?.id || req?.query?.documentTypeId
+          ? await DocumentTypeViewsService.getOneDocumentTypeView(req?.query)
+          : await DocumentTypeViewsService.getAllDocumentsTypeViews(req?.query);
       return res.json(data);
     } catch (e) {
       next(e);

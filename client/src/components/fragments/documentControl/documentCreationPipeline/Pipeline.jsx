@@ -13,6 +13,8 @@ import {
 import ErrorPipelineModal from "./Error";
 import DocumentCreationPipelineRouteConstruct from "./RouteConstruct";
 import DocumentPreview from "./DocumentPreview";
+import DocumentCreationPipelineFormConstruct from "./FormConstruct";
+import DocumentCreationPipelineFormFill from "./FormFill";
 
 /**
  * @return Модальное окно для создания нового документа
@@ -51,6 +53,22 @@ export default function DocumentCreationPipeline() {
     case "DocumentPreview":
       return (
         <DocumentPreview
+          onCancel={onCancel}
+          pipelineDispatch={pipelineDispatch}
+          documentMainValues={documentMainValues}
+        />
+      );
+    case "FormConstruct":
+      return (
+        <DocumentCreationPipelineFormConstruct
+          onCancel={onCancel}
+          pipelineDispatch={pipelineDispatch}
+          documentMainValues={documentMainValues}
+        />
+      );
+    case "FormFill":
+      return (
+        <DocumentCreationPipelineFormFill
           onCancel={onCancel}
           pipelineDispatch={pipelineDispatch}
           documentMainValues={documentMainValues}

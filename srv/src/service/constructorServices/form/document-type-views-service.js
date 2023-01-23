@@ -9,10 +9,18 @@ class DocumentTypeViewsModelsService {
     return await DevTools.addDelay(func);
   }
   async getOneDocumentTypeView(query) {
+    let filter = {};
+    if (query?.id) {
+      filter = { ...filter, "document_type_views.id": query.id };
+    }
+    if (query?.documentTypeId) {
+      filter = {
+        ...filter,
+        "document_type_views.document_type_id": query.documentTypeId,
+      };
+    }
     const func = DocumentTypeViewsModels.findOne({
-      filter: {
-        "document_type_views.id": query.id,
-      },
+      filter,
       isAddForeignTables: query?.isAddForeignTables === "true",
     });
 

@@ -3,8 +3,12 @@ import ButtonAddComponentOnForm from "./formConstructElements/FBButtonAddCompone
 import InputElementForm from "./formConstructElements/FBInputElementForm";
 import SelectElementForm from "./formConstructElements/FBSelectElementsForm";
 import ButtonOnCarts from "./formConstructElements/FBButtonOnCartsForm";
+import SimpleSpinner from "../../fragments/messages/Spinner";
+import SimpleError from "../../fragments/messages/Error";
 
-export default function FBConstructForm() {
+export default function FBConstructForm({ isLoading, isError }) {
+  if (isLoading) return <SimpleSpinner />;
+  if (isError) return <SimpleError />;
   return (
     <Form.List name="elementsOrder">
       {(fields, { add, remove, move }) => (
