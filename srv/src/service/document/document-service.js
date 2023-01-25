@@ -1,8 +1,8 @@
 const DocumentModels = require("../../models/catalogModels/document-models");
-const SigningModel = require("../../models/documentSigning/signing-model");
-const DocumentValuesModel = require("../../models/documentValues/document-values-models");
+const SigningModel = require("../../models/document/document-signing-model");
+const DocumentValuesModel = require("../../models/document/document-values-models");
 const DevTools = require("../DevTools");
-const { getOneUser } = require("./user-service");
+const { getOneUser } = require("../catalogServices/user-service");
 
 function getCurrentSigner(document) {
   //Изначально никто не текущий подписант

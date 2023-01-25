@@ -1,4 +1,4 @@
-const DocumentValuesService = require("../../service/documentValues/document-values-service");
+const DocumentValuesService = require("../../service/document/document-values-service");
 
 class DocumentValuesController {
   async getDocumentValues(req, res, next) {

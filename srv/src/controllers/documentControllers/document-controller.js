@@ -1,4 +1,4 @@
-const DocumentService = require("../../service/catalogServices/document-service");
+const DocumentService = require("../../service/document/document-service");
 
 class DocumentController {
   async getDocuments(req, res, next) {

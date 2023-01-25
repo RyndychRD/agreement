@@ -1,4 +1,4 @@
-const signingService = require("../../service/documentSigning/signing-service");
+const signingService = require("../../service/document/document-signing-service");
 
 class SigningController {
   async getDocumentRoute(req, res, next) {

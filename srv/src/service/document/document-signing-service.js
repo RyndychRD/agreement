@@ -1,4 +1,4 @@
-const SigningModel = require("../../models/documentSigning/signing-model");
+const SigningModel = require("../../models/document/document-signing-model");
 const { getOneUser } = require("../catalogServices/user-service");
 const {
   getOneType,
@@ -6,7 +6,7 @@ const {
 const DevTools = require("../DevTools");
 const {
   incrementDocumentLastSignedStepBySignedStepId,
-} = require("../catalogServices/document-service");
+} = require("./document-service");
 
 class SigningService {
   async getOneDocumentRoute(query) {

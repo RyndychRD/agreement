@@ -2,7 +2,7 @@ import { api } from "../../http/index";
 import { userNameMask } from "../CommonFunctions";
 
 export default class DocumentService {
-  static API_ROUTE = "/catalog/documents";
+  static API_ROUTE = "/documents";
 
   /** Преобразует входящий массив данных из редакса для правильного отображения в таблице */
   static prepareForTable(data) {

@@ -11,7 +11,6 @@ const cookieParser = require("cookie-parser");
 const mainRouter = require("./src/router/router");
 const errorMiddleware = require("./src/middlewares/error-middleware");
 
-
 //Инициализация сервера
 const app = express();
 const port = process.env.PORT;
@@ -22,10 +21,10 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 //Разрешаем кросс-доменные запросы
 app.use(
-	cors({
-		credentials: true,
-		origin: process.env.CLIENT_URL,
-	})
+  cors({
+    credentials: true,
+    origin: process.env.CLIENT_URL,
+  })
 );
 //Инициализация роутинга
 app.use("/api", mainRouter);
@@ -34,20 +33,20 @@ app.use(errorMiddleware);
 
 //Точка входа в приложение (Тут же будем отлавливать ошибки)
 const start = async () => {
-	try {
-		//Прослушиваем ${port}
-		app.listen(port, () => {
-			console.log(
-				`"Zik-Согласование договоров v.2" запущен по адресу http://localhost:${port}`
-			);
-			console.log(
-				`"API доступен по адресу http://localhost:${port}/api/{Метод}`
-			);
-		});
-	} catch (e) {
-		//Точка входа для логирование
-		console.log(e);
-	}
+  try {
+    //Прослушиваем ${port}
+    app.listen(port, () => {
+      console.log(
+        `"Zik-Согласование договоров v.2" запущен по адресу http://localhost:${port}`
+      );
+      console.log(
+        `"API доступен по адресу http://localhost:${port}/api/{Метод}`
+      );
+    });
+  } catch (e) {
+    //Точка входа для логирование
+    console.log(e);
+  }
 };
 //Запуск
 start();

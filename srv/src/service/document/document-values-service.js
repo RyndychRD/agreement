@@ -1,4 +1,4 @@
-const DocumentValuesModels = require("../../models/documentValues/document-values-models");
+const DocumentValuesModels = require("../../models/document/document-values-models");
 const DevTools = require("../DevTools");
 
 class DocumentValuesService {

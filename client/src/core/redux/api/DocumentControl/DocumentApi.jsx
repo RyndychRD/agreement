@@ -1,7 +1,7 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import DocumentService from "../../../../services/DocumentServices/DocumentService";
-import DocumentRouteService from "../../../../services/DocumentServices/DocumentSigning/DocumentRouteService";
-import DocumentValuesService from "../../../../services/DocumentServices/DocumentValues/DocumentValuesService";
+import DocumentRouteService from "../../../../services/DocumentServices/DocumentRouteService";
+import DocumentValuesService from "../../../../services/DocumentServices/DocumentValuesService";
 
 const TAG_TYPE_DOCUMENT = "Documents";
 const TAG_TYPE_ROUTE = "DocumentSigningRoute";

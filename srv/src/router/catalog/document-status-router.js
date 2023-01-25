@@ -1,8 +1,8 @@
 const Router = require("express").Router;
 const router = new Router();
-const authMiddleware = require("../../../middlewares/auth-middleware");
-const documentStatusesController = require("../../../controllers/catalogControllers/document-status-controller");
-const rightMiddleware = require("../../../middlewares/right-middleware");
+const authMiddleware = require("../../middlewares/auth-middleware");
+const documentStatusesController = require("../../controllers/catalogControllers/document-status-controller");
+const rightMiddleware = require("../../middlewares/right-middleware");
 
 // prettier-ignore
 router.get("/",authMiddleware, rightMiddleware(),documentStatusesController.getStatuses);

@@ -6,6 +6,7 @@ import {
   nextStep,
   saveCurrentStepJson,
 } from "../../../../core/redux/reducers/documentCreationPipelineReducer";
+import FileInput from "../../inputs/fileInput";
 
 /**
  * @return Модальное окно для создания нового документа
@@ -65,6 +66,7 @@ export default function DocumentCreationPipelineMainModal({
             },
           ]}
         />
+        <FileInput />
       </Form>
     </Modal>
   );

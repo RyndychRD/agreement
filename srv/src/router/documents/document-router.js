@@ -1,6 +1,6 @@
 const Router = require("express").Router;
 const router = new Router();
-const documentController = require("../../controllers/catalogControllers/document-controller");
+const documentController = require("../../controllers/documentControllers/document-controller");
 const authMiddleware = require("../../middlewares/auth-middleware");
 
 // prettier-ignore

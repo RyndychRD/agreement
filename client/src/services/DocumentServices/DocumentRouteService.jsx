@@ -1,7 +1,7 @@
-import { api } from "../../../http/index";
+import { api } from "../../http/index";
 
 export default class DocumentRouteService {
-  static API_ROUTE = "/document-signing/route";
+  static API_ROUTE = "/documents/route";
 
   static async getOne(documentId) {
     console.log(

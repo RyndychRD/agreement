@@ -1,5 +1,5 @@
-const signingController = require("../../../controllers/documentControllers/signing-controller");
-const authMiddleware = require("../../../middlewares/auth-middleware");
+const signingController = require("../../controllers/documentControllers/dociment-signing-controller");
+const authMiddleware = require("../../middlewares/auth-middleware");
 
 const Router = require("express").Router;
 const router = new Router();
