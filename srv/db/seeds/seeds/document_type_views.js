@@ -18,6 +18,30 @@ exports.documentTypeViewsSeed = async function (knex) {
             label: "Валюта",
             key: "Payment_currency",
           },
+          {
+            label: "Дата",
+            key: "Data_Document",
+          },
+          {
+            label: "Контакты",
+            key: "Counterparty_contacts",
+          },
+          {
+            key: "Subdivision_name",
+            label: "Подразделение",
+          },
+          {
+            key: "Contractors_phone_number",
+            label: "Телефон",
+          },
+          {
+            key: "Email_contacts",
+            label: "Мыло",
+          },
+          {
+            key: "Name_of_Goods_Works_Services",
+            label: "Поле ввода",
+          },
         ],
       },
       view_print: {

@@ -1,9 +1,11 @@
 import { Button, Modal } from "antd";
 import RouteStepsFragment from "../../../../../fragments/documentControl/documentRoute/RouteStepsFragment";
+import DocumentInformationFragment from "../../../../../fragments/documentControl/documentInformation/DocumentInformationShowFragment";
 import {
   useTableModalDispatch,
   useTableModalsState,
 } from "../../../../../fragments/tables/TableModalProvider";
+import { MainDocumentInformation } from "../../../../../fragments/outputs/textOutputs";
 
 export default function UpdateButtonModel() {
   const state = useTableModalsState();
@@ -24,9 +26,15 @@ export default function UpdateButtonModel() {
           </Button>,
         ]}
       >
-        <span>
-          Текущий выбранный договор: {state.currentRow?.document_name}
-        </span>
+        <MainDocumentInformation
+          key="MainModal"
+          documentName={state.currentRow?.document_name}
+          typeName={state.currentRow?.document_type}
+        />
+        <DocumentInformationFragment
+          isStart={state.isShowUpdateModal}
+          documentId={state.currentRow?.document_id}
+        />
         <RouteStepsFragment
           isStart={state.isShowUpdateModal}
           documentId={state.currentRow?.document_id}

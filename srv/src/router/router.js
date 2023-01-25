@@ -13,6 +13,7 @@ const routeConstructorRouter = require("./constructor/routes-router");
 const formConstructorTypeViewRouter = require("./constructor/formConstructor/document-types-views-router");
 const formConstructorIODictionaryRouter = require("./constructor/formConstructor/document-io-dictionary-elements-router");
 const documentSigningRouter = require("./documents/signing/document-signing-router");
+const documentValuesRouter = require("./documents/values/values-router");
 
 //Авторизация
 router.use("/", authRouter);
@@ -43,5 +44,9 @@ router.use("/constructor/forms/types-io-elements",formConstructorIODictionaryRou
 
 /** Подписание документов */
 router.use("/document-signing/route", documentSigningRouter);
+
+/** Документ */
+//Значения документа
+router.use("/documents/values", documentValuesRouter);
 
 module.exports = router;

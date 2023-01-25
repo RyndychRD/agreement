@@ -10,6 +10,24 @@ export function SimpleTextOutput({
   if (isError) return <SimpleError />;
   return <p>{text}</p>;
 }
+export function TextOutputWithLabel({
+  isLoading,
+  isError,
+  text = "Текст не передан",
+  label = "Название не передано",
+  className = {},
+  keyIn,
+}) {
+  if (isLoading) return <SimpleSpinner />;
+  if (isError) return <SimpleError />;
+  return (
+    <div key={keyIn} className={className}>
+      <span>
+        {label}:{text}
+      </span>
+    </div>
+  );
+}
 export function HeaderTextOutput({
   isLoading,
   isError,

@@ -1,9 +1,11 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import DocumentService from "../../../../services/DocumentServices/DocumentService";
 import DocumentRouteService from "../../../../services/DocumentServices/DocumentSigning/DocumentRouteService";
+import DocumentValuesService from "../../../../services/DocumentServices/DocumentValues/DocumentValuesService";
 
 const TAG_TYPE_DOCUMENT = "Documents";
 const TAG_TYPE_ROUTE = "DocumentSigningRoute";
+const TAG_TYPE_DOCUMENT_VALUES = "DocumentValues";
 
 export const documentsApi = createApi({
   reducerPath: "documentsApi",
@@ -142,6 +144,28 @@ export const documentsApi = createApi({
             ]
           : [{ type: TAG_TYPE_ROUTE, id: "LIST" }],
     }),
+    getDocumentValues: build.query({
+      queryFn: async ({ documentId = "", currentRow = {}, isStart = true }) => {
+        if (isStart) {
+          try {
+            const response = await DocumentValuesService.getOneDocumentValues(
+              documentId || currentRow?.document_id
+            );
+            return { data: response };
+          } catch (e) {
+            return { error: e.message };
+          }
+        }
+        return {};
+      },
+      providesTags: (result) =>
+        result
+          ? [
+              { ...result, type: TAG_TYPE_DOCUMENT_VALUES, id: result?.id },
+              { type: TAG_TYPE_DOCUMENT_VALUES, id: "LIST" },
+            ]
+          : [{ type: TAG_TYPE_DOCUMENT_VALUES, id: "LIST" }],
+    }),
   }),
 });
 
@@ -154,6 +178,7 @@ export const {
 
   useSignCurrentDocumentStepMutation,
   useGetDocumentRouteQuery,
+  useGetDocumentValuesQuery,
 } = documentsApi;
 
 /**
@@ -214,3 +239,6 @@ export const useSignCurrentDocumentStepMutationHook =
  * useGetRouteQueryHook(data)
  */
 export const useGetDocumentRouteQueryHook = useGetDocumentRouteQuery;
+
+/** Хук для запроса значений по документу */
+export const useGetDocumentValuesQueryHook = useGetDocumentValuesQuery;

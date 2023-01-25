@@ -9,12 +9,14 @@ import RouteStepsShow from "../documentRoute/RouteStepsShow/RouteStepsShow";
 import { useAddDocumentMutationHook } from "../../../../core/redux/api/DocumentControl/DocumentApi";
 import SimpleSpinner from "../../messages/Spinner";
 import SimpleError from "../../messages/Error";
-import ShowFilledDocumentInformation from "../documentInformation/documentInfromationShow";
+import DocumentInformationShow from "../documentInformation/DocumentInfromationShow";
+import { useTableModalDispatch } from "../../tables/TableModalProvider";
 
 const DOCUMENT_CREATION_STATUS = 5;
 
 export default function DocumentPreview({ onCancel }) {
   const previewValues = useSelector(getSteps);
+  const tableDispatch = useTableModalDispatch();
   const result = [];
   const preparedValuesToSave = {};
 
@@ -49,8 +51,12 @@ export default function DocumentPreview({ onCancel }) {
         }));
         break;
       case "FormFill":
-        result.push(<ShowFilledDocumentInformation key="FormFill" />);
-        preparedValuesToSave.documentFilledInformation = element.json;
+        result.push(
+          <DocumentInformationShow data={Object.values(element.json)} />
+        );
+        preparedValuesToSave.documentFilledInformation = Object.values(
+          element.json
+        );
         break;
       default:
     }
@@ -58,7 +64,9 @@ export default function DocumentPreview({ onCancel }) {
 
   const onFinish = () => {
     addDocument(preparedValuesToSave).unwrap();
+    tableDispatch({ type: "closeAllModal" });
     if (isError) {
+      console.log("При добавлении документа возникла ошибка");
       reset();
     }
   };
@@ -70,7 +78,6 @@ export default function DocumentPreview({ onCancel }) {
       cancelText="Закрыть"
       okText="Сохранить"
     >
-      <span>{JSON.stringify(preparedValuesToSave)}</span>
       {isLoading ? <SimpleSpinner /> : ""}
       {isError ? <SimpleError /> : ""}
       <HeaderTextOutput text="Предпросмотр документа перед сохранением" />

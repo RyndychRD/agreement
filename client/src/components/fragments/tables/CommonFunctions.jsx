@@ -45,8 +45,10 @@ export const filterDataBoolean = (dataSource, columnName) => {
   );
 };
 
-export const renderDate = (date) =>
-  date ? moment(date).format("DD.MM.YYYY HH:mm") : "";
+export const renderDate = (date, isAddTime = true) => {
+  if (isAddTime) return date ? moment(date).format("DD.MM.YYYY HH:mm") : "";
+  return date ? moment(date).format("DD.MM.YYYY") : "";
+};
 
 /**
  * Функция для рендера прав

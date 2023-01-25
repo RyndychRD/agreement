@@ -43,7 +43,6 @@ export default function DocumentCreationPipelineFormFill({
     form
       .validateFields()
       .then(async (values) => {
-        console.log("filled values", values);
         form.resetFields();
         pipelineDispatch(saveCurrentStepJson(values));
         pipelineDispatch(nextStep());
@@ -68,7 +67,7 @@ export default function DocumentCreationPipelineFormFill({
         typeName={type.name}
       />
       <HeaderTextOutput text="Заполнение формы" />
-      <Form form={form} name="">
+      <Form form={form} name="FormFill" key="FormFill">
         <FormBuilderDataComponent FormBuilderData={elementsOrder} form={form} />
       </Form>
     </Modal>

@@ -6,30 +6,47 @@ export default function FormBuilderDataComponent({ FormBuilderData, form }) {
   console.log("FormBuilderDataComponent=>", FormBuilderData);
 
   return FormBuilderData?.map((ComponentItem, index) => {
-    const elemNameForForm = `${ComponentItem.key}/${index}`;
+    const elemNameForForm = [index, "value"];
+    const keyIn = `${index}value`;
+    const keyIn2 = `${index}value2`;
+    const keyIn3 = `${index}value3`;
     return (
-      <Form.Item
-        name={elemNameForForm}
-        key={elemNameForForm}
-        rules={[
-          {
-            required: true,
-            message: "Данные не внесены",
-          },
-        ]}
-      >
-        <Card
-          size="small"
-          title={`${ComponentItem.label}`}
-          key={ComponentItem.label}
+      <>
+        <Form.Item
+          key={keyIn}
+          name={elemNameForForm}
+          rules={[
+            {
+              required: true,
+              message: "Данные не внесены",
+            },
+          ]}
         >
-          <ReturnElement
-            ComponentNameForForm={elemNameForForm}
-            ComponentKey={ComponentItem.key}
-            form={form}
-          />
-        </Card>
-      </Form.Item>
+          <Card
+            size="small"
+            title={`${ComponentItem.label}`}
+            key={ComponentItem.label}
+          >
+            <ReturnElement
+              ComponentNameForForm={elemNameForForm}
+              ComponentKey={ComponentItem.key}
+              form={form}
+            />
+          </Card>
+        </Form.Item>
+        <Form.Item
+          hidden
+          name={[index, "label"]}
+          initialValue={ComponentItem.label}
+          key={keyIn2}
+        />
+        <Form.Item
+          hidden
+          name={[index, "key"]}
+          initialValue={ComponentItem.key}
+          key={keyIn3}
+        />
+      </>
     );
   });
 }

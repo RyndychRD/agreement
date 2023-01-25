@@ -11,12 +11,12 @@ import SimpleError from "../../fragments/messages/Error";
 export default function ReturnElement(props) {
   const { ComponentNameForForm, ComponentKey, form } = props;
   const {
-    data: DocumentElementIODictionaries = [],
+    data: DocumentIODictionaryElements = [],
     isLoading: isLoadingDictionary,
     isError: isErrorDictionary,
   } = useGetDocumentIODictionaryElementsHook();
 
-  const CurrentDictElement = DocumentElementIODictionaries.find(
+  const CurrentDictElement = DocumentIODictionaryElements.find(
     (i) => i.key === ComponentKey
   );
 

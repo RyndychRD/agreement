@@ -8,7 +8,7 @@ const initialState = {
     { modal: "MainModal", json: {} },
     { modal: "FormConstruct", json: {} },
     { modal: "FormFill", json: {} },
-    // { modal: "RouteConstruct", json: {} },
+    { modal: "RouteConstruct", json: {} },
     { modal: "DocumentPreview" },
   ],
   currentModal: 0,

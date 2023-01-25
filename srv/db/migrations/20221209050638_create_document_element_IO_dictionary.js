@@ -36,8 +36,8 @@ exports.up = function (knex) {
 
     .alterTable("document_values", function (table) {
       table
-        .foreign("document_element_IO_dictionary_id")
-        .references("document_element_IO_dictionary.id")
+        .foreign("document_element_IO_dictionary_key")
+        .references("document_element_IO_dictionary.key")
         .onDelete("SET NULL");
     });
 };
@@ -49,7 +49,7 @@ exports.up = function (knex) {
 exports.down = function (knex) {
   return knex.schema
     .alterTable("document_values", function (table) {
-      table.dropForeign("document_element_IO_dictionary_id");
+      table.dropForeign("document_element_IO_dictionary_key");
     })
     .dropTableIfExists("document_element_IO_dictionary");
 };

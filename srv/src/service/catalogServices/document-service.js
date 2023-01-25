@@ -1,5 +1,6 @@
 const DocumentModels = require("../../models/catalogModels/document-models");
 const SigningModel = require("../../models/documentSigning/signing-model");
+const DocumentValuesModel = require("../../models/documentValues/document-values-models");
 const DevTools = require("../DevTools");
 const { getOneUser } = require("./user-service");
 
@@ -95,6 +96,7 @@ class DocumentService {
     );
     const newDocumentId = newDocument[0].id;
     await this.createDocumentSignerRoute(body, newDocumentId);
+    await this.createDocumentValues(body, newDocumentId);
     return newDocument;
   }
 
@@ -115,6 +117,18 @@ class DocumentService {
       step: routeStep.step,
     }));
     const func = SigningModel.create(insertArray);
+    return await DevTools.addDelay(func);
+  }
+
+  async createDocumentValues(body, documentId) {
+    if (!body?.documentFilledInformation) return null;
+    const insertArray = body.documentFilledInformation.map((valueStep) => ({
+      document_id: documentId,
+      document_element_IO_dictionary_key: valueStep.key,
+      value: valueStep.value,
+      label: valueStep.label,
+    }));
+    const func = DocumentValuesModel.create(insertArray);
     return await DevTools.addDelay(func);
   }
 
