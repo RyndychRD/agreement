@@ -50,7 +50,7 @@ export default function AllDocuments() {
           isError={isError}
           columns={columns}
           dataSource={data ? DocumentService.prepareForTable(data) : null}
-          title="Документы"
+          title="Все документы"
         />
         {/* <CreateButtonModel />
 			<UpdateButtonModel />

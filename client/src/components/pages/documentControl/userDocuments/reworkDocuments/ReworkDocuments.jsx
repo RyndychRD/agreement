@@ -48,7 +48,8 @@ export default function ReworkDocument() {
           isError={isError}
           columns={columns}
           dataSource={data ? DocumentService.prepareForTable(data) : null}
-          title="Документы"
+          title="Документы на доработку"
+          buttons={["update"]}
         />
         {/* <CreateButtonModel />
 			<UpdateButtonModel />

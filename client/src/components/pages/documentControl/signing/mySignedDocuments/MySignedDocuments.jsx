@@ -40,7 +40,8 @@ export default function MySingedDocuments() {
         isError={isError}
         columns={columns}
         dataSource={data ? DocumentService.prepareForTable(data) : null}
-        title="Документы"
+        title="Подписанные мною документы"
+        buttons={["update"]}
       />
       <UpdateButtonModel />
     </TableModalProvider>

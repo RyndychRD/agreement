@@ -46,7 +46,8 @@ export default function RegistrationDocument() {
           isError={isError}
           columns={columns}
           dataSource={data ? DocumentService.prepareForTable(data) : null}
-          title="Документы"
+          title="Документы на регистрации"
+          buttons={["update"]}
         />
         {/* <CreateButtonModel />
 			<UpdateButtonModel />

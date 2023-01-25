@@ -46,7 +46,7 @@ export default function CreatedDocument() {
         isError={isError}
         columns={columns}
         dataSource={data ? DocumentService.prepareForTable(data) : null}
-        title="Документы"
+        title="Созданные мною документы"
       />
       <CreateButtonModel />
       <UpdateButtonModel />

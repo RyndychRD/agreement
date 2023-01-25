@@ -46,7 +46,8 @@ export default function ApprovedDocuments() {
           isError={isError}
           columns={columns}
           dataSource={data ? DocumentService.prepareForTable(data) : null}
-          title="Документы"
+          title="Согласованные документы"
+          buttons={["update"]}
         />
         {/* <CreateButtonModel />
 			<UpdateButtonModel />

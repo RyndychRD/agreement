@@ -24,6 +24,7 @@ export default function AdminSettingsTable({
   dataSource = null,
   isLoading = false,
   isError = false,
+  buttons = ["create", "update", "delete"],
 }) {
   const state = useTableModalsState();
   const dispatch = useTableModalDispatch();
@@ -46,9 +47,9 @@ export default function AdminSettingsTable({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query, dataSource]);
   /**
-   * Дефолтная логика для кнопок. Пока что нет задачи изменять количество кнопок
+   * Дефолтная логика для кнопок.
    */
-  const buttons = {
+  const buttonActions = {
     create: () => {
       dispatch({ type: "openCreateModal" });
     },
@@ -70,7 +71,7 @@ export default function AdminSettingsTable({
       dataSource={dataSource}
       pagination={{ position: ["bottomCenter"] }}
       className="height-100"
-      title={() => getTitle(title, buttons)}
+      title={() => getTitle(title, buttons, buttonActions)}
       onRow={(row) => ({
         // Выбираем текущую строку
         onClick: () => {

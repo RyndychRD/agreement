@@ -47,7 +47,8 @@ export default function CompletedDocuments() {
           isError={isError}
           columns={columns}
           dataSource={data ? DocumentService.prepareForTable(data) : null}
-          title="Документы"
+          title="Исполненные документы"
+          buttons={["update"]}
         />
         {/* <CreateButtonModel />
 			<UpdateButtonModel />

@@ -22,13 +22,14 @@ export default function DocumentControlTableViewer({
   dataSource = null,
   isLoading = false,
   isError = false,
+  buttons = ["create", "update", "delete"],
 }) {
   const state = useTableModalsState();
   const dispatch = useTableModalDispatch();
   /**
    * Дефолтная логика для кнопок. Пока что нет задачи изменять количество кнопок
    */
-  const buttons = {
+  const buttonsActions = {
     create: () => {
       dispatch({ type: "openCreateModal" });
     },
@@ -50,7 +51,7 @@ export default function DocumentControlTableViewer({
       dataSource={dataSource}
       pagination={{ position: ["bottomCenter"] }}
       className="height-100"
-      title={() => getTitle(title, buttons)}
+      title={() => getTitle(title, buttons, buttonsActions)}
       onRow={(row) => ({
         // Выбираем текущую строку
         onClick: () => {

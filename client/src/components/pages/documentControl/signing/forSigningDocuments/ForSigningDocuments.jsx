@@ -41,7 +41,8 @@ export default function ForSigningDocuments() {
         isError={isError}
         columns={columns}
         dataSource={data ? DocumentService.prepareForTable(data) : null}
-        title="Документы"
+        title="Входящие документы на подписании"
+        buttons={["update"]}
       />
       <UpdateButtonModel />
     </TableModalProvider>
