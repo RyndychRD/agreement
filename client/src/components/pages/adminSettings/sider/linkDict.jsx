@@ -13,33 +13,33 @@ export function getItem(label, key, icon, children, type) {
 const dict = {
   departments: getItem(
     <NavLink to="/admin-settings/catalogs/departments">Департаменты</NavLink>,
-    "departments"
+    "/admin-settings/catalogs/departments"
   ),
   users: getItem(
     <NavLink to="/admin-settings/catalogs/users">Пользователи</NavLink>,
-    "users"
+    "/admin-settings/catalogs/users"
   ),
   positions: getItem(
     <NavLink to="/admin-settings/catalogs/positions">Должности</NavLink>,
-    "positions"
+    "/admin-settings/catalogs/positions"
   ),
   rights: getItem(
     <NavLink to="/admin-settings/catalogs/rights">Права</NavLink>,
-    "rights"
+    "/admin-settings/catalogs/rights"
   ),
   routes: getItem(
     <NavLink to="/admin-settings/constructor/routes">Маршруты</NavLink>,
-    "routes"
+    "/admin-settings/constructor/routes"
   ),
   types: getItem(
     <NavLink to="/admin-settings/catalogs/documents/types">
       Типы документов
     </NavLink>,
-    "types"
+    "/admin-settings/catalogs/documents/types"
   ),
   forms: getItem(
     <NavLink to="/admin-settings/constructor/forms">Формы</NavLink>,
-    "forms"
+    "/admin-settings/constructor/forms"
   ),
 };
 

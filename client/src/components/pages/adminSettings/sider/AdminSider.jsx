@@ -26,7 +26,7 @@ export default function AdminSider() {
         defaultSelectedKeys={window.location.pathname}
         className="siderMenu"
         mode="inline"
-        defaultOpenKeys={["MyCatalogs"]}
+        defaultOpenKeys={["MyCatalogs", "Constructors"]}
         items={items}
       />
     </LayoutSider>

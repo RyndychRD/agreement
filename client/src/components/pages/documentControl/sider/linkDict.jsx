@@ -15,55 +15,55 @@ const dict = {
     <NavLink to="/document-control/user-documents/created-documents">
       Созданные мною
     </NavLink>,
-    "created-documents"
+    "/document-control/user-documents/created-documents"
   ),
   rework_doc: getItem(
     <NavLink to="/document-control/user-documents/rework-documents">
       На доработку
     </NavLink>,
-    "rework-documents"
+    "/document-control/user-documents/rework-documents"
   ),
   approved_doc: getItem(
     <NavLink to="/document-control/user-documents/approved-documents">
       Согласованные
     </NavLink>,
-    "approved-documents"
+    "/document-control/user-documents/approved-documents"
   ),
   completed_doc: getItem(
     <NavLink to="/document-control/user-documents/completed-documents">
       Исполненные
     </NavLink>,
-    "completed-documents"
+    "/document-control/user-documents/completed-documents"
   ),
   rejected_doc: getItem(
     <NavLink to="/document-control/user-documents/rejected-documents">
       Отклоненные
     </NavLink>,
-    "rejected-documents"
+    "/document-control/user-documents/rejected-documents"
   ),
   registration_doc: getItem(
     <NavLink to="/document-control/user-documents/registration-documents">
       Регистрация документов
     </NavLink>,
-    "registration-documents"
+    "/document-control/user-documents/registration-documents"
   ),
   admin_all_doc: getItem(
     <NavLink to="/document-control/admin-docs/all-documents">
       Все документы
     </NavLink>,
-    "admin-all-doc-documents"
+    "/document-control/admin-docs/all-documents"
   ),
   documents_for_signing: getItem(
     <NavLink to="/document-control/signing/documents-for-signing">
       Входящие
     </NavLink>,
-    "documents_for_signing"
+    "/document-control/signing/documents-for-signing"
   ),
   my_signed_documents: getItem(
     <NavLink to="/document-control/signing/my-signed-documents">
       Подписанные мною
     </NavLink>,
-    "my_signed_documents"
+    "/document-control/signing/my-signed-documents"
   ),
 };
 
