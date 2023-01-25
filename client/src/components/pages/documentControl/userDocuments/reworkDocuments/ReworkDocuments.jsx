@@ -1,14 +1,11 @@
 import { useSelector } from "react-redux";
 import { useGetDocumentsQuery } from "../../../../../core/redux/api/DocumentControl/DocumentApi";
 import DocumentService from "../../../../../services/DocumentServices/DocumentService";
-// import FormBuilder from "../../../../formBuilder/FormBuilder";
 import DocumentControlTableViewer from "../../../../fragments/tables/DocumentControl/DocumentControlTableViewer";
 import { TableModalProvider } from "../../../../fragments/tables/TableModalProvider";
-// import CreateButtonModel from "../../adminSettings/catalogs/positions/buttonModals/create";
-// import UpdateButtonModel from "../../adminSettings/catalogs/rights/buttonModals/update";
-// import DeleteButtonAction from "../../adminSettings/catalogs/users/buttonModals/delete";
 import { isAccessGranted } from "../../../../../services/userAccessService";
 import { Error403 } from "../../../../fragments/messages/Error";
+import UpdateButtonModel from "./buttonModals/update";
 
 /** Список документов, созданных пользователем */
 export default function ReworkDocument() {
@@ -51,9 +48,7 @@ export default function ReworkDocument() {
           title="Документы на доработку"
           buttons={["update"]}
         />
-        {/* <CreateButtonModel />
-			<UpdateButtonModel />
-			<DeleteButtonAction /> */}
+        <UpdateButtonModel />
       </TableModalProvider>
     </>
   );

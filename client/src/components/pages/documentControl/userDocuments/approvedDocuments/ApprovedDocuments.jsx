@@ -1,14 +1,11 @@
 import { useSelector } from "react-redux";
 import { useGetDocumentsQuery } from "../../../../../core/redux/api/DocumentControl/DocumentApi";
 import DocumentService from "../../../../../services/DocumentServices/DocumentService";
-// import FormBuilder from "../../../../formBuilder/FormBuilder";
 import DocumentControlTableViewer from "../../../../fragments/tables/DocumentControl/DocumentControlTableViewer";
 import { TableModalProvider } from "../../../../fragments/tables/TableModalProvider";
-// import CreateButtonModel from "../../adminSettings/catalogs/positions/buttonModals/create";
-// import UpdateButtonModel from "../../adminSettings/catalogs/rights/buttonModals/update";
-// import DeleteButtonAction from "../../adminSettings/catalogs/users/buttonModals/delete";
 import { isAccessGranted } from "../../../../../services/userAccessService";
 import { Error403 } from "../../../../fragments/messages/Error";
+import UpdateButtonModel from "./buttonModals/update";
 
 /** Список документов, созданных пользователем */
 export default function ApprovedDocuments() {
@@ -38,21 +35,16 @@ export default function ApprovedDocuments() {
 
   if (!isAccessGranted("ApprovedDocuments")) return <Error403 />;
   return (
-    <>
-      {/* <FormBuilder /> */}
-      <TableModalProvider>
-        <DocumentControlTableViewer
-          isLoading={isLoading}
-          isError={isError}
-          columns={columns}
-          dataSource={data ? DocumentService.prepareForTable(data) : null}
-          title="Согласованные документы"
-          buttons={["update"]}
-        />
-        {/* <CreateButtonModel />
-			<UpdateButtonModel />
-			<DeleteButtonAction /> */}
-      </TableModalProvider>
-    </>
+    <TableModalProvider>
+      <DocumentControlTableViewer
+        isLoading={isLoading}
+        isError={isError}
+        columns={columns}
+        dataSource={data ? DocumentService.prepareForTable(data) : null}
+        title="Согласованные документы"
+        buttons={["update"]}
+      />
+      <UpdateButtonModel />
+    </TableModalProvider>
   );
 }

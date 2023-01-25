@@ -16,8 +16,8 @@ export default function DocumentInformationShow(props) {
     isLoading: isLoadingDictionary,
     isError: isErrorDictionary,
   } = useGetDocumentIODictionaryElementsHook();
-
-  if (!data) return <HeaderTextOutput text="Данные документа отсутствуют" />;
+  if (!data || data.length === 0)
+    return <HeaderTextOutput text="Данные документа отсутствуют" />;
   const result = [<HeaderTextOutput text="Данные документа" />];
   if (!isLoadingDictionary && !isErrorDictionary) {
     data.forEach((dataStep, index) => {
