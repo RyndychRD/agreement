@@ -48,8 +48,7 @@ router.use("/documents", documentRouter);
 router.use("/documents/route", documentSigningRouter);
 //Значения документа
 router.use("/documents/values", documentValuesRouter);
-
-//Загрузка файлов в темповый сторадж
-router.use("/files", fileRouter);
+//Значения документа
+router.use("/documents/files", documentFilesRouter);
 
 module.exports = router;
