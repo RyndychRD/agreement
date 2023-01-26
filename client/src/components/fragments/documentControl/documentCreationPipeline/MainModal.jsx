@@ -25,6 +25,7 @@ export default function DocumentCreationPipelineMainModal({
         const preparedValues = {
           ...values,
           typeName: types?.find((type) => type.id === values.typeId)?.name,
+          fileList: values.files.fileList.map((file) => file.response),
         };
         form.resetFields();
         pipelineDispatch(saveCurrentStepJson(preparedValues));

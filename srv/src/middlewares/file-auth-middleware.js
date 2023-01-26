@@ -1,24 +1,16 @@
 const ApiError = require("../exceptions/api-error");
 const tokenService = require("../service/token-service");
 
-/**
- * Обработка авторизации
- * @param {*} req
- * @param {*} res
- * @param {*} next
- * @returns ApiError
- */
-
 const authFunction = function (req, res, next) {
   try {
-    const authorizationHeader = req.headers.authorization;
+    const authorizationHeader = req.query.token;
     if (!authorizationHeader) {
       //Пользователь не авторизован
       return next(ApiError.UnauthorizedError());
     }
 
     //Парсим Bearer токен
-    const accessToken = authorizationHeader.split(" ")[1];
+    const accessToken = authorizationHeader;
     if (!accessToken) {
       return next(ApiError.UnauthorizedError());
     }
