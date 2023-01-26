@@ -4,7 +4,7 @@ const { v4: uuidv4 } = require("uuid");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, process.env.FILE_STORAGE_PATH);
+    cb(null, process.env.FILE_TEMP_STORAGE_PATH);
   },
   filename: function (req, file, cb) {
     cb(null, uuidv4());
@@ -26,13 +26,13 @@ const upload = multer({
       return cb(err);
     }
   },
-}).array("uploadedFiles", process.env.MAX_FILE_COUNT);
+}).single("uploadedFile");
 
 class DocumentFileController {
   static uploadFile(req, res) {
     upload(req, res, function (err) {
+      //Не проверял правильность обработки ошибок
       if (err instanceof multer.MulterError) {
-        // A Multer error occurred when uploading.
         res
           .status(500)
           .send({
@@ -41,7 +41,6 @@ class DocumentFileController {
           .end();
         return;
       } else if (err) {
-        // An unknown error occurred when uploading.
         if (err.name == "ExtensionError") {
           res
             .status(413)
@@ -58,12 +57,10 @@ class DocumentFileController {
         return;
       }
 
-      const response = JSON.stringify(
-        req.files.map((file) => ({
-          originalName: file.originalname,
-          savedFileName: file.filename,
-        }))
-      );
+      const response = JSON.stringify({
+        originalName: req.file.originalname,
+        savedFileName: req.file.filename,
+      });
       res.status(200).end(response);
     });
   }

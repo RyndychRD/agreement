@@ -14,7 +14,7 @@ const formConstructorTypeViewRouter = require("./constructor/formConstructor/doc
 const formConstructorIODictionaryRouter = require("./constructor/formConstructor/document-io-dictionary-elements-router");
 const documentSigningRouter = require("./documents/document-signing-router");
 const documentValuesRouter = require("./documents/document-values-router");
-const documentFilesRouter = require("./documents/document-file-router");
+const fileRouter = require("./file-router");
 
 //Авторизация
 router.use("/", authRouter);
@@ -48,7 +48,8 @@ router.use("/documents", documentRouter);
 router.use("/documents/route", documentSigningRouter);
 //Значения документа
 router.use("/documents/values", documentValuesRouter);
-//Значения документа
-router.use("/documents/files", documentFilesRouter);
+
+//Загрузка файлов в темповый сторадж
+router.use("/files", fileRouter);
 
 module.exports = router;

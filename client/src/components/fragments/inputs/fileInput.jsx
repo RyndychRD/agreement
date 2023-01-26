@@ -1,10 +1,9 @@
 import { InboxOutlined } from "@ant-design/icons";
 import { Form, Upload, notification } from "antd";
-import DocumentFileService from "../../../services/DocumentServices/DocumentFileService";
 
 const { Dragger } = Upload;
 
-const MAX_FILE_COUNT = 50;
+const MAX_FILE_COUNT = 2;
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
 const FILE_ACCEPTED_EXT = [
   "image/png",
@@ -40,9 +39,9 @@ export default function FragmentUploader() {
     >
       <UploadFile
         showUploadList
-        name="uploadedFiles"
-        action="http://localhost:5000/api/documents/files"
-        // customRequest={DocumentFileService.create}
+        name="uploadedFile"
+        // prettier-ignore
+        action={`http://localhost:5000/api/files?token=${localStorage.getItem("token")}`}
         multiple
         maxCount={MAX_FILE_COUNT}
         onChange={(info) => {
