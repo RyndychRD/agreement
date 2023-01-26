@@ -6,9 +6,9 @@ const initialState = {
   // Подразумевается, что изначально есть только MainModal. Потом массив заполняется фактическим маршрутом при выборе типа документа. Пока что это не реализовано
   pipelineModals: [
     { modal: "MainModal", json: {} },
-    { modal: "FormConstruct", json: {} },
-    { modal: "FormFill", json: {} },
-    { modal: "RouteConstruct", json: {} },
+    // { modal: "FormConstruct", json: {} },
+    // { modal: "FormFill", json: {} },
+    // { modal: "RouteConstruct", json: {} },
     { modal: "DocumentPreview" },
   ],
   currentModal: 0,

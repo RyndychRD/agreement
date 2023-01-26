@@ -1,8 +1,8 @@
-const FileUpload = require("../FileUpload");
+const multi_upload = require("../FileUpload");
 
 class DocumentFileService {
   async uploadDocumentFileToTemp(req) {
-    return FileUpload.multi_upload(req, res, function (err) {
+    return multi_upload(req, function (err) {
       if (err instanceof multer.MulterError) {
         // A Multer error occurred when uploading.
         res

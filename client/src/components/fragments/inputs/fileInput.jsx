@@ -1,5 +1,6 @@
 import { InboxOutlined } from "@ant-design/icons";
 import { Form, Upload, notification } from "antd";
+import DocumentFileService from "../../../services/DocumentServices/DocumentFileService";
 
 const { Dragger } = Upload;
 
@@ -28,6 +29,7 @@ export default function FragmentUploader() {
     <Form.Item
       name="files"
       label="Файлы"
+      valuePropName="fileUploading"
       labelCol={{ span: 24 }}
       rules={[
         {
@@ -38,7 +40,9 @@ export default function FragmentUploader() {
     >
       <UploadFile
         showUploadList
-        // action={`https://${constants.host}:${constants.port}${props.url}`}
+        name="uploadedFiles"
+        action="http://localhost:5000/api/documents/files"
+        // customRequest={DocumentFileService.create}
         multiple
         maxCount={MAX_FILE_COUNT}
         onChange={(info) => {

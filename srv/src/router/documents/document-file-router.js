@@ -4,7 +4,6 @@ const DocumentFileController = require("../../controllers/documentControllers/do
 const authMiddleware = require("../../middlewares/auth-middleware");
 const rightMiddleware = require("../../middlewares/right-middleware");
 
-// prettier-ignore
-router.get("/",authMiddleware, rightMiddleware(),DocumentFileController.uploadFile);
+router.post("/", DocumentFileController.uploadFile);
 
 module.exports = router;
