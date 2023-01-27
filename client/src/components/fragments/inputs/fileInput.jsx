@@ -23,7 +23,7 @@ const openNotification = (title, message) => {
     description: message,
   });
 };
-const handleDownload = (file) => {
+const handlePreview = (file) => {
   // Если файл еще не полностью загрузился, не отображаем превью
   if (file.percent !== 100) return;
   FileService.getFile({
@@ -33,7 +33,7 @@ const handleDownload = (file) => {
     isConvertToPdf: false,
   });
 };
-const handlePreview = async (props) => {
+const handleDownload = async (props) => {
   const { file } = props;
   // Если файл еще не полностью загрузился, не отображаем превью
   if (file.percent !== 100) return;
@@ -69,12 +69,12 @@ export default function FragmentUploader() {
     >
       <UploadFile
         isAbleToUpload
-        onPreview={(file) =>
-          handlePreview({
+        onPreview={handlePreview}
+        onDownload={(file) =>
+          handleDownload({
             file,
           })
         }
-        onDownload={handleDownload}
         name="uploadedFile"
         // prettier-ignore
         action={`http://localhost:5000/api/files?token=${localStorage.getItem("token")}`}
@@ -82,7 +82,7 @@ export default function FragmentUploader() {
         maxCount={MAX_FILE_COUNT}
         showUploadList={{
           showDownloadIcon: true,
-          downloadIcon: "Скачать",
+          downloadIcon: "Предпросмотр",
           showRemoveIcon: true,
         }}
         onChange={(info) => {
