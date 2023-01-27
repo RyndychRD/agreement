@@ -10,6 +10,8 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const mainRouter = require("./src/router/router");
 const errorMiddleware = require("./src/middlewares/error-middleware");
+//Для создания папок подгрузки файлов при старте
+const fs = require("fs");
 
 //Инициализация сервера
 const app = express();
@@ -30,6 +32,14 @@ app.use(
 app.use("/api", mainRouter);
 //Обработка ошибок
 app.use(errorMiddleware);
+
+//Создание папок для временного и постоянного хранения файлов в случае их отсутствия по указанным путям
+if (!fs.existsSync(process.env.FILE_TEMP_STORAGE_PATH)) {
+  fs.mkdirSync(process.env.FILE_TEMP_STORAGE_PATH, { recursive: true });
+}
+if (!fs.existsSync(process.env.FILE_STORAGE_PATH)) {
+  fs.mkdirSync(process.env.FILE_STORAGE_PATH, { recursive: true });
+}
 
 //Точка входа в приложение (Тут же будем отлавливать ошибки)
 const start = async () => {
