@@ -48,7 +48,8 @@ router.use("/documents", documentRouter);
 router.use("/documents/route", documentSigningRouter);
 //Значения документа
 router.use("/documents/values", documentValuesRouter);
-//Значения документа
-router.use("/documents/files", documentFilesRouter);
+
+/** Загрузка файлов */
+router.use("/files", fileRouter);
 
 module.exports = router;

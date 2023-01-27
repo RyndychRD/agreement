@@ -6,5 +6,6 @@ const rightMiddleware = require("../middlewares/right-middleware");
 
 // prettier-ignore
 router.post("/",fileAuthMiddleware,rightMiddleware(), DocumentFileController.uploadFile);
+router.get("/", DocumentFileController.getFile);
 
 module.exports = router;
