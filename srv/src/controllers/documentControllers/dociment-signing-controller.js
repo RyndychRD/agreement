@@ -21,6 +21,16 @@ class SigningController {
       next(e);
     }
   }
+  async unsignLastDocumentStep(req, res, next) {
+    try {
+      const data = await signingService.unsignCurrentDocumentStep({
+        body: req.body,
+      });
+      return res.json(data);
+    } catch (e) {
+      next(e);
+    }
+  }
 }
 
 module.exports = new SigningController();

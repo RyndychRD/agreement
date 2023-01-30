@@ -30,6 +30,11 @@ exports.up = function (knex) {
       .comment(
         "Название документа. Используется при генерации печатного листа"
       );
+    table
+      .string("remark")
+      .comment(
+        "Замечание для всего документа. Используется при установке статуса Отклонен и На доработку"
+      );
     table.timestamps(true, true);
     table
       .timestamp("finished_at")

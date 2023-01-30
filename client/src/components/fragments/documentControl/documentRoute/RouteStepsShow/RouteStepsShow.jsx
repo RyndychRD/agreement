@@ -2,14 +2,18 @@ import { useState } from "react";
 import RouteStepShow from "./RouteStepShow";
 import ButtonShowSigned from "./buttons/showSignedButton";
 import ButtonShowUnsigned from "./buttons/showUnsignedButton";
-import ConfirmAndRemark from "./modals/confirmAndRemark";
+import SignStep from "./modals/SignStep";
 import SigningButtons from "./buttons/signingButtons";
 import { HeaderTextOutput } from "../../../outputs/textOutputs";
+import ChangeDocumentStatus from "./modals/ChangeDocumentStatus";
 
 export default function RouteStepsShow({ routeSteps, isAbleToSign }) {
   const currentSignStep = routeSteps.filter((el) => !el.actual_signer_id)[0];
-  const isAnySignedSteps = routeSteps.find((el) => el.actual_signer_id);
+  const signedSteps = routeSteps.filter((el) => el.actual_signer_id);
+  const isAnySignedSteps = signedSteps.length > 0;
+  const previousSignStep = signedSteps?.at(-1);
   const isAnyUnsignedSteps = currentSignStep;
+  const documentId = currentSignStep?.document_id;
 
   // Показать все подписанные шаги
   // Если подписать невозможно, то показать подписанные шаги
@@ -54,8 +58,17 @@ export default function RouteStepsShow({ routeSteps, isAbleToSign }) {
       )}
       {currentSignStep?.id && isAbleToSign ? (
         <>
-          <SigningButtons />
-          <ConfirmAndRemark currentStepId={currentSignStep?.id} />
+          <SigningButtons
+            // Чтобы вернуть назад, должен быть хотя бы один подписанный шаг
+            isShowReturnBackOneStepButton={isAnySignedSteps}
+            // Отклонить может только последний подписант в списке
+            isShowRejectButton={!isAnyUnsignedSteps}
+          />
+          <SignStep
+            currentStepId={currentSignStep?.id}
+            previousSignStepId={previousSignStep?.id}
+          />
+          <ChangeDocumentStatus documentId={documentId} />
         </>
       ) : (
         ""

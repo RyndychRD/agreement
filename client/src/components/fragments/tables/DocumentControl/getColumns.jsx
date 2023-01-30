@@ -108,6 +108,11 @@ export default function getColumns({ dataSource, columns }) {
       dataIndex: "document_stage",
       align: "center",
     },
+    document_remark: {
+      title: "Замечание",
+      dataIndex: "document_remark",
+      align: "center",
+    },
   };
 
   const dictColumn = {

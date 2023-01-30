@@ -16,8 +16,7 @@ export default function RejectedDocument() {
       "document_name",
       "document_type",
       "document_status",
-      "document_created_at",
-      "document_updated_at",
+      "document_remark",
     ],
   };
   /**

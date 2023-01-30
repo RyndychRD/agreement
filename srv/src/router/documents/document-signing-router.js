@@ -11,5 +11,10 @@ router.put(
   authMiddleware,
   signingController.signCurrentDocumentStep
 );
+router.put(
+  "/unsign-last-step",
+  authMiddleware,
+  signingController.unsignLastDocumentStep
+);
 
 module.exports = router;

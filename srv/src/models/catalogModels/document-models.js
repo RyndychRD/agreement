@@ -163,17 +163,17 @@ class DocumentSchema {
   async update(filter, document) {
     return await this.knexProvider("documents").where(filter).update(document);
   }
-  async incrementLastSignedStepByStepId({ stepId }) {
-    const query = this.knexProvider("documents")
+
+  async changeLastSignedStep({ documentId, isIncrement }) {
+    let query = this.knexProvider("documents")
       .increment("last_signed_step")
-      .whereIn(
-        "documents.id",
-        this.knexProvider("documents-signers_route")
-          .select("document_id")
-          .where({ id: stepId })
-      )
+      .where({ id: documentId })
       .update({ updated_at: "now" })
       .returning("*");
+    query = isIncrement
+      ? query.increment("last_signed_step")
+      : query.decrement("last_signed_step");
+
     const result = await query;
 
     //Мы всегда будем получать результат как массив из 1 элемента, так как мы обновляем конкретный документ

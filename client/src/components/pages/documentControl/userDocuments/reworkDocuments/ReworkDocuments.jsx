@@ -16,10 +16,7 @@ export default function ReworkDocument() {
       "document_name",
       "document_type",
       "document_status",
-      "document_current_signer",
-      "document_stage",
-      "document_created_at",
-      "document_updated_at",
+      "document_remark",
     ],
   };
   /**
