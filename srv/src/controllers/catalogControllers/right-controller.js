@@ -29,7 +29,6 @@ class RightController {
   }
   async deleteRight(req, res, next) {
     try {
-      console.log("LOOK here", req.query);
       const data = await RightService.deleteRight(req.query);
       return res.json(data);
     } catch (e) {

@@ -29,7 +29,6 @@ class TypeController {
   }
   async deleteType(req, res, next) {
     try {
-      console.log("LOOK here", req.query);
       const data = await TypeService.deleteType(req.query);
       return res.json(data);
     } catch (e) {

@@ -1,18 +1,21 @@
 const Router = require("express").Router;
 const router = new Router();
 
-const authRouter = require("./auth");
-const departmentRouter = require("./catalog/departments");
-const positionRouter = require("./catalog/positions");
-const usersRouter = require("./catalog/users");
-const rightsRouter = require("./catalog/rights");
-const documentTypeRouter = require("./catalog/documents/types");
-const documentTypeViewRouter = require("./catalog/documents/types-views");
-const documentStatusRouter = require("./catalog/documents/status");
-const documentElementIODictionaryRouter = require("./catalog/documents/document-element-io-dictionary");
-const documentRouter = require("./catalog/document");
-const routeConstructorRouter = require("./constructor/routes");
-const documentSigningRouter = require("./documents/signing/document-signing");
+const authRouter = require("./auth-router");
+const departmentRouter = require("./catalog/departments-router");
+const positionRouter = require("./catalog/positions-router");
+const usersRouter = require("./catalog/users-router");
+const rightsRouter = require("./catalog/rights-router");
+const documentTypeRouter = require("./catalog/document-types-router");
+const documentStatusRouter = require("./catalog/document-status-router");
+const documentRouter = require("./documents/document-router");
+const routeConstructorRouter = require("./constructor/routes-router");
+const formConstructorTypeViewRouter = require("./constructor/formConstructor/document-types-views-router");
+const formConstructorIODictionaryRouter = require("./constructor/formConstructor/document-io-dictionary-elements-router");
+const documentSigningRouter = require("./documents/document-signing-router");
+const documentValuesRouter = require("./documents/document-values-router");
+const documentFilesRouter = require("./documents/document-files-router");
+const fileRouter = require("./file-router");
 
 //Авторизация
 router.use("/", authRouter);
@@ -27,21 +30,29 @@ router.use("/catalog/users", usersRouter);
 router.use("/catalog/rights", rightsRouter);
 //Типы документов
 router.use("/catalog/documents/types", documentTypeRouter);
-//Типы представления документов
-router.use("/catalog/documents/types-views", documentTypeViewRouter);
 //Типы статусов документов
 router.use("/catalog/documents/status", documentStatusRouter);
-//Типы элементов форм
-// prettier-ignore
-router.use("/catalog/documents/document-element-io-dictionary",documentElementIODictionaryRouter);
-//Документы
-router.use("/catalog/documents", documentRouter);
 
 /** Конструкторы */
 //Маршруты
 router.use("/constructor/routes", routeConstructorRouter);
+//Типы представления документов
+router.use("/constructor/forms/types-views", formConstructorTypeViewRouter);
+//Элементы конструктора
+// prettier-ignore
+router.use("/constructor/forms/types-io-elements",formConstructorIODictionaryRouter);
 
-/** Подписание документов */
-router.use("/document-signing/", documentSigningRouter);
+/** Документ */
+//сами документы
+router.use("/documents", documentRouter);
+// роуты
+router.use("/documents/route", documentSigningRouter);
+//Значения документа
+router.use("/documents/values", documentValuesRouter);
+//Файлы документа
+router.use("/documents/files", documentFilesRouter);
+
+/** Загрузка файлов */
+router.use("/files", fileRouter);
 
 module.exports = router;

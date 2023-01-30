@@ -45,8 +45,10 @@ export const filterDataBoolean = (dataSource, columnName) => {
   );
 };
 
-export const renderDate = (date) =>
-  date ? moment(date).format("DD.MM.YYYY HH:mm") : "";
+export const renderDate = (date, isAddTime = true) => {
+  if (isAddTime) return date ? moment(date).format("DD.MM.YYYY HH:mm") : "";
+  return date ? moment(date).format("DD.MM.YYYY") : "";
+};
 
 /**
  * Функция для рендера прав
@@ -114,7 +116,7 @@ export function booleanRender(value) {
  * @param {Array} buttons - Массив со списком кнопок, которые мы хотим отобразить в заголовке
  * @returns
  */
-export default function getTitle(name, buttons) {
+export default function getTitle(name, buttons, buttonsActions) {
   /**
    * Словарь всех возможных кнопок в заголовке
    */
@@ -123,7 +125,7 @@ export default function getTitle(name, buttons) {
       <AButton
         key="keyCreateAdminTableSettings"
         type="primary"
-        onClick={buttons.create}
+        onClick={buttonsActions.create}
         className="space-right"
       >
         Создать
@@ -133,7 +135,7 @@ export default function getTitle(name, buttons) {
       <AButton
         key="keyDeleteAdminTableSettings"
         danger
-        onClick={buttons.delete}
+        onClick={buttonsActions.delete}
         className="space-right"
       >
         Удалить
@@ -143,7 +145,7 @@ export default function getTitle(name, buttons) {
       <AButton
         key="keyUpdateAdminTableSettings"
         type="primary"
-        onClick={buttons.update}
+        onClick={buttonsActions.update}
         className="space-right "
       >
         Просмотр
@@ -153,7 +155,7 @@ export default function getTitle(name, buttons) {
 
   /** Выбираем только запрошенные кнопки */
   const buttonsView = [];
-  Object.keys(buttons).forEach((key) => {
+  buttons.forEach((key) => {
     buttonsView.push(buttonsDict[key]);
   });
 

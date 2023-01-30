@@ -62,3 +62,7 @@ body {
   border: 1px solid black;
   color: black !important;
 }
+
+.danger {
+  background-color: lightcoral;
+}

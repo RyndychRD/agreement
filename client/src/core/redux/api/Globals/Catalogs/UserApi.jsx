@@ -35,12 +35,14 @@ export const usersApi = createApi({
         currentRow = {},
         isStart = true,
         isAddRights = false,
+        isAddForeignTables = false,
       }) => {
         if (isStart) {
           try {
             const response = await UserService.getOne({
               id: id || currentRow?.user_id,
               isAddRights,
+              isAddForeignTables,
             });
             return { data: response };
           } catch (e) {

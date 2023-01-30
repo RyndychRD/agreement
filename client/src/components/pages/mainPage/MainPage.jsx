@@ -12,6 +12,7 @@ import {
   ATooltip,
 } from "../../adapter";
 import "./style.css";
+import { Error403 } from "../../fragments/messages/Error";
 
 function DocumentControlP() {
   return (
@@ -37,7 +38,11 @@ function MainPage() {
   return (
     <Content className="content">
       <ARow className="main-button-row">
-        {isAccessGranted("ContractAgreement") ? <DocumentControlP /> : ""}
+        {isAccessGranted("ContractAgreement") ? (
+          <DocumentControlP />
+        ) : (
+          <Error403 />
+        )}
       </ARow>
     </Content>
   );

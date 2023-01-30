@@ -1,12 +1,13 @@
 import { useSelector } from "react-redux";
-import { useGetDocumentsQuery } from "../../../../../core/redux/api/DocumentControl/Catalog/DocumentApi";
+import { useGetDocumentsQuery } from "../../../../../core/redux/api/DocumentControl/DocumentApi";
 import DocumentService from "../../../../../services/DocumentServices/DocumentService";
-// import FormBuilder from "../../../../formBuilder/FormBuilder";
 import DocumentControlTableViewer from "../../../../fragments/tables/DocumentControl/DocumentControlTableViewer";
-import { Provider } from "../../../../fragments/tables/Provider";
+import { TableModalProvider } from "../../../../fragments/tables/TableModalProvider";
 import CreateButtonModel from "./buttonModals/create";
 import UpdateButtonModel from "./buttonModals/update";
 import DeleteButtonAction from "./buttonModals/delete";
+import { isAccessGranted } from "../../../../../services/userAccessService";
+import { Error403 } from "../../../../fragments/messages/Error";
 
 /** Список документов, созданных пользователем */
 export default function CreatedDocument() {
@@ -36,18 +37,19 @@ export default function CreatedDocument() {
     userId: currentUser?.id ? currentUser.id : "-1",
   });
 
+  if (!isAccessGranted("CreatedDocuments")) return <Error403 />;
   return (
-    <Provider>
+    <TableModalProvider>
       <DocumentControlTableViewer
         isLoading={isLoading}
         isError={isError}
         columns={columns}
         dataSource={data ? DocumentService.prepareForTable(data) : null}
-        title="Документы"
+        title="Созданные мною документы"
       />
       <CreateButtonModel />
       <UpdateButtonModel />
       <DeleteButtonAction />
-    </Provider>
+    </TableModalProvider>
   );
 }

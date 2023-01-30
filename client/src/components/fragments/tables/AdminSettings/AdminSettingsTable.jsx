@@ -1,6 +1,9 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { useCustomDispatch, useCustomState } from "../Provider";
+import {
+  useTableModalDispatch,
+  useTableModalsState,
+} from "../TableModalProvider";
 import { ATable } from "../../../adapter";
 import getTitle from "../CommonFunctions";
 import "../style.css";
@@ -21,9 +24,10 @@ export default function AdminSettingsTable({
   dataSource = null,
   isLoading = false,
   isError = false,
+  buttons = ["create", "update", "delete"],
 }) {
-  const state = useCustomState();
-  const dispatch = useCustomDispatch();
+  const state = useTableModalsState();
+  const dispatch = useTableModalDispatch();
 
   // Этот блок отвечает за открытие элемента по id
   const query = useLocation().search;
@@ -43,9 +47,9 @@ export default function AdminSettingsTable({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query, dataSource]);
   /**
-   * Дефолтная логика для кнопок. Пока что нет задачи изменять количество кнопок
+   * Дефолтная логика для кнопок.
    */
-  const buttons = {
+  const buttonActions = {
     create: () => {
       dispatch({ type: "openCreateModal" });
     },
@@ -67,7 +71,7 @@ export default function AdminSettingsTable({
       dataSource={dataSource}
       pagination={{ position: ["bottomCenter"] }}
       className="height-100"
-      title={() => getTitle(title, buttons)}
+      title={() => getTitle(title, buttons, buttonActions)}
       onRow={(row) => ({
         // Выбираем текущую строку
         onClick: () => {

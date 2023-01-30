@@ -49,6 +49,23 @@ export const routesApi = createApi({
             ]
           : [{ type: TAG_TYPE, id: "LIST" }],
     }),
+    getRouteByDocumentType: build.query({
+      queryFn: async ({ typeId = "" }) => {
+        try {
+          const response = await RouteService.getOneByTypeId(typeId);
+          return { data: response };
+        } catch (e) {
+          return { error: e.message };
+        }
+      },
+      providesTags: (result) =>
+        result
+          ? [
+              { ...result, type: TAG_TYPE, id: result?.id },
+              { type: TAG_TYPE, id: "LIST" },
+            ]
+          : [{ type: TAG_TYPE, id: "LIST" }],
+    }),
     addRoute: build.mutation({
       queryFn: async (body) => {
         try {
@@ -92,6 +109,7 @@ export const routesApi = createApi({
 export const {
   useGetRoutesQuery,
   useGetRouteQuery,
+  useGetRouteByDocumentTypeQuery,
   useAddRouteMutation,
   useUpdateRouteMutation,
   useDeleteRouteMutation,
@@ -118,6 +136,13 @@ export const useGetRoutesQueryHook = useGetRoutesQuery;
  * useGetRouteQueryHook(data)
  */
 export const useGetRouteQueryHook = useGetRouteQuery;
+
+/**
+ * Получает id типа документа и возвращает соответствующий роут со всеми шагами
+ * @param {string} [typeId=""] Id элемента в таблице департамента
+ */
+export const useGetRouteByDocumentTypeQueryHook =
+  useGetRouteByDocumentTypeQuery;
 
 /**
  * `useAddRouteMutationHook` Хук

@@ -25,7 +25,7 @@ export default function getColumns({ dataSource, columns }) {
       title: "ID",
       dataIndex: "document_id",
       align: "center",
-      defaultSortOrder: "ascend",
+      defaultSortOrder: "descend",
       sorter: (a, b) => sorterInt(a?.document_id, b?.document_id),
     },
 
@@ -91,12 +91,20 @@ export default function getColumns({ dataSource, columns }) {
         record?.document_creator?.indexOf(value) === 0,
     },
     document_current_signer: {
-      title: "На подписи (доделать)",
+      title: "На подписи",
       dataIndex: "document_current_signer",
       align: "center",
+      sorter: (a, b) =>
+        sorterStringAlphabet(
+          a?.document_current_signer,
+          b?.document_current_signer
+        ),
+      filters: filterDataStringSorted(dataSource, "document_current_signer"),
+      onFilter: (value, record) =>
+        record?.document_current_signer?.indexOf(value) === 0,
     },
     document_stage: {
-      title: "Этап (доделать)",
+      title: "Этап",
       dataIndex: "document_stage",
       align: "center",
     },

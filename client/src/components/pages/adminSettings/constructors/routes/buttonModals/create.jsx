@@ -1,7 +1,7 @@
 import { AUseForm } from "../../../../../adapter";
-import ModalInput from "../../../../../fragments/modals/modalInput";
 import CreateUpdateForm from "./createUpdateForm";
 import { useAddRouteMutationHook } from "../../../../../../core/redux/api/AdminSettings/Constructor/RouteConstructorApi";
+import ModalInput from "../../../../../fragments/modals/modalInput";
 /**
  * @return Модальное окно для создания нового департамента
  */
