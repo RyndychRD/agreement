@@ -7,6 +7,7 @@ import {
 import { MainDocumentInformation } from "../outputs/textOutputs";
 import DocumentInformationFragment from "../documentControl/documentInformation/DocumentInformationShowFragment";
 import RouteStepsFragment from "../documentControl/documentRoute/RouteStepsFragment";
+import DocumentFilesFragment from "../documentControl/documentFiles/DocumentFilesFragment";
 
 export default function ModalDocumentView() {
   const state = useTableModalsState();
@@ -31,6 +32,11 @@ export default function ModalDocumentView() {
           key="MainModal"
           documentName={state.currentRow?.document_name}
           typeName={state.currentRow?.document_type}
+          fileList={state.currentRow?.document_files}
+        />
+        <DocumentFilesFragment
+          key="FilesUploaded"
+          documentId={state.currentRow?.document_id}
         />
         <DocumentInformationFragment
           isStart={state.isShowUpdateModal}

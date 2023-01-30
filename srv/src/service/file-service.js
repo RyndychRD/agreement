@@ -1,10 +1,11 @@
 const { v4: uuidv4 } = require("uuid");
 require("dotenv").config({ path: "../../.env" });
 const multer = require("multer");
-const fs = require("fs");
 const libre = require("libreoffice-convert");
 libre.convertAsync = require("util").promisify(libre.convert);
 const Readable = require("stream").Readable;
+const fs = require("fs");
+const crypto = require("crypto");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -37,13 +38,14 @@ const singleUpload = multer({
  * @param {*} param0
  */
 const getFile = async (
-  { isTempFile, fileUuid, isPDF, isConvertToPdf },
+  { isTempFile, fileUuid, isPDF, isConvertToPdf, documentId },
   res
 ) => {
   const pathToFileStorage = isTempFile
     ? process.env.FILE_TEMP_STORAGE_PATH
-    : process.env.FILE_STORAGE_PATH;
+    : `${process.env.FILE_STORAGE_PATH}\\${documentId}`;
   const pathToFile = `${pathToFileStorage}\\${fileUuid}`;
+  // TODO: Добавить проверку хеша
 
   if (isConvertToPdf && !isPDF) {
     const fileData = await fs.readFileSync(pathToFile);
@@ -69,4 +71,32 @@ const convertAnyFileToPdf = async (data) => {
   return await libre.convertAsync(buf, ext, undefined);
 };
 
-module.exports = { singleUpload, getFile, convertAnyFileToPdf };
+//https://ilikekillnerds.com/2020/04/how-to-get-the-hash-of-a-file-in-node-js/
+const getFileHash = (path) => {
+  const fileBuffer = fs.readFileSync(path);
+  const hashSum = crypto.createHash("sha1");
+  hashSum.update(fileBuffer);
+
+  const hex = hashSum.digest("base64");
+  return hex;
+};
+
+/**
+ *
+ * @param fileUuid
+ * @param hash
+ * @param documentId
+ * @returns
+ */
+const isFileHashChanged = ({ fileUuid, hash, documentId }) => {
+  const pathToFile = `${process.env.FILE_STORAGE_PATH}\\${documentId}\\${fileUuid}`;
+  return getFileHash(pathToFile) !== hash;
+};
+
+module.exports = {
+  singleUpload,
+  getFile,
+  convertAnyFileToPdf,
+  getFileHash,
+  isFileHashChanged,
+};

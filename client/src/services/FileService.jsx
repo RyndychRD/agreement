@@ -2,16 +2,20 @@
 
 import { api } from "../http/index";
 
-// import { AxiosResponse } from "axios";
-// import { AuthResponse } from "../models/response/AuthResponse";
-
 export default class FileService {
   static async getFile(props) {
-    const { isTempFile, fileUuid, fileName, isConvertToPdf, isPDF } = props;
+    const {
+      isTempFile,
+      fileUuid,
+      fileName,
+      isConvertToPdf,
+      isPDF,
+      documentId = "",
+    } = props;
     console.log("вызов в FileService -> getFile c параметрами", props);
 
     const response = await api.get(
-      `/files?isTempFile=${isTempFile}&fileUuid=${fileUuid}&isConvertToPdf=${isConvertToPdf}&isPDF=${isPDF}`,
+      `/files?isTempFile=${isTempFile}&fileUuid=${fileUuid}&isConvertToPdf=${isConvertToPdf}&isPDF=${isPDF}&documentId=${documentId}`,
       {
         responseType: "blob",
       }

@@ -9,8 +9,9 @@ import RouteStepsShow from "../documentRoute/RouteStepsShow/RouteStepsShow";
 import { useAddDocumentMutationHook } from "../../../../core/redux/api/DocumentControl/DocumentApi";
 import SimpleSpinner from "../../messages/Spinner";
 import SimpleError from "../../messages/Error";
-import DocumentInformationShow from "../documentInformation/DocumentInfromationShow";
+import DocumentInformationShow from "../documentInformation/DocumentInformationShow";
 import { useTableModalDispatch } from "../../tables/TableModalProvider";
+import DocumentFilesShow from "../documentFiles/DocumentFilesShow";
 
 const DOCUMENT_CREATION_STATUS = 5;
 
@@ -33,9 +34,17 @@ export default function DocumentPreview({ onCancel }) {
             typeName={element.json.typeName}
           />
         );
+        result.push(
+          <DocumentFilesShow
+            key="FilesUploaded"
+            fileList={element.json.fileList}
+          />
+        );
+
         preparedValuesToSave.documentName = element.json.documentName;
         preparedValuesToSave.documentTypeId = element.json.typeId;
         preparedValuesToSave.documentStatusId = DOCUMENT_CREATION_STATUS;
+        preparedValuesToSave.documentFiles = element.json.fileList;
         break;
       case "RouteConstruct":
         result.push(

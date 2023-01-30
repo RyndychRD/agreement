@@ -1,8 +1,11 @@
 const DocumentModels = require("../../models/catalogModels/document-models");
 const SigningModel = require("../../models/document/document-signing-model");
 const DocumentValuesModel = require("../../models/document/document-values-models");
+const DocumentFilesModel = require("../../models/document/document-file-model");
 const DevTools = require("../DevTools");
 const { getOneUser } = require("../catalogServices/user-service");
+const fs = require("fs");
+const { getFileHash } = require("../file-service");
 
 function getCurrentSigner(document) {
   //Изначально никто не текущий подписант
@@ -97,6 +100,7 @@ class DocumentService {
     const newDocumentId = newDocument[0].id;
     await this.createDocumentSignerRoute(body, newDocumentId);
     await this.createDocumentValues(body, newDocumentId);
+    await this.createDocumentFiles(body, newDocumentId, currentUserId);
     return newDocument;
   }
 
@@ -129,6 +133,39 @@ class DocumentService {
       label: valueStep.label,
     }));
     const func = DocumentValuesModel.create(insertArray);
+    return await DevTools.addDelay(func);
+  }
+
+  async createDocumentFiles(body, documentId, uploaderId) {
+    if (!body?.documentFiles) return null;
+    const insertArray = [];
+    const documentPath = `${process.env.FILE_STORAGE_PATH}\\${documentId}`;
+    DevTools.createFolderIfNotExist(documentPath);
+    body.documentFiles.forEach((file) => {
+      const tempFilePath = `${process.env.FILE_TEMP_STORAGE_PATH}\\${file.response.savedFileName}`;
+      // Считаем хэш до перемещение файла. Подсчет синхронный
+      const hash = getFileHash(tempFilePath);
+
+      // Передвигаем файл в место постоянного хранения. Функция ассинхронна, дожидаться завершения не будет
+      const storageFilePath = `${documentPath}\\${file.response.savedFileName}`;
+      // TODO: Сделать нормальную обработку ошибки
+      fs.rename(tempFilePath, storageFilePath, function (err) {
+        if (err) console.error(err);
+      });
+
+      insertArray.push({
+        document_id: documentId,
+        name: file.name,
+        type: file.type,
+        uniq: file.response.savedFileName,
+        uploader_id: uploaderId,
+        path: storageFilePath,
+        size: file.size,
+        hash: hash,
+      });
+    });
+
+    const func = DocumentFilesModel.create(insertArray);
     return await DevTools.addDelay(func);
   }
 

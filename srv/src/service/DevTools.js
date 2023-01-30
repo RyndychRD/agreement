@@ -1,10 +1,12 @@
+const fs = require("fs");
+
 class DevTools {
   /**
    * Функция, которая позволяет добавить задержку при необходимости. Чтобы добавить задержку, нужно проставить в .env флаг IS_ADD_DELAY=1 (не является ошибкой сделано в целях отладки если будет не нужна можно выключить флагом в конфигах)
    * @param {*} func
    * @returns
    */
-  async addDelay(func, waitTime = 3000) {
+  static async addDelay(func, waitTime = 3000) {
     let result;
     if (process.env.IS_ADD_DELAY !== "0") {
       result = new Promise((resolve) => {
@@ -17,6 +19,12 @@ class DevTools {
     }
     return result;
   }
+
+  static createFolderIfNotExist(path) {
+    if (!fs.existsSync(path)) {
+      fs.mkdirSync(path, { recursive: true });
+    }
+  }
 }
 
-module.exports = new DevTools();
+module.exports = DevTools;

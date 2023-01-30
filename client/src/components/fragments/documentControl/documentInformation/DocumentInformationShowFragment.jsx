@@ -1,5 +1,5 @@
 import { useGetDocumentValuesQueryHook } from "../../../../core/redux/api/DocumentControl/DocumentApi";
-import DocumentInformationShow from "./DocumentInfromationShow";
+import DocumentInformationShow from "./DocumentInformationShow";
 import SimpleSpinner from "../../messages/Spinner";
 import SimpleError from "../../messages/Error";
 
