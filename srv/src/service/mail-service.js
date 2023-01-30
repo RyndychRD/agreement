@@ -42,6 +42,28 @@ class MailService {
                 `,
     });
   }
+  /**
+   * Отправка почты
+   * @param {*} to Кому отправляем
+   * @param {*} text Текст сообщения
+   * @param {*} title Заголовок сообщения
+   */
+  async sendMail(to, title, text) {
+    if (process.env.SMTP_IS_ENABLED) {
+      console.log("Отправлен email");
+      console.log(to);
+      console.log(title);
+      console.log(text);
+      this.transporter.sendMail({
+        from: process.env.SMTP_USER,
+        to,
+        subject: title,
+        text: text,
+      });
+    } else {
+      console.log("Отправка email запрещена");
+    }
+  }
 }
 
 module.exports = new MailService();
