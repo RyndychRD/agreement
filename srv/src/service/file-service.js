@@ -45,8 +45,6 @@ const getFile = async (
     ? process.env.FILE_TEMP_STORAGE_PATH
     : `${process.env.FILE_STORAGE_PATH}\\${documentId}`;
   const pathToFile = `${pathToFileStorage}\\${fileUuid}`;
-  // TODO: Добавить проверку хеша
-
   if (isConvertToPdf && !isPDF) {
     const fileData = await fs.readFileSync(pathToFile);
     const fileDataPdf = await convertAnyFileToPdf(fileData);

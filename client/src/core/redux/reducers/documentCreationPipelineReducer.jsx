@@ -4,11 +4,12 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   // Первым значением обязательно должно быть MainModal. В ней вводится название и выбирается тип договора
   // Подразумевается, что изначально есть только MainModal. Потом массив заполняется фактическим маршрутом при выборе типа документа. Пока что это не реализовано
+  // В текущей реализации DocumentPreview обязателен, на нем происходит сохранение данных
   pipelineModals: [
     { modal: "MainModal", json: {} },
-    // { modal: "FormConstruct", json: {} },
-    // { modal: "FormFill", json: {} },
-    // { modal: "RouteConstruct", json: {} },
+    { modal: "FormConstruct", json: {} },
+    { modal: "FormFill", json: {} },
+    { modal: "RouteConstruct", json: {} },
     { modal: "DocumentPreview" },
   ],
   currentModal: 0,
