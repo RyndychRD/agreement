@@ -59,7 +59,7 @@ function createInitialState() {
   };
 }
 
-export function Provider({ children }) {
+export function FormBuilderProvider({ children }) {
   const [state, dispatch] = React.useReducer(
     CustomReducer,
     {},

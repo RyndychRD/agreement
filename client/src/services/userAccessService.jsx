@@ -15,6 +15,15 @@ export function isAccessGranted(rightToCheck = "") {
   );
 }
 
+export function isAnyAccessGranted(rightsToCheck = []) {
+  const userRights = getUserRights();
+  let result = userRights?.indexOf("Admin") !== -1;
+  rightsToCheck.forEach((right) => {
+    result = result || userRights?.indexOf(right) !== -1;
+  });
+  return result;
+}
+
 // TODO: Возможно, имеет смысл переделать на JSON объект
 export function saveUserRights({ user }) {
   localStorage.setItem(

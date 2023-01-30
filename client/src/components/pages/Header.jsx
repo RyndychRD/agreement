@@ -2,8 +2,8 @@ import { Layout as ALayout } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useEffect } from "react";
-import { logoutAsync } from "../auth/AuthReducer";
 import { isAccessGranted } from "../../services/userAccessService";
+import { logoutAsync } from "../../core/redux/reducers/AuthReducer";
 import {
   AMenu,
   ARow,

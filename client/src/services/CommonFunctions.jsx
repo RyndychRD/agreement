@@ -21,8 +21,9 @@ export function replaceUrlQueryWithId(id) {
   return window.history.replaceState(null, null, `?id=${id}`);
 }
 
-export function userNameMask(el) {
-  return `${el?.last_name} ${el?.first_name}. ${
-    el?.middle_name ? `${el?.middle_name}.` : ""
+export function userNameMask(user) {
+  if (!user) return null;
+  return `${user?.last_name} ${user?.first_name}. ${
+    user?.middle_name ? `${user?.middle_name}.` : ""
   }`;
 }

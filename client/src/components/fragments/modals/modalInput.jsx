@@ -1,7 +1,10 @@
 import { AModal } from "../../adapter";
 import SimpleError from "../messages/Error";
 import SimpleSpinner from "../messages/Spinner";
-import { useCustomState, useCustomDispatch } from "../tables/Provider";
+import {
+  useTableModalsState,
+  useTableModalDispatch,
+} from "../tables/TableModalProvider";
 
 /**
  * Общее окно для отображения модального окна добавления чего либо.
@@ -12,8 +15,8 @@ import { useCustomState, useCustomDispatch } from "../tables/Provider";
  * @returns
  */
 export default function ModalInput({ form, addMutation, CreateUpdateForm }) {
-  const state = useCustomState();
-  const dispatch = useCustomDispatch();
+  const state = useTableModalsState();
+  const dispatch = useTableModalDispatch();
   const [addFunc, { isError, isLoading, reset }] = addMutation();
   const isOpen = state.isShowCreateModal;
 

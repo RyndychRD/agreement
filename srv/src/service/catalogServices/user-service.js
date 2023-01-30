@@ -43,7 +43,9 @@ class UserService {
     const func = await UserModels.deleteOne({
       id: query.id,
     });
-    return await DevTools.addDelay(func);
+    const deletedUserResponse = await DevTools.addDelay(func);
+
+    return deletedUserResponse;
   }
 
   async updateUser(query, body) {

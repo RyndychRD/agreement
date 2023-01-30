@@ -1,8 +1,8 @@
 import { AUseForm } from "../../../../../adapter";
-import ModalInput from "../../../../../fragments/modals/modalInput";
 
 import { useAddTypeMutationHook } from "../../../../../../core/redux/api/Globals/Catalogs/TypeApi";
 import CreateUpdateForm from "./createUpdateForm";
+import ModalInput from "../../../../../fragments/modals/modalInput";
 /**
  * @return Модальное окно для создания нового департамента
  */

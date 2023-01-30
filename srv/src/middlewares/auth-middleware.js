@@ -8,7 +8,8 @@ const tokenService = require("../service/token-service");
  * @param {*} next
  * @returns ApiError
  */
-module.exports = function (req, res, next) {
+
+const authFunction = function (req, res, next) {
   try {
     const authorizationHeader = req.headers.authorization;
     if (!authorizationHeader) {
@@ -35,3 +36,5 @@ module.exports = function (req, res, next) {
     return next(ApiError.UnauthorizedError());
   }
 };
+
+module.exports = authFunction;

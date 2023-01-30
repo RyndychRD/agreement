@@ -1,7 +1,8 @@
 import { api } from "../../http/index";
+import { userNameMask } from "../CommonFunctions";
 
 export default class DocumentService {
-  static API_ROUTE = "/catalog/documents";
+  static API_ROUTE = "/documents";
 
   /** Преобразует входящий массив данных из редакса для правильного отображения в таблице */
   static prepareForTable(data) {
@@ -16,7 +17,12 @@ export default class DocumentService {
         document_updated_at:
           el.updated_at !== el.created_at ? el.updated_at : "",
         document_finished_at: el.finished_at,
-        document_creator: `${el?.user_last_name} ${el?.user_first_name} ${el?.user_middle_name}`,
+        document_creator: userNameMask(el?.creator),
+        document_stage:
+          el.document_status_id === 5 || el.document_status_id === 7
+            ? `${el.last_signed_step + 1}/${el.route_steps_count}`
+            : "",
+        document_current_signer: userNameMask(el?.current_signer),
       }));
     } catch (e) {
       console.log("Ошибка пред-обработки данных:", e);
@@ -65,13 +71,19 @@ export default class DocumentService {
   static async getAll({
     isAddForeignTables,
     status,
-    userId,
     isAddDocumentData,
     isShowAllDocs,
+    isOnlyForSigningDocuments,
+    isOnlyMySignedDocuments,
   }) {
     console.log("вызов в DocumentService -> Взять все записи");
     const response = await api.get(
-      `${this.API_ROUTE}?isAddForeignTables=${isAddForeignTables}&status=${status}&userId=${userId}&isAddDocumentData=${isAddDocumentData}&isShowAllDocs=${isShowAllDocs}`
+      `${this.API_ROUTE}?isAddForeignTables=${isAddForeignTables}
+      &status=${status}
+      &isAddDocumentData=${isAddDocumentData}
+      &isShowAllDocs=${isShowAllDocs}
+      &isOnlyForSigningDocuments=${isOnlyForSigningDocuments}
+      &isOnlyMySignedDocuments=${isOnlyMySignedDocuments}`
     );
     console.log(
       "вызов в DocumentService -> Взять все записи -> результат",

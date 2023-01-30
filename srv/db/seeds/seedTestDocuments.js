@@ -2,11 +2,18 @@
 
 async function seedDocs(knex) {
   await knex("documents").del();
-  await knex.raw("SELECT setval('documents_id_seq', 1, true);");
+  await knex.raw("SELECT setval('documents_id_seq', 2, true);");
   await knex("documents").insert([
     {
       id: 1,
-      name: "Я Закуп ТРУ, который должен отображаться в Созданные мною и Все документы",
+      name: "Я Закуп ТРУ с 2 подписантами в маршруте из 3 шагов",
+      document_status_id: "5",
+      document_type_id: "10",
+      creator_id: "1",
+    },
+    {
+      id: 2,
+      name: "Я Закуп ТРУ с 1 подписантом в маршруте из 3 шагов",
       document_status_id: "5",
       document_type_id: "10",
       creator_id: "1",
@@ -66,6 +73,22 @@ async function seedDocRoute(knex) {
     },
     {
       document_id: 1,
+      signer_id: 3,
+      deputy_signer_id: 1,
+      step: 3,
+    },
+    {
+      document_id: 2,
+      signer_id: 1,
+      step: 1,
+    },
+    {
+      document_id: 2,
+      signer_id: 1,
+      step: 2,
+    },
+    {
+      document_id: 2,
       signer_id: 3,
       deputy_signer_id: 1,
       step: 3,

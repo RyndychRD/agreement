@@ -80,6 +80,13 @@ export default function getColumns({ dataSource, columns }) {
       align: "center",
       sorter: (a, b) => sorterInt(a?.route_id, b?.route_id),
     },
+    type_view_id: {
+      title: "ID",
+      dataIndex: "type_view_id",
+      defaultSortOrder: "ascend",
+      align: "center",
+      sorter: (a, b) => sorterInt(a?.type_view_id, b?.type_view_id),
+    },
     user_fio_route_constructor: {
       title: "ФИО предлагаемого подписанта",
       dataIndex: "user_fio_route_constructor",

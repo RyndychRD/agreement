@@ -8,7 +8,10 @@ import {
 import { AModal } from "../../adapter";
 import SimpleError from "../messages/Error";
 import SimpleSpinner from "../messages/Spinner";
-import { useCustomDispatch, useCustomState } from "../tables/Provider";
+import {
+  useTableModalDispatch,
+  useTableModalsState,
+} from "../tables/TableModalProvider";
 
 /**
  * Общее окно для отображения модального окна изменения чего либо.
@@ -30,8 +33,8 @@ export default function ModalUpdate({
   formDefaultValues,
   preFinishFunc = null,
 }) {
-  const state = useCustomState();
-  const dispatch = useCustomDispatch();
+  const state = useTableModalsState();
+  const dispatch = useTableModalDispatch();
   const navigate = useNavigate();
   const isOpen = state.isShowUpdateModal && state.currentRow;
 

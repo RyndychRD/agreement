@@ -1,7 +1,10 @@
 import { AModal, ASpan } from "../../adapter";
 import SimpleError from "../messages/Error";
 import SimpleSpinner from "../messages/Spinner";
-import { useCustomDispatch, useCustomState } from "../tables/Provider";
+import {
+  useTableModalDispatch,
+  useTableModalsState,
+} from "../tables/TableModalProvider";
 
 /**
  * Возвращает React форму с стандартным сообщением при удалении
@@ -41,8 +44,8 @@ function getDeleteMessage({ customDeleteForm, deleteText }) {
  * @returns
  */
 export default function ModalDelete({ deleteMutation, deleteText, children }) {
-  const state = useCustomState();
-  const dispatch = useCustomDispatch();
+  const state = useTableModalsState();
+  const dispatch = useTableModalDispatch();
   const isOpen = state.isShowDeleteModal && state.currentRow;
   const [deleteFunc, { isLoading, isError, reset }] = deleteMutation();
 

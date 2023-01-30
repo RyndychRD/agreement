@@ -1,7 +1,7 @@
 // import { useSelector } from "react-redux";
 import AdminSettingsTable from "../../../../fragments/tables/AdminSettings/AdminSettingsTable";
 
-import { Provider } from "../../../../fragments/tables/Provider";
+import { TableModalProvider } from "../../../../fragments/tables/TableModalProvider";
 import CreateButtonModel from "./buttonModals/create";
 import DeleteButtonAction from "./buttonModals/delete";
 import UpdateButtonModel from "./buttonModals/update";
@@ -17,7 +17,7 @@ export default function Types() {
    */
   const { data = [], isLoading, isError } = useGetTypesQueryHook();
   return (
-    <Provider>
+    <TableModalProvider>
       <AdminSettingsTable
         isLoading={isLoading}
         isError={isError}
@@ -28,6 +28,6 @@ export default function Types() {
       <CreateButtonModel />
       <UpdateButtonModel />
       <DeleteButtonAction />
-    </Provider>
+    </TableModalProvider>
   );
 }

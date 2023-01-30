@@ -1,19 +1,20 @@
 import { configureStore } from "@reduxjs/toolkit";
-import AuthReducer from "../../components/auth/AuthReducer";
+import AuthReducer from "./reducers/AuthReducer";
+import DocumentCreation from "./reducers/documentCreationPipelineReducer";
 import { departmentsApi } from "./api/Globals/Catalogs/DepartamentApi";
 import { usersApi } from "./api/Globals/Catalogs/UserApi";
 import { rightsApi } from "./api/Globals/Catalogs/RightApi";
 import { positionsApi } from "./api/Globals/Catalogs/PositionsApi";
-import { documentsApi } from "./api/DocumentControl/Catalog/DocumentApi";
+import { documentsApi } from "./api/DocumentControl/DocumentApi";
 import { typesApi } from "./api/Globals/Catalogs/TypeApi";
 import { routesApi } from "./api/AdminSettings/Constructor/RouteConstructorApi";
-import { documentElementApi } from "./api/Globals/Catalogs/DocumentElementIODictionaryApi";
-import { documentTypesViewsApi } from "./api/Globals/Catalogs/DocumentTypesViewsApi";
-import { documentRouteApi } from "./api/DocumentControl/DocumentSigning/DocumentRouteApi";
+import { documentTypesViewsApi } from "./api/AdminSettings/Constructor/formConstructor/DocumentTypesViewsApi";
+import { documentIODictionaryElementApi } from "./api/AdminSettings/Constructor/formConstructor/DocumentIODictionaryElementApi";
 
 const store = configureStore({
   reducer: {
     session: AuthReducer,
+    documentCreation: DocumentCreation,
     departmentsApi: departmentsApi.reducer,
     positionsApi: positionsApi.reducer,
     usersApi: usersApi.reducer,
@@ -21,9 +22,8 @@ const store = configureStore({
     documentsApi: documentsApi.reducer,
     typesApi: typesApi.reducer,
     routesApi: routesApi.reducer,
-    documentElementApi: documentElementApi.reducer,
     documentTypesViewsApi: documentTypesViewsApi.reducer,
-    documentRouteApi: documentRouteApi.reducer,
+    documentIODictionaryElementApi: documentIODictionaryElementApi.reducer,
   },
   middleware: (getDefaultMiddlware) =>
     getDefaultMiddlware()
@@ -34,9 +34,8 @@ const store = configureStore({
       .concat(documentsApi.middleware)
       .concat(typesApi.middleware)
       .concat(routesApi.middleware)
-      .concat(documentElementApi.middleware)
       .concat(documentTypesViewsApi.middleware)
-      .concat(documentRouteApi.middleware),
+      .concat(documentIODictionaryElementApi.middleware),
 });
 
 export default store;

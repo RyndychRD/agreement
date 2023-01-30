@@ -1,10 +1,10 @@
 /* eslint-disable react/react-in-jsx-scope */
 import ModalDelete from "../../../../../fragments/modals/modalDelete";
-import { useCustomState } from "../../../../../fragments/tables/Provider";
+import { useTableModalsState } from "../../../../../fragments/tables/TableModalProvider";
 import { useDeleteRouteMutationHook } from "../../../../../../core/redux/api/AdminSettings/Constructor/RouteConstructorApi";
 
 export default function DeleteButtonAction() {
-  const state = useCustomState();
+  const state = useTableModalsState();
   return (
     <ModalDelete
       deleteMutation={useDeleteRouteMutationHook}

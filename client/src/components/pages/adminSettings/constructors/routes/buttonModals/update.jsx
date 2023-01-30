@@ -11,6 +11,7 @@ export default function UpdateButtonModel() {
   const [form] = AUseForm();
 
   const formDefaultValues = (data) => ({
+    // Да, эта штука просто хардкодит значение в селект боксе и переиспользовать его не получится
     typeId: data?.document_type_name,
     routeSteps: data?.route,
   });
