@@ -30,7 +30,7 @@ export default function ForSigningDocuments() {
   } = useGetDocumentsQueryHook({
     isAddForeignTables: true,
     isOnlyForSigningDocuments: true,
-    status: 0,
+    status: 5,
   });
 
   if (!isAccessGranted("ForSigningDocuments")) return <Error403 />;

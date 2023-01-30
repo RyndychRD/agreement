@@ -182,7 +182,8 @@ class DocumentService {
         id: query.id,
       },
       {
-        name: body.newDocumentName,
+        remark: body.newRemark,
+        document_status_id: body.newDocumentStatusId,
       }
     );
     return await DevTools.addDelay(func);
@@ -199,16 +200,22 @@ class DocumentService {
     return steps.length;
   }
 
-  async incrementDocumentLastSignedStepBySignedStepId({ stepId }) {
-    const func = DocumentModels.incrementLastSignedStepByStepId({ stepId });
+  async changeDocumentLastSignedStep({ documentId, isIncrement }) {
+    const func = DocumentModels.changeLastSignedStep({
+      documentId,
+      isIncrement,
+    });
     const documentAfterSigning = await DevTools.addDelay(func);
-    const documentRouteStepsCount =
-      await DocumentService.getOneDocumentRouteStepsCount(
-        documentAfterSigning.id
-      );
-    if (documentRouteStepsCount === documentAfterSigning.last_signed_step) {
-      //Поменять статус на Согласовано
-      await DocumentService.changeDocumentStatus(documentAfterSigning.id, 4);
+    //Проверять на статус согласованно имеет смысл только при увеличении шага подписи
+    if (isIncrement) {
+      const documentRouteStepsCount =
+        await DocumentService.getOneDocumentRouteStepsCount(
+          documentAfterSigning.id
+        );
+      if (documentRouteStepsCount === documentAfterSigning.last_signed_step) {
+        //Поменять статус на Согласовано
+        await DocumentService.changeDocumentStatus(documentAfterSigning.id, 4);
+      }
     }
     return documentAfterSigning;
   }

@@ -3,6 +3,7 @@ import DocumentService from "../../../../services/DocumentServices/DocumentServi
 import DocumentRouteService from "../../../../services/DocumentServices/DocumentRouteService";
 import DocumentValuesService from "../../../../services/DocumentServices/DocumentValuesService";
 import DocumentFilesService from "../../../../services/DocumentServices/DocumentFilesService";
+import { SIGN_STEP_BACK_TYPE_ID } from "../../../../components/fragments/documentControl/documentRoute/RouteStepFragmentProvider";
 
 const TAG_TYPE_DOCUMENT = "Documents";
 const TAG_TYPE_ROUTE = "DocumentSigningRoute";
@@ -97,8 +98,8 @@ export const documentsApi = createApi({
         try {
           const bodyPrepared = (bodyValues) => ({
             ...bodyValues,
-            Document_id:
-              bodyValues?.Document_id || bodyValues?.currentRow?.Document_id,
+            document_id:
+              bodyValues?.document_id || bodyValues?.currentRow?.document_id,
           });
           const response = await DocumentService.update(bodyPrepared(body));
           return { data: response };
@@ -112,7 +113,12 @@ export const documentsApi = createApi({
     signCurrentDocumentStep: build.mutation({
       queryFn: async (body) => {
         try {
-          const response = await DocumentRouteService.signCurrentStep(body);
+          let response = [];
+          if (body.signatureTypeId !== SIGN_STEP_BACK_TYPE_ID) {
+            response = await DocumentRouteService.signCurrentStep(body);
+          } else {
+            response = await DocumentRouteService.unsignLastStep(body);
+          }
           return { data: response };
         } catch (e) {
           return { error: e.message };

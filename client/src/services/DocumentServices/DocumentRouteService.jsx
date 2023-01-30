@@ -42,4 +42,20 @@ export default class DocumentRouteService {
     );
     return response.data;
   }
+
+  static async unsignLastStep(values) {
+    console.log(
+      "вызов в DocumentRouteService -> Отменить подписание последнего шага документа",
+      values
+    );
+    const response = await api.put(
+      `${this.API_ROUTE}/unsign-last-step`,
+      values
+    );
+    console.log(
+      "вызов в DocumentRouteService -> Отменить подписание последнего шага документа -> результат",
+      response
+    );
+    return response.data;
+  }
 }

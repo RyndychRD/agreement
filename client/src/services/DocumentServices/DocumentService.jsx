@@ -13,6 +13,7 @@ export default class DocumentService {
         document_name: el.name,
         document_type: el?.document_type_name,
         document_status: el?.document_status_name,
+        document_status_id: el?.document_status_id,
         document_created_at: el.created_at,
         document_updated_at:
           el.updated_at !== el.created_at ? el.updated_at : "",
@@ -23,6 +24,7 @@ export default class DocumentService {
             ? `${el.last_signed_step + 1}/${el.route_steps_count}`
             : "",
         document_current_signer: userNameMask(el?.current_signer),
+        document_remark: el?.remark,
       }));
     } catch (e) {
       console.log("Ошибка пред-обработки данных:", e);
@@ -46,7 +48,7 @@ export default class DocumentService {
       values
     );
     const response = await api.put(
-      `${this.API_ROUTE}?id=${values.documents_id}`,
+      `${this.API_ROUTE}?id=${values.document_id}`,
       values
     );
     console.log(

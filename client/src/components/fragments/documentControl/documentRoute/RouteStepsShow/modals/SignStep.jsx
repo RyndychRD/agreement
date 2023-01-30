@@ -17,6 +17,8 @@ function getMessage(type) {
       return "Вы уверены что хотите согласовать договор с замечанием?";
     case "rejectWithRemark":
       return "Вы уверены что хотите НЕ согласовать договор?";
+    case "returnStepBack":
+      return "Вы уверены что хотите вернуть подписание договора на шаг назад?";
     default:
       return `Сообщение для типа ${type} не найдено`;
   }
@@ -40,6 +42,7 @@ function getRemarkIfNeeded(type, form) {
           />
         </Form>
       );
+    case "returnStepBack":
     case "confirm":
       return "";
     default:
@@ -47,7 +50,7 @@ function getRemarkIfNeeded(type, form) {
   }
 }
 
-export default function ConfirmAndRemark({ currentStepId }) {
+export default function SignStep({ currentStepId, previousSignStepId }) {
   const state = useRouteStepFragmentState();
   const dispatchConfirm = useRouteStepFragmentDispatch();
   const dispatchTable = useTableModalDispatch();
@@ -65,6 +68,7 @@ export default function ConfirmAndRemark({ currentStepId }) {
           ...values,
           signatureTypeId: state.signatureTypeId,
           currentStepId,
+          previousSignStepId,
         };
 
         await updateFunc(valuesToSend).unwrap();
@@ -88,7 +92,7 @@ export default function ConfirmAndRemark({ currentStepId }) {
       onOk={onFinish}
       okText="Сохранить"
       cancelText="Отмена"
-      open={state.isOpen}
+      open={state.isOpenSigningModal}
     >
       <div>
         <span>{getMessage(state.modalType)}</span>

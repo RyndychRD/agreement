@@ -4,6 +4,9 @@ import React from "react";
 const CustomStateContext = React.createContext();
 const CustomDispatchContext = React.createContext();
 
+// Это мета тип. На самом деле он будет использоваться как обозначение для удаления подследнего подписанного шага документа
+export const SIGN_STEP_BACK_TYPE_ID = -1;
+
 // Описание редукторов
 // (каких либо действий если мы не хотим светиться в редаксе)
 function RouteStepFragmentReducer(state, action) {
@@ -11,7 +14,7 @@ function RouteStepFragmentReducer(state, action) {
     case "openConfirmModal_Confirm": {
       return {
         ...state,
-        isOpen: true,
+        isOpenSigningModal: true,
         modalType: "confirm",
         signatureTypeId: 1,
       };
@@ -19,15 +22,17 @@ function RouteStepFragmentReducer(state, action) {
     case "closeModal": {
       return {
         ...state,
-        isOpen: false,
+        isOpenSigningModal: false,
+        isOpenChangeStatusModal: false,
         modalType: "",
         signatureTypeId: 0,
+        documentStatusId: 0,
       };
     }
     case "openConfirmModal_ConfirmWithRemark": {
       return {
         ...state,
-        isOpen: true,
+        isOpenSigningModal: true,
         modalType: "confirmWithRemark",
         signatureTypeId: 3,
       };
@@ -35,9 +40,33 @@ function RouteStepFragmentReducer(state, action) {
     case "openConfirmModal_RejectWithRemark": {
       return {
         ...state,
-        isOpen: true,
+        isOpenSigningModal: true,
         modalType: "rejectWithRemark",
         signatureTypeId: 2,
+      };
+    }
+    case "openConfirmModal_Reject": {
+      return {
+        ...state,
+        isOpenChangeStatusModal: true,
+        modalType: "reject",
+        documentStatusId: 2,
+      };
+    }
+    case "openConfirmModal_ReturnStepBack": {
+      return {
+        ...state,
+        isOpenSigningModal: true,
+        signatureTypeId: SIGN_STEP_BACK_TYPE_ID,
+        modalType: "returnStepBack",
+      };
+    }
+    case "openConfirmModal_ReturnToRework": {
+      return {
+        ...state,
+        isOpenChangeStatusModal: true,
+        modalType: "returnToRework",
+        documentStatusId: 7,
       };
     }
     default: {
@@ -49,9 +78,11 @@ function RouteStepFragmentReducer(state, action) {
 // Инициализация
 function createInitialState() {
   return {
-    isOpen: false,
+    isOpenSigningModal: false,
+    isOpenChangeStatusModal: false,
     modalType: "",
     signatureTypeId: 0,
+    documentStatusId: 0,
     currentStepId: 0,
   };
 }

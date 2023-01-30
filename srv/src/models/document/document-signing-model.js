@@ -21,7 +21,22 @@ class SigningSchema {
   async signCurrentStep({ filter, sign }) {
     const query = this.knexProvider("documents-signers_route")
       .where(filter)
-      .update(sign);
+      .update(sign)
+      .returning("document_id");
+    return await query;
+  }
+
+  async unsignLastStep({ filter }) {
+    const sign = {
+      remark: this.knexProvider.raw("DEFAULT"),
+      actual_signer_id: this.knexProvider.raw("DEFAULT"),
+      document_signature_type_id: this.knexProvider.raw("DEFAULT"),
+      sign_date: this.knexProvider.raw("DEFAULT"),
+    };
+    const query = this.knexProvider("documents-signers_route")
+      .where(filter)
+      .update(sign)
+      .returning("document_id");
     return await query;
   }
 
