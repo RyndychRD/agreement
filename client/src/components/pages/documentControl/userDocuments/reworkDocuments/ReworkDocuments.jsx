@@ -44,6 +44,7 @@ export default function ReworkDocument() {
           dataSource={data ? DocumentService.prepareForTable(data) : null}
           title="Документы на доработку"
           buttons={["update"]}
+          notificationType="ReworkDocument"
         />
         <UpdateButtonModel />
       </TableModalProvider>

@@ -85,9 +85,9 @@ class MailService {
       console.log(
         `Отправлен email ${isExceptionAlerted ? "по запасному" : ""}`
       );
-      console.log(to);
-      console.log(title);
-      console.log(text);
+      console.log("Email: ", to);
+      console.log("Заголовок:", title);
+      console.log("Текст:", text);
       this.transporter.sendMail(
         {
           from: this.sender,
@@ -97,13 +97,13 @@ class MailService {
         },
         function (err, info) {
           if (err) {
-            //Если первый вызов
+            //Если первый вызов по стандартному транспорту
             if (!isExceptionAlerted) {
               console.error("Ошибка при отправке email по стандартному:", err);
               let mail = new MailService(true);
               mail.sendMail(to, title, text);
             }
-            //Если второй вызов
+            //Если второй вызов по запасному транспорту
             else {
               console.error(
                 "Ошибка при отправке email по запасному, письмо не будет доставлено:",

@@ -1,26 +1,32 @@
 const SigningModel = require("../../models/document/document-signing-model");
 const DocumentModel = require("../../models/catalogModels/document-models");
-const { getOneUser } = require("../catalogServices/user-service");
-const mailService = require("../mail-service");
 const { getOneStatus } = require("../catalogServices/document-status-service");
+const {
+  notifyDocumentSigningEmail,
+  notifyDocumentStatusChangedEmail,
+} = require("./email-notification-service");
+const {
+  addNotificationDocumentSigning,
+  addNotificationDocumentStatusChange,
+} = require("./document-read-notification-service");
+
 class NotificationService {
   static async notifyDocumentSigning(documentId) {
     const currentSigningStep = await SigningModel.getCurrentDocumentSigningStep(
       documentId
     );
+    //Перед нотификацией шаг подписания увеличился. Если у нас есть новый, то отправляем нотификацию новому пользователю
     if (currentSigningStep) {
       const document = await DocumentModel.findOne({
         filter: {
           id: documentId,
         },
       });
-      const text = `Документ ${document.name} отправлен к вам на подписание`;
-      const title = `Новый документ на подписание`;
       const toId = currentSigningStep?.deputy_signer_id
         ? currentSigningStep.deputy_signer_id
         : currentSigningStep.signer_id;
-      const toUser = await getOneUser({ id: toId });
-      mailService.sendMail(toUser.email, title, text);
+      notifyDocumentSigningEmail(document, toId);
+      addNotificationDocumentSigning(document, toId);
     }
   }
 
@@ -33,11 +39,8 @@ class NotificationService {
         filter: { id: documentId },
       });
       const status = await getOneStatus({ id: newDocumentStatusId });
-      const title = "Документ поменял статус";
-      const text = `Документ ${document.name} получил статус ${status.name}`;
-      const toId = document.creator_id;
-      const toUser = await getOneUser({ id: toId });
-      mailService.sendMail(toUser.email, title, text);
+      notifyDocumentStatusChangedEmail(document, status);
+      addNotificationDocumentStatusChange(document, newDocumentStatusId);
     }
   }
 }

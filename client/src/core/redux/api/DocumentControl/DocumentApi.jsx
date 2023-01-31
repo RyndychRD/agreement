@@ -12,7 +12,13 @@ const TAG_TYPE_DOCUMENT_FILES = "DocumentFiles";
 
 export const documentsApi = createApi({
   reducerPath: "documentsApi",
-  tagTypes: [TAG_TYPE_DOCUMENT, TAG_TYPE_ROUTE],
+  tagTypes: [
+    TAG_TYPE_DOCUMENT,
+    TAG_TYPE_ROUTE,
+    TAG_TYPE_DOCUMENT_VALUES,
+    TAG_TYPE_DOCUMENT_FILES,
+  ],
+  keepUnusedDataFor: 1,
   endpoints: (build) => ({
     getDocuments: build.query({
       queryFn: async ({
