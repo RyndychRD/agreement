@@ -30,6 +30,7 @@ class MailService {
         ca: [certificateForMail],
       },
     });
+    this.sender = process.env.SMTP_USER;
     isExceptionAlerted = false;
   }
 
@@ -49,6 +50,8 @@ class MailService {
         pass: process.env.SMTP_PASSWORD_EXCEPTION,
       },
     });
+
+    this.sender = process.env.SMTP_USER_EXCEPTION;
     isExceptionAlerted = true;
   }
 
@@ -78,14 +81,16 @@ class MailService {
    * @param {*} title Заголовок сообщения
    */
   async sendMail(to, title, text) {
-    if (process.env.SMTP_IS_ENABLED) {
-      console.log("Отправлен email");
+    if (process.env.SMTP_IS_ENABLED !== "0") {
+      console.log(
+        `Отправлен email ${isExceptionAlerted ? "по запасному" : ""}`
+      );
       console.log(to);
       console.log(title);
       console.log(text);
       this.transporter.sendMail(
         {
-          from: process.env.SMTP_USER,
+          from: this.sender,
           to,
           subject: title,
           text: text,
