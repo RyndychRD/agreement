@@ -4,7 +4,7 @@ import SimpleSpinner from "../../messages/Spinner";
 import SimpleError from "../../messages/Error";
 import { useGetDocumentFilesQueryHook } from "../../../../core/redux/api/DocumentControl/DocumentApi";
 import { HeaderTextOutput } from "../../outputs/textOutputs";
-import { DocumentFilesEditButton } from "./DocumentFilesEdit";
+import { DocumentFilesEdit } from "./DocumentFilesEdit";
 
 export default function DocumentFilesShowFragment(props) {
   const { documentId, isStart, isAbleToEdit } = props;
@@ -24,7 +24,7 @@ export default function DocumentFilesShowFragment(props) {
         key="uploadedFilesListHeader"
       />
       <DocumentFilesShow fileList={documentFiles} isTempFile={false} />
-      {isAbleToEdit ? <DocumentFilesEditButton documentId={documentId} /> : ""}
+      {isAbleToEdit ? <DocumentFilesEdit documentId={documentId} /> : ""}
     </>
   );
 }

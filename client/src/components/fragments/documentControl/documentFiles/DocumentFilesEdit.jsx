@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useAddDocumentFilesMutationHook } from "../../../../core/redux/api/DocumentControl/DocumentApi";
 import FileInput from "../../file/FragmentFileUploader";
 
-export default function DocumentFilesEdit(props) {
+export default function DocumentFilesEditModal(props) {
   const { open, setOpen, documentId } = props;
   const [addFiles] = useAddDocumentFilesMutationHook();
   const [form] = Form.useForm();
@@ -47,7 +47,7 @@ export default function DocumentFilesEdit(props) {
   );
 }
 
-export function DocumentFilesEditButton(props) {
+export function DocumentFilesEdit(props) {
   const { documentId } = props;
   const [open, setOpen] = useState(false);
   return (
@@ -60,7 +60,7 @@ export function DocumentFilesEditButton(props) {
       >
         Добавить документы
       </Button>
-      <DocumentFilesEdit
+      <DocumentFilesEditModal
         open={open}
         setOpen={setOpen}
         documentId={documentId}

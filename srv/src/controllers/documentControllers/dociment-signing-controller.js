@@ -31,6 +31,17 @@ class SigningController {
       next(e);
     }
   }
+  async updateDocumentRoute(req, res, next) {
+    try {
+      const data = await signingService.update({
+        routeSteps: req.body,
+        documentId: req.query.documentId,
+      });
+      return res.json(data);
+    } catch (e) {
+      next(e);
+    }
+  }
 }
 
 module.exports = new SigningController();

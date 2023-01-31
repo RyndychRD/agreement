@@ -58,4 +58,20 @@ export default class DocumentRouteService {
     );
     return response.data;
   }
+
+  static async update({ documentId, routeSteps }) {
+    console.log(
+      `вызов в DocumentRouteService -> Обновить маршрут документа ${documentId}`,
+      routeSteps
+    );
+    const response = await api.put(
+      `${this.API_ROUTE}/update-route?documentId=${documentId}`,
+      routeSteps
+    );
+    console.log(
+      `вызов в DocumentRouteService -> Обновить маршрут документа ${documentId}-> результат `,
+      response
+    );
+    return response.data;
+  }
 }

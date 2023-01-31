@@ -64,6 +64,14 @@ class SigningSchema {
 
     return await query;
   }
+
+  async deleteReplacedRouteSteps(documentId) {
+    let query = this.knexProvider("documents-signers_route")
+      .whereRaw(`document_id=${documentId} AND actual_signer_id IS NULL`)
+      .delete();
+
+    return await query;
+  }
 }
 
 module.exports = new SigningSchema();

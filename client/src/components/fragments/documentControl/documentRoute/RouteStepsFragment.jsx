@@ -7,9 +7,16 @@ import SimpleError from "../../messages/Error";
 import RouteStepsShow from "./RouteStepsShow/RouteStepsShow";
 import "./style.css";
 import { RouteStepFragmentProvider } from "./RouteStepFragmentProvider";
+import { HeaderTextOutput } from "../../outputs/textOutputs";
+import { DocumentRoutesEdit } from "./RouteStepsEdit/RouteStepsEdit";
 
 export default function RouteStepsFragment(props) {
-  const { isStart = false, documentId, isAbleToSign = false } = props;
+  const {
+    isStart = false,
+    documentId,
+    isAbleToSign = false,
+    isAbleToEdit = false,
+  } = props;
   const {
     data: routeSteps = {},
     isLoading,
@@ -24,7 +31,14 @@ export default function RouteStepsFragment(props) {
 
   return (
     <RouteStepFragmentProvider>
+      <HeaderTextOutput text="Маршрут документа" />
       <RouteStepsShow routeSteps={routeSteps} isAbleToSign={isAbleToSign} />
+
+      {isAbleToEdit ? (
+        <DocumentRoutesEdit routeSteps={routeSteps} documentId={documentId} />
+      ) : (
+        ""
+      )}
     </RouteStepFragmentProvider>
   );
 }

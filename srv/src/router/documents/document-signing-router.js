@@ -6,15 +6,11 @@ const router = new Router();
 
 // prettier-ignore
 router.get("/get-route",authMiddleware,signingController.getDocumentRoute);
-router.put(
-  "/sign-current-step",
-  authMiddleware,
-  signingController.signCurrentDocumentStep
-);
-router.put(
-  "/unsign-last-step",
-  authMiddleware,
-  signingController.unsignLastDocumentStep
-);
+// prettier-ignore
+router.put("/sign-current-step",authMiddleware,signingController.signCurrentDocumentStep);
+// prettier-ignore
+router.put("/unsign-last-step",authMiddleware, signingController.unsignLastDocumentStep);
+// prettier-ignore
+router.put("/update-route",authMiddleware, signingController.updateDocumentRoute);
 
 module.exports = router;

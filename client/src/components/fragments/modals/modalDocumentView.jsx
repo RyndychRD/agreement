@@ -71,6 +71,7 @@ export default function ModalDocumentView(props) {
           isStart={state.isShowUpdateModal}
           documentId={state.currentRow?.document_id}
           isAbleToSign={isAbleToSign}
+          isAbleToEdit={isAbleToEdit}
         />
       </Modal>
     );
