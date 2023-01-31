@@ -28,16 +28,16 @@ export default function DocumentControlTableViewer({
 }) {
   const state = useTableModalsState();
   const dispatch = useTableModalDispatch();
-  const { data: documentIds, isLoading: isLoadingNotifications } =
+  const { data: documentNotificationIds, isLoading: isLoadingNotifications } =
     useGetUnreadNotificationsByTypeQueryHook(
       { notificationType, isGetNotificationCount: false },
       {
         pollingInterval: 500,
       }
     );
-  let documentForNotifying;
-  if (!isLoadingNotifications) {
-    documentForNotifying = documentIds.map((el) => el.document_id);
+  let documentForNotifying = [];
+  if (!isLoadingNotifications && documentNotificationIds) {
+    documentForNotifying = documentNotificationIds?.map((el) => el.document_id);
   }
 
   /**
