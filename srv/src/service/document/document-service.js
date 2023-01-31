@@ -186,10 +186,13 @@ class DocumentService {
       },
       {
         remark: body.newRemark,
-        document_status_id: body.newDocumentStatusId,
       }
     );
-    return await DevTools.addDelay(func);
+    const result = await DevTools.addDelay(func);
+    if (body?.newDocumentStatusId) {
+      DocumentService.changeDocumentStatus(query.id, body.newDocumentStatusId);
+    }
+    return result;
   }
 
   static async getOneDocumentRouteStepsCount(documentId) {

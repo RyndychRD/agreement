@@ -8,25 +8,33 @@ class NotificationService {
     const currentSigningStep = await SigningModel.getCurrentDocumentSigningStep(
       documentId
     );
-    const document = await DocumentModel.findOne({ id: documentId });
-    const text = `Документ ${document.name} отправлен к вам на подписание`;
-    const title = `Новый документ на подписание`;
-    const toId = currentSigningStep?.deputy_signer_id
-      ? currentSigningStep.deputy_signer_id
-      : currentSigningStep.signer_id;
-    const toUser = await getOneUser({ id: toId });
-    mailService.sendMail(toUser.email, title, text);
+    if (currentSigningStep) {
+      const document = await DocumentModel.findOne({
+        filter: {
+          id: documentId,
+        },
+      });
+      const text = `Документ ${document.name} отправлен к вам на подписание`;
+      const title = `Новый документ на подписание`;
+      const toId = currentSigningStep?.deputy_signer_id
+        ? currentSigningStep.deputy_signer_id
+        : currentSigningStep.signer_id;
+      const toUser = await getOneUser({ id: toId });
+      mailService.sendMail(toUser.email, title, text);
+    }
   }
+
   static async notifyDocumentStatusChanged(documentId, newDocumentStatusId) {
-    console.log(newDocumentStatusId);
     //Если документ в работе, то значит он вернулся из На доработку и надо отправить сообщение о подписании
     if (newDocumentStatusId == 5) {
       this.notifyDocumentSigning(documentId);
     } else {
-      const document = await DocumentModel.findOne({ id: documentId });
-      const statusName = await getOneStatus({ id: newDocumentStatusId });
+      const document = await DocumentModel.findOne({
+        filter: { id: documentId },
+      });
+      const status = await getOneStatus({ id: newDocumentStatusId });
       const title = "Документ поменял статус";
-      const text = `Документ ${document.name} получил статус ${statusName}`;
+      const text = `Документ ${document.name} получил статус ${status.name}`;
       const toId = document.creator_id;
       const toUser = await getOneUser({ id: toId });
       mailService.sendMail(toUser.email, title, text);
