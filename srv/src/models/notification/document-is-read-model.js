@@ -22,6 +22,13 @@ class DocumentIsReadSchema {
     return await query;
   }
 
+  async readeNotifications({ filter }) {
+    let query = this.knexProvider("document_is_read")
+      .update({ is_read: true })
+      .where(filter);
+    return await query;
+  }
+
   /**
    * @param {Array} files
    * @returns

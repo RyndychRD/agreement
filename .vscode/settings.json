@@ -1,49 +1,61 @@
 {
-	"editor.defaultFormatter": "esbenp.prettier-vscode",
-	"editor.formatOnSave": true,
-	"[javascript]": {
-		"editor.defaultFormatter": "esbenp.prettier-vscode"
-	},
-	"editor.codeActionsOnSave": {
-		"source.fixAll.eslint": true
-	},
-	"eslint.alwaysShowStatus": true,
-	"cSpell.words": [
-		"буленовы",
-		"валидируем",
-		"в̶о̶з̶б̶у̶ж̶д̶а̶е̶м̶с̶я̶",
-		"гендир",
-		"джойним",
-		"ДМТС",
-		"Кастомная",
-		"ОИТИБ",
-		"ООПЗ",
-		"параметризированный",
-		"перерисовался",
-		"Предзаполнение",
-		"Предобработка",
-		"предобработки",
-		"представительста",
-		"редакса",
-		"редаксе",
-		"сабмит",
-		"сабмита",
-		"сабмите",
-		"селект",
-		"селекта",
-		"селекте",
-		"спинер",
-		"тригер",
-		"antd",
-		"atest",
-		"camelcase",
-		"Departament",
-		"dtos",
-		"knexfile",
-		"middlewares",
-		"Middlware",
-		"Nebogin",
-		"reduxjs",
-		"Sider"
-	]
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "eslint.alwaysShowStatus": true,
+  "cSpell.words": [
+    "буленовы",
+    "валидируем",
+    "в̶о̶з̶б̶у̶ж̶д̶а̶е̶м̶с̶я̶",
+    "гендир",
+    "джойним",
+    "ДМТС",
+    "Кастомная",
+    "ОИТИБ",
+    "ООПЗ",
+    "параметризированный",
+    "перерисовался",
+    "Предзаполнение",
+    "Предобработка",
+    "предобработки",
+    "представительста",
+    "редакса",
+    "редаксе",
+    "сабмит",
+    "сабмита",
+    "сабмите",
+    "селект",
+    "селекта",
+    "селекте",
+    "спинер",
+    "тригер",
+    "antd",
+    "atest",
+    "camelcase",
+    "Departament",
+    "dtos",
+    "knexfile",
+    "middlewares",
+    "Middlware",
+    "Nebogin",
+    "reduxjs",
+    "Sider"
+  ],
+  "sqltools.connections": [
+    {
+      "previewLimit": 50,
+      "server": "localhost",
+      "port": 5432,
+      "driver": "PostgreSQL",
+      "name": "db",
+      "database": "test_new_agreement",
+      "password": "zoitib23Gverde",
+      "username": "postgres"
+    }
+  ]
 }

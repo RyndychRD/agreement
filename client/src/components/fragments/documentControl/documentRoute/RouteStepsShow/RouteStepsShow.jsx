@@ -16,10 +16,10 @@ export default function RouteStepsShow({ routeSteps, isAbleToSign }) {
   const isLastUnsignedSteps = currentSignStep === routeSteps.at(-1);
   const documentId = currentSignStep?.document_id;
 
-  // Показать все подписанные шаги
+  // Показать все подписанные шаги если не подписанных не осталось
   // Если подписать невозможно, то показать подписанные шаги
   const [showSignedSteps, setShowSignedSteps] = useState(
-    !isAnySignedSteps || !isAbleToSign
+    !isAnyUnsignedSteps || !isAbleToSign
   );
 
   // Показать все не подписанные шаги. Изначально показывает только следующий неподписанный шаг

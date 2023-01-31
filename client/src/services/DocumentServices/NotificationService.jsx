@@ -19,4 +19,23 @@ export default class NotificationService {
     // );
     return response.data;
   }
+
+  static async readNotifications(props) {
+    const { documentId, notificationType } = props;
+
+    if (documentId) {
+      console.log(
+        `вызов в NotificationService -> Прочитать записи для текущего пользователя по документу ${documentId}`
+      );
+      const response = await api.put(
+        `${this.API_ROUTE}/read-notifications?documentId=${documentId}&notificationType=${notificationType}`
+      );
+      console.log(
+        `вызов в NotificationService -> Прочитать записи для текущего пользователя по документу ${documentId} -> результат`,
+        response
+      );
+      return response.data;
+    }
+    return {};
+  }
 }

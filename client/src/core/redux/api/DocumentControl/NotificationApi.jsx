@@ -17,7 +17,6 @@ export const notificationsApi = createApi({
       queryFn: async (props) => {
         const { notificationType, isGetNotificationCount = true } = props;
         try {
-          // `isAddRights` Флаг true включает параметризированный запрос
           const response =
             await NotificationService.getUnreadNotificationsByType(
               notificationType,
@@ -29,10 +28,29 @@ export const notificationsApi = createApi({
         }
       },
     }),
+    // Не используется, оставлено в качестве напоминания использовать при переходе на кэш
+    readNotifications: build.query({
+      queryFn: async (props) => {
+        const { notificationType, documentId } = props;
+        const response = await NotificationService.readNotifications({
+          notificationType,
+          documentId,
+        });
+        return { data: response };
+      },
+    }),
   }),
 });
 
-export const { useGetUnreadNotificationsByTypeQuery } = notificationsApi;
+export const {
+  useGetUnreadNotificationsByTypeQuery,
+  useReadNotificationsMutation,
+} = notificationsApi;
 
 export const useGetUnreadNotificationsByTypeQueryHook =
   useGetUnreadNotificationsByTypeQuery;
+
+/**
+ * `useUpdateDocumentMutationHook` Хук
+ */
+export const useReadNotificationsMutationHook = useReadNotificationsMutation;

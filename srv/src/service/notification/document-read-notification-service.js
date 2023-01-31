@@ -36,13 +36,20 @@ class DocumentReadNotificationService {
     return await DevTools.addDelay(func);
   }
 
-  static notificationRead() {}
-
-  static async getNotificationCount(userId, query) {
-    const notificationType = query.notificationType;
+  static async readNotifications(userId, query) {
     const filter = {
       reader_id: userId,
-      notification_type: notificationType,
+      document_id: query.documentId,
+      notification_type: query.notificationType,
+    };
+    const func = DocumentIsReadModel.readeNotifications({ filter });
+    return await DevTools.addDelay(func);
+  }
+
+  static async getNotificationCount(userId, query) {
+    const filter = {
+      reader_id: userId,
+      notification_type: query.notificationType,
       is_read: false,
     };
     if (query.isGetNotificationCount === "true") {
