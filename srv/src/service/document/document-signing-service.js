@@ -5,9 +5,10 @@ const {
 } = require("../catalogServices/document-signature-type-service");
 const DevTools = require("../DevTools");
 const { changeDocumentLastSignedStep } = require("./document-service");
+const NotificationService = require("../notification/notification-service");
 
 class SigningService {
-  async getOneDocumentRoute(query) {
+  static async getOneDocumentRoute(query) {
     const func = SigningModel.findOneDocument({
       filter: {
         "documents-signers_route.document_id": query.documentId,
@@ -41,7 +42,7 @@ class SigningService {
     );
   }
 
-  async signCurrentDocumentStep({ body, userId }) {
+  static async signCurrentDocumentStep({ body, userId }) {
     const func = SigningModel.signCurrentStep({
       filter: {
         id: body.currentStepId,
@@ -55,14 +56,14 @@ class SigningService {
     });
     const document = await func;
     const documentId = document[0].document_id;
-    return await DevTools.addDelay(
-      changeDocumentLastSignedStep({
-        documentId,
-        isIncrement: true,
-      })
-    );
+    NotificationService.notifyDocumentSigning(documentId);
+    const increaseDocumentLastSignedStep = changeDocumentLastSignedStep({
+      documentId,
+      isIncrement: true,
+    });
+    return await DevTools.addDelay(increaseDocumentLastSignedStep);
   }
-  async unsignCurrentDocumentStep({ body }) {
+  static async unsignCurrentDocumentStep({ body }) {
     const func = SigningModel.unsignLastStep({
       filter: {
         id: body.previousSignStepId,
@@ -70,13 +71,18 @@ class SigningService {
     });
     const document = await func;
     const documentId = document[0].document_id;
-    return await DevTools.addDelay(
-      changeDocumentLastSignedStep({
-        documentId,
-        isIncrement: false,
-      })
-    );
+    NotificationService.notifyDocumentSigning(documentId);
+    const decreaseDocumentLastSignedStep = changeDocumentLastSignedStep({
+      documentId,
+      isIncrement: false,
+    });
+    return await DevTools.addDelay(decreaseDocumentLastSignedStep);
+  }
+
+  static async getDocumentCurrentSignStep(documentId) {
+    const func = SigningModel.getCurrentDocumentSigningStep(documentId);
+    return await DevTools.addDelay(func);
   }
 }
 
-module.exports = new SigningService();
+module.exports = SigningService;

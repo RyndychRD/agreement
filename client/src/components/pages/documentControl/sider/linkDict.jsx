@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import NotificationCount from "./NotificationCount";
 
 export function getItem(label, key, icon, children, type) {
   return {
@@ -20,6 +21,7 @@ const dict = {
   rework_doc: getItem(
     <NavLink to="/document-control/user-documents/rework-documents">
       На доработку
+      <NotificationCount type="ReworkDocument" />
     </NavLink>,
     "/document-control/user-documents/rework-documents"
   ),
@@ -56,6 +58,7 @@ const dict = {
   documents_for_signing: getItem(
     <NavLink to="/document-control/signing/documents-for-signing">
       Входящие
+      <NotificationCount type="Signing" />
     </NavLink>,
     "/document-control/signing/documents-for-signing"
   ),

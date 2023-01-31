@@ -19,36 +19,11 @@ export default function RouteStepsFragment(props) {
     isStart,
   });
 
-  // const [isEdit, setIsEdit] = useState(false);
-
   if (isLoading) return <SimpleSpinner />;
   if (isError) return <SimpleError />;
 
-  // if (isEdit) {
-  //   return (
-  //     <>
-  //       <Button
-  //         onClick={() => {
-  //           setIsEdit(!isEdit);
-  //         }}
-  //       >
-  //         Сохранить маршрут
-  //       </Button>
-  //       <br />
-  //       <RouteStepsEdit routeSteps={routeSteps} />
-  //     </>
-  //   );
-  // }
   return (
     <RouteStepFragmentProvider>
-      {/* Этот функционал будет добавлен позже */}
-      {/* <Button
-        onClick={() => {
-          setIsEdit(!isEdit);
-        }}
-      >
-        Редактировать маршрут */}
-      {/* </Button> */}
       <RouteStepsShow routeSteps={routeSteps} isAbleToSign={isAbleToSign} />
     </RouteStepFragmentProvider>
   );

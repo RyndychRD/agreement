@@ -55,6 +55,15 @@ class SigningSchema {
   async create(routes) {
     return await this.knexProvider("documents-signers_route").insert(routes);
   }
+
+  async getCurrentDocumentSigningStep(documentId) {
+    let query = this.knexProvider("documents-signers_route")
+      .first("*")
+      .whereRaw(`document_id=${documentId} AND actual_signer_id IS NULL`)
+      .orderBy("step", "asc");
+
+    return await query;
+  }
 }
 
 module.exports = new SigningSchema();

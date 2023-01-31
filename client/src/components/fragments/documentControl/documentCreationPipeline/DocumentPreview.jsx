@@ -1,6 +1,9 @@
 import { Modal } from "antd";
-import { useSelector } from "react-redux";
-import { getSteps } from "../../../../core/redux/reducers/documentCreationPipelineReducer";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  clearDocumentCreation,
+  getSteps,
+} from "../../../../core/redux/reducers/documentCreationPipelineReducer";
 import {
   HeaderTextOutput,
   MainDocumentInformation,
@@ -18,6 +21,7 @@ const DOCUMENT_CREATION_STATUS = 5;
 export default function DocumentPreview({ onCancel }) {
   const previewValues = useSelector(getSteps);
   const tableDispatch = useTableModalDispatch();
+  const pipelineDispatch = useDispatch();
   const result = [];
   const preparedValuesToSave = {};
 
@@ -74,6 +78,7 @@ export default function DocumentPreview({ onCancel }) {
   const onFinish = () => {
     addDocument(preparedValuesToSave).unwrap();
     tableDispatch({ type: "closeAllModal" });
+    pipelineDispatch(clearDocumentCreation());
     if (isError) {
       console.log("При добавлении документа возникла ошибка");
       reset();

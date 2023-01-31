@@ -43,6 +43,7 @@ export default function ForSigningDocuments() {
         dataSource={data ? DocumentService.prepareForTable(data) : null}
         title="Входящие документы на подписании"
         buttons={["update"]}
+        notificationType="Signing"
       />
       <UpdateButtonModel />
     </TableModalProvider>

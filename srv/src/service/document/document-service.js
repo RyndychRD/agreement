@@ -6,6 +6,7 @@ const DevTools = require("../DevTools");
 const { getOneUser } = require("../catalogServices/user-service");
 const fs = require("fs");
 const { getFileHash } = require("../file-service");
+const NotificationService = require("../notification/notification-service");
 
 function getCurrentSigner(document) {
   //Изначально никто не текущий подписант
@@ -91,6 +92,7 @@ class DocumentService {
    * 1. Создание самого документа, заполнение имени, создателя, типа документа
    * 2. Заполнение маршрута документа
    * 3. Заполнение данных по документу
+   * 4. Заполнение файлов по документу
    */
   async createNewDocument(body, currentUserId) {
     const newDocument = await DocumentService.createDocument(
@@ -101,6 +103,7 @@ class DocumentService {
     await this.createDocumentSignerRoute(body, newDocumentId);
     await this.createDocumentValues(body, newDocumentId);
     await this.createDocumentFiles(body, newDocumentId, currentUserId);
+    NotificationService.notifyDocumentSigning(newDocumentId);
     return newDocument;
   }
 
@@ -183,10 +186,13 @@ class DocumentService {
       },
       {
         remark: body.newRemark,
-        document_status_id: body.newDocumentStatusId,
       }
     );
-    return await DevTools.addDelay(func);
+    const result = await DevTools.addDelay(func);
+    if (body?.newDocumentStatusId) {
+      DocumentService.changeDocumentStatus(query.id, body.newDocumentStatusId);
+    }
+    return result;
   }
 
   static async getOneDocumentRouteStepsCount(documentId) {
@@ -221,7 +227,7 @@ class DocumentService {
   }
 
   static async changeDocumentStatus(documentId, newStatusId) {
-    return await DocumentModels.update(
+    const func = DocumentModels.update(
       {
         id: documentId,
       },
@@ -229,6 +235,8 @@ class DocumentService {
         document_status_id: newStatusId,
       }
     );
+    NotificationService.notifyDocumentStatusChanged(documentId, newStatusId);
+    return await DevTools.addDelay(func);
   }
 }
 

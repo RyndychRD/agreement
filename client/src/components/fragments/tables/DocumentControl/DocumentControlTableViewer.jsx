@@ -8,6 +8,7 @@ import "../style.css";
 import SimpleSpinner from "../../messages/Spinner";
 import SimpleError from "../../messages/Error";
 import getColumns from "./getColumns";
+import { useGetUnreadNotificationsByTypeQueryHook } from "../../../../core/redux/api/DocumentControl/NotificationApi";
 
 /**
  * Конструктор таблиц для предварительного просмотра перечиня документов.
@@ -23,9 +24,22 @@ export default function DocumentControlTableViewer({
   isLoading = false,
   isError = false,
   buttons = ["create", "update", "delete"],
+  notificationType,
 }) {
   const state = useTableModalsState();
   const dispatch = useTableModalDispatch();
+  const { data: documentIds, isLoading: isLoadingNotifications } =
+    useGetUnreadNotificationsByTypeQueryHook(
+      { notificationType, isGetNotificationCount: false },
+      {
+        pollingInterval: 500,
+      }
+    );
+  let documentForNotifying;
+  if (!isLoadingNotifications) {
+    documentForNotifying = documentIds.map((el) => el.document_id);
+  }
+
   /**
    * Дефолтная логика для кнопок. Пока что нет задачи изменять количество кнопок
    */
@@ -67,10 +81,14 @@ export default function DocumentControlTableViewer({
         },
       })}
       rowClassName={(row) => {
+        let selectedClass = "";
         if (row.key === state?.currentRow?.key) {
-          return "ant-table-row ant-table-row-level-0 selected-table-row";
+          selectedClass = `${selectedClass} selected-table-row`;
         }
-        return "ant-table-row ant-table-row-level-0";
+        if (documentForNotifying.includes(row.key)) {
+          selectedClass = `${selectedClass} notify-row`;
+        }
+        return `ant-table-row ant-table-row-level-0 ${selectedClass}`;
       }}
     />
   );

@@ -15,6 +15,7 @@ const formConstructorIODictionaryRouter = require("./constructor/formConstructor
 const documentSigningRouter = require("./documents/document-signing-router");
 const documentValuesRouter = require("./documents/document-values-router");
 const documentFilesRouter = require("./documents/document-files-router");
+const notificationRouter = require("./notification/notification-router");
 const fileRouter = require("./file-router");
 
 //Авторизация
@@ -54,5 +55,8 @@ router.use("/documents/files", documentFilesRouter);
 
 /** Загрузка файлов */
 router.use("/files", fileRouter);
+
+/** Нотификация о документах */
+router.use("/notifications", notificationRouter);
 
 module.exports = router;

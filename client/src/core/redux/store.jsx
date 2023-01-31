@@ -10,6 +10,7 @@ import { typesApi } from "./api/Globals/Catalogs/TypeApi";
 import { routesApi } from "./api/AdminSettings/Constructor/RouteConstructorApi";
 import { documentTypesViewsApi } from "./api/AdminSettings/Constructor/formConstructor/DocumentTypesViewsApi";
 import { documentIODictionaryElementApi } from "./api/AdminSettings/Constructor/formConstructor/DocumentIODictionaryElementApi";
+import { notificationsApi } from "./api/DocumentControl/NotificationApi";
 
 const store = configureStore({
   reducer: {
@@ -23,6 +24,7 @@ const store = configureStore({
     typesApi: typesApi.reducer,
     routesApi: routesApi.reducer,
     documentTypesViewsApi: documentTypesViewsApi.reducer,
+    notificationsApi: notificationsApi.reducer,
     documentIODictionaryElementApi: documentIODictionaryElementApi.reducer,
   },
   middleware: (getDefaultMiddlware) =>
@@ -35,6 +37,7 @@ const store = configureStore({
       .concat(typesApi.middleware)
       .concat(routesApi.middleware)
       .concat(documentTypesViewsApi.middleware)
+      .concat(notificationsApi.middleware)
       .concat(documentIODictionaryElementApi.middleware),
 });
 
