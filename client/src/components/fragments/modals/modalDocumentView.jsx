@@ -13,7 +13,11 @@ import DocumentRemark from "../documentControl/documentRemark/DocumentRemark";
 import NotificationService from "../../../services/DocumentServices/NotificationService";
 
 export default function ModalDocumentView(props) {
-  const { notificationType = "", isAbleToSign = false } = props;
+  const {
+    notificationType = "",
+    isAbleToSign = false,
+    isAbleToEdit = false,
+  } = props;
   const state = useTableModalsState();
   const dispatch = useTableModalDispatch();
   const isOpen = state.isShowUpdateModal && state.currentRow;
@@ -52,6 +56,7 @@ export default function ModalDocumentView(props) {
         <DocumentFilesFragment
           key="FilesUploaded"
           documentId={state.currentRow?.document_id}
+          isAbleToEdit={isAbleToEdit}
         />
         <DocumentInformationFragment
           isStart={state.isShowUpdateModal}

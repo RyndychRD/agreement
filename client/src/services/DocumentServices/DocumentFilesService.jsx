@@ -16,4 +16,19 @@ export default class DocumentFilesService {
     );
     return response.data;
   }
+
+  static async create({ documentId, documentFiles }) {
+    console.log(
+      `вызов в DocumentFilesService -> Добавить файлы в документ c ID=${documentId}`
+    );
+    const response = await api.post(
+      `${this.API_ROUTE}?documentId=${documentId}`,
+      documentFiles
+    );
+    console.log(
+      `вызов в DocumentFilesService -> Добавить файлы в документ c ID=${documentId} -> результат`,
+      response
+    );
+    return response.data;
+  }
 }
