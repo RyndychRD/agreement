@@ -102,6 +102,17 @@ export const documentTypesViewsApi = createApi({
       },
       invalidatesTags: [{ type: TAG_TYPE, id: "LIST" }],
     }),
+    deleteDocumentTypeView: build.mutation({
+      queryFn: async (body) => {
+        try {
+          const response = await DocumentTypesViewsService.delete(body);
+          return { data: response };
+        } catch (e) {
+          return { error: e.message };
+        }
+      },
+      invalidatesTags: [{ type: TAG_TYPE, id: "LIST" }],
+    }),
   }),
 });
 
@@ -111,6 +122,7 @@ const {
   useGetDocumentTypeViewByDocumentTypeQuery,
   useAddDocumentTypeViewMutation,
   useUpdateDocumentTypeViewMutation,
+  useDeleteDocumentTypeViewMutation,
 } = documentTypesViewsApi;
 
 // TODO: Доделать документацию
@@ -126,3 +138,5 @@ export const useGetDocumentTypeViewByDocumentTypeHook =
 export const useAddDocumentTypeViewHook = useAddDocumentTypeViewMutation;
 // TODO: Доделать документацию
 export const useUpdateDocumentTypeViewHook = useUpdateDocumentTypeViewMutation;
+// TODO: Доделать документацию
+export const useDeleteDocumentTypeViewHook = useDeleteDocumentTypeViewMutation;

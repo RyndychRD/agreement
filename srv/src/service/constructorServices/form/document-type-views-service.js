@@ -70,6 +70,12 @@ class DocumentTypeViewsModelsService {
     );
     return await DevTools.addDelay(func);
   }
+  async deleteDocumentTypeView(query) {
+    const func = await DocumentTypeViewsModels.deleteOne({
+      id: query.id,
+    });
+    return await DevTools.addDelay(func);
+  }
 }
 
 module.exports = new DocumentTypeViewsModelsService();

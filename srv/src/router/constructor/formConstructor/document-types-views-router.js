@@ -10,5 +10,7 @@ router.get("/",authMiddleware, rightMiddleware(),DocumentTypeViewsController.get
 router.post("/",authMiddleware, rightMiddleware(),DocumentTypeViewsController.createNewTypeView);
 // prettier-ignore
 router.put("/",authMiddleware, rightMiddleware(),DocumentTypeViewsController.updateTypeView);
+// prettier-ignore
+router.delete("/",authMiddleware, rightMiddleware(),DocumentTypeViewsController.deleteDocumentTypeView);
 
 module.exports = router;

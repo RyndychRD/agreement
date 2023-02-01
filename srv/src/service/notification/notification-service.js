@@ -15,7 +15,7 @@ class NotificationService {
     const currentSigningStep = await SigningModel.getCurrentDocumentSigningStep(
       documentId
     );
-    //Перед нотификацией шаг подписания увеличился. Если у нас есть новый, то отправляем нотификацию новому пользователю
+    //Перед нотификацией шаг подписания увеличился. Если у нас есть шаг, то отправляем нотификацию новому пользователю
     if (currentSigningStep) {
       const document = await DocumentModel.findOne({
         filter: {

@@ -83,6 +83,16 @@ class SigningService {
     const func = SigningModel.getCurrentDocumentSigningStep(documentId);
     return await DevTools.addDelay(func);
   }
+
+  static async update({ documentId, routeSteps }) {
+    const deletePreviousSteps =
+      SigningModel.deleteReplacedRouteSteps(documentId);
+    await DevTools.addDelay(deletePreviousSteps);
+    const putNewSteps = SigningModel.create(routeSteps);
+    const result = await DevTools.addDelay(putNewSteps);
+    NotificationService.notifyDocumentSigning(documentId);
+    return result;
+  }
 }
 
 module.exports = SigningService;

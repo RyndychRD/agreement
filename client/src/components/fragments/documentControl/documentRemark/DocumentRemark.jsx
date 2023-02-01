@@ -1,39 +1,52 @@
+import { Alert } from "antd";
 import DocumentReworkButtons from "./buttons/DocumentRework";
-import {
-  HeaderTextOutput,
-  TextOutputWithLabel,
-} from "../../outputs/textOutputs";
+import { HeaderTextOutput } from "../../outputs/textOutputs";
 
 function DocumentRemarkText(props) {
-  const { text } = props;
+  const { text, documentStatusId } = props;
   return (
-    <>
-      <HeaderTextOutput
-        text="Замечание по документу"
-        key="documentRemarkHeader"
-      />
-      <TextOutputWithLabel label="Замечание" text={text} key="documentRemark" />
-    </>
+    <Alert message={text} type={documentStatusId === 7 ? "warning" : "error"} />
   );
 }
 
 export default function DocumentRemark(props) {
   const { documentStatusId, documentRemark } = props;
   const result = [];
-  // Отклонен
-  if (
-    (documentStatusId === 2 || documentStatusId === 7) &&
-    documentRemark?.length > 0
-  ) {
+  if (documentStatusId === 2 || documentStatusId === 7) {
     result.push(
-      <DocumentRemarkText key="documentRemarkText" text={documentRemark} />
+      <HeaderTextOutput
+        text="Замечание по документу"
+        key="documentRemarkHeader"
+      />
     );
-  }
-  // На доработку
-  if (documentStatusId === 7 && documentRemark?.length > 0) {
-    result.push(
-      <DocumentReworkButtons key="documentRemarkButton" text={documentRemark} />
-    );
+
+    // Отклонен
+    if (documentRemark?.length > 0) {
+      result.push(
+        <DocumentRemarkText
+          key="documentRemarkText"
+          documentStatusId={documentStatusId}
+          text={documentRemark}
+        />
+      );
+    } else {
+      result.push(
+        <DocumentRemarkText
+          key="documentRemarkText"
+          documentStatusId={documentStatusId}
+          text="Замечание по документу не найдено"
+        />
+      );
+    }
+    // На доработку
+    if (documentStatusId === 7 && documentRemark?.length > 0) {
+      result.push(
+        <DocumentReworkButtons
+          key="documentRemarkButton"
+          text={documentRemark}
+        />
+      );
+    }
   }
   return result;
 }

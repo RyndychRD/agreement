@@ -1,10 +1,10 @@
 import { useState } from "react";
+import { Alert } from "antd";
 import RouteStepShow from "./RouteStepShow";
 import ButtonShowSigned from "./buttons/showSignedButton";
 import ButtonShowUnsigned from "./buttons/showUnsignedButton";
 import SignStep from "./modals/SignStep";
 import SigningButtons from "./buttons/signingButtons";
-import { HeaderTextOutput } from "../../../outputs/textOutputs";
 import ChangeDocumentStatus from "./modals/ChangeDocumentStatus";
 
 export default function RouteStepsShow({ routeSteps, isAbleToSign }) {
@@ -26,11 +26,10 @@ export default function RouteStepsShow({ routeSteps, isAbleToSign }) {
   const [showUnsignedSteps, setShowUnsignedSteps] = useState(false);
 
   if (routeSteps.length === 0) {
-    return <h3>У документа отсутствует маршрут</h3>;
+    return <Alert message="У документа отсутствует маршрут" type="error" />;
   }
   return (
     <>
-      <HeaderTextOutput text="Маршрут документа" />
       {isAnySignedSteps ? (
         <ButtonShowSigned
           setShowSignedSteps={setShowSignedSteps}

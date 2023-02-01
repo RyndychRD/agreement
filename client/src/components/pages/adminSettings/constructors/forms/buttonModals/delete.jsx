@@ -1,14 +1,14 @@
 /* eslint-disable react/react-in-jsx-scope */
 import ModalDelete from "../../../../../fragments/modals/modalDelete";
 import { useTableModalsState } from "../../../../../fragments/tables/TableModalProvider";
-import { useDeleteRouteMutationHook } from "../../../../../../core/redux/api/AdminSettings/Constructor/RouteConstructorApi";
+import { useDeleteDocumentTypeViewHook } from "../../../../../../core/redux/api/AdminSettings/Constructor/formConstructor/DocumentTypesViewsApi";
 
 export default function DeleteButtonAction() {
   const state = useTableModalsState();
   return (
     <ModalDelete
-      deleteMutation={useDeleteRouteMutationHook}
-      deleteText={`Стандартный маршрут для "${state.currentRow?.type_name_for_delete}"`}
+      deleteMutation={useDeleteDocumentTypeViewHook}
+      deleteText={`Стандартная форма для "${state.currentRow?.type_name}"`}
     />
   );
 }

@@ -203,6 +203,34 @@ export const documentsApi = createApi({
             ]
           : [{ type: TAG_TYPE_DOCUMENT_FILES, id: "LIST" }],
     }),
+    addDocumentFiles: build.mutation({
+      queryFn: async ({ documentId, documentFiles }) => {
+        try {
+          const response = await DocumentFilesService.create({
+            documentId,
+            documentFiles,
+          });
+          return { data: response };
+        } catch (e) {
+          return { error: e.message };
+        }
+      },
+      invalidatesTags: [{ type: TAG_TYPE_DOCUMENT_FILES, id: "LIST" }],
+    }),
+    updateDocumentRoute: build.mutation({
+      queryFn: async ({ documentId, routeSteps }) => {
+        try {
+          const response = await DocumentRouteService.update({
+            documentId,
+            routeSteps,
+          });
+          return { data: response };
+        } catch (e) {
+          return { error: e.message };
+        }
+      },
+      invalidatesTags: [{ type: TAG_TYPE_ROUTE, id: "LIST" }],
+    }),
   }),
 });
 
@@ -217,6 +245,8 @@ export const {
   useGetDocumentRouteQuery,
   useGetDocumentValuesQuery,
   useGetDocumentFilesQuery,
+  useAddDocumentFilesMutation,
+  useUpdateDocumentRouteMutation,
 } = documentsApi;
 
 /**
@@ -245,6 +275,9 @@ export const useGetDocumentQueryHook = useGetDocumentQuery;
  * `useAddDocumentMutationHook` Хук
  */
 export const useAddDocumentMutationHook = useAddDocumentMutation;
+export const useAddDocumentFilesMutationHook = useAddDocumentFilesMutation;
+export const useUpdateDocumentRouteMutationHook =
+  useUpdateDocumentRouteMutation;
 
 /**
  * `useUpdateDocumentMutationHook` Хук

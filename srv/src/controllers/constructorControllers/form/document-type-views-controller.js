@@ -36,6 +36,16 @@ class DocumentTypeViewsController {
       next(e);
     }
   }
+  async deleteDocumentTypeView(req, res, next) {
+    try {
+      const data = await DocumentTypeViewsService.deleteDocumentTypeView(
+        req.query
+      );
+      return res.json(data);
+    } catch (e) {
+      next(e);
+    }
+  }
 }
 
 module.exports = new DocumentTypeViewsController();

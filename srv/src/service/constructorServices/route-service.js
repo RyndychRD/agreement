@@ -78,7 +78,7 @@ class RouteService {
       route: {
         routeSteps: body.routeSteps.map((step) => {
           return {
-            ...step,
+            position_id: step.position.id,
             specified_signer_id: step.specified_signer_id
               ? step.specified_signer_id
               : -1,

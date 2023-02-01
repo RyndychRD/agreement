@@ -13,7 +13,11 @@ import DocumentRemark from "../documentControl/documentRemark/DocumentRemark";
 import NotificationService from "../../../services/DocumentServices/NotificationService";
 
 export default function ModalDocumentView(props) {
-  const { notificationType = "", isAbleToSign = false } = props;
+  const {
+    notificationType = "",
+    isAbleToSign = false,
+    isAbleToEdit = false,
+  } = props;
   const state = useTableModalsState();
   const dispatch = useTableModalDispatch();
   const isOpen = state.isShowUpdateModal && state.currentRow;
@@ -49,23 +53,25 @@ export default function ModalDocumentView(props) {
           typeName={state.currentRow?.document_type}
           fileList={state.currentRow?.document_files}
         />
-        <DocumentFilesFragment
-          key="FilesUploaded"
-          documentId={state.currentRow?.document_id}
-        />
         <DocumentInformationFragment
           isStart={state.isShowUpdateModal}
           documentId={state.currentRow?.document_id}
         />
-        {/* Если статус документа Отклонен или На доработке, то мы должны показать замечание, по которому этот документ попал в такой статус */}
-        <DocumentRemark
-          documentStatusId={state.currentRow?.document_status_id}
-          documentRemark={state.currentRow?.document_remark}
+        <DocumentFilesFragment
+          key="FilesUploaded"
+          documentId={state.currentRow?.document_id}
+          isAbleToEdit={isAbleToEdit}
         />
         <RouteStepsFragment
           isStart={state.isShowUpdateModal}
           documentId={state.currentRow?.document_id}
           isAbleToSign={isAbleToSign}
+          isAbleToEdit={isAbleToEdit}
+        />
+        {/* Если статус документа Отклонен или На доработке, то мы должны показать замечание, по которому этот документ попал в такой статус */}
+        <DocumentRemark
+          documentStatusId={state.currentRow?.document_status_id}
+          documentRemark={state.currentRow?.document_remark}
         />
       </Modal>
     );

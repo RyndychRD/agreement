@@ -25,7 +25,7 @@ export default function DocumentReworkButtons() {
   };
   return (
     <>
-      <Button onClick={onClick} className="mt-5">
+      <Button onClick={onClick} type="primary" className="mt-5">
         Замечание исправлено
       </Button>
       {isLoadingUpdate ? <SimpleSpinner /> : ""}

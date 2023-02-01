@@ -27,7 +27,13 @@ function getUserOptions(usersTemp, isUserRequired) {
  * @returns
  */
 export default function RouteFormList(props) {
-  const { isLoading, isError, isIncludePositionSelect = true } = props;
+  const {
+    isLoading = false,
+    isError = false,
+    isIncludePositionSelect = true,
+    // Так как этот компонент используется чтобы отображать список шагов с некоторыми пропущенными в начале шагами, то для правильного отображения нужно это значение
+    startStepNumber = 0,
+  } = props;
   const isUserRequired = !isIncludePositionSelect;
   // prettier-ignore
   const {data: positions = {},isLoading:isLoadingPositions,isError:isErrorPositions} = useGetPositionsQueryHook({});
@@ -46,7 +52,7 @@ export default function RouteFormList(props) {
               <Card
                 size="small"
                 className="w-100"
-                title={`Шаг подписания №${name + 1}`}
+                title={`Шаг подписания №${name + 1 + startStepNumber}`}
                 extra={ButtonOnCarts(remove, move, name, fields, key)}
               >
                 {isIncludePositionSelect ? (

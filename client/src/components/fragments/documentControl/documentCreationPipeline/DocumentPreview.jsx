@@ -39,10 +39,16 @@ export default function DocumentPreview({ onCancel }) {
           />
         );
         result.push(
-          <DocumentFilesShow
-            key="FilesUploaded"
-            fileList={element.json.fileList}
-          />
+          <>
+            <HeaderTextOutput
+              text="Загруженные файлы"
+              key="uploadedFilesListHeader"
+            />
+            <DocumentFilesShow
+              key="FilesUploaded"
+              fileList={element.json.fileList}
+            />
+          </>
         );
 
         preparedValuesToSave.documentName = element.json.documentName;
@@ -52,11 +58,14 @@ export default function DocumentPreview({ onCancel }) {
         break;
       case "RouteConstruct":
         result.push(
-          <RouteStepsShow
-            key="RouteConstruct"
-            routeSteps={element.json}
-            isAbleToSign={false}
-          />
+          <>
+            <HeaderTextOutput text="Маршрут документа" />
+            <RouteStepsShow
+              key="RouteConstruct"
+              routeSteps={element.json}
+              isAbleToSign={false}
+            />
+          </>
         );
         preparedValuesToSave.documentRoute = element.json.map((routeStep) => ({
           signerId: routeStep.signer_id,
@@ -65,7 +74,10 @@ export default function DocumentPreview({ onCancel }) {
         break;
       case "FormFill":
         result.push(
-          <DocumentInformationShow data={Object.values(element.json)} />
+          <>
+            <HeaderTextOutput text="Данные документа" />
+            <DocumentInformationShow data={Object.values(element.json)} />
+          </>
         );
         preparedValuesToSave.documentFilledInformation = Object.values(
           element.json

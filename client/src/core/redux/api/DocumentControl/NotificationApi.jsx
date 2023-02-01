@@ -16,16 +16,19 @@ export const notificationsApi = createApi({
     getUnreadNotificationsByType: build.query({
       queryFn: async (props) => {
         const { notificationType, isGetNotificationCount = true } = props;
-        try {
-          const response =
-            await NotificationService.getUnreadNotificationsByType(
-              notificationType,
-              isGetNotificationCount
-            );
-          return { data: response };
-        } catch (e) {
-          return { error: e.message };
+        if (notificationType) {
+          try {
+            const response =
+              await NotificationService.getUnreadNotificationsByType(
+                notificationType,
+                isGetNotificationCount
+              );
+            return { data: response };
+          } catch (e) {
+            return { error: e.message };
+          }
         }
+        return {};
       },
     }),
     // Не используется, оставлено в качестве напоминания использовать при переходе на кэш
