@@ -3,6 +3,7 @@ import {
   MinusCircleOutlined,
   UpSquareTwoTone,
 } from "@ant-design/icons";
+import { Modal } from "antd";
 import color from "../../FormBuilderColorRow";
 
 export default function ButtonOnCarts(remove, move, name, fields, key) {
@@ -11,7 +12,17 @@ export default function ButtonOnCarts(remove, move, name, fields, key) {
       <button
         className="button-style"
         type="button"
-        onClick={() => remove(name)}
+        onClick={() =>
+          Modal.confirm({
+            title: "Подтверждение",
+            content: "Вы точно хотите удалить элемент?",
+            onOk: () => {
+              remove(name);
+            },
+            okText: "Да",
+            cancelText: "Нет",
+          })
+        }
       >
         Удалить <MinusCircleOutlined />
       </button>

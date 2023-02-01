@@ -1,4 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
+import { Modal } from "antd";
 import {
   clearDocumentCreation,
   getCurrentStepModal,
@@ -28,12 +29,32 @@ export default function DocumentCreationPipeline() {
 
   const currentModal = useSelector(getCurrentStepModal);
   const documentMainValues = useSelector(getFirstStepJson);
-  const onCancel = () => {
+
+  // Просто плейсхолдер функции. По факту изменение returnValue ни на что не влияет
+  function handleWindowClose(e) {
+    e.preventDefault();
+    e.returnValue = "123";
+    return e;
+  }
+
+  const closeModal = () => {
     pipelineDispatch(clearDocumentCreation());
     tableDispatch({ type: "closeAllModal" });
   };
 
+  const onCancel = () =>
+    Modal.confirm({
+      title: "Подтверждение",
+      content:
+        "Вы точно хотите прекратить создание документа и потерять все заполненные данные?",
+      onOk: closeModal,
+      okText: "Да, я хочу потерять заполненные данные",
+      cancelText: "Нет",
+    });
+
   if (!isPipelineStarted) return null;
+  // Добавить подтверждение закрытия страницы. Что то типа синглтона
+  window.onbeforeunload = handleWindowClose;
   switch (currentModal) {
     case "MainModal":
       return (

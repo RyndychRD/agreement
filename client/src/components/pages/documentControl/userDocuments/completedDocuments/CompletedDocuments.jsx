@@ -36,19 +36,16 @@ export default function CompletedDocuments() {
 
   if (!isAccessGranted("CompletedDocuments")) return <Error403 />;
   return (
-    <>
-      {/* <FormBuilder /> */}
-      <TableModalProvider>
-        <DocumentControlTableViewer
-          isLoading={isLoading}
-          isError={isError}
-          columns={columns}
-          dataSource={data ? DocumentService.prepareForTable(data) : null}
-          title="Исполненные документы"
-          buttons={["update"]}
-        />
-        <UpdateButtonModel />
-      </TableModalProvider>
-    </>
+    <TableModalProvider>
+      <DocumentControlTableViewer
+        isLoading={isLoading}
+        isError={isError}
+        columns={columns}
+        dataSource={data ? DocumentService.prepareForTable(data) : null}
+        title="Исполненные документы"
+        buttons={["update"]}
+      />
+      <UpdateButtonModel />
+    </TableModalProvider>
   );
 }

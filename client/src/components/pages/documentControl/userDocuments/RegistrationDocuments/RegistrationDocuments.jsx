@@ -35,19 +35,16 @@ export default function RegistrationDocument() {
 
   if (!isAccessGranted("OnRegistrationDocuments")) return <Error403 />;
   return (
-    <>
-      {/* <FormBuilder /> */}
-      <TableModalProvider>
-        <DocumentControlTableViewer
-          isLoading={isLoading}
-          isError={isError}
-          columns={columns}
-          dataSource={data ? DocumentService.prepareForTable(data) : null}
-          title="Документы на регистрации"
-          buttons={["update"]}
-        />
-        <UpdateButtonModel />
-      </TableModalProvider>
-    </>
+    <TableModalProvider>
+      <DocumentControlTableViewer
+        isLoading={isLoading}
+        isError={isError}
+        columns={columns}
+        dataSource={data ? DocumentService.prepareForTable(data) : null}
+        title="Документы на регистрации"
+        buttons={["update"]}
+      />
+      <UpdateButtonModel />
+    </TableModalProvider>
   );
 }
