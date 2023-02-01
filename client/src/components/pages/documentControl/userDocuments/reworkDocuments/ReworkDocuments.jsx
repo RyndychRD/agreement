@@ -34,20 +34,17 @@ export default function ReworkDocument() {
 
   if (!isAccessGranted("ReworkDocuments")) return <Error403 />;
   return (
-    <>
-      {/* <FormBuilder /> */}
-      <TableModalProvider>
-        <DocumentControlTableViewer
-          isLoading={isLoading}
-          isError={isError}
-          columns={columns}
-          dataSource={data ? DocumentService.prepareForTable(data) : null}
-          title="Документы на доработку"
-          buttons={["update"]}
-          notificationType="ReworkDocument"
-        />
-        <UpdateButtonModel />
-      </TableModalProvider>
-    </>
+    <TableModalProvider>
+      <DocumentControlTableViewer
+        isLoading={isLoading}
+        isError={isError}
+        columns={columns}
+        dataSource={data ? DocumentService.prepareForTable(data) : null}
+        title="Документы на доработку"
+        buttons={["update"]}
+        notificationType="ReworkDocument"
+      />
+      <UpdateButtonModel />
+    </TableModalProvider>
   );
 }

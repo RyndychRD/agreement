@@ -11,6 +11,7 @@ import {
   saveCurrentStepJson,
 } from "../../../../core/redux/reducers/documentCreationPipelineReducer";
 import { useGetUsersQueryHook } from "../../../../core/redux/api/Globals/Catalogs/UserApi";
+import RestoreButton from "./RestoreButton";
 
 /**
  * @return Модальное окно для создания нового документа
@@ -93,6 +94,19 @@ export default function DocumentCreationPipelineRouteConstruct({
         typeName={type.name}
       />
       <HeaderTextOutput text="Маршрут" />
+      <RestoreButton
+        isShow={
+          !(isErrorRoutes || isErrorUsers || isLoadingRoutes || isLoadingUsers)
+        }
+        onClick={() => {
+          form.setFieldsValue({
+            routeSteps: routeByType.route?.map((el) => {
+              if (el.specified_signer_id !== -1) return el;
+              return { ...el, specified_signer_id: el.default_signer.id };
+            }),
+          });
+        }}
+      />
       <Form form={form} name="">
         <RouteFormList
           isError={isErrorRoutes || isErrorUsers}

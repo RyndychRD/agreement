@@ -43,6 +43,7 @@
     "middlewares",
     "Middlware",
     "Nebogin",
+    "Popconfirm",
     "reduxjs",
     "Sider"
   ],
