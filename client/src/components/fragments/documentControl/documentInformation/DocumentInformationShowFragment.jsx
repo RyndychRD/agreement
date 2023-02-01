@@ -2,6 +2,7 @@ import { useGetDocumentValuesQueryHook } from "../../../../core/redux/api/Docume
 import DocumentInformationShow from "./DocumentInformationShow";
 import SimpleSpinner from "../../messages/Spinner";
 import SimpleError from "../../messages/Error";
+import { HeaderTextOutput } from "../../outputs/textOutputs";
 
 export default function DocumentInformationFragment({
   isStart = false,
@@ -19,5 +20,10 @@ export default function DocumentInformationFragment({
     ...documentValue,
     key: documentValue.document_element_IO_dictionary_key,
   }));
-  return <DocumentInformationShow data={data} />;
+  return (
+    <>
+      <HeaderTextOutput text="Данные документа" />
+      <DocumentInformationShow data={data} />
+    </>
+  );
 }

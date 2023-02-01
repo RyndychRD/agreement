@@ -1,5 +1,6 @@
 import { InboxOutlined } from "@ant-design/icons";
 import { Form, Upload } from "antd";
+import { API_URL } from "../../../http";
 import openNotification from "../messages/Notification";
 import { handlePreview, handleDownload } from "./File";
 
@@ -42,7 +43,7 @@ export default function FragmentFileUploader() {
         }
         name="uploadedFile"
         // prettier-ignore
-        action={`http://localhost:5000/api/files?token=${localStorage.getItem("token")}`}
+        action={`${API_URL}/files?token=${localStorage.getItem("token")}`}
         multiple
         maxCount={MAX_FILE_COUNT}
         showUploadList={{

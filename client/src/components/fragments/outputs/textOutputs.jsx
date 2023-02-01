@@ -48,11 +48,11 @@ export function MainDocumentInformation({
   if (isError) return <SimpleError />;
   return (
     <>
+      <HeaderTextOutput text="Главная информация" />
       <p>
-        Наименование документа: <b>{documentName}</b>
-      </p>
-      <p>
-        Тип документа: <b>{typeName}</b>
+        <b>Наименование документа:</b> {documentName}
+        <br />
+        <b>Тип документа:</b> {typeName}
       </p>
     </>
   );

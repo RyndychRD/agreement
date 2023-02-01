@@ -82,4 +82,16 @@ export default class DocumentTypesViewsService {
     );
     return response.data;
   }
+
+  static async delete(values) {
+    console.log("вызов в DocumentTypesViewsService -> Удалить запись", values);
+    const response = await api.delete(
+      `${this.API_ROUTE}?id=${values.type_view_id}`
+    );
+    console.log(
+      "вызов в DocumentTypesViewsService -> Удалить запись -> результат",
+      response
+    );
+    return response.data;
+  }
 }

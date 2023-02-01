@@ -107,12 +107,11 @@ export function DocumentRoutesEdit(props) {
   const { routeSteps, documentId } = props;
   const [open, setOpen] = useState(false);
   return (
-    <>
+    <div>
       <Button
         onClick={() => {
           setOpen(true);
         }}
-        className="mt-5"
       >
         Изменить маршрут
       </Button>
@@ -122,6 +121,6 @@ export function DocumentRoutesEdit(props) {
         routeSteps={routeSteps}
         documentId={documentId}
       />
-    </>
+    </div>
   );
 }

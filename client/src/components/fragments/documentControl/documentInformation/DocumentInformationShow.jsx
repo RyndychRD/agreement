@@ -1,10 +1,8 @@
+import { Alert } from "antd";
 import { useGetDocumentIODictionaryElementsHook } from "../../../../core/redux/api/AdminSettings/Constructor/formConstructor/DocumentIODictionaryElementApi";
 import SimpleSpinner from "../../messages/Spinner";
 import SimpleError from "../../messages/Error";
-import {
-  HeaderTextOutput,
-  TextOutputWithLabel,
-} from "../../outputs/textOutputs";
+import { TextOutputWithLabel } from "../../outputs/textOutputs";
 import { renderDate } from "../../tables/CommonFunctions";
 import TextValueOfTable from "../../outputs/tableOutputs";
 
@@ -17,8 +15,8 @@ export default function DocumentInformationShow(props) {
     isError: isErrorDictionary,
   } = useGetDocumentIODictionaryElementsHook();
   if (!data || data.length === 0)
-    return <HeaderTextOutput text="Данные документа отсутствуют" />;
-  const result = [<HeaderTextOutput text="Данные документа" />];
+    return <Alert type="error" message="Данные документа отсутствуют" />;
+  const result = [];
   if (!isLoadingDictionary && !isErrorDictionary) {
     data.forEach((dataStep, index) => {
       const dataStepDictElement = DocumentIODictionaryElements.find(
