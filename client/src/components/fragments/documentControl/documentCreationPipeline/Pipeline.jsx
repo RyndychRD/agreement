@@ -40,6 +40,8 @@ export default function DocumentCreationPipeline() {
   const closeModal = () => {
     pipelineDispatch(clearDocumentCreation());
     tableDispatch({ type: "closeAllModal" });
+    // Убрать подтверждение закрытия страницы
+    window.onbeforeunload = null;
   };
 
   const onCancel = () =>
