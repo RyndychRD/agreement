@@ -124,7 +124,7 @@ const getDocumentFilePath = async (
   //Иначе конструируем его самостоятельно
   if (documentId) {
     const fileNameSplit = fileName.split(".");
-    const result = `${fileNameSplit[0]}_${fileUuid}${fileNameSplit[1]}`;
+    const result = `${fileNameSplit[0]}_${fileUuid}.${fileNameSplit[1]}`;
     return path.join(
       await getDocumentFileDirectoryPath({ documentId }, isWithStoragePath),
       result
