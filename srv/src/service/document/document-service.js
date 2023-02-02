@@ -5,7 +5,12 @@ const DocumentFilesModel = require("../../models/document/document-file-model");
 const DevTools = require("../DevTools");
 const { getOneUser } = require("../catalogServices/user-service");
 const fs = require("fs");
-const { getFileHash } = require("../file-service");
+const {
+  getFileHash,
+  getDocumentFilePath,
+  getDocumentFileDirectoryPath,
+  getDocumentFileTempPath,
+} = require("../file-service");
 const NotificationService = require("../notification/notification-service");
 
 function getCurrentSigner(document) {
@@ -142,18 +147,28 @@ class DocumentService {
   async createDocumentFiles(body, documentId, uploaderId) {
     if (!body?.documentFiles) return null;
     const insertArray = [];
-    const documentPath = `${process.env.FILE_STORAGE_PATH}\\${documentId}`;
-    DevTools.createFolderIfNotExist(documentPath);
-    body.documentFiles.forEach((file) => {
-      const tempFilePath = `${process.env.FILE_TEMP_STORAGE_PATH}\\${file.response.savedFileName}`;
+
+    DevTools.createFolderIfNotExist(
+      await getDocumentFileDirectoryPath({
+        documentId,
+      })
+    );
+
+    await body.documentFiles.forEach(async (file) => {
+      const tempFilePath = getDocumentFileTempPath(file.response.savedFileName);
+      const storageFilePath = await getDocumentFilePath({
+        documentId,
+        fileUuid: file.response.savedFileName,
+        fileName: file.response.originalName,
+      });
       // Считаем хэш до перемещение файла. Подсчет синхронный
       const hash = getFileHash(tempFilePath);
-
       // Передвигаем файл в место постоянного хранения. Функция ассинхронна, дожидаться завершения не будет
-      const storageFilePath = `${documentPath}\\${file.response.savedFileName}`;
       // TODO: Сделать нормальную обработку ошибки
       fs.rename(tempFilePath, storageFilePath, function (err) {
-        if (err) console.error(err);
+        if (err) {
+          console.log(err);
+        }
       });
 
       insertArray.push({
@@ -162,7 +177,14 @@ class DocumentService {
         type: file.type,
         uniq: file.response.savedFileName,
         uploader_id: uploaderId,
-        path: storageFilePath,
+        path: await getDocumentFilePath(
+          {
+            documentId,
+            fileUuid: file.response.savedFileName,
+            fileName: file.response.originalName,
+          },
+          false
+        ),
         size: file.size,
         hash: hash,
       });

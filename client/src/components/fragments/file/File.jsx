@@ -3,16 +3,14 @@ import openNotification from "../messages/Notification";
 
 export async function handlePreview(props) {
   const { file, isTempFile = true } = props;
-  // Если файл еще не полностью загрузился, не отображаем превью
+  // Если файл еще не полностью загрузился, не отображаем превью. Только для временных файлов. После сохранения в документ проверка не работает
   if (file.percent !== 100 && isTempFile) return;
   openNotification(
     "Подготовка к предпросмотру",
     "Файл подготавливается к предпросмотру"
   );
-  console.log(file);
   const filePdf = await FileService.getFile({
     isTempFile,
-    documentId: file?.document_id,
     fileUuid: file.response?.savedFileName
       ? file.response.savedFileName
       : file.uniq,
@@ -27,12 +25,10 @@ export async function handlePreview(props) {
 
 export function handleDownload(props) {
   const { file, isTempFile = true } = props;
-  // Если файл еще не полностью загрузился, не отображаем превью
+  // Если файл еще не полностью загрузился, не отображаем превью. Только для временных файлов. После сохранения в документ проверка не работает
   if (file.percent !== 100 && isTempFile) return;
-  console.log(file);
   FileService.getFile({
     isTempFile,
-    documentId: file?.document_id,
     fileUuid: file.response?.savedFileName
       ? file.response.savedFileName
       : file.uniq,
