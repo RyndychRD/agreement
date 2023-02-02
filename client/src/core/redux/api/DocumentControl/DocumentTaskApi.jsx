@@ -11,7 +11,7 @@ export const documentTasksApi = createApi({
     getMyDocumentTasks: build.query({
       queryFn: async ({ isAddForeignTables = false }) => {
         try {
-          const response = await DocumentTasksService.getMyTasks({
+          const response = await DocumentTasksService.getMyDocumentTasks({
             isAddForeignTables,
           });
           return { data: response };

@@ -1,7 +1,7 @@
 //Доступ в БД
 const knexConfig = require("../../../db/knexfile");
 
-class DocumentIsReadSchema {
+class DocumentNotificationIsReadSchema {
   constructor() {
     this.knexProvider = require("knex")(knexConfig[process.env.NODE_ENV]);
   }
@@ -38,4 +38,4 @@ class DocumentIsReadSchema {
   }
 }
 
-module.exports = new DocumentIsReadSchema();
+module.exports = new DocumentNotificationIsReadSchema();

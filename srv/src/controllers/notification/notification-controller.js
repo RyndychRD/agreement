@@ -1,9 +1,9 @@
-const DocumentReadNotificationService = require("../../service/notification/document-read-notification-service");
+const DocumentNotificationService = require("../../service/notification/document-read-notification-service");
 
-class DocumentReadNotificationController {
+class DocumentNotificationController {
   async getNotificationCount(req, res, next) {
     try {
-      const data = await DocumentReadNotificationService.getNotificationCount(
+      const data = await DocumentNotificationService.getNotificationCount(
         req.user.id,
         req?.query
       );
@@ -15,7 +15,7 @@ class DocumentReadNotificationController {
 
   async readNotifications(req, res, next) {
     try {
-      const data = await DocumentReadNotificationService.readNotifications(
+      const data = await DocumentNotificationService.readNotifications(
         req.user.id,
         req?.query
       );
@@ -26,4 +26,4 @@ class DocumentReadNotificationController {
   }
 }
 
-module.exports = new DocumentReadNotificationController();
+module.exports = new DocumentNotificationController();

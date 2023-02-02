@@ -13,7 +13,7 @@ exports.up = function (knex) {
     })
     .alterTable("document_tasks", function (table) {
       table
-        .integer("status_id")
+        .integer("document_task_status_id")
         .comment("Ссылка на статус поручения")
         .references("document_task_statuses.id")
         .onDelete("SET NULL");
@@ -27,7 +27,7 @@ exports.up = function (knex) {
 exports.down = function (knex) {
   return knex.schema
     .alterTable("document_tasks", function (table) {
-      table.dropColumn("status_id");
+      table.dropColumn("document_task_status_id");
     })
     .dropTableIfExists("document_task_statuses");
 };

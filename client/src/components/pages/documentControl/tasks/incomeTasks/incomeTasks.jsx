@@ -13,9 +13,9 @@ export default function IncomeTasks() {
       "document_task_id",
       "document_task_problem",
       "document_task_status",
-      "document_task_created_at",
       "document_task_due_at",
       "document_task_creator",
+      "document_task_created_at",
     ],
   };
   //   /**
