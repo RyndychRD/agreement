@@ -10,7 +10,7 @@ import DocumentInformationFragment from "../documentControl/documentInformation/
 import RouteStepsFragment from "../documentControl/documentRoute/RouteStepsFragment";
 import DocumentFilesFragment from "../documentControl/documentFiles/DocumentFilesFragment";
 import DocumentRemark from "../documentControl/documentRemark/DocumentRemark";
-import NotificationService from "../../../services/DocumentServices/NotificationService";
+import NotificationService from "../../../services/DocumentControlServices/NotificationService";
 
 export default function ModalDocumentView(props) {
   const {

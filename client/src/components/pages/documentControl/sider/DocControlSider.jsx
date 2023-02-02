@@ -47,10 +47,10 @@ function getSigningBlock() {
 }
 
 function getTaskBlock() {
-  return null;
-  // getItem("Задачи", "Tasks", null, [
-  //   isAccessGranted("IncomeTasks") ? getItem("Входящие", "FILL_ME") : null,
-  // ]),
+  if (!isAnyAccessGranted(["IncomeTasks"])) return null;
+  return getItem("Задачи", "Tasks", null, [
+    isAccessGranted("IncomeTasks") ? getLink("my_tasks") : null,
+  ]);
 }
 
 function getAdminBlock() {
@@ -75,7 +75,7 @@ export default function Sider() {
         defaultSelectedKeys={window.location.pathname}
         className="siderMenu"
         mode="inline"
-        defaultOpenKeys={["UserDocuments", "Signing", "AdminDocs"]}
+        defaultOpenKeys={["UserDocuments", "Signing", "AdminDocs", "Tasks"]}
         items={items}
       />
     </LayoutSider>

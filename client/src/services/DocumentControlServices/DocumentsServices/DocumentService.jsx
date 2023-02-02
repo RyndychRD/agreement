@@ -1,5 +1,5 @@
-import { api } from "../../http/index";
-import { userNameMask } from "../CommonFunctions";
+import { api } from "../../../http/index";
+import { userNameMask } from "../../CommonFunctions";
 
 export default class DocumentService {
   static API_ROUTE = "/documents";

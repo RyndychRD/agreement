@@ -1,17 +1,9 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
-import NotificationService from "../../../../services/DocumentServices/NotificationService";
+import NotificationService from "../../../../services/DocumentControlServices/NotificationService";
 
 export const notificationsApi = createApi({
   reducerPath: "notificationsApi",
-  tagTypes: [
-    "RejectedDocument",
-    "ReworkDocument",
-    "ApprovedDocument",
-    "OnRegistrationDocument",
-    "OOPZDocument",
-    "CompletedDocument",
-    "Signing",
-  ],
+  tagTypes: ["ReworkDocument", "Signing"],
   endpoints: (build) => ({
     getUnreadNotificationsByType: build.query({
       queryFn: async (props) => {

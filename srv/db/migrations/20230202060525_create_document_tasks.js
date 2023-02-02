@@ -27,7 +27,7 @@ exports.up = function (knex) {
       .integer("step_num")
       .comment("На каком этапе подписания создали задачу")
       .unsigned();
-    table.text("task").comment("Текст поручения по задаче");
+    table.text("problem").comment("Текст поручения по задаче");
     table.text("result").comment("Текст отчета по задаче");
     table
       .timestamp("due_at")

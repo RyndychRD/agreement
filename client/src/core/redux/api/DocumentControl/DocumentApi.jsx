@@ -1,8 +1,8 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
-import DocumentService from "../../../../services/DocumentServices/DocumentService";
-import DocumentRouteService from "../../../../services/DocumentServices/DocumentRouteService";
-import DocumentValuesService from "../../../../services/DocumentServices/DocumentValuesService";
-import DocumentFilesService from "../../../../services/DocumentServices/DocumentFilesService";
+import DocumentService from "../../../../services/DocumentControlServices/DocumentsServices/DocumentService";
+import DocumentRouteService from "../../../../services/DocumentControlServices/DocumentsServices/DocumentRouteService";
+import DocumentValuesService from "../../../../services/DocumentControlServices/DocumentsServices/DocumentValuesService";
+import DocumentFilesService from "../../../../services/DocumentControlServices/DocumentsServices/DocumentFilesService";
 import { SIGN_STEP_BACK_TYPE_ID } from "../../../../components/fragments/documentControl/documentRoute/RouteStepFragmentProvider";
 
 const TAG_TYPE_DOCUMENT = "Documents";

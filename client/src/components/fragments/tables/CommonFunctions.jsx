@@ -11,7 +11,7 @@ import { ARow, ACol, ASpan, ADiv, AButton, AAlert, ATag } from "../../adapter";
  * @returns
  */
 export const filterData = (data) => (formatter) =>
-  data.map((item) => ({
+  data?.map((item) => ({
     text: formatter(item),
     value: formatter(item),
   }));
