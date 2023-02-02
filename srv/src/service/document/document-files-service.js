@@ -1,10 +1,11 @@
 const DocumentFilesModels = require("../../models/document/document-file-model");
 const DevTools = require("../DevTools");
 const { isFileHashChanged } = require("../file-service");
+const path = require("path");
 
 class DocumentFilesService {
   async getOneDocumentFiles(query) {
-    const func = DocumentFilesModels.findOneDocumentFiles({
+    const func = DocumentFilesModels.findFiles({
       filter: {
         document_id: query.documentId,
       },
@@ -13,8 +14,7 @@ class DocumentFilesService {
     //После получения списка файлов проверяем хеш каждого файла
     const result = files.map((file) => {
       const isHashChanged = isFileHashChanged({
-        fileUuid: file.uniq,
-        documentId: query.documentId,
+        path: path.join(process.env.FILE_STORAGE_PATH, file.path),
         hash: file.hash,
       });
       if (isHashChanged) {

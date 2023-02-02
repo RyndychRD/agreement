@@ -10,6 +10,7 @@ import {
 } from "../../../../core/redux/reducers/documentCreationPipelineReducer";
 import FBConstructForm from "../../../formBuilder/ElementsFormBuilder/FBCustomInput";
 import { useGetDocumentTypeViewByDocumentTypeHook } from "../../../../core/redux/api/AdminSettings/Constructor/formConstructor/DocumentTypesViewsApi";
+import RestoreButton from "./RestoreButton";
 
 /**
  * @return Модальное окно для создания нового документа
@@ -63,6 +64,20 @@ export default function DocumentCreationPipelineFormConstruct({
         typeName={type.name}
       />
       <HeaderTextOutput text="Конструктор формы" />
+      <RestoreButton
+        isShow={
+          !(
+            isLoadingDocumentTypeView ||
+            isLoadingType ||
+            isErrorDocumentTypeView
+          )
+        }
+        onClick={() => {
+          form.setFieldsValue({
+            elementsOrder: DocumentTypeViewByDocumentType?.view?.elements_order,
+          });
+        }}
+      />
       <Form form={form} name="">
         <FBConstructForm
           isError={isErrorDocumentTypeView}

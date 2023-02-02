@@ -34,19 +34,16 @@ export default function RejectedDocument() {
 
   if (!isAccessGranted("RejectedDocuments")) return <Error403 />;
   return (
-    <>
-      {/* <FormBuilder /> */}
-      <TableModalProvider>
-        <DocumentControlTableViewer
-          isLoading={isLoading}
-          isError={isError}
-          columns={columns}
-          dataSource={data ? DocumentService.prepareForTable(data) : null}
-          title="Отклоненные документы"
-          buttons={["update"]}
-        />
-        <UpdateButtonModel />
-      </TableModalProvider>
-    </>
+    <TableModalProvider>
+      <DocumentControlTableViewer
+        isLoading={isLoading}
+        isError={isError}
+        columns={columns}
+        dataSource={data ? DocumentService.prepareForTable(data) : null}
+        title="Отклоненные документы"
+        buttons={["update"]}
+      />
+      <UpdateButtonModel />
+    </TableModalProvider>
   );
 }

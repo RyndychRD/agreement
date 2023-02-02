@@ -42,6 +42,8 @@ export const documentCreationSlice = createSlice({
     clearDocumentCreation: (state) => {
       state.currentModal = initialState.currentModal;
       state.pipelineModals = initialState.pipelineModals;
+      // Убрать подтверждение закрытия страницы
+      window.onbeforeunload = null;
     },
   },
 });

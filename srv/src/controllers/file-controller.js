@@ -22,8 +22,14 @@ class DocumentFileController {
   }
 
   static async getFile(req, res) {
-    const { isTempFile, fileUuid, isConvertToPdf, isPDF, documentId } =
-      req.query;
+    const {
+      isTempFile,
+      fileUuid,
+      isConvertToPdf,
+      isPDF,
+      documentId,
+      filePath,
+    } = req.query;
     await getFile(
       {
         isTempFile: isTempFile === "true",
@@ -31,6 +37,7 @@ class DocumentFileController {
         documentId,
         isConvertToPdf: isConvertToPdf === "true",
         isPDF: isPDF === "true",
+        filePath,
       },
       res
     );

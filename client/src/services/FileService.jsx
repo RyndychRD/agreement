@@ -4,18 +4,11 @@ import { api } from "../http/index";
 
 export default class FileService {
   static async getFile(props) {
-    const {
-      isTempFile,
-      fileUuid,
-      fileName,
-      isConvertToPdf,
-      isPDF,
-      documentId = "",
-    } = props;
+    const { isTempFile, fileUuid, fileName, isConvertToPdf, isPDF } = props;
     console.log("вызов в FileService -> getFile c параметрами", props);
 
     const response = await api.get(
-      `/files?isTempFile=${isTempFile}&fileUuid=${fileUuid}&isConvertToPdf=${isConvertToPdf}&isPDF=${isPDF}&documentId=${documentId}`,
+      `/files?fileUuid=${fileUuid}&isTempFile=${isTempFile}&isConvertToPdf=${isConvertToPdf}&isPDF=${isPDF}`,
       {
         responseType: "blob",
       }

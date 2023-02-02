@@ -40,20 +40,17 @@ export default function AllDocuments() {
 
   if (!isAccessGranted("Admin")) return <Error403 />;
   return (
-    <>
-      {/* <FormBuilder /> */}
-      <TableModalProvider>
-        <DocumentControlTableViewer
-          isLoading={isLoading}
-          isError={isError}
-          columns={columns}
-          dataSource={data ? DocumentService.prepareForTable(data) : null}
-          title="Все документы"
-          buttons={["update", "delete"]}
-        />
-        <UpdateButtonModel />
-        <DeleteButtonAction />
-      </TableModalProvider>
-    </>
+    <TableModalProvider>
+      <DocumentControlTableViewer
+        isLoading={isLoading}
+        isError={isError}
+        columns={columns}
+        dataSource={data ? DocumentService.prepareForTable(data) : null}
+        title="Все документы"
+        buttons={["update", "delete"]}
+      />
+      <UpdateButtonModel />
+      <DeleteButtonAction />
+    </TableModalProvider>
   );
 }
