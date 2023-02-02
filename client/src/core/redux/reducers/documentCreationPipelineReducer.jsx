@@ -7,9 +7,9 @@ const initialState = {
   // В текущей реализации DocumentPreview обязателен, на нем происходит сохранение данных
   pipelineModals: [
     { modal: "MainModal", json: {} },
-    // { modal: "FormConstruct", json: {} },
-    // { modal: "FormFill", json: {} },
-    // { modal: "RouteConstruct", json: {} },
+    { modal: "FormConstruct", json: {} },
+    { modal: "FormFill", json: {} },
+    { modal: "RouteConstruct", json: {} },
     { modal: "DocumentPreview" },
   ],
   currentModal: 0,
