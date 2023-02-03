@@ -8,10 +8,10 @@ export const documentTasksApi = createApi({
   tagTypes: [TAG_TYPE],
   keepUnusedDataFor: 1,
   endpoints: (build) => ({
-    getMyDocumentTasks: build.query({
+    getIncomeDocumentTasks: build.query({
       queryFn: async ({ isAddForeignTables = false }) => {
         try {
-          const response = await DocumentTasksService.getMyDocumentTasks({
+          const response = await DocumentTasksService.getIncomeDocumentTasks({
             isAddForeignTables,
           });
           return { data: response };
@@ -30,6 +30,7 @@ export const documentTasksApi = createApi({
   }),
 });
 
-export const { useGetMyDocumentTasksQuery } = documentTasksApi;
+export const { useGetIncomeDocumentTasksQuery } = documentTasksApi;
 
-export const useGetMyDocumentTasksQueryHook = useGetMyDocumentTasksQuery;
+export const useGetIncomeDocumentTasksQueryHook =
+  useGetIncomeDocumentTasksQuery;

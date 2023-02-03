@@ -22,7 +22,7 @@ export default class DocumentTasksService {
     }
   }
 
-  static async getMyDocumentTasks({ isAddForeignTables }) {
+  static async getIncomeDocumentTasks({ isAddForeignTables }) {
     console.log(`вызов в DocumentTasksService -> Взять мои поручения`);
     const response = await api.get(
       `${this.API_ROUTE}/my-tasks?isAddForeignTables=${isAddForeignTables}`

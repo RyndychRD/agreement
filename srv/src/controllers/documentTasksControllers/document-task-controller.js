@@ -1,9 +1,9 @@
 const DocumentTasksService = require("../../service/documentTasksService/document-task-service");
 
 class DocumentTasksController {
-  async getMyDocumentTasks(req, res, next) {
+  async getIncomeDocumentTasks(req, res, next) {
     try {
-      const data = await DocumentTasksService.getMyDocumentTasks(
+      const data = await DocumentTasksService.getIncomeDocumentTasks(
         req.user.id,
         req?.query
       );

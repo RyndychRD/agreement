@@ -5,6 +5,6 @@ const authMiddleware = require("../../middlewares/auth-middleware");
 const rightMiddleware = require("../../middlewares/right-middleware");
 
 // prettier-ignore
-router.get("/my-tasks",authMiddleware, rightMiddleware(),DocumentTasksController.getMyDocumentTasks);
+router.get("/my-tasks",authMiddleware, rightMiddleware(),DocumentTasksController.getIncomeDocumentTasks);
 
 module.exports = router;
