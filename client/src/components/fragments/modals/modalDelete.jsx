@@ -1,4 +1,5 @@
-import { AModal, ASpan } from "../../adapter";
+import { Modal } from "antd";
+import { ASpan } from "../../adapter";
 import SimpleError from "../messages/Error";
 import SimpleSpinner from "../messages/Spinner";
 import {
@@ -43,9 +44,17 @@ function getDeleteMessage({ customDeleteForm, deleteText }) {
  * @param {*} object.children Кастомная форма для отображения при удалении. Если не передана, заполняем стандартную форму текстом deleteText
  * @returns
  */
-export default function ModalDelete({ deleteMutation, deleteText, children }) {
-  const state = useTableModalsState();
-  const dispatch = useTableModalDispatch();
+export default function ModalDelete({
+  deleteMutation,
+  deleteText,
+  children,
+  customState,
+  customDispatch,
+}) {
+  const standardState = useTableModalsState();
+  const standardDispatch = useTableModalDispatch();
+  const state = customState ? customState() : standardState;
+  const dispatch = customDispatch ? customDispatch() : standardDispatch;
   const isOpen = state.isShowDeleteModal && state.currentRow;
   const [deleteFunc, { isLoading, isError, reset }] = deleteMutation();
 
@@ -66,7 +75,7 @@ export default function ModalDelete({ deleteMutation, deleteText, children }) {
   });
 
   return (
-    <AModal
+    <Modal
       okText="Удалить"
       cancelText="Отмена"
       onOk={onFinish}
@@ -79,6 +88,6 @@ export default function ModalDelete({ deleteMutation, deleteText, children }) {
       {isLoading ? <SimpleSpinner /> : ""}
       {isError ? <SimpleError /> : ""}
       {!isLoading && !isError && isOpen ? deleteMessage : ""}
-    </AModal>
+    </Modal>
   );
 }

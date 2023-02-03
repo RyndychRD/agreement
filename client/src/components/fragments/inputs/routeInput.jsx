@@ -4,21 +4,10 @@ import { useGetUsersQueryHook } from "../../../core/redux/api/Globals/Catalogs/U
 import ButtonAddComponentOnForm from "../../formBuilder/ElementsFormBuilder/formConstructElements/FBButtonAddComponentOnForm";
 import ButtonOnCarts from "../../formBuilder/ElementsFormBuilder/formConstructElements/FBButtonOnCartsForm";
 import SelectInputFormItem from "./selectInputs";
-import { userNameMask } from "../../../services/CommonFunctions";
 import SimpleSpinner from "../messages/Spinner";
 import SimpleError from "../messages/Error";
+import { getUserNameAndPositionOptionsForSelect } from "../../../services/CommonFunctions";
 
-function getUserOptions(usersTemp, isUserRequired) {
-  const result = isUserRequired ? [] : [{ id: -1, name: "По умолчанию" }];
-  if (Object.keys(usersTemp).length === 0) return result;
-  return result.concat(
-    usersTemp?.map((user) => ({
-      id: user.id,
-      // prettier-ignore
-      name: `${userNameMask(user)}, ${isUserRequired ? user.position_name : ""}`,
-    }))
-  );
-}
 /**
  * Ожидается, что этот фрагмент будет вызван внутри формы. Сама форма может иметь в себе заполненные поля
  * Если У формы заполнен массив routeSteps в формате
@@ -78,7 +67,10 @@ export default function RouteFormList(props) {
                   isLoading={isLoadingUsers}
                   isError={isErrorUsers}
                   name={[name, `specified_signer_id`]}
-                  options={getUserOptions(users, isUserRequired)}
+                  options={getUserNameAndPositionOptionsForSelect(
+                    users,
+                    isUserRequired
+                  )}
                   rules={[
                     {
                       required: isUserRequired,

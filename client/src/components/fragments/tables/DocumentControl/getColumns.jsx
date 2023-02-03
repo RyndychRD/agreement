@@ -121,7 +121,7 @@ export default function getColumns({ dataSource, columns }) {
       dataIndex: "document_task_id",
       align: "center",
       defaultSortOrder: "descend",
-      sorter: (a, b) => sorterInt(a?.document_id, b?.document_id),
+      sorter: (a, b) => sorterInt(a?.document_task_id, b?.document_task_id),
     },
     document_task_creator: {
       title: "ФИО поручителя",
@@ -136,6 +136,19 @@ export default function getColumns({ dataSource, columns }) {
       onFilter: (value, record) =>
         record?.document_task_creator?.indexOf(value) === 0,
     },
+    document_task_executor: {
+      title: "Исполнитель",
+      dataIndex: "document_task_executor",
+      align: "center",
+      sorter: (a, b) =>
+        sorterStringAlphabet(
+          a?.document_task_executor,
+          b?.document_task_executor
+        ),
+      filters: filterDataStringSorted(dataSource, "document_task_executor"),
+      onFilter: (value, record) =>
+        record?.document_task_executor?.indexOf(value) === 0,
+    },
     document_task_created_at: {
       title: "Дата и время создания",
       dataIndex: "document_task_created_at",
@@ -148,7 +161,7 @@ export default function getColumns({ dataSource, columns }) {
       dataIndex: "document_task_due_at",
       align: "center",
       sorter: (a, b) => sorterDate(a, b),
-      render: (value) => renderDate(value),
+      render: (value) => renderDate(value, false),
     },
     document_task_status: {
       title: "Статус",

@@ -32,6 +32,7 @@ export default function ModalUpdate({
   CreateUpdateForm,
   formDefaultValues,
   preFinishFunc = null,
+  isAddForeignTables = false,
 }) {
   const state = useTableModalsState();
   const dispatch = useTableModalDispatch();
@@ -51,6 +52,7 @@ export default function ModalUpdate({
     currentRow: state?.currentRow,
     isStart: state.isShowUpdateModal,
     isAddRights: true,
+    isAddForeignTables,
   });
 
   /**
@@ -112,7 +114,7 @@ export default function ModalUpdate({
       {isLoading ? <SimpleSpinner /> : ""}
       {isError ? <SimpleError /> : ""}
       {!isLoading && !isError && isOpen ? (
-        <CreateUpdateForm form={form} isAddUpdateOnlyFields />
+        <CreateUpdateForm form={form} rawData={data} isAddUpdateOnlyFields />
       ) : (
         ""
       )}

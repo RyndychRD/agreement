@@ -25,9 +25,15 @@ export default function DocumentControlTableViewer({
   isError = false,
   buttons = ["create", "update", "delete"],
   notificationType,
+  customDispatch,
+  customState,
 }) {
-  const state = useTableModalsState();
-  const dispatch = useTableModalDispatch();
+  // Для переиспользования компонента мы можем передать кастомный диспатчер и стате. Но по дефолту нам подходит обычный для таблиц
+  const standardState = useTableModalsState();
+  const standardDispatch = useTableModalDispatch();
+  const state = customState ? customState() : standardState;
+  const dispatch = customDispatch ? customDispatch() : standardDispatch;
+
   const { data: documentNotificationIds, isLoading: isLoadingNotifications } =
     useGetUnreadNotificationsByTypeQueryHook(
       { notificationType, isGetNotificationCount: false },

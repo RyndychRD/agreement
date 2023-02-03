@@ -23,7 +23,7 @@ export function TextOutputWithLabel({
   return (
     <div key={keyIn} className={className}>
       <span>
-        {label}:{text}
+        {label}: {text}
       </span>
     </div>
   );

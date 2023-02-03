@@ -14,6 +14,7 @@ exports.up = function (knex) {
     .alterTable("document_tasks", function (table) {
       table
         .integer("document_task_status_id")
+        .defaultTo(1)
         .comment("Ссылка на статус поручения")
         .references("document_task_statuses.id")
         .onDelete("SET NULL");

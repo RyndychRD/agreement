@@ -28,6 +28,24 @@ class DocumentTaskSchema {
     if (isAddForeignTables) query = this.addForeignTablesInformation(query);
     return await query;
   }
+  async getDocumentTask({ filter, isAddForeignTables }) {
+    let query = this.knexProvider("document_tasks").first("document_tasks.*");
+    if (filter) query = query.where(filter);
+    if (isAddForeignTables) query = this.addForeignTablesInformation(query);
+    return await query;
+  }
+
+  async create(documentTask) {
+    return await this.knexProvider("document_tasks").insert(documentTask);
+  }
+  async delete(filter) {
+    return await this.knexProvider("document_tasks").where(filter).delete();
+  }
+  async update(filter, documentTask) {
+    return await this.knexProvider("document_tasks")
+      .where(filter)
+      .update(documentTask);
+  }
 }
 
 module.exports = new DocumentTaskSchema();

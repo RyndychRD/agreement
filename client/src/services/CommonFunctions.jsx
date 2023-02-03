@@ -27,3 +27,22 @@ export function userNameMask(user) {
     user?.middle_name ? `${user?.middle_name}.` : ""
   }`;
 }
+
+export function getUserNameAndPositionOptionsForSelect(
+  usersTemp,
+  isUserPositionRequired = false,
+  isAddDefaultValue = true
+) {
+  const result =
+    isUserPositionRequired || !isAddDefaultValue
+      ? []
+      : [{ id: -1, name: "По умолчанию" }];
+  if (Object.keys(usersTemp).length === 0) return result;
+  return result.concat(
+    usersTemp?.map((user) => ({
+      id: user.id,
+      // prettier-ignore
+      name: `${userNameMask(user)} ${isUserPositionRequired ? `, ${user?.position_name}` : ""}`,
+    }))
+  );
+}

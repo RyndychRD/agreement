@@ -11,12 +11,14 @@ import RouteStepsFragment from "../documentControl/documentRoute/RouteStepsFragm
 import DocumentFilesFragment from "../documentControl/documentFiles/DocumentFilesFragment";
 import DocumentRemark from "../documentControl/documentRemark/DocumentRemark";
 import NotificationService from "../../../services/DocumentControlServices/NotificationService";
+import DocumentTasksFragment from "../documentControl/documentTasks/DocumentTasksFragment";
 
 export default function ModalDocumentView(props) {
   const {
     notificationType = "",
     isAbleToSign = false,
     isAbleToEdit = false,
+    isShowDocumentTasks = false,
   } = props;
   const state = useTableModalsState();
   const dispatch = useTableModalDispatch();
@@ -39,6 +41,7 @@ export default function ModalDocumentView(props) {
   if (isOpen)
     return (
       <Modal
+        width={isShowDocumentTasks ? 1000 : 500}
         open={isOpen}
         onCancel={onCancel}
         footer={[
@@ -73,6 +76,11 @@ export default function ModalDocumentView(props) {
           documentStatusId={state.currentRow?.document_status_id}
           documentRemark={state.currentRow?.document_remark}
         />
+        {isShowDocumentTasks ? (
+          <DocumentTasksFragment documentId={state.currentRow?.document_id} />
+        ) : (
+          ""
+        )}
       </Modal>
     );
 }
