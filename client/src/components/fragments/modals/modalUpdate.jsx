@@ -50,7 +50,7 @@ export default function ModalUpdate({
     isError: isErrorGet,
   } = getQuery({
     currentRow: state?.currentRow,
-    isStart: state.isShowUpdateModal,
+    isStart: state.isShowUpdateModal && state?.currentRow,
     isAddRights: true,
     isAddForeignTables,
   });

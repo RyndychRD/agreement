@@ -29,7 +29,11 @@ export default function ShowButtonModel() {
     dispatch({ type: "closeAllModal" });
   };
   return (
-    <Modal footer={<Button onClick={onCancel}>Отмена</Button>} open={isOpen}>
+    <Modal
+      footer={<Button onClick={onCancel}>Закрыть</Button>}
+      onCancel={onCancel}
+      open={isOpen}
+    >
       {isLoading ? <SimpleSpinner /> : ""}
       {isError ? <SimpleError /> : ""}
       {!isLoading && !isError && isOpen ? (

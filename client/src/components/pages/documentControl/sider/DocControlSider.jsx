@@ -1,7 +1,7 @@
 /** @format */
 
 import Layout from "antd/es/layout/layout";
-import { AMenu } from "../../../adapter";
+import { Menu } from "antd";
 import {
   isAccessGranted,
   isAnyAccessGranted,
@@ -70,8 +70,8 @@ export default function Sider() {
     getAdminBlock(),
   ];
   return (
-    <LayoutSider theme="dark" collapsible>
-      <AMenu
+    <LayoutSider theme="dark">
+      <Menu
         defaultSelectedKeys={window.location.pathname}
         className="siderMenu"
         mode="inline"

@@ -66,6 +66,7 @@ export default function DocumentControlTableViewer({
 
   return (
     <ATable
+      scroll={{ x: "1000" }}
       key="keyDocumentControlTableViewer"
       columns={getColumns({ dataSource, columns })}
       dataSource={dataSource}

@@ -1,7 +1,7 @@
 /** @format */
 
+import { Menu } from "antd";
 import Layout from "antd/es/layout/layout";
-import { AMenu } from "../../../adapter";
 import getLink, { getItem } from "./linkDict";
 
 export default function AdminSider() {
@@ -22,7 +22,7 @@ export default function AdminSider() {
   ];
   return (
     <LayoutSider theme="dark" collapsible>
-      <AMenu
+      <Menu
         defaultSelectedKeys={window.location.pathname}
         className="siderMenu"
         mode="inline"

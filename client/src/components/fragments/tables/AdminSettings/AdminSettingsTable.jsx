@@ -66,6 +66,7 @@ export default function AdminSettingsTable({
 
   return (
     <ATable
+      scroll={{ x: "1000" }}
       key="keyAdminSettingsTable"
       columns={getColumns({ dataSource, columns })}
       dataSource={dataSource}
