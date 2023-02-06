@@ -6,7 +6,8 @@ import {
   nextStep,
   saveCurrentStepJson,
 } from "../../../../core/redux/reducers/documentCreationPipelineReducer";
-import FileInput from "../../file/FragmentFileUploader";
+import FragmentFileUploader from "../../file/FragmentFileUploader";
+import FileService from "../../../../services/FileService";
 
 /**
  * @return Модальное окно для создания нового документа
@@ -27,14 +28,7 @@ export default function DocumentCreationPipelineMainModal({
           typeId: values.typeId,
           typeName: types?.find((type) => type.id === values.typeId)?.name,
           // Передаем почти все значения файла, чтобы потом их использовать в предпросмотре. Удалил только не сериализуемые элементы
-          fileList: values.files.fileList.map((file) => ({
-            ...file,
-            // Вытаскиваем из респонса uuid, под которым сохранен файл
-            uniq: file.response.savedFileName,
-            lastModifiedDate: null,
-            originFileObj: null,
-            xhr: null,
-          })),
+          fileList: FileService.prepareFileListFromFormToSend(values),
         };
         form.resetFields();
         pipelineDispatch(saveCurrentStepJson(preparedValues));
@@ -76,7 +70,7 @@ export default function DocumentCreationPipelineMainModal({
             },
           ]}
         />
-        <FileInput />
+        <FragmentFileUploader />
       </Form>
     </Modal>
   );

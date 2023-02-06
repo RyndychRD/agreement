@@ -5,6 +5,7 @@ import {
 } from "../../outputs/textOutputs";
 import { userNameMask } from "../../../../services/CommonFunctions";
 import { renderDate } from "../../tables/CommonFunctions";
+import UploadList from "../../file/fileOutputs";
 
 export default function DocumentTasksShowBlock(props) {
   const { task } = props;
@@ -38,6 +39,19 @@ export default function DocumentTasksShowBlock(props) {
           <HeaderTextOutput text="Результат" />
 
           <SimpleTextOutput text={task?.result} />
+
+          {task?.files.length > 0 ? (
+            <>
+              <HeaderTextOutput text="Файлы, загруженные в результате выполнения поручения" />
+              <UploadList
+                fileList={task.files}
+                isTempFile={false}
+                key="uploadedDocumentTasksFilesList"
+              />
+            </>
+          ) : (
+            ""
+          )}
           <TextOutputWithLabel
             label="Дата и время завершения задачи"
             text={renderDate(task.finished_at)}

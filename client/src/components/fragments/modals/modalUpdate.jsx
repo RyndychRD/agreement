@@ -62,6 +62,7 @@ export default function ModalUpdate({
     form
       .validateFields()
       .then(async (values) => {
+        console.log(values);
         const preparedValues = preFinishFunc ? preFinishFunc(values) : values;
         await updateFunc({
           ...preparedValues,

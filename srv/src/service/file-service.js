@@ -10,6 +10,9 @@ const path = require("path");
 const DocumentFilesModel = require("../models/document/document-file-model");
 const DocumentModels = require("../models/catalogModels/document-models");
 const moment = require("moment/moment");
+const FilesModel = require("../models/catalogModels/files-model");
+const DocumentTaskFilesModel =
+  require("../models/documentTaskModels/document-task-files-model").default;
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -37,46 +40,77 @@ const singleUpload = multer({
   },
 }).single("uploadedFile");
 
+//Мы загружаем один файл и проверяем что загрузка у нас прошла успешно
+const fileUpload = (req, res) => {
+  const currentUser = req.user.id;
+  singleUpload(req, res, async function (err) {
+    //Не проверял правильность обработки ошибок
+    if (err) {
+      // prettier-ignore
+      res.status(500).send({error: { message: ` uploading error: ${err.message}` },}).end();
+    }
+
+    const file = {
+      name: req.file.originalname,
+      type: req.file.mimetype,
+      uniq: req.file.filename,
+      //Так как это временный файл, то путь его это просто название файла в свопе
+      path: req.file.filename,
+      uploader_id: currentUser,
+      hash: getFileHash(getFileTempPath(req.file.filename)),
+      size: req.file.size,
+    };
+    const newFileId = (await FilesModel.createOneFile({ file }))[0].id;
+
+    const response = JSON.stringify({
+      fileId: newFileId,
+    });
+    res.status(200).end(response);
+  });
+};
+
 /**
  * Здесь используется синхронное считывание файла, так как это проще. Будет проблема - будем решать
  * @param {*} param0
  */
-const getFile = async (
-  { isTempFile, fileUuid, isPDF, isConvertToPdf },
-  res
-) => {
-  const pathToFile = isTempFile
-    ? getDocumentFileTempPath(fileUuid)
-    : await getDocumentFilePath({ fileUuid, isFilePathSavedInDB: true });
-  try {
-    if (isConvertToPdf && !isPDF) {
-      const fileData = fs.readFileSync(pathToFile);
-      const fileDataPdf = await convertAnyFileToPdf(fileData);
-      //https://stackoverflow.com/questions/12755997/how-to-create-streams-from-string-in-node-js
-      const stream = new Readable();
-      stream.push(fileDataPdf);
-      stream.push(null);
-      stream.pipe(res);
-    } else {
-      if (!fs.existsSync(pathToFile)) throw Error;
-      const stream = fs.createReadStream(pathToFile);
-      res.set({
-        "Content-Disposition": `attachment; filename='${fileUuid}'`,
-      });
-      stream.pipe(res);
-    }
-  } catch (e) {
-    console.log(`Файл по пути ${pathToFile} не найден`);
-    res
-      .status(404)
-      .json({ message: `Файл по пути ${pathToFile} не найден` })
-      .end();
+const getFile = async ({ fileId, isForPreview }, res) => {
+  const fileFromDB = await FilesModel.findOne(fileId);
+
+  const pathToFile = fileFromDB.isTemp
+    ? getFileTempPath(fileFromDB.path)
+    : getFilePath(fileFromDB.path);
+
+  if (isForPreview) {
+    if (!fs.existsSync(pathToFile))
+      // prettier-ignore
+      res.status(404).send({error: { message: `Файл по пути ${pathToFile} не найден` },}).end();
+
+    const fileDataPdf =
+      fileFromDB.type === "application/pdf"
+        ? fs.readFileSync(pathToFile)
+        : await convertAnyFileToPdf(pathToFile);
+    //https://stackoverflow.com/questions/12755997/how-to-create-streams-from-string-in-node-js
+    const stream = new Readable();
+    stream.push(fileDataPdf);
+    stream.push(null);
+    stream.pipe(res);
+  } else {
+    if (!fs.existsSync(pathToFile))
+      // prettier-ignore
+      res.status(404).send({error: { message: `Файл по пути ${pathToFile} не найден` },}).end();
+
+    res.set({
+      "Content-Disposition": `attachment; filename='${fileFromDB.uniq}'`,
+    });
+    const stream = fs.createReadStream(pathToFile);
+    stream.pipe(res);
   }
 };
 
-const convertAnyFileToPdf = async (data) => {
+const convertAnyFileToPdf = async (pathToFile) => {
+  const fileData = fs.readFileSync(pathToFile);
   const ext = ".pdf";
-  const buf = Buffer.from(data);
+  const buf = Buffer.from(fileData);
   // // Convert it to pdf format with undefined filter (see Libreoffice docs about filter)
   return await libre.convertAsync(buf, ext, undefined);
 };
@@ -108,40 +142,36 @@ const getDocumentFileDirectoryPath = async (
     : result;
 };
 
-const getDocumentFilePath = async (
-  { documentId = null, fileUuid, fileName = null, isFilePathSavedInDB = false },
+const createDocumentFilePath = async (
+  { documentId = null, fileUuid, fileName = null },
   isWithStoragePath = true
 ) => {
-  //Если файл уже сохранен в БД, то у нас есть его путь
-  if (!documentId && isFilePathSavedInDB) {
-    const file = await DocumentFilesModel.findFile({
-      filter: {
-        uniq: fileUuid,
-      },
-    });
-    return path.join(process.env.FILE_STORAGE_PATH, file.path);
-  }
   //Иначе конструируем его самостоятельно
-  if (documentId) {
-    const fileNameSplit = fileName.split(".");
-    const result = `${fileNameSplit[0]}_${fileUuid}.${fileNameSplit[1]}`;
-    return path.join(
-      await getDocumentFileDirectoryPath({ documentId }, isWithStoragePath),
-      result
-    );
-  }
-  //Если у нас нет сохраненного файла и не передан id документа, то выбрасываем ошибку
-  throw Error(
-    `Проблема с определением пути до файла. Переданы данные ${JSON.stringify({
-      documentId,
-      fileUuid,
-      isFilePathSavedInDB,
-    })}`
+  const fileNameSplit = fileName.split(".");
+  const result = `${fileNameSplit[0]}_${fileUuid}.${fileNameSplit[1]}`;
+  return path.join(
+    await getDocumentFileDirectoryPath({ documentId }, isWithStoragePath),
+    result
+  );
+};
+const createDocumentTaskFilePath = async (
+  { documentId = null, fileUuid, fileName = null },
+  isWithStoragePath = true
+) => {
+  //Иначе конструируем его самостоятельно
+  const fileNameSplit = fileName.split(".");
+  const result = `Поручение_${fileNameSplit[0]}_${fileUuid}.${fileNameSplit[1]}`;
+  return path.join(
+    await getDocumentFileDirectoryPath({ documentId }, isWithStoragePath),
+    result
   );
 };
 
-const getDocumentFileTempPath = (fileUuid) => {
+const getFileTempPath = (fileUuid) => {
   return path.join(process.env.FILE_TEMP_STORAGE_PATH, fileUuid);
+};
+const getFilePath = (fileUuid) => {
+  return path.join(process.env.FILE_STORAGE_PATH, fileUuid);
 };
 
 module.exports = {
@@ -151,6 +181,9 @@ module.exports = {
   getFileHash,
   isFileHashChanged,
   getDocumentFileDirectoryPath,
-  getDocumentFilePath,
-  getDocumentFileTempPath,
+  createDocumentFilePath,
+  getDocumentFileTempPath: getFileTempPath,
+  createDocumentTaskFilePath,
+  fileUpload,
+  getFilePath,
 };

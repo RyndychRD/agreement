@@ -81,7 +81,6 @@ export default function AdminSettingsTable({
             type: "selectRow",
             currentRow: row,
           });
-          console.log(row);
         },
         // Двойной клик всегда срабатывает после одинарного
         onDoubleClick: () => {

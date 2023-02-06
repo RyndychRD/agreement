@@ -15,7 +15,6 @@ class DocumentTaskSchema {
         "document_tasks.document_task_status_id",
         "document_task_statuses.id"
       );
-
     return query;
   }
 
@@ -44,7 +43,8 @@ class DocumentTaskSchema {
   async update(filter, documentTask) {
     return await this.knexProvider("document_tasks")
       .where(filter)
-      .update(documentTask);
+      .update(documentTask)
+      .returning("document_id");
   }
 }
 

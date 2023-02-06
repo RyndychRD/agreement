@@ -3,15 +3,8 @@
  * @returns { Promise<void> }
  */
 exports.up = function (knex) {
-  return knex.schema.createTable("document_task_files", function (table) {
+  return knex.schema.createTable("files", function (table) {
     table.increments("id");
-    table
-      .integer("document_task_id")
-      .comment(
-        "Ссылка на документ, в который мы должны загрузить файл по поручению"
-      )
-      .references("document_tasks.id")
-      .onDelete("SET NULL");
     table
       .text("name")
       .notNullable()
@@ -31,8 +24,12 @@ exports.up = function (knex) {
       .onDelete("SET NULL");
     table.text("hash").notNullable().comment("хеш сумма файла");
     table.integer("size").unsigned().notNullable().comment("Размер файла");
+    table
+      .boolean("isTemp")
+      .defaultTo(true)
+      .comment("Находится ли файл в временном хранилище");
     table.comment(
-      "Таблица со списком файлов, которые были загружены пользователями в поручение"
+      "Таблица со списком файлов, которые были загружены пользователями. Определение к какому виду документа относится какой файл происходит в отдельных таблицах"
     );
   });
 };
@@ -42,5 +39,5 @@ exports.up = function (knex) {
  * @returns { Promise<void> }
  */
 exports.down = function (knex) {
-  return knex.schema.dropTableIfExists("document_task_files");
+  return knex.schema.dropTableIfExists("files");
 };

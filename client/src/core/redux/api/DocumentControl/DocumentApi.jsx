@@ -204,11 +204,12 @@ export const documentsApi = createApi({
           : [{ type: TAG_TYPE_DOCUMENT_FILES, id: "LIST" }],
     }),
     addDocumentFiles: build.mutation({
-      queryFn: async ({ documentId, documentFiles }) => {
+      queryFn: async (props) => {
+        const { documentId, documentFileIds } = props;
         try {
           const response = await DocumentFilesService.create({
             documentId,
-            documentFiles,
+            documentFileIds,
           });
           return { data: response };
         } catch (e) {

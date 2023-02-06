@@ -107,6 +107,9 @@ export const documentTasksApi = createApi({
               ? bodyValues.id
               : bodyValues.currentRow.document_task_id,
             documentTaskStatusId: 2,
+            documentTaskFileIds: bodyValues.files.fileList.map(
+              (file) => file.response.fileId
+            ),
           });
           const response = await DocumentTasksService.update(
             bodyPrepared(body)

@@ -17,13 +17,14 @@ export default class DocumentFilesService {
     return response.data;
   }
 
-  static async create({ documentId, documentFiles }) {
+  static async create({ documentId, documentFileIds }) {
     console.log(
-      `вызов в DocumentFilesService -> Добавить файлы в документ c ID=${documentId}`
+      `вызов в DocumentFilesService -> Добавить файлы в документ c ID=${documentId}`,
+      documentFileIds
     );
     const response = await api.post(
       `${this.API_ROUTE}?documentId=${documentId}`,
-      documentFiles
+      documentFileIds
     );
     console.log(
       `вызов в DocumentFilesService -> Добавить файлы в документ c ID=${documentId} -> результат`,

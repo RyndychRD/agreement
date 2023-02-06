@@ -1,6 +1,7 @@
 import { Form } from "antd";
 import DocumentTasksShowBlock from "../../../../../fragments/documentControl/documentTasks/DocumentTasksShow";
 import { LargeTextInputFormItem } from "../../../../../fragments/inputs/textInputs";
+import FragmentFileUploader from "../../../../../fragments/file/FragmentFileUploader";
 
 export default function updateForm({ form, rawData }) {
   return (
@@ -17,6 +18,8 @@ export default function updateForm({ form, rawData }) {
           ]}
           title="Результат"
         />
+
+        <FragmentFileUploader isRequired={false} />
       </Form>
     </>
   );

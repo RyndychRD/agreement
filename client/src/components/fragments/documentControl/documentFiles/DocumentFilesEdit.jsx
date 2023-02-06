@@ -13,14 +13,9 @@ export default function DocumentFilesEditModal(props) {
       .then(async (values) => {
         const preparedValues = {
           documentId,
-          documentFiles: values.files.fileList.map((file) => ({
-            ...file,
-            // Вытаскиваем из респонса uuid, под которым сохранен файл
-            uniq: file.response.savedFileName,
-            lastModifiedDate: null,
-            originFileObj: null,
-            xhr: null,
-          })),
+          documentFileIds: values.files.fileList.map(
+            (file) => file.response.fileId
+          ),
         };
         addFiles(preparedValues);
         form.resetFields();
