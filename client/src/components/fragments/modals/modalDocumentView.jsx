@@ -1,5 +1,4 @@
 import { Modal, Button } from "antd";
-
 import { useEffect } from "react";
 import {
   useTableModalDispatch,
@@ -12,6 +11,10 @@ import DocumentFilesFragment from "../documentControl/documentFiles/DocumentFile
 import DocumentRemark from "../documentControl/documentRemark/DocumentRemark";
 import NotificationService from "../../../services/DocumentControlServices/NotificationService";
 import DocumentTasksFragment from "../documentControl/documentTasks/DocumentTasksFragment";
+import {
+  replaceUrlQueryWithId,
+  clearUrlQueryParams,
+} from "../../../services/CommonFunctions";
 
 export default function ModalDocumentView(props) {
   const {
@@ -26,6 +29,7 @@ export default function ModalDocumentView(props) {
 
   const onCancel = () => {
     dispatch({ type: "closeAllModal" });
+    clearUrlQueryParams();
   };
   useEffect(() => {
     if (notificationType && isOpen) {
@@ -34,6 +38,9 @@ export default function ModalDocumentView(props) {
         documentId: state.currentRow.document_id,
         notificationType,
       });
+    }
+    if (isOpen) {
+      replaceUrlQueryWithId(state.currentRow?.key);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen]);
@@ -76,6 +83,7 @@ export default function ModalDocumentView(props) {
           documentStatusId={state.currentRow?.document_status_id}
           documentRemark={state.currentRow?.document_remark}
         />
+        {/* Отображать ли поручения по документу */}
         {isShowDocumentTasks ? (
           <DocumentTasksFragment documentId={state.currentRow?.document_id} />
         ) : (

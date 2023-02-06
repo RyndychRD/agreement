@@ -1,3 +1,5 @@
+import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
 import {
   useTableModalDispatch,
   useTableModalsState,
@@ -46,6 +48,23 @@ export default function DocumentControlTableViewer({
     documentForNotifying = documentNotificationIds?.map((el) => el.document_id);
   }
 
+  // Этот блок отвечает за открытие элемента по id
+  const query = useLocation().search;
+  useEffect(() => {
+    const id = new URLSearchParams(query).get("id");
+    if (id) {
+      // eslint-disable-next-line eqeqeq
+      const row = dataSource.find((el) => el.key == id);
+      if (row) {
+        dispatch({
+          type: "selectRow",
+          currentRow: row,
+        });
+        dispatch({ type: "openUpdateModal" });
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [query, dataSource]);
   /**
    * Дефолтная логика для кнопок. Пока что нет задачи изменять количество кнопок
    */

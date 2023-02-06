@@ -18,7 +18,9 @@ export function clearUrlQueryParams() {
  * @param {*} id
  */
 export function replaceUrlQueryWithId(id) {
-  return window.history.replaceState(null, null, `?id=${id}`);
+  if (id) {
+    window.history.replaceState(null, null, `?id=${id}`);
+  }
 }
 
 export function userNameMask(user) {
