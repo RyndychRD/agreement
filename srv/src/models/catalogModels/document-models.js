@@ -42,14 +42,6 @@ class DocumentSchema {
       );
     return query;
   }
-  /**
-   * Собирает информацию по внутреннему наполнению документа(document_values, document_files ...)
-   * @param {*} query
-   * @returns
-   */
-  addDocumentData(query) {
-    return query;
-  }
 
   /**
    * Фильтрует по подписанию документов в таблице documents-signers_route и возвращает только те, которые подписал этот пользователь
@@ -98,16 +90,14 @@ class DocumentSchema {
    * Находит первое вхождение в таблице
    * @param {json} filter
    * @param {boolean} isAddForeignTables - Добавить разыменование метаданных документа?
-   * @param {boolean} isAddDocumentData - Добавить разыменование данных документа, введенных пользователем?
    */
-  async findOne({ filter, isAddForeignTables, isAddDocumentData }) {
+  async findOne({ filter, isAddForeignTables }) {
     let query = this.knexProvider("documents")
       .first("documents.*")
       .orderBy("documents.id", "asc");
 
     if (filter) query = query.where(filter);
     if (isAddForeignTables) query = this.addForeignTablesInformation(query);
-    if (isAddDocumentData) query = this.addDocumentData(query);
     return await query;
   }
 
@@ -115,12 +105,10 @@ class DocumentSchema {
    * Находит все вхождение в таблице
    * @param {json} filter
    * @param {boolean} isAddForeignTables - Добавить разыменование метаданных документа?
-   * @param {boolean} isAddDocumentData - Добавить разыменование данных документа, введенных пользователем?
    */
   async find({
     filter,
     isAddForeignTables,
-    isAddDocumentData,
     isOnlyMySignedDocuments,
     isOnlyForSigningDocuments,
     currentUser,
@@ -130,7 +118,6 @@ class DocumentSchema {
       .orderBy("documents.id", "asc");
     if (filter) query = query.where(filter);
     if (isAddForeignTables) query = this.addForeignTablesInformation(query);
-    if (isAddDocumentData) query = this.addDocumentData(query);
     if (isOnlyMySignedDocuments)
       query = this.addOnlyMySignedDocuments(query, currentUser);
     if (isOnlyForSigningDocuments)

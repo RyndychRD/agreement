@@ -12,18 +12,18 @@ export default function DocumentInformationFragment({
     data: documentValues = {},
     isLoading: isLoadingValues,
     isError: isErrorValues,
-  } = useGetDocumentValuesQueryHook({ isStart, documentId });
+  } = useGetDocumentValuesQueryHook({
+    isStart,
+    documentId,
+    isGetConnectedTables: true,
+  });
 
   if (isLoadingValues) return <SimpleSpinner />;
   if (isErrorValues) return <SimpleError />;
-  const data = documentValues.map((documentValue) => ({
-    ...documentValue,
-    key: documentValue.document_element_IO_dictionary_key,
-  }));
   return (
     <>
       <HeaderTextOutput text="Данные документа" />
-      <DocumentInformationShow data={data} />
+      <DocumentInformationShow data={documentValues} />
     </>
   );
 }
