@@ -12,6 +12,7 @@ const {
 } = require("../file-service");
 const NotificationService = require("../notification/notification-service");
 const FilesModel = require("../../models/catalogModels/files-model");
+const DocumentValuesService = require("./document-values-service");
 
 function getCurrentSigner(document) {
   //Изначально никто не текущий подписант
@@ -47,7 +48,6 @@ class DocumentService {
 
     const func = DocumentModels.find({
       isAddForeignTables: query?.isAddForeignTables.trim() === "true",
-      isAddDocumentData: query?.isAddDocumentData.trim() === "true",
       isOnlyForSigningDocuments:
         query?.isOnlyForSigningDocuments.trim() === "true",
       isOnlyMySignedDocuments: query?.isOnlyMySignedDocuments.trim() === "true",
@@ -82,14 +82,15 @@ class DocumentService {
 
   async getOneDocument(query) {
     const filter = {
-      id: query.id,
+      "documents.id": query.id,
     };
     const func = DocumentModels.findOne({
       isAddForeignTables: query?.isAddForeignTables === "true",
-      isAddDocumentData: query?.isAddDocumentData === "true",
       filter,
     });
-    return await DevTools.addDelay(func);
+    const result = await DevTools.addDelay(func);
+
+    return result;
   }
 
   /**

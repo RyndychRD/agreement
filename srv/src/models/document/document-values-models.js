@@ -13,7 +13,13 @@ class DocumentValuesSchema {
   async findOneDocumentValues({ filter }) {
     let query = this.knexProvider("document_values")
       .select("document_values.*")
-      .orderBy("document_values.id", "asc");
+      .select("document_element_IO_dictionary.*")
+      .orderBy("document_values.id", "asc")
+      .leftJoin(
+        "document_element_IO_dictionary",
+        "document_element_IO_dictionary.key",
+        "document_values.document_element_IO_dictionary_key"
+      );
     if (filter) query = query.where(filter);
     return await query;
   }

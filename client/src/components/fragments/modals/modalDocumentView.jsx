@@ -11,6 +11,7 @@ import DocumentFilesFragment from "../documentControl/documentFiles/DocumentFile
 import DocumentRemark from "../documentControl/documentRemark/DocumentRemark";
 import NotificationService from "../../../services/DocumentControlServices/NotificationService";
 import DocumentTasksFragment from "../documentControl/documentTasks/DocumentTasksFragment";
+import DocumentPrintFragment from "../documentControl/documentPrint/DocumentPrintFragment";
 import {
   replaceUrlQueryWithId,
   clearUrlQueryParams,
@@ -21,6 +22,7 @@ export default function ModalDocumentView(props) {
     notificationType = "",
     isAbleToSign = false,
     isAbleToEdit = false,
+    isAddForPrint = false,
     isShowDocumentTasks = false,
   } = props;
   const state = useTableModalsState();
@@ -61,7 +63,6 @@ export default function ModalDocumentView(props) {
           key="MainModal"
           documentName={state.currentRow?.document_name}
           typeName={state.currentRow?.document_type}
-          fileList={state.currentRow?.document_files}
         />
         <DocumentInformationFragment
           isStart={state.isShowUpdateModal}
@@ -72,6 +73,11 @@ export default function ModalDocumentView(props) {
           documentId={state.currentRow?.document_id}
           isAbleToEdit={isAbleToEdit}
         />
+        {isAddForPrint ? (
+          <DocumentPrintFragment documentId={state.currentRow?.document_id} />
+        ) : (
+          ""
+        )}
         <RouteStepsFragment
           isStart={state.isShowUpdateModal}
           documentId={state.currentRow?.document_id}
