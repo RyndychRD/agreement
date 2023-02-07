@@ -182,7 +182,7 @@ module.exports = {
   isFileHashChanged,
   getDocumentFileDirectoryPath,
   createDocumentFilePath,
-  getDocumentFileTempPath: getFileTempPath,
+  getFileTempPath,
   createDocumentTaskFilePath,
   fileUpload,
   getFilePath,

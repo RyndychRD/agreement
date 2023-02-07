@@ -95,6 +95,54 @@ async function seedDocRoute(knex) {
     },
   ]);
 }
+async function seedDocValues(knex) {
+  await knex("document_values").del();
+  await knex.raw("SELECT setval('document_values_id_seq', 1, true);");
+  await knex("document_values").insert([
+    {
+      document_id: 2,
+      document_element_IO_dictionary_key: "Payment_currency",
+      value: "Казахстанский тенге",
+      label: "Валюта",
+    },
+    {
+      document_id: 2,
+      document_element_IO_dictionary_key: "Data_Document",
+      value: "2023-02-02",
+      label: "Дата",
+    },
+    {
+      document_id: 2,
+      document_element_IO_dictionary_key: "Counterparty_contacts",
+      value: "320",
+      label: "Контакты",
+    },
+    {
+      document_id: 2,
+      document_element_IO_dictionary_key: "Subdivision_name",
+      value: "1",
+      label: "Подразделение",
+    },
+    {
+      document_id: 2,
+      document_element_IO_dictionary_key: "Contractors_phone_number",
+      value: "20",
+      label: "Телефон",
+    },
+    {
+      document_id: 2,
+      document_element_IO_dictionary_key: "Email_contacts",
+      value: "r.roman1234@yandex.ru",
+      label: "Мыло",
+    },
+    {
+      document_id: 2,
+      document_element_IO_dictionary_key: "Name_of_Goods_Works_Services",
+      value: "ewq",
+      label: "Поле ввода",
+    },
+  ]);
+}
 
 /**
  * @param { import("knex").Knex } knex
@@ -103,4 +151,5 @@ async function seedDocRoute(knex) {
 exports.seed = async function (knex) {
   await seedDocs(knex);
   await seedDocRoute(knex);
+  await seedDocValues(knex);
 };

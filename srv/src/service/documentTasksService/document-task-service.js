@@ -5,7 +5,7 @@ const DevTools = require("../DevTools");
 const fs = require("fs");
 const {
   getDocumentFileDirectoryPath,
-  getDocumentFileTempPath,
+  getFileTempPath,
   createDocumentTaskFilePath,
 } = require("../file-service");
 const FilesModel = require("../../models/catalogModels/files-model");
@@ -129,7 +129,7 @@ class DocumentTasksService {
     const insertArray = await Promise.all(
       body.documentTaskFileIds.map(async (fileIdToSave) => {
         const file = await FilesModel.findOne(fileIdToSave);
-        const tempFilePath = getDocumentFileTempPath(file.path);
+        const tempFilePath = getFileTempPath(file.path);
         const storageFilePath = await createDocumentTaskFilePath({
           documentId,
           fileUuid: file.uniq,
