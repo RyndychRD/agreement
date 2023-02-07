@@ -4,14 +4,21 @@ import { getUserNameAndPositionOptionsForSelect } from "../../../../../services/
 import SelectInputFormItem from "../../../inputs/selectInputs";
 import DateInputFormItem from "../../../inputs/dateInput";
 import { LargeTextInputFormItem } from "../../../inputs/textInputs";
+import { useGetDocumentValuesQueryHook } from "../../../../../core/redux/api/DocumentControl/DocumentApi";
+import { CheckboxGroupInputFormItem } from "../../../inputs/checkboxInputs";
 
-export default function CreateForm({ form }) {
+export default function CreateForm({ form, documentId }) {
   const {
     data: users = [],
     isError: isErrorUsers,
     isLoading: isLoadingUsers,
   } = useGetUsersQueryHook({ isAddForeignTables: true });
-
+  const {
+    data: documentValues = {},
+    isLoading: isLoadingValues,
+    isError: isErrorValues,
+  } = useGetDocumentValuesQueryHook({ documentId, isAddForeignTables: true });
+  console.log(documentValues);
   return (
     <Form form={form}>
       <Form.Item hidden name="documentId" />
@@ -49,6 +56,14 @@ export default function CreateForm({ form }) {
           },
         ]}
         title="Задача"
+      />
+      <CheckboxGroupInputFormItem
+        isError={isErrorValues}
+        isLoading={isLoadingValues}
+        key="documentPassedValues"
+        name="documentPassedValues"
+        options={[]}
+        title="Данные из документа"
       />
     </Form>
   );

@@ -22,6 +22,7 @@ export default function CreateButtonModel({ documentId }) {
       CreateUpdateForm={CreateForm}
       customState={useInnerTableState}
       customDispatch={useInnerTableDispatch}
+      CreateUpdateFormProps={{ documentId }}
     />
   );
 }

@@ -20,6 +20,7 @@ export default function ModalInput({
   CreateUpdateForm,
   customState,
   customDispatch,
+  CreateUpdateFormProps = {},
 }) {
   const standardState = useTableModalsState();
   const standardDispatch = useTableModalDispatch();
@@ -28,7 +29,11 @@ export default function ModalInput({
   const [addFunc, { isError, isLoading, reset }] = addMutation();
   const isOpen = state.isShowCreateModal;
 
-  const children = isOpen ? <CreateUpdateForm form={form} /> : "";
+  const children = isOpen ? (
+    <CreateUpdateForm form={form} {...CreateUpdateFormProps} />
+  ) : (
+    ""
+  );
   /**
    * При создании валидируем форму и отправляем все данные в сервис
    */

@@ -28,7 +28,7 @@ export default function DocumentInformationShow(props) {
         case "phone":
         case "select_id":
         case "email":
-          result.push(
+          result[dataStep.id] = (
             <TextOutputWithLabel
               keyIn={keyIn}
               text={dataStep.value}
@@ -37,7 +37,7 @@ export default function DocumentInformationShow(props) {
           );
           break;
         case "datePicker":
-          result.push(
+          result[dataStep.id] = (
             <TextOutputWithLabel
               text={renderDate(dataStep.value, false)}
               label={dataStep.label}
@@ -46,7 +46,7 @@ export default function DocumentInformationShow(props) {
           );
           break;
         case "table":
-          result.push(
+          result[dataStep.id] = (
             <TextValueOfTable
               keyIn={keyIn}
               table={dataStepDictElement.select_value.table}
@@ -56,7 +56,7 @@ export default function DocumentInformationShow(props) {
           );
           break;
         default:
-          result.push(
+          result[dataStep.id] = (
             <TextOutputWithLabel
               className="danger"
               keyIn={keyIn}

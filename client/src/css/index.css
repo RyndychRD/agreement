@@ -72,3 +72,13 @@ body {
 .ant-pagination-prev {
   background: whitesmoke !important;
 }
+
+.ant-checkbox-group {
+  display: flex;
+  flex-direction: column;
+  margin-inline-start: 8;
+}
+
+.ant-checkbox-wrapper {
+  margin-inline-start: 0 !important;
+}
