@@ -39,16 +39,19 @@ function getQrCode(document, documentValues) {
   const documentValuesString = documentValues.map((documentValue) => {
     const preparedDocValue =
       DocumentValuesService.getValueAndLabelFromDocumentValue(documentValue);
-    return `${preparedDocValue.label} : ${preparedDocValue.value}\n`;
+    return `${preparedDocValue.label} : ${preparedDocValue.value}`;
   });
-  const htmlValue = `Наименование договора: ${document.name}\n
-  Тип договора: ${document.document_type_name}\n`.concat(documentValuesString);
-  console.log(htmlValue);
+  const htmlValueArray = [
+    `Наименование договора: ${document.name}`,
+    `Тип договора: ${document.document_type_name}`,
+  ].concat(documentValuesString);
+  console.log(htmlValueArray);
   return (
     <QRCode
       className="qr-code"
-      style={{ width: "200px", height: "200px" }}
-      value={htmlValue}
+      style={{ width: "300px", height: "300px" }}
+      value={htmlValueArray.join(" | ")}
+      errorCorrectionLevel="M"
     />
   );
 }
