@@ -71,17 +71,19 @@ export default function DocumentTasksShowBlock(props) {
           {task?.files.length > 0 ? (
             <>
               <HeaderTextOutput text="Файлы, загруженные в результате выполнения поручения" />
-              {task.files.map((file) => (
-                <UploadListItem
-                  key={file.id}
-                  file={file}
-                  isTempFile={false}
-                  isAddPushToDocumentButton={
-                    !documentFiles.find((el) => el.file_id === file.id)
-                  }
-                  documentId={task.document_id}
-                />
-              ))}
+              <UploadList>
+                {task.files.map((file) => (
+                  <UploadListItem
+                    key={file.id}
+                    file={file}
+                    isTempFile={false}
+                    isAddPushToDocumentButton={
+                      !documentFiles.find((el) => el.file_id === file.id)
+                    }
+                    documentId={task.document_id}
+                  />
+                ))}
+              </UploadList>
             </>
           ) : (
             ""

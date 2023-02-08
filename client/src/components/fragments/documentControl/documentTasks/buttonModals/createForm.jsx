@@ -117,6 +117,7 @@ export default function CreateForm({ form, documentId }) {
       <CheckboxGroupInputFormItem
         isError={isLoadingFiles}
         isLoading={isErrorFiles}
+        className="category-list"
         key="documentPassedFiles"
         name="documentPassedFiles"
         options={preparedDocumentFiles}

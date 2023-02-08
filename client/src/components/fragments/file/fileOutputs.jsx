@@ -1,10 +1,10 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 
-import { EyeOutlined } from "@ant-design/icons";
-import { Upload } from "antd";
+import { DownloadOutlined, EyeOutlined } from "@ant-design/icons";
 import { usePushDocumentTaskFileToDocumentMutationHook } from "../../../core/redux/api/DocumentControl/DocumentApi";
 import { handlePreview, handleDownload, handlePushToDocument } from "./File";
+import "./fileStyle.css";
 
 export function UploadListItem(props) {
   const {
@@ -18,47 +18,51 @@ export function UploadListItem(props) {
   const [addFileIdToDocument] = usePushDocumentTaskFileToDocumentMutationHook();
 
   return (
-    <div
+    <li
       className="ant-upload-list-item ant-upload-list-item-done"
       key={savedFileName}
     >
-      <span
-        className="ant-upload-list-item-name"
-        title={originalName}
-        onClick={() => handleDownload({ file, isTempFile })}
-      >
+      <span href="" className="ant-upload-list-item-name" title={originalName}>
         {originalName.substring(0, 30)}
         {originalName.length > 30 ? "..." : ""}
       </span>
-      <span className="ant-upload-list-item-actions">
+      <div>
+        <button
+          title="Скачать"
+          type="button"
+          onClick={() => handleDownload({ file, isTempFile })}
+          className="ant-btn css-dev-only-do-not-override-1ij74fp ant-btn-text ant-btn-sm "
+        >
+          <span>
+            <DownloadOutlined />
+          </span>
+        </button>
         <button
           title="Предпросмотр"
           type="button"
           onClick={() => handlePreview({ file, isTempFile })}
-          className="ant-btn css-dev-only-do-not-override-1ij74fp ant-btn-text ant-btn-sm ant-upload-list-item-action"
+          className="ant-btn css-dev-only-do-not-override-1ij74fp ant-btn-text ant-btn-sm "
         >
           <span>
             <EyeOutlined />
           </span>
         </button>
-      </span>
-      {isAddPushToDocumentButton ? (
-        <span className="ant-upload-list-item-actions">
+        {isAddPushToDocumentButton ? (
           <button
             title="Добавить файл в документ"
             type="button"
             onClick={() =>
               handlePushToDocument({ file, documentId, addFileIdToDocument })
             }
-            className="ant-btn css-dev-only-do-not-override-1ij74fp ant-btn-text ant-btn-sm ant-upload-list-item-action"
+            className="ant-btn css-dev-only-do-not-override-1ij74fp ant-btn-text ant-btn-sm "
           >
             <span>Добавить файл в документ</span>
           </button>
-        </span>
-      ) : (
-        ""
-      )}
-    </div>
+        ) : (
+          ""
+        )}
+      </div>
+    </li>
   );
 }
 
@@ -69,27 +73,13 @@ export function UploadListItem(props) {
  * @returns
  */
 export default function UploadList(props) {
-  const { fileList, isTempFile = true } = props;
+  const { fileList, isTempFile = true, children } = props;
   return (
-    <div className="ant-col ant-form-item-control css-dev-only-do-not-override-1ij74fp">
-      {/* FIXME: Используется только для подгрузки нужного css. Удалить в следующей ревизии */}
-      <Upload />
-      <div className="ant-form-item-control-input">
-        <div className="ant-form-item-control-input-content">
-          <span className="ant-upload-wrapper css-dev-only-do-not-override-1ij74fp">
-            <div className="ant-upload-list ant-upload-list-text">
-              <div className="ant-upload-list-item-container" />
-              {fileList.map((file) => (
-                <UploadListItem
-                  key={file.id}
-                  file={file}
-                  isTempFile={isTempFile}
-                />
-              ))}
-            </div>
-          </span>
-        </div>
-      </div>
-    </div>
+    <ul className="category-list">
+      {children ||
+        fileList.map((file) => (
+          <UploadListItem key={file.id} file={file} isTempFile={isTempFile} />
+        ))}
+    </ul>
   );
 }

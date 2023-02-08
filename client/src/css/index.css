@@ -82,3 +82,10 @@ body {
 .ant-checkbox-wrapper {
   margin-inline-start: 0 !important;
 }
+
+.ant-checkbox-wrapper-in-form-item span:first-child {
+  width: 18px;
+}
+.ant-checkbox-wrapper-in-form-item span:nth-child(2) {
+  width: 100%;
+}

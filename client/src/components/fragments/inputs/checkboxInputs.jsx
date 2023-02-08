@@ -25,6 +25,7 @@ export default function CheckboxInputFormItem({
 export function CheckboxGroupInputFormItem({
   title = "Поле ввода",
   name = "formItemName",
+  className = {},
   options = [],
   rules = [],
   isLoading = false,
@@ -38,10 +39,15 @@ export function CheckboxGroupInputFormItem({
       rules={rules}
       label={title}
       name={name}
+      style={{ width: "100%" }}
       valuePropName="checked"
       labelCol={{ span: 24 }}
     >
-      <Checkbox.Group options={options} />
+      <Checkbox.Group
+        style={{ width: "100%" }}
+        className={className}
+        options={options}
+      />
     </Form.Item>
   );
 }
