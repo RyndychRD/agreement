@@ -5,14 +5,16 @@ const DepartmentModel = require("../../models/catalogModels/department-models");
 const UserModel = require("../../models/catalogModels/user-models");
 
 class DocumentValuesService {
-  async getOneDocumentValues(query) {
-    const func = DocumentValuesModels.findOneDocumentValues({
-      filter: {
-        document_id: query.documentId,
-      },
+  async getValues({ query, filterIn }) {
+    const func = DocumentValuesModels.find({
+      filter: filterIn
+        ? filterIn
+        : {
+            document_id: query.documentId,
+          },
     });
     const documentValues = await DevTools.addDelay(func);
-    if (query.isGetConnectedTables === "true") {
+    if (query?.isGetConnectedTables === "true") {
       return await Promise.all(
         documentValues.map(async (documentValue) => {
           const result = { ...documentValue };

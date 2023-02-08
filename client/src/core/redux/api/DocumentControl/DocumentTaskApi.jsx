@@ -54,12 +54,14 @@ export const documentTasksApi = createApi({
         currentRow = {},
         isStart = true,
         isAddForeignTables = false,
+        isAddDocumentValues = false,
       }) => {
         if (isStart) {
           try {
             const response = await DocumentTasksService.getDocumentTask({
               id: id || currentRow?.document_task_id,
               isAddForeignTables,
+              isAddDocumentValues,
             });
             return { data: response };
           } catch (e) {

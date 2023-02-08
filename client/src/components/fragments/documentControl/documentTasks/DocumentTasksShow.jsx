@@ -6,6 +6,7 @@ import {
 import { userNameMask } from "../../../../services/CommonFunctions";
 import { renderDate } from "../../tables/CommonFunctions";
 import UploadList from "../../file/fileOutputs";
+import DocumentInformationShow from "../documentInformation/DocumentInformationShow";
 
 export default function DocumentTasksShowBlock(props) {
   const { task } = props;
@@ -32,8 +33,17 @@ export default function DocumentTasksShowBlock(props) {
         label="Установленный срок"
         text={renderDate(task.due_at, false)}
       />
+      {task?.documentValues && task.documentValues.length > 0 ? (
+        <>
+          <HeaderTextOutput text="Переданные данные из договора" />
+          <DocumentInformationShow data={task?.documentValues} />
+        </>
+      ) : (
+        ""
+      )}
       <HeaderTextOutput text="Задача" />
       <SimpleTextOutput text={task?.problem} />
+
       {task?.result ? (
         <>
           <HeaderTextOutput text="Результат" />

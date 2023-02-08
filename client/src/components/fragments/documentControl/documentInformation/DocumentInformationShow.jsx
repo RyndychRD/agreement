@@ -4,13 +4,14 @@ import DocumentValuesService from "../../../../services/DocumentControlServices/
 
 // Сюда передается информация только для отображения. Сбор самой информации по документу производится выше
 export default function DocumentInformationShow(props) {
-  const { data } = props;
+  const { data, isPrepareData = true } = props;
   if (!data || data.length === 0)
     return <Alert type="error" message="Данные документа отсутствуют" />;
   return data.map((dataStep, index) => {
     const keyIn = index;
-    const information =
-      DocumentValuesService.getValueAndLabelFromDocumentValue(dataStep);
+    const information = isPrepareData
+      ? DocumentValuesService.getValueAndLabelFromDocumentValue(dataStep)
+      : dataStep;
     return (
       <TextOutputWithLabel
         key={keyIn}

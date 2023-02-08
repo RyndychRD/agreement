@@ -10,6 +10,8 @@ const {
 } = require("../file-service");
 const FilesModel = require("../../models/catalogModels/files-model");
 const DocumentTasksDocumentValuesModel = require("../../models/documentTaskModels/document_tasks-document_values-model");
+const DocumentValuesService = require("../document/document-values-service");
+const filter = require("knex-filter").filter;
 
 class DocumentTasksService {
   static async getIncomeDocumentTasks(currentUserId, query) {
@@ -57,6 +59,7 @@ class DocumentTasksService {
     const func = DocumentTaskModel.getDocumentTask({
       filter: { "document_tasks.id": query.documentTaskId },
       isAddForeignTables: query.isAddForeignTables === "true",
+      isAddDocumentValues: query.isAddDocumentValues === "true",
     });
     let documentTask = await DevTools.addDelay(func);
     if (query?.isAddForeignTables === "true") {
@@ -71,6 +74,26 @@ class DocumentTasksService {
         files: await DocumentTaskFilesModel.findFiles({
           filter: { document_task_id: query.documentTaskId },
         }),
+      };
+    }
+    if (query?.isAddDocumentValues === "true") {
+      let documentTaskDocumentValues =
+        await DocumentTasksDocumentValuesModel.find({
+          filter: { document_task_id: query.documentTaskId },
+        });
+      if (documentTaskDocumentValues && documentTaskDocumentValues.length > 0) {
+        const valuesIds = documentTaskDocumentValues.map(
+          (el) => el.document_value_id
+        );
+        documentTaskDocumentValues = await DocumentValuesService.getValues({
+          query: { isGetConnectedTables: "true" },
+          filterIn: (builder) =>
+            builder.whereIn("document_values.id", valuesIds),
+        });
+      }
+      documentTask = await {
+        ...documentTask,
+        documentValues: documentTaskDocumentValues,
       };
     }
 

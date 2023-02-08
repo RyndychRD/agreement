@@ -23,6 +23,7 @@ export default function UpdateButtonModel() {
       CreateUpdateForm={updateForm}
       formDefaultValues={formDefaultValues}
       isAddForeignTables
+      isAddDocumentValues
     />
   );
 }

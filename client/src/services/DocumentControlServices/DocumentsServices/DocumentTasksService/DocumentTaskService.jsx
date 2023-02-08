@@ -53,10 +53,14 @@ export default class DocumentTasksService {
     return response.data;
   }
 
-  static async getDocumentTask({ isAddForeignTables, id }) {
+  static async getDocumentTask({
+    isAddForeignTables,
+    id,
+    isAddDocumentValues,
+  }) {
     console.log(`вызов в DocumentTasksService -> Взять  поручения  с ID=${id}`);
     const response = await api.get(
-      `${this.API_ROUTE}/task?isAddForeignTables=${isAddForeignTables}&documentTaskId=${id}`
+      `${this.API_ROUTE}/task?isAddForeignTables=${isAddForeignTables}&documentTaskId=${id}&isAddDocumentValues=${isAddDocumentValues}`
     );
     console.log(
       `вызов в DocumentTasksService -> Взять  поручения с ID=${id} -> результат`,
