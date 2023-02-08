@@ -17,9 +17,9 @@ export function clearUrlQueryParams() {
  * Добавляем в url id выбранного элемента, заменяя все предыдущее
  * @param {*} id
  */
-export function replaceUrlQueryWithId(id) {
+export function replaceUrlQueryWithId(id, queryIdNameForOpen = "id") {
   if (id) {
-    window.history.replaceState(null, null, `?id=${id}`);
+    window.history.replaceState(null, null, `?${queryIdNameForOpen}=${id}`);
   }
 }
 

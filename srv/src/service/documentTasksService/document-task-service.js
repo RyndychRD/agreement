@@ -9,6 +9,7 @@ const {
   createDocumentTaskFilePath,
 } = require("../file-service");
 const FilesModel = require("../../models/catalogModels/files-model");
+const DocumentTasksDocumentValuesModel = require("../../models/documentTaskModels/document_tasks-document_values-model");
 
 class DocumentTasksService {
   static async getIncomeDocumentTasks(currentUserId, query) {
@@ -84,7 +85,18 @@ class DocumentTasksService {
       problem: body.problem,
       due_at: body.dueAt,
     });
-    return await DevTools.addDelay(func);
+    const documentTask = await DevTools.addDelay(func);
+    if (body?.documentPassedValues && body.documentPassedValues.length > 0) {
+      const preparedPassedValues = body.documentPassedValues.map(
+        (documentValue) => ({
+          document_task_id: documentTask[0].id,
+          document_value_id: documentValue,
+        })
+      );
+      DocumentTasksDocumentValuesModel.create(preparedPassedValues);
+    }
+
+    return documentTask;
   }
 
   static async deleteDocumentTask(query) {

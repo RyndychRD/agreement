@@ -29,6 +29,7 @@ export default function DocumentControlTableViewer({
   notificationType,
   customDispatch,
   customState,
+  queryIdNameForOpen = "id",
 }) {
   // Для переиспользования компонента мы можем передать кастомный диспатчер и стате. Но по дефолту нам подходит обычный для таблиц
   const standardState = useTableModalsState();
@@ -51,7 +52,7 @@ export default function DocumentControlTableViewer({
   // Этот блок отвечает за открытие элемента по id
   const query = useLocation().search;
   useEffect(() => {
-    const id = new URLSearchParams(query).get("id");
+    const id = new URLSearchParams(query).get(queryIdNameForOpen);
     if (id) {
       // eslint-disable-next-line eqeqeq
       const row = dataSource.find((el) => el.key == id);

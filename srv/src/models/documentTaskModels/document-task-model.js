@@ -35,7 +35,9 @@ class DocumentTaskSchema {
   }
 
   async create(documentTask) {
-    return await this.knexProvider("document_tasks").insert(documentTask);
+    return await this.knexProvider("document_tasks")
+      .insert(documentTask)
+      .returning("id");
   }
   async delete(filter) {
     return await this.knexProvider("document_tasks").where(filter).delete();

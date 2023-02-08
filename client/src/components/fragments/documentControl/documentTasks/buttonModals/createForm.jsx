@@ -6,6 +6,24 @@ import DateInputFormItem from "../../../inputs/dateInput";
 import { LargeTextInputFormItem } from "../../../inputs/textInputs";
 import { useGetDocumentValuesQueryHook } from "../../../../../core/redux/api/DocumentControl/DocumentApi";
 import { CheckboxGroupInputFormItem } from "../../../inputs/checkboxInputs";
+import DocumentValuesService from "../../../../../services/DocumentControlServices/DocumentsServices/DocumentValuesService";
+import { TextOutputWithLabel } from "../../../outputs/textOutputs";
+
+function prepareForCheckbox(documentValues) {
+  return documentValues.map((documentValue) => {
+    const parsedDocumentValue =
+      DocumentValuesService.getValueAndLabelFromDocumentValue(documentValue);
+    return {
+      value: documentValue.id,
+      label: (
+        <TextOutputWithLabel
+          label={parsedDocumentValue.label}
+          text={parsedDocumentValue.value}
+        />
+      ),
+    };
+  });
+}
 
 export default function CreateForm({ form, documentId }) {
   const {
@@ -17,8 +35,14 @@ export default function CreateForm({ form, documentId }) {
     data: documentValues = {},
     isLoading: isLoadingValues,
     isError: isErrorValues,
-  } = useGetDocumentValuesQueryHook({ documentId, isAddForeignTables: true });
-  console.log(documentValues);
+  } = useGetDocumentValuesQueryHook({
+    documentId,
+    isGetConnectedTables: true,
+  });
+  let preparedDocumentValues = [];
+  if (!(isLoadingValues || isErrorValues)) {
+    preparedDocumentValues = prepareForCheckbox(documentValues);
+  }
   return (
     <Form form={form}>
       <Form.Item hidden name="documentId" />
@@ -62,8 +86,8 @@ export default function CreateForm({ form, documentId }) {
         isLoading={isLoadingValues}
         key="documentPassedValues"
         name="documentPassedValues"
-        options={[]}
-        title="Данные из документа"
+        options={preparedDocumentValues}
+        title="Данные из документа, отображаемые для исполнителя"
       />
     </Form>
   );

@@ -45,7 +45,6 @@ function getQrCode(document, documentValues) {
     `Наименование договора: ${document.name}`,
     `Тип договора: ${document.document_type_name}`,
   ].concat(documentValuesString);
-  console.log(htmlValueArray);
   return (
     <QRCode
       className="qr-code"
