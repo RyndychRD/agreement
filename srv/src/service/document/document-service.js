@@ -88,9 +88,26 @@ class DocumentService {
       isAddForeignTables: query?.isAddForeignTables === "true",
       filter,
     });
-    const result = await DevTools.addDelay(func);
+    let document = await DevTools.addDelay(func);
+    if (query?.isAddForeignTables.trim() === "true") {
+      const currentSignerId = getCurrentSigner(document);
+      document = await {
+        ...document,
+        route_steps_count: await DocumentService.getOneDocumentRouteStepsCount(
+          document.id
+        ),
+        current_signer: await getOneUser({
+          id: currentSignerId,
+          isAddForeignTables: "true",
+        }),
+        creator: await getOneUser({
+          id: document.creator_id,
+          isAddForeignTables: "true",
+        }),
+      };
+    }
 
-    return result;
+    return document;
   }
 
   /**
