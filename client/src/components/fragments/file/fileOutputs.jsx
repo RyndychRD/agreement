@@ -1,12 +1,21 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 
+import { EyeOutlined } from "@ant-design/icons";
 import { Upload } from "antd";
-import { handlePreview, handleDownload } from "./File";
+import { usePushDocumentTaskFileToDocumentMutationHook } from "../../../core/redux/api/DocumentControl/DocumentApi";
+import { handlePreview, handleDownload, handlePushToDocument } from "./File";
 
 export function UploadListItem(props) {
-  const { file, isTempFile } = props;
+  const {
+    file,
+    isTempFile,
+    isAddPushToDocumentButton = false,
+    documentId,
+  } = props;
   const { uniq: savedFileName, name: originalName } = file;
+
+  const [addFileIdToDocument] = usePushDocumentTaskFileToDocumentMutationHook();
 
   return (
     <div
@@ -18,7 +27,8 @@ export function UploadListItem(props) {
         title={originalName}
         onClick={() => handleDownload({ file, isTempFile })}
       >
-        {originalName}
+        {originalName.substring(0, 30)}
+        {originalName.length > 30 ? "..." : ""}
       </span>
       <span className="ant-upload-list-item-actions">
         <button
@@ -27,9 +37,27 @@ export function UploadListItem(props) {
           onClick={() => handlePreview({ file, isTempFile })}
           className="ant-btn css-dev-only-do-not-override-1ij74fp ant-btn-text ant-btn-sm ant-upload-list-item-action"
         >
-          <span>Предпросмотр</span>
+          <span>
+            <EyeOutlined />
+          </span>
         </button>
       </span>
+      {isAddPushToDocumentButton ? (
+        <span className="ant-upload-list-item-actions">
+          <button
+            title="Добавить файл в документ"
+            type="button"
+            onClick={() =>
+              handlePushToDocument({ file, documentId, addFileIdToDocument })
+            }
+            className="ant-btn css-dev-only-do-not-override-1ij74fp ant-btn-text ant-btn-sm ant-upload-list-item-action"
+          >
+            <span>Добавить файл в документ</span>
+          </button>
+        </span>
+      ) : (
+        ""
+      )}
     </div>
   );
 }

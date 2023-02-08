@@ -210,11 +210,33 @@ export const documentsApi = createApi({
       providesTags: (result) =>
         result
           ? [
-              { ...result, type: TAG_TYPE_DOCUMENT_FILES, id: result?.id },
+              {
+                ...result,
+                type: TAG_TYPE_DOCUMENT_FILES,
+                id: result?.document_id,
+              },
               { type: TAG_TYPE_DOCUMENT_FILES, id: "LIST" },
             ]
           : [{ type: TAG_TYPE_DOCUMENT_FILES, id: "LIST" }],
     }),
+
+    pushDocumentTaskFileToDocument: build.mutation({
+      queryFn: async (props) => {
+        const { documentId, fileId } = props;
+        try {
+          const response =
+            await DocumentFilesService.pushDocumentTaskFileToDocument({
+              fileId,
+              documentId,
+            });
+          return { data: response };
+        } catch (e) {
+          return { error: e.message };
+        }
+      },
+      invalidatesTags: [{ type: TAG_TYPE_DOCUMENT_FILES, id: "LIST" }],
+    }),
+
     addDocumentFiles: build.mutation({
       queryFn: async (props) => {
         const { documentId, documentFileIds } = props;
@@ -260,6 +282,7 @@ export const {
   useGetDocumentFilesQuery,
   useAddDocumentFilesMutation,
   useUpdateDocumentRouteMutation,
+  usePushDocumentTaskFileToDocumentMutation,
 } = documentsApi;
 
 /**
@@ -328,3 +351,6 @@ export const useGetDocumentRouteQueryHook = useGetDocumentRouteQuery;
 export const useGetDocumentValuesQueryHook = useGetDocumentValuesQuery;
 /** Хук для запроса файлов по документу */
 export const useGetDocumentFilesQueryHook = useGetDocumentFilesQuery;
+/** Хук для запроса файлов по документу */
+export const usePushDocumentTaskFileToDocumentMutationHook =
+  usePushDocumentTaskFileToDocumentMutation;

@@ -27,6 +27,15 @@ class DocumentFilesService {
     });
     return result;
   }
+
+  async addFileIdToDocument(props) {
+    const { fileId, documentId } = props;
+    const func = DocumentFilesModels.create({
+      document_id: documentId,
+      file_id: fileId,
+    });
+    return await DevTools.addDelay(func);
+  }
 }
 
 module.exports = new DocumentFilesService();

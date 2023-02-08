@@ -5,11 +5,17 @@ import {
 } from "../../outputs/textOutputs";
 import { userNameMask } from "../../../../services/CommonFunctions";
 import { renderDate } from "../../tables/CommonFunctions";
-import UploadList from "../../file/fileOutputs";
+import UploadList, { UploadListItem } from "../../file/fileOutputs";
 import DocumentInformationShow from "../documentInformation/DocumentInformationShow";
+import { useGetDocumentFilesQueryHook } from "../../../../core/redux/api/DocumentControl/DocumentApi";
 
 export default function DocumentTasksShowBlock(props) {
   const { task } = props;
+
+  const { data: documentFiles = [] } = useGetDocumentFilesQueryHook({
+    documentId: task.document_id,
+  });
+
   return (
     <>
       <HeaderTextOutput text="Информация по поручению" />
@@ -65,11 +71,17 @@ export default function DocumentTasksShowBlock(props) {
           {task?.files.length > 0 ? (
             <>
               <HeaderTextOutput text="Файлы, загруженные в результате выполнения поручения" />
-              <UploadList
-                fileList={task.files}
-                isTempFile={false}
-                key="uploadedDocumentTasksFilesList"
-              />
+              {task.files.map((file) => (
+                <UploadListItem
+                  key={file.id}
+                  file={file}
+                  isTempFile={false}
+                  isAddPushToDocumentButton={
+                    !documentFiles.find((el) => el.file_id === file.id)
+                  }
+                  documentId={task.document_id}
+                />
+              ))}
             </>
           ) : (
             ""
