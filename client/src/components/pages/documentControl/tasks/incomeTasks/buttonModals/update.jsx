@@ -24,6 +24,10 @@ export default function UpdateButtonModel() {
       formDefaultValues={formDefaultValues}
       isAddForeignTables
       isAddDocumentValues
+      additionalGetQueryProps={{
+        isAddDocumentValues: true,
+        isAddDocumentFiles: true,
+      }}
     />
   );
 }

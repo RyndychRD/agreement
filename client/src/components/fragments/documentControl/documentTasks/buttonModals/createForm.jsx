@@ -4,12 +4,16 @@ import { getUserNameAndPositionOptionsForSelect } from "../../../../../services/
 import SelectInputFormItem from "../../../inputs/selectInputs";
 import DateInputFormItem from "../../../inputs/dateInput";
 import { LargeTextInputFormItem } from "../../../inputs/textInputs";
-import { useGetDocumentValuesQueryHook } from "../../../../../core/redux/api/DocumentControl/DocumentApi";
+import {
+  useGetDocumentValuesQueryHook,
+  useGetDocumentFilesQueryHook,
+} from "../../../../../core/redux/api/DocumentControl/DocumentApi";
 import { CheckboxGroupInputFormItem } from "../../../inputs/checkboxInputs";
 import DocumentValuesService from "../../../../../services/DocumentControlServices/DocumentsServices/DocumentValuesService";
 import { TextOutputWithLabel } from "../../../outputs/textOutputs";
+import { UploadListItem } from "../../../file/fileOutputs";
 
-function prepareForCheckbox(documentValues) {
+function prepareDocumentValuesForCheckbox(documentValues) {
   return documentValues.map((documentValue) => {
     const parsedDocumentValue =
       DocumentValuesService.getValueAndLabelFromDocumentValue(documentValue);
@@ -23,6 +27,18 @@ function prepareForCheckbox(documentValues) {
       ),
     };
   });
+}
+function prepareDocumentFilesForCheckbox(documentFiles) {
+  return documentFiles.map((documentFile) => ({
+    value: documentFile.file_id,
+    label: (
+      <UploadListItem
+        key={documentFile.id}
+        file={documentFile}
+        isTempFile={false}
+      />
+    ),
+  }));
 }
 
 export default function CreateForm({ form, documentId }) {
@@ -39,9 +55,18 @@ export default function CreateForm({ form, documentId }) {
     documentId,
     isGetConnectedTables: true,
   });
+  const {
+    data: documentFiles = {},
+    isLoading: isLoadingFiles,
+    isError: isErrorFiles,
+  } = useGetDocumentFilesQueryHook({ documentId });
   let preparedDocumentValues = [];
+  let preparedDocumentFiles = [];
   if (!(isLoadingValues || isErrorValues)) {
-    preparedDocumentValues = prepareForCheckbox(documentValues);
+    preparedDocumentValues = prepareDocumentValuesForCheckbox(documentValues);
+  }
+  if (!(isLoadingFiles || isErrorFiles)) {
+    preparedDocumentFiles = prepareDocumentFilesForCheckbox(documentFiles);
   }
   return (
     <Form form={form}>
@@ -88,6 +113,14 @@ export default function CreateForm({ form, documentId }) {
         name="documentPassedValues"
         options={preparedDocumentValues}
         title="Данные из документа, отображаемые для исполнителя"
+      />
+      <CheckboxGroupInputFormItem
+        isError={isLoadingFiles}
+        isLoading={isErrorFiles}
+        key="documentPassedFiles"
+        name="documentPassedFiles"
+        options={preparedDocumentFiles}
+        title="Файлы из документа, отображаемые для исполнителя"
       />
     </Form>
   );

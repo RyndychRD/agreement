@@ -6,28 +6,23 @@ class DocumentFileSchema {
     this.knexProvider = require("knex")(knexConfig[process.env.NODE_ENV]);
   }
 
-  addFiles(query) {
-    query = query.leftJoin("files", "files.id", "documents-files.file_id");
-    return query;
-  }
-
   async findFiles({ filter }) {
     let query = this.knexProvider("documents-files")
-      .select("documents-files.*")
       .select("files.*")
+      .select("documents-files.*")
+      .leftJoin("files", "files.id", "documents-files.file_id")
       .orderBy("documents-files.id", "asc")
       .where(filter);
-    query = this.addFiles(query);
     return await query;
   }
 
   async findFile({ filter }) {
     let query = this.knexProvider("documents-files")
-      .first("documents-files.*")
       .select("files.*")
+      .first("documents-files.*")
+      .leftJoin("files", "files.id", "documents-files.file_id")
       .orderBy("documents-files.id", "asc")
       .where(filter);
-    query = this.addFiles(query);
     return await query;
   }
 

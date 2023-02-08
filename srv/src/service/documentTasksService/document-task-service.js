@@ -10,8 +10,9 @@ const {
 } = require("../file-service");
 const FilesModel = require("../../models/catalogModels/files-model");
 const DocumentTasksDocumentValuesModel = require("../../models/documentTaskModels/document_tasks-document_values-model");
+const DocumentTasksDocumentFilesModel = require("../../models/documentTaskModels/document_tasks-document_files");
 const DocumentValuesService = require("../document/document-values-service");
-const filter = require("knex-filter").filter;
+const DocumentFilesService = require("../document/document-files-service");
 
 class DocumentTasksService {
   static async getIncomeDocumentTasks(currentUserId, query) {
@@ -96,6 +97,23 @@ class DocumentTasksService {
         documentValues: documentTaskDocumentValues,
       };
     }
+    if (query?.isAddDocumentFiles === "true") {
+      let documentTaskDocumentFiles =
+        await DocumentTasksDocumentFilesModel.find({
+          filter: { document_task_id: query.documentTaskId },
+        });
+      if (documentTaskDocumentFiles && documentTaskDocumentFiles.length > 0) {
+        const valuesIds = documentTaskDocumentFiles.map((el) => el.file_id);
+        documentTaskDocumentFiles = await DocumentFilesService.getFiles({
+          query: { isGetConnectedTables: "true" },
+          filterIn: (builder) => builder.whereIn("files.id", valuesIds),
+        });
+      }
+      documentTask = await {
+        ...documentTask,
+        documentFiles: documentTaskDocumentFiles,
+      };
+    }
 
     return documentTask;
   }
@@ -117,6 +135,15 @@ class DocumentTasksService {
         })
       );
       DocumentTasksDocumentValuesModel.create(preparedPassedValues);
+    }
+    if (body?.documentPassedFiles && body.documentPassedFiles.length > 0) {
+      const preparedPassedValues = body.documentPassedFiles.map(
+        (documentValue) => ({
+          document_task_id: documentTask[0].id,
+          file_id: documentValue,
+        })
+      );
+      DocumentTasksDocumentFilesModel.create(preparedPassedValues);
     }
 
     return documentTask;

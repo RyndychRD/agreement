@@ -4,7 +4,8 @@
 import { Upload } from "antd";
 import { handlePreview, handleDownload } from "./File";
 
-function UploadListItem(file, isTempFile) {
+export function UploadListItem(props) {
+  const { file, isTempFile } = props;
   const { uniq: savedFileName, name: originalName } = file;
 
   return (
@@ -50,7 +51,13 @@ export default function UploadList(props) {
           <span className="ant-upload-wrapper css-dev-only-do-not-override-1ij74fp">
             <div className="ant-upload-list ant-upload-list-text">
               <div className="ant-upload-list-item-container" />
-              {fileList.map((file) => UploadListItem(file, isTempFile))}
+              {fileList.map((file) => (
+                <UploadListItem
+                  key={file.id}
+                  file={file}
+                  isTempFile={isTempFile}
+                />
+              ))}
             </div>
           </span>
         </div>

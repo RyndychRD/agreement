@@ -23,6 +23,7 @@ export default function ShowButtonModel() {
     isStart: state.isShowUpdateModal,
     isAddForeignTables: true,
     isAddDocumentValues: true,
+    isAddDocumentFiles: true,
   });
   const onCancel = () => {
     dispatch({ type: "closeAllModal" });

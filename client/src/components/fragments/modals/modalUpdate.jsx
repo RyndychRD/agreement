@@ -33,7 +33,7 @@ export default function ModalUpdate({
   formDefaultValues,
   preFinishFunc = null,
   isAddForeignTables = false,
-  isAddDocumentValues = false,
+  additionalGetQueryProps = {},
 }) {
   const state = useTableModalsState();
   const dispatch = useTableModalDispatch();
@@ -54,7 +54,7 @@ export default function ModalUpdate({
     isStart: state.isShowUpdateModal && state?.currentRow,
     isAddRights: true,
     isAddForeignTables,
-    isAddDocumentValues,
+    ...additionalGetQueryProps,
   });
 
   /**

@@ -41,6 +41,18 @@ export default function DocumentTasksShowBlock(props) {
       ) : (
         ""
       )}
+      {task?.documentFiles && task.documentFiles.length > 0 ? (
+        <>
+          <HeaderTextOutput text="Переданные файлы из договора" />
+          <UploadList
+            fileList={task.documentFiles}
+            isTempFile={false}
+            key="passedDocumentFilesFilesList"
+          />
+        </>
+      ) : (
+        ""
+      )}
       <HeaderTextOutput text="Задача" />
       <SimpleTextOutput text={task?.problem} />
 

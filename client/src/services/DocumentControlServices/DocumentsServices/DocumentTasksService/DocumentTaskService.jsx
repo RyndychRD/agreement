@@ -57,10 +57,11 @@ export default class DocumentTasksService {
     isAddForeignTables,
     id,
     isAddDocumentValues,
+    isAddDocumentFiles,
   }) {
     console.log(`вызов в DocumentTasksService -> Взять  поручения  с ID=${id}`);
     const response = await api.get(
-      `${this.API_ROUTE}/task?isAddForeignTables=${isAddForeignTables}&documentTaskId=${id}&isAddDocumentValues=${isAddDocumentValues}`
+      `${this.API_ROUTE}/task?isAddForeignTables=${isAddForeignTables}&documentTaskId=${id}&isAddDocumentValues=${isAddDocumentValues}&isAddDocumentFiles=${isAddDocumentFiles}`
     );
     console.log(
       `вызов в DocumentTasksService -> Взять  поручения с ID=${id} -> результат`,

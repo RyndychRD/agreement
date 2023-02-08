@@ -55,6 +55,7 @@ export const documentTasksApi = createApi({
         isStart = true,
         isAddForeignTables = false,
         isAddDocumentValues = false,
+        isAddDocumentFiles = false,
       }) => {
         if (isStart) {
           try {
@@ -62,6 +63,7 @@ export const documentTasksApi = createApi({
               id: id || currentRow?.document_task_id,
               isAddForeignTables,
               isAddDocumentValues,
+              isAddDocumentFiles,
             });
             return { data: response };
           } catch (e) {

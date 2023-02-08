@@ -4,7 +4,9 @@ const DocumentService = require("../../service/document/document-service");
 class DocumentFilesController {
   async getDocumentFiles(req, res, next) {
     try {
-      const data = await documentFilesService.getOneDocumentFiles(req?.query);
+      const data = await documentFilesService.getFiles({
+        query: req?.query,
+      });
       return res.json(data);
     } catch (e) {
       next(e);
