@@ -1,5 +1,5 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
-import DocumentStatusService from "../../../../../services/DocumentServices/DocumentStatusService";
+import DocumentStatusService from "../../../../../services/DocumentControlServices/DocumentsServices/DocumentStatusService";
 
 const TAG_TYPE = "documentStatus";
 

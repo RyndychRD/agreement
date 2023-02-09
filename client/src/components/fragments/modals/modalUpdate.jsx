@@ -32,6 +32,7 @@ export default function ModalUpdate({
   CreateUpdateForm,
   formDefaultValues,
   preFinishFunc = null,
+  isAddForeignTables = false,
 }) {
   const state = useTableModalsState();
   const dispatch = useTableModalDispatch();
@@ -49,8 +50,9 @@ export default function ModalUpdate({
     isError: isErrorGet,
   } = getQuery({
     currentRow: state?.currentRow,
-    isStart: state.isShowUpdateModal,
+    isStart: state.isShowUpdateModal && state?.currentRow,
     isAddRights: true,
+    isAddForeignTables,
   });
 
   /**
@@ -60,6 +62,7 @@ export default function ModalUpdate({
     form
       .validateFields()
       .then(async (values) => {
+        console.log(values);
         const preparedValues = preFinishFunc ? preFinishFunc(values) : values;
         await updateFunc({
           ...preparedValues,
@@ -112,7 +115,7 @@ export default function ModalUpdate({
       {isLoading ? <SimpleSpinner /> : ""}
       {isError ? <SimpleError /> : ""}
       {!isLoading && !isError && isOpen ? (
-        <CreateUpdateForm form={form} isAddUpdateOnlyFields />
+        <CreateUpdateForm form={form} rawData={data} isAddUpdateOnlyFields />
       ) : (
         ""
       )}

@@ -16,6 +16,7 @@ const documentSigningRouter = require("./documents/document-signing-router");
 const documentValuesRouter = require("./documents/document-values-router");
 const documentFilesRouter = require("./documents/document-files-router");
 const notificationRouter = require("./notification/notification-router");
+const documentTasksRouter = require("./documentTasks/document-tasks-router");
 const fileRouter = require("./file-router");
 
 //Авторизация
@@ -52,6 +53,9 @@ router.use("/documents/route", documentSigningRouter);
 router.use("/documents/values", documentValuesRouter);
 //Файлы документа
 router.use("/documents/files", documentFilesRouter);
+
+/** Поручения по документам */
+router.use("/document-tasks", documentTasksRouter);
 
 /** Загрузка файлов */
 router.use("/files", fileRouter);

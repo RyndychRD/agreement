@@ -3,17 +3,12 @@
  * @returns { Promise<void> }
  */
 exports.up = function (knex) {
-  return knex.schema.createTable("document_files", function (table) {
+  return knex.schema.createTable("files", function (table) {
     table.increments("id");
-    table
-      .integer("document_id")
-      .unsigned()
-      .comment("Ссылка на документ, к которому прикреплен файл");
-    table.foreign("document_id").references("documents.id").onDelete("CASCADE");
     table
       .text("name")
       .notNullable()
-      .comment("Имя документа, отображаемое для пользователя");
+      .comment("Имя документа поручения, отображаемое для пользователя");
     table
       .string("type")
       .comment(
@@ -24,14 +19,17 @@ exports.up = function (knex) {
     table
       .integer("uploader_id")
       .unsigned()
-      .comment(
-        "Ссылка на таблицу users с пользователем, который загрузил файл"
-      );
-    table.foreign("uploader_id").references("users.id").onDelete("SET NULL");
+      .comment("Ссылка на пользователя, который загрузил файл")
+      .references("users.id")
+      .onDelete("SET NULL");
     table.text("hash").notNullable().comment("хеш сумма файла");
     table.integer("size").unsigned().notNullable().comment("Размер файла");
+    table
+      .boolean("isTemp")
+      .defaultTo(true)
+      .comment("Находится ли файл в временном хранилище");
     table.comment(
-      "Таблица со списком файлов, которые были загружены пользователями в документы"
+      "Таблица со списком файлов, которые были загружены пользователями. Определение к какому виду документа относится какой файл происходит в отдельных таблицах"
     );
   });
 };
@@ -41,5 +39,5 @@ exports.up = function (knex) {
  * @returns { Promise<void> }
  */
 exports.down = function (knex) {
-  return knex.schema.dropTableIfExists("document_files");
+  return knex.schema.dropTableIfExists("files");
 };

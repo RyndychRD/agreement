@@ -1,7 +1,8 @@
 /** @format */
 import _ from "lodash";
 import moment from "moment";
-import { ARow, ACol, ASpan, ADiv, AButton, AAlert, ATag } from "../../adapter";
+import { Col, Row } from "antd";
+import { AButton, AAlert, ATag } from "../../adapter";
 
 /**
  * Используется для создания фильтра по всем значениями из таблицы. По факту магия, я не могу понять что здесь происходит
@@ -11,7 +12,7 @@ import { ARow, ACol, ASpan, ADiv, AButton, AAlert, ATag } from "../../adapter";
  * @returns
  */
 export const filterData = (data) => (formatter) =>
-  data.map((item) => ({
+  data?.map((item) => ({
     text: formatter(item),
     value: formatter(item),
   }));
@@ -160,13 +161,13 @@ export default function getTitle(name, buttons, buttonsActions) {
   });
 
   return (
-    <ARow>
-      <ACol flex="auto">
-        <ADiv className="center-text">
-          <ASpan className="table-header">{name}</ASpan>
-        </ADiv>
-      </ACol>
-      <ACol>{buttonsView}</ACol>
-    </ARow>
+    <Row>
+      <Col flex="auto">
+        <div className="center-text">
+          <span className="table-header">{name}</span>
+        </div>
+      </Col>
+      <Col>{buttonsView}</Col>
+    </Row>
   );
 }

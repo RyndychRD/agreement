@@ -19,19 +19,25 @@ const FILE_ACCEPTED_EXT = [
   "application/vnd.ms-excel",
 ];
 
-export default function FragmentFileUploader() {
+export default function FragmentFileUploader(props) {
+  const { isRequired = true } = props;
+
+  const rules = isRequired
+    ? [
+        {
+          required: true,
+          message: "Необходимо загрузить хотя бы один файл.",
+        },
+      ]
+    : [];
+
   return (
     <Form.Item
       name="files"
       label="Файлы"
       valuePropName="fileUploading"
       labelCol={{ span: 24 }}
-      rules={[
-        {
-          required: true,
-          message: "Необходимо загрузить хотя бы один файл.",
-        },
-      ]}
+      rules={rules}
     >
       <FragmentDragger
         // Здесь поменяны местами превью и скачка для лучшего юзер экспиренса

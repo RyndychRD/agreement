@@ -54,7 +54,9 @@ export default function DocumentPreview({ onCancel }) {
         preparedValuesToSave.documentName = element.json.documentName;
         preparedValuesToSave.documentTypeId = element.json.typeId;
         preparedValuesToSave.documentStatusId = DOCUMENT_CREATION_STATUS;
-        preparedValuesToSave.documentFiles = element.json.fileList;
+        preparedValuesToSave.documentFileIds = element.json.fileList.map(
+          (file) => file.response.fileId
+        );
         break;
       case "RouteConstruct":
         result.push(

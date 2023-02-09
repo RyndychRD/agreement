@@ -1,3 +1,5 @@
+import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
 import {
   useTableModalDispatch,
   useTableModalsState,
@@ -25,9 +27,15 @@ export default function DocumentControlTableViewer({
   isError = false,
   buttons = ["create", "update", "delete"],
   notificationType,
+  customDispatch,
+  customState,
 }) {
-  const state = useTableModalsState();
-  const dispatch = useTableModalDispatch();
+  // Для переиспользования компонента мы можем передать кастомный диспатчер и стате. Но по дефолту нам подходит обычный для таблиц
+  const standardState = useTableModalsState();
+  const standardDispatch = useTableModalDispatch();
+  const state = customState ? customState() : standardState;
+  const dispatch = customDispatch ? customDispatch() : standardDispatch;
+
   const { data: documentNotificationIds, isLoading: isLoadingNotifications } =
     useGetUnreadNotificationsByTypeQueryHook(
       { notificationType, isGetNotificationCount: false },
@@ -40,6 +48,23 @@ export default function DocumentControlTableViewer({
     documentForNotifying = documentNotificationIds?.map((el) => el.document_id);
   }
 
+  // Этот блок отвечает за открытие элемента по id
+  const query = useLocation().search;
+  useEffect(() => {
+    const id = new URLSearchParams(query).get("id");
+    if (id) {
+      // eslint-disable-next-line eqeqeq
+      const row = dataSource.find((el) => el.key == id);
+      if (row) {
+        dispatch({
+          type: "selectRow",
+          currentRow: row,
+        });
+        dispatch({ type: "openUpdateModal" });
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [query, dataSource]);
   /**
    * Дефолтная логика для кнопок. Пока что нет задачи изменять количество кнопок
    */
@@ -60,6 +85,7 @@ export default function DocumentControlTableViewer({
 
   return (
     <ATable
+      scroll={{ x: "1000" }}
       key="keyDocumentControlTableViewer"
       columns={getColumns({ dataSource, columns })}
       dataSource={dataSource}

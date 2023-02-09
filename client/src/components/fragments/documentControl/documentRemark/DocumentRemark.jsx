@@ -20,7 +20,7 @@ export default function DocumentRemark(props) {
       />
     );
 
-    // Отклонен
+    // Текст замечания
     if (documentRemark?.length > 0) {
       result.push(
         <DocumentRemarkText
@@ -38,7 +38,7 @@ export default function DocumentRemark(props) {
         />
       );
     }
-    // На доработку
+    // Добавление кнопки Замечание исправлено
     if (documentStatusId === 7 && documentRemark?.length > 0) {
       result.push(
         <DocumentReworkButtons

@@ -14,9 +14,8 @@ class DocumentFilesController {
   async addDocumentFiles(req, res, next) {
     try {
       const data = await DocumentService.createDocumentFiles(
-        { documentFiles: req.body },
-        req.query.documentId,
-        req.user.id
+        { documentFileIds: req.body },
+        req.query.documentId
       );
       return res.json(data);
     } catch (e) {

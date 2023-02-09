@@ -68,6 +68,10 @@ const dict = {
     </NavLink>,
     "/document-control/signing/my-signed-documents"
   ),
+  my_tasks: getItem(
+    <NavLink to="/document-control/tasks/my_tasks">Входящие</NavLink>,
+    "/document-control/tasks/my_tasks"
+  ),
 };
 
 function getLink(LinkKey) {

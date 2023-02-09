@@ -1,8 +1,8 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
-import DocumentService from "../../../../services/DocumentServices/DocumentService";
-import DocumentRouteService from "../../../../services/DocumentServices/DocumentRouteService";
-import DocumentValuesService from "../../../../services/DocumentServices/DocumentValuesService";
-import DocumentFilesService from "../../../../services/DocumentServices/DocumentFilesService";
+import DocumentService from "../../../../services/DocumentControlServices/DocumentsServices/DocumentService";
+import DocumentRouteService from "../../../../services/DocumentControlServices/DocumentsServices/DocumentRouteService";
+import DocumentValuesService from "../../../../services/DocumentControlServices/DocumentsServices/DocumentValuesService";
+import DocumentFilesService from "../../../../services/DocumentControlServices/DocumentsServices/DocumentFilesService";
 import { SIGN_STEP_BACK_TYPE_ID } from "../../../../components/fragments/documentControl/documentRoute/RouteStepFragmentProvider";
 
 const TAG_TYPE_DOCUMENT = "Documents";
@@ -24,7 +24,6 @@ export const documentsApi = createApi({
       queryFn: async ({
         status = 0,
         isAddForeignTables = false,
-        isAddDocumentData = false,
         isShowAllDocs = false,
         isOnlyForSigningDocuments = false,
         isOnlyMySignedDocuments = false,
@@ -33,7 +32,6 @@ export const documentsApi = createApi({
           const response = await DocumentService.getAll({
             status,
             isAddForeignTables,
-            isAddDocumentData,
             isShowAllDocs,
             isOnlyForSigningDocuments,
             isOnlyMySignedDocuments,
@@ -53,12 +51,20 @@ export const documentsApi = createApi({
     }),
 
     getDocument: build.query({
-      queryFn: async ({ id = "", currentRow = {}, isStart = true }) => {
+      queryFn: async ({
+        id = "",
+        currentRow = {},
+        isStart = true,
+        isAddDocumentData = false,
+        isAddForeignTables = false,
+      }) => {
         if (isStart) {
           try {
-            const response = await DocumentService.getOne(
-              id || currentRow?.Document_id
-            );
+            const response = await DocumentService.getOne({
+              id: id || currentRow?.document_id,
+              isAddDocumentData,
+              isAddForeignTables,
+            });
             return { data: response };
           } catch (e) {
             return { error: e.message };
@@ -159,12 +165,18 @@ export const documentsApi = createApi({
           : [{ type: TAG_TYPE_ROUTE, id: "LIST" }],
     }),
     getDocumentValues: build.query({
-      queryFn: async ({ documentId = "", currentRow = {}, isStart = true }) => {
+      queryFn: async ({
+        documentId = "",
+        currentRow = {},
+        isStart = true,
+        isGetConnectedTables = false,
+      }) => {
         if (isStart) {
           try {
-            const response = await DocumentValuesService.getOneDocumentValues(
-              documentId || currentRow?.document_id
-            );
+            const response = await DocumentValuesService.getOneDocumentValues({
+              documentId: documentId || currentRow?.document_id,
+              isGetConnectedTables,
+            });
             return { data: response };
           } catch (e) {
             return { error: e.message };
@@ -204,11 +216,12 @@ export const documentsApi = createApi({
           : [{ type: TAG_TYPE_DOCUMENT_FILES, id: "LIST" }],
     }),
     addDocumentFiles: build.mutation({
-      queryFn: async ({ documentId, documentFiles }) => {
+      queryFn: async (props) => {
+        const { documentId, documentFileIds } = props;
         try {
           const response = await DocumentFilesService.create({
             documentId,
-            documentFiles,
+            documentFileIds,
           });
           return { data: response };
         } catch (e) {

@@ -40,7 +40,7 @@ export default function getColumns({ dataSource, columns }) {
     },
 
     document_created_at: {
-      title: "Дата и время создание",
+      title: "Дата и время создания",
       dataIndex: "document_created_at",
       align: "center",
       sorter: (a, b) => sorterDate(a, b),
@@ -115,8 +115,74 @@ export default function getColumns({ dataSource, columns }) {
     },
   };
 
+  const documentTaskColumns = {
+    document_task_id: {
+      title: "ID",
+      dataIndex: "document_task_id",
+      align: "center",
+      defaultSortOrder: "descend",
+      sorter: (a, b) => sorterInt(a?.document_task_id, b?.document_task_id),
+    },
+    document_task_creator: {
+      title: "ФИО поручителя",
+      dataIndex: "document_task_creator",
+      align: "center",
+      sorter: (a, b) =>
+        sorterStringAlphabet(
+          a?.document_task_creator,
+          b?.document_task_creator
+        ),
+      filters: filterDataStringSorted(dataSource, "document_creator"),
+      onFilter: (value, record) =>
+        record?.document_task_creator?.indexOf(value) === 0,
+    },
+    document_task_executor: {
+      title: "Исполнитель",
+      dataIndex: "document_task_executor",
+      align: "center",
+      sorter: (a, b) =>
+        sorterStringAlphabet(
+          a?.document_task_executor,
+          b?.document_task_executor
+        ),
+      filters: filterDataStringSorted(dataSource, "document_task_executor"),
+      onFilter: (value, record) =>
+        record?.document_task_executor?.indexOf(value) === 0,
+    },
+    document_task_created_at: {
+      title: "Дата и время создания",
+      dataIndex: "document_task_created_at",
+      align: "center",
+      sorter: (a, b) => sorterDate(a, b),
+      render: (value) => renderDate(value),
+    },
+    document_task_due_at: {
+      title: "Выполнить до",
+      dataIndex: "document_task_due_at",
+      align: "center",
+      sorter: (a, b) => sorterDate(a, b),
+      render: (value) => renderDate(value, false),
+    },
+    document_task_status: {
+      title: "Статус",
+      dataIndex: "document_task_status",
+      align: "center",
+      sorter: (a, b) =>
+        sorterStringAlphabet(a?.document_task_status, b?.document_task_status),
+      filters: filterDataStringSorted(dataSource, "document_task_status"),
+      onFilter: (value, record) =>
+        record?.document_task_status?.indexOf(value) === 0,
+    },
+    document_task_problem: {
+      title: "Задача",
+      dataIndex: "document_task_problem",
+      align: "center",
+    },
+  };
+
   const dictColumn = {
     ...documentColumns,
+    ...documentTaskColumns,
   };
 
   /**

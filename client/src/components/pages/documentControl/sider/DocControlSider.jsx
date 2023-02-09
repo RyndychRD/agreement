@@ -1,7 +1,7 @@
 /** @format */
 
 import Layout from "antd/es/layout/layout";
-import { AMenu } from "../../../adapter";
+import { Menu } from "antd";
 import {
   isAccessGranted,
   isAnyAccessGranted,
@@ -47,10 +47,10 @@ function getSigningBlock() {
 }
 
 function getTaskBlock() {
-  return null;
-  // getItem("Задачи", "Tasks", null, [
-  //   isAccessGranted("IncomeTasks") ? getItem("Входящие", "FILL_ME") : null,
-  // ]),
+  if (!isAnyAccessGranted(["IncomeTasks"])) return null;
+  return getItem("Задачи", "Tasks", null, [
+    isAccessGranted("IncomeTasks") ? getLink("my_tasks") : null,
+  ]);
 }
 
 function getAdminBlock() {
@@ -70,12 +70,12 @@ export default function Sider() {
     getAdminBlock(),
   ];
   return (
-    <LayoutSider theme="dark" collapsible>
-      <AMenu
+    <LayoutSider theme="dark">
+      <Menu
         defaultSelectedKeys={window.location.pathname}
         className="siderMenu"
         mode="inline"
-        defaultOpenKeys={["UserDocuments", "Signing", "AdminDocs"]}
+        defaultOpenKeys={["UserDocuments", "Signing", "AdminDocs", "Tasks"]}
         items={items}
       />
     </LayoutSider>

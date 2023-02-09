@@ -14,13 +14,26 @@ import {
  * @param {*} object.CreateUpdateForm Скелет окна без данных. Представляет форму с элементами
  * @returns
  */
-export default function ModalInput({ form, addMutation, CreateUpdateForm }) {
-  const state = useTableModalsState();
-  const dispatch = useTableModalDispatch();
+export default function ModalInput({
+  form,
+  addMutation,
+  CreateUpdateForm,
+  customState,
+  customDispatch,
+  CreateUpdateFormProps = {},
+}) {
+  const standardState = useTableModalsState();
+  const standardDispatch = useTableModalDispatch();
+  const state = customState ? customState() : standardState;
+  const dispatch = customDispatch ? customDispatch() : standardDispatch;
   const [addFunc, { isError, isLoading, reset }] = addMutation();
   const isOpen = state.isShowCreateModal;
 
-  const children = isOpen ? <CreateUpdateForm form={form} /> : "";
+  const children = isOpen ? (
+    <CreateUpdateForm form={form} {...CreateUpdateFormProps} />
+  ) : (
+    ""
+  );
   /**
    * При создании валидируем форму и отправляем все данные в сервис
    */

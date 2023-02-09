@@ -1,4 +1,4 @@
-import { api } from "../../http/index";
+import { api } from "../../../http/index";
 
 export default class DocumentStatusService {
   static API_ROUTE = "/catalog/documents/status";

@@ -1,5 +1,7 @@
+import { Checkbox, Form } from "antd";
 import { useState } from "react";
-import { ACheckbox, AFormItem } from "../../adapter";
+import SimpleError from "../messages/Error";
+import SimpleSpinner from "../messages/Spinner";
 
 export default function CheckboxInputFormItem({
   title = "Поле ввода",
@@ -12,10 +14,34 @@ export default function CheckboxInputFormItem({
     setIsChecked(!isChecked);
   };
   return (
-    <AFormItem name={name} valuePropName="checked" labelCol={{ span: 24 }}>
-      <ACheckbox checked={isChecked} onChange={toggleChecked}>
+    <Form.Item name={name} valuePropName="checked" labelCol={{ span: 24 }}>
+      <Checkbox checked={isChecked} onChange={toggleChecked}>
         {title}
-      </ACheckbox>
-    </AFormItem>
+      </Checkbox>
+    </Form.Item>
+  );
+}
+
+export function CheckboxGroupInputFormItem({
+  title = "Поле ввода",
+  name = "formItemName",
+  options = [],
+  rules = [],
+  isLoading = false,
+  isError = false,
+}) {
+  if (isError) return <SimpleError />;
+  if (isLoading) return <SimpleSpinner />;
+  if (!(options && options.length > 0)) return null;
+  return (
+    <Form.Item
+      rules={rules}
+      label={title}
+      name={name}
+      valuePropName="checked"
+      labelCol={{ span: 24 }}
+    >
+      <Checkbox.Group options={options} />
+    </Form.Item>
   );
 }

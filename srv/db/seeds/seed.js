@@ -17,6 +17,7 @@ const { rightsSeed } = require("./seeds/rights");
 const { usersSeed } = require("./seeds/users");
 const { userRightsSeed } = require("./seeds/users-rights");
 const { documentTypeViewsSeed } = require("./seeds/document_type_views");
+const { documentTaskStatusesSeed } = require("./seeds/document_task_statuses");
 
 /**
  * @param { import("knex").Knex } knex
@@ -36,4 +37,5 @@ exports.seed = async function (knex) {
   await documentTypeDefaultRoutesSeed(knex);
   await document_element_IO_dictionarySeed(knex);
   await documentTypeViewsSeed(knex);
+  await documentTaskStatusesSeed(knex);
 };

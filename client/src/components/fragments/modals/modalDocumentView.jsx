@@ -1,5 +1,4 @@
 import { Modal, Button } from "antd";
-
 import { useEffect } from "react";
 import {
   useTableModalDispatch,
@@ -10,13 +9,21 @@ import DocumentInformationFragment from "../documentControl/documentInformation/
 import RouteStepsFragment from "../documentControl/documentRoute/RouteStepsFragment";
 import DocumentFilesFragment from "../documentControl/documentFiles/DocumentFilesFragment";
 import DocumentRemark from "../documentControl/documentRemark/DocumentRemark";
-import NotificationService from "../../../services/DocumentServices/NotificationService";
+import NotificationService from "../../../services/DocumentControlServices/NotificationService";
+import DocumentTasksFragment from "../documentControl/documentTasks/DocumentTasksFragment";
+import DocumentPrintFragment from "../documentControl/documentPrint/DocumentPrintFragment";
+import {
+  replaceUrlQueryWithId,
+  clearUrlQueryParams,
+} from "../../../services/CommonFunctions";
 
 export default function ModalDocumentView(props) {
   const {
     notificationType = "",
     isAbleToSign = false,
     isAbleToEdit = false,
+    isAddForPrint = false,
+    isShowDocumentTasks = false,
   } = props;
   const state = useTableModalsState();
   const dispatch = useTableModalDispatch();
@@ -24,6 +31,7 @@ export default function ModalDocumentView(props) {
 
   const onCancel = () => {
     dispatch({ type: "closeAllModal" });
+    clearUrlQueryParams();
   };
   useEffect(() => {
     if (notificationType && isOpen) {
@@ -33,12 +41,16 @@ export default function ModalDocumentView(props) {
         notificationType,
       });
     }
+    if (isOpen) {
+      replaceUrlQueryWithId(state.currentRow?.key);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen]);
 
   if (isOpen)
     return (
       <Modal
+        width={isShowDocumentTasks ? 1000 : 500}
         open={isOpen}
         onCancel={onCancel}
         footer={[
@@ -51,7 +63,6 @@ export default function ModalDocumentView(props) {
           key="MainModal"
           documentName={state.currentRow?.document_name}
           typeName={state.currentRow?.document_type}
-          fileList={state.currentRow?.document_files}
         />
         <DocumentInformationFragment
           isStart={state.isShowUpdateModal}
@@ -62,6 +73,11 @@ export default function ModalDocumentView(props) {
           documentId={state.currentRow?.document_id}
           isAbleToEdit={isAbleToEdit}
         />
+        {isAddForPrint ? (
+          <DocumentPrintFragment documentId={state.currentRow?.document_id} />
+        ) : (
+          ""
+        )}
         <RouteStepsFragment
           isStart={state.isShowUpdateModal}
           documentId={state.currentRow?.document_id}
@@ -73,6 +89,12 @@ export default function ModalDocumentView(props) {
           documentStatusId={state.currentRow?.document_status_id}
           documentRemark={state.currentRow?.document_remark}
         />
+        {/* Отображать ли поручения по документу */}
+        {isShowDocumentTasks ? (
+          <DocumentTasksFragment documentId={state.currentRow?.document_id} />
+        ) : (
+          ""
+        )}
       </Modal>
     );
 }

@@ -6,19 +6,28 @@ class DocumentFileSchema {
     this.knexProvider = require("knex")(knexConfig[process.env.NODE_ENV]);
   }
 
+  addFiles(query) {
+    query = query.leftJoin("files", "files.id", "documents-files.file_id");
+    return query;
+  }
+
   async findFiles({ filter }) {
-    let query = this.knexProvider("document_files")
-      .select("document_files.*")
-      .orderBy("document_files.id", "asc")
+    let query = this.knexProvider("documents-files")
+      .select("documents-files.*")
+      .select("files.*")
+      .orderBy("documents-files.id", "asc")
       .where(filter);
+    query = this.addFiles(query);
     return await query;
   }
 
   async findFile({ filter }) {
-    let query = this.knexProvider("document_files")
-      .first("document_files.*")
-      .orderBy("document_files.id", "asc")
+    let query = this.knexProvider("documents-files")
+      .first("documents-files.*")
+      .select("files.*")
+      .orderBy("documents-files.id", "asc")
       .where(filter);
+    query = this.addFiles(query);
     return await query;
   }
 
@@ -28,7 +37,7 @@ class DocumentFileSchema {
    * @returns
    */
   async create(files) {
-    return await this.knexProvider("document_files").insert(files);
+    return await this.knexProvider("documents-files").insert(files);
   }
 }
 

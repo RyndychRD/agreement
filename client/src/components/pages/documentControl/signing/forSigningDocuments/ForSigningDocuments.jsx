@@ -1,10 +1,10 @@
-import DocumentService from "../../../../../services/DocumentServices/DocumentService";
 import DocumentControlTableViewer from "../../../../fragments/tables/DocumentControl/DocumentControlTableViewer";
 import { TableModalProvider } from "../../../../fragments/tables/TableModalProvider";
 import UpdateButtonModel from "./buttonModals/update";
 import { useGetDocumentsQueryHook } from "../../../../../core/redux/api/DocumentControl/DocumentApi";
 import { isAccessGranted } from "../../../../../services/userAccessService";
 import { Error403 } from "../../../../fragments/messages/Error";
+import DocumentService from "../../../../../services/DocumentControlServices/DocumentsServices/DocumentService";
 
 /** Список документов, созданных пользователем */
 export default function ForSigningDocuments() {

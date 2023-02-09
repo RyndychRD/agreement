@@ -4,11 +4,11 @@ import { api } from "../http/index";
 
 export default class FileService {
   static async getFile(props) {
-    const { isTempFile, fileUuid, fileName, isConvertToPdf, isPDF } = props;
+    const { fileName, fileId, isForPreview = false } = props;
     console.log("вызов в FileService -> getFile c параметрами", props);
 
     const response = await api.get(
-      `/files?fileUuid=${fileUuid}&isTempFile=${isTempFile}&isConvertToPdf=${isConvertToPdf}&isPDF=${isPDF}`,
+      `/files?fileId=${fileId}&isForPreview=${isForPreview}`,
       {
         responseType: "blob",
       }
@@ -16,7 +16,12 @@ export default class FileService {
 
     console.log("вызов в FileService ->getFile-> результат", response);
     // Если мы конвертируем в PDF, то ожидаем что вернется чистый блоб для отображения в предпросмотре
-    if (isConvertToPdf) return response.data;
+    if (isForPreview) {
+      const file1 = new Blob([response.data], { type: "application/pdf" });
+      const fileURL = URL.createObjectURL(file1);
+      window.open(fileURL);
+      return null;
+    }
     // иначе просто посылаем готовый файл на скачку
     const url = window.URL.createObjectURL(new Blob([response.data]));
     const link = document.createElement("a");
@@ -24,10 +29,19 @@ export default class FileService {
     link.setAttribute("download", `${fileName}`);
     document.body.appendChild(link);
     link.click();
-    console.log(`Файл "${fileName}" отправлен на загрузку пользователю`);
-
     // Clean up and remove the link
     link.parentNode.removeChild(link);
     return null;
+  }
+
+  static prepareFileListFromFormToSend(values) {
+    return values.files.fileList.map((file) => ({
+      ...file,
+      // Вытаскиваем из респонса uuid, под которым сохранен файл
+      uniq: file.response.savedFileName,
+      lastModifiedDate: null,
+      originFileObj: null,
+      xhr: null,
+    }));
   }
 }

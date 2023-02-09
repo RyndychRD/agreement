@@ -6,12 +6,13 @@ const DevTools = require("../DevTools");
 const { getOneUser } = require("../catalogServices/user-service");
 const fs = require("fs");
 const {
-  getFileHash,
-  getDocumentFilePath,
+  createDocumentFilePath,
   getDocumentFileDirectoryPath,
-  getDocumentFileTempPath,
+  getFileTempPath,
 } = require("../file-service");
 const NotificationService = require("../notification/notification-service");
+const FilesModel = require("../../models/catalogModels/files-model");
+const DocumentValuesService = require("./document-values-service");
 
 function getCurrentSigner(document) {
   //Изначально никто не текущий подписант
@@ -47,7 +48,6 @@ class DocumentService {
 
     const func = DocumentModels.find({
       isAddForeignTables: query?.isAddForeignTables.trim() === "true",
-      isAddDocumentData: query?.isAddDocumentData.trim() === "true",
       isOnlyForSigningDocuments:
         query?.isOnlyForSigningDocuments.trim() === "true",
       isOnlyMySignedDocuments: query?.isOnlyMySignedDocuments.trim() === "true",
@@ -82,14 +82,32 @@ class DocumentService {
 
   async getOneDocument(query) {
     const filter = {
-      id: query.id,
+      "documents.id": query.id,
     };
     const func = DocumentModels.findOne({
       isAddForeignTables: query?.isAddForeignTables === "true",
-      isAddDocumentData: query?.isAddDocumentData === "true",
       filter,
     });
-    return await DevTools.addDelay(func);
+    let document = await DevTools.addDelay(func);
+    if (query?.isAddForeignTables.trim() === "true") {
+      const currentSignerId = getCurrentSigner(document);
+      document = await {
+        ...document,
+        route_steps_count: await DocumentService.getOneDocumentRouteStepsCount(
+          document.id
+        ),
+        current_signer: await getOneUser({
+          id: currentSignerId,
+          isAddForeignTables: "true",
+        }),
+        creator: await getOneUser({
+          id: document.creator_id,
+          isAddForeignTables: "true",
+        }),
+      };
+    }
+
+    return document;
   }
 
   /**
@@ -144,9 +162,9 @@ class DocumentService {
     return await DevTools.addDelay(func);
   }
 
-  async createDocumentFiles(body, documentId, uploaderId) {
-    if (!body?.documentFiles) return null;
-    const insertArray = [];
+  async createDocumentFiles(body, documentId) {
+    if (!body?.documentFileIds || body.documentFileIds.length === 0)
+      return null;
 
     DevTools.createFolderIfNotExist(
       await getDocumentFileDirectoryPath({
@@ -154,41 +172,39 @@ class DocumentService {
       })
     );
 
-    await body.documentFiles.forEach(async (file) => {
-      const tempFilePath = getDocumentFileTempPath(file.response.savedFileName);
-      const storageFilePath = await getDocumentFilePath({
-        documentId,
-        fileUuid: file.response.savedFileName,
-        fileName: file.response.originalName,
-      });
-      // Считаем хэш до перемещение файла. Подсчет синхронный
-      const hash = getFileHash(tempFilePath);
-      // Передвигаем файл в место постоянного хранения. Функция ассинхронна, дожидаться завершения не будет
-      // TODO: Сделать нормальную обработку ошибки
-      fs.rename(tempFilePath, storageFilePath, function (err) {
-        if (err) {
-          console.log(err);
-        }
-      });
-
-      insertArray.push({
-        document_id: documentId,
-        name: file.name,
-        type: file.type,
-        uniq: file.response.savedFileName,
-        uploader_id: uploaderId,
-        path: await getDocumentFilePath(
+    const insertArray = await Promise.all(
+      body.documentFileIds.map(async (fileIdToSave) => {
+        const file = await FilesModel.findOne(fileIdToSave);
+        const tempFilePath = getFileTempPath(file.path);
+        const storageFilePath = await createDocumentFilePath({
+          documentId,
+          fileUuid: file.uniq,
+          fileName: file.name,
+        });
+        // Передвигаем файл в место постоянного хранения. Функция ассинхронна, дожидаться завершения не будет
+        // TODO: Сделать нормальную обработку ошибки
+        fs.rename(tempFilePath, storageFilePath, function (err) {
+          if (err) {
+            console.log(err);
+          }
+        });
+        file.isTemp = false;
+        file.path = await createDocumentFilePath(
           {
             documentId,
-            fileUuid: file.response.savedFileName,
-            fileName: file.response.originalName,
+            fileUuid: file.uniq,
+            fileName: file.name,
           },
           false
-        ),
-        size: file.size,
-        hash: hash,
-      });
-    });
+        );
+        FilesModel.update({ file });
+
+        return {
+          document_id: documentId,
+          file_id: file.id,
+        };
+      })
+    );
 
     const func = DocumentFilesModel.create(insertArray);
     return await DevTools.addDelay(func);

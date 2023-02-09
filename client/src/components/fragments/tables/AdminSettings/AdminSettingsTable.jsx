@@ -66,6 +66,7 @@ export default function AdminSettingsTable({
 
   return (
     <ATable
+      scroll={{ x: "1000" }}
       key="keyAdminSettingsTable"
       columns={getColumns({ dataSource, columns })}
       dataSource={dataSource}
@@ -80,7 +81,6 @@ export default function AdminSettingsTable({
             type: "selectRow",
             currentRow: row,
           });
-          console.log(row);
         },
         // Двойной клик всегда срабатывает после одинарного
         onDoubleClick: () => {
