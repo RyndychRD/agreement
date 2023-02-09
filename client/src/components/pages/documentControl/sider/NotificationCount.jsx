@@ -18,7 +18,8 @@ export default function NotificationCount(props) {
         count={
           isError
             ? 0
-            : data.find((el) => el.notification_type === notificationType).count
+            : data.find((el) => el.notification_type === notificationType)
+                ?.count
         }
       />
     </sup>

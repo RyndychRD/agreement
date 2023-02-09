@@ -4,8 +4,10 @@ const { getOneStatus } = require("../catalogServices/document-status-service");
 const {
   notifyDocumentSigningEmail,
   notifyDocumentStatusChangedEmail,
+  notifyDocumentTaskChangedEmail,
 } = require("./email-notification-service");
 const { addNotification } = require("./notification-is-read-service");
+const DocumentTaskModel = require("../../models/documentTaskModels/document-task-model");
 
 class NotificationService {
   static async notifyDocumentSigning(documentId) {
@@ -47,8 +49,30 @@ class NotificationService {
           document.creator_id,
           StatusToNotificationType[newDocumentStatusId]
         );
-        addNotification(document.id, document.creator_id);
       }
+    }
+  }
+  static async notifyDocumentTaskChanged(documentTaskId, newDocumentStatusId) {
+    // Если таска только создана - то говорим о ее создании исполнителю.
+    // Если таска закрыта(статус 2) - то говорим об этом создателю таски. Добавлю позже, если будет бизнес необходимость
+    const StatusToNotificationType = {
+      1: "IncomeTask",
+    };
+
+    const documentTask = await DocumentTaskModel.getDocumentTask({
+      filter: { id: documentTaskId },
+    });
+    const document = await DocumentModel.findOne({
+      filter: { id: documentTask.document_id },
+    });
+
+    notifyDocumentTaskChangedEmail(documentTask, document, newDocumentStatusId);
+    if (StatusToNotificationType[newDocumentStatusId]) {
+      addNotification(
+        documentTask.id,
+        documentTask.creator_id,
+        StatusToNotificationType[newDocumentStatusId]
+      );
     }
   }
 }

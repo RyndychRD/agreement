@@ -13,6 +13,9 @@ const DocumentTasksDocumentValuesModel = require("../../models/documentTaskModel
 const DocumentTasksDocumentFilesModel = require("../../models/documentTaskModels/document_tasks-document_files");
 const DocumentValuesService = require("../document/document-values-service");
 const DocumentFilesService = require("../document/document-files-service");
+const {
+  notifyDocumentTaskChanged,
+} = require("../notification/notification-service");
 
 class DocumentTasksService {
   static async getIncomeDocumentTasks(currentUserId, query) {
@@ -146,6 +149,8 @@ class DocumentTasksService {
       DocumentTasksDocumentFilesModel.create(preparedPassedValues);
     }
 
+    // Создание поручение всегда создает с статусом 1 - Поручено
+    notifyDocumentTaskChanged(documentTask[0].id, 1);
     return documentTask;
   }
 
@@ -175,6 +180,9 @@ class DocumentTasksService {
       query.id,
       updatedDocumentTasksDocumentId[0].document_id
     );
+
+    // Создание поручение всегда создает с статусом 1
+    notifyDocumentTaskChanged(query.id, body.documentTaskStatusId);
     return await DevTools.addDelay(updatedDocumentTasksDocumentId);
   }
 

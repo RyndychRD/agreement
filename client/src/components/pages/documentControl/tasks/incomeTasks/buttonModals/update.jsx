@@ -28,6 +28,7 @@ export default function UpdateButtonModel() {
         isAddDocumentValues: true,
         isAddDocumentFiles: true,
       }}
+      notificationType="IncomeTask"
     />
   );
 }

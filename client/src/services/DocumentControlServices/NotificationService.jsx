@@ -20,7 +20,7 @@ export default class NotificationService {
   static async readNotifications(props) {
     const { elementId, notificationType } = props;
 
-    if (elementId) {
+    if (elementId && notificationType) {
       console.log(
         `вызов в NotificationService -> Прочитать записи для текущего пользователя по документу ${elementId}`
       );

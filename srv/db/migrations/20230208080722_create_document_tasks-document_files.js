@@ -33,5 +33,5 @@ exports.up = function (knex) {
  * @returns { Promise<void> }
  */
 exports.down = function (knex) {
-  return knex.schema.dropTableIfExists("documents_tasks-files");
+  return knex.schema.dropTableIfExists("documents_tasks-document_files");
 };
