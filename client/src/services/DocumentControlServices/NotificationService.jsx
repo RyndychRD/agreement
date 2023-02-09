@@ -3,35 +3,32 @@ import { api } from "../../http/index";
 export default class NotificationService {
   static API_ROUTE = "/notifications";
 
-  static async getUnreadNotificationsByType(
-    notificationType,
-    isGetNotificationCount
-  ) {
+  static async getUnreadNotifications(isGetNotificationCount) {
     // console.log(
-    //   `вызов в NotificationService -> Взять все записи для текущего пользователя с типом ${notificationType}`
+    //   `вызов в NotificationService -> Взять все записи для текущего пользователя`
     // );
     const response = await api.get(
-      `${this.API_ROUTE}?notificationType=${notificationType}&isGetNotificationCount=${isGetNotificationCount}`
+      `${this.API_ROUTE}?isGetNotificationCount=${isGetNotificationCount}`
     );
     // console.log(
-    //   `вызов в NotificationService -> Взять все записи для текущего пользователя с типом ${notificationType}-> результат`,
+    //   `вызов в NotificationService -> Взять все записи для текущего пользователя`,
     //   response
     // );
     return response.data;
   }
 
   static async readNotifications(props) {
-    const { documentId, notificationType } = props;
+    const { elementId, notificationType } = props;
 
-    if (documentId) {
+    if (elementId) {
       console.log(
-        `вызов в NotificationService -> Прочитать записи для текущего пользователя по документу ${documentId}`
+        `вызов в NotificationService -> Прочитать записи для текущего пользователя по документу ${elementId}`
       );
       const response = await api.put(
-        `${this.API_ROUTE}/read-notifications?documentId=${documentId}&notificationType=${notificationType}`
+        `${this.API_ROUTE}/read-notifications?elementId=${elementId}&notificationType=${notificationType}`
       );
       console.log(
-        `вызов в NotificationService -> Прочитать записи для текущего пользователя по документу ${documentId} -> результат`,
+        `вызов в NotificationService -> Прочитать записи для текущего пользователя по документу ${elementId} -> результат`,
         response
       );
       return response.data;

@@ -10,7 +10,7 @@ import "../style.css";
 import SimpleSpinner from "../../messages/Spinner";
 import SimpleError from "../../messages/Error";
 import getColumns from "./getColumns";
-import { useGetUnreadNotificationsByTypeQueryHook } from "../../../../core/redux/api/DocumentControl/NotificationApi";
+import { useGetUnreadNotificationsQueryHook } from "../../../../core/redux/api/DocumentControl/NotificationApi";
 
 /**
  * Конструктор таблиц для предварительного просмотра перечиня документов.
@@ -37,16 +37,19 @@ export default function DocumentControlTableViewer({
   const state = customState ? customState() : standardState;
   const dispatch = customDispatch ? customDispatch() : standardDispatch;
 
-  const { data: documentNotificationIds, isLoading: isLoadingNotifications } =
-    useGetUnreadNotificationsByTypeQueryHook(
-      { notificationType, isGetNotificationCount: false },
+  const { data: notificationIds, isLoading: isLoadingNotifications } =
+    useGetUnreadNotificationsQueryHook(
+      { isGetNotificationCount: false },
       {
-        pollingInterval: 500,
+        pollingInterval: 1000,
       }
     );
+
   let documentForNotifying = [];
-  if (!isLoadingNotifications && documentNotificationIds) {
-    documentForNotifying = documentNotificationIds?.map((el) => el.document_id);
+  if (!isLoadingNotifications && notificationIds) {
+    documentForNotifying = notificationIds
+      ?.filter((el) => el.notification_type === notificationType)
+      .map((el) => el.element_id);
   }
 
   // Этот блок отвечает за открытие элемента по id

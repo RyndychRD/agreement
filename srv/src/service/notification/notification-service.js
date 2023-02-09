@@ -5,10 +5,7 @@ const {
   notifyDocumentSigningEmail,
   notifyDocumentStatusChangedEmail,
 } = require("./email-notification-service");
-const {
-  addNotificationDocumentSigning,
-  addNotificationDocumentStatusChange,
-} = require("./document-read-notification-service");
+const { addNotification } = require("./notification-is-read-service");
 
 class NotificationService {
   static async notifyDocumentSigning(documentId) {
@@ -26,7 +23,7 @@ class NotificationService {
         ? currentSigningStep.deputy_signer_id
         : currentSigningStep.signer_id;
       notifyDocumentSigningEmail(document, toId);
-      addNotificationDocumentSigning(document, toId);
+      addNotification(document.id, toId, "Signing");
     }
   }
 
@@ -35,12 +32,23 @@ class NotificationService {
     if (newDocumentStatusId == 5) {
       this.notifyDocumentSigning(documentId);
     } else {
+      const StatusToNotificationType = {
+        7: "ReworkDocument",
+      };
+
       const document = await DocumentModel.findOne({
         filter: { id: documentId },
       });
       const status = await getOneStatus({ id: newDocumentStatusId });
       notifyDocumentStatusChangedEmail(document, status);
-      addNotificationDocumentStatusChange(document, newDocumentStatusId);
+      if (StatusToNotificationType[newDocumentStatusId]) {
+        addNotification(
+          document.id,
+          document.creator_id,
+          StatusToNotificationType[newDocumentStatusId]
+        );
+        addNotification(document.id, document.creator_id);
+      }
     }
   }
 }

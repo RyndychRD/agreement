@@ -10,20 +10,23 @@ class DocumentNotificationIsReadSchema {
    * @param {json} filter
    */
   async getNotifications({ filter }) {
-    let query = this.knexProvider("document_is_read")
-      .distinct("document_is_read.document_id")
+    let query = this.knexProvider("notification_is_read")
+      .distinct("notification_is_read.element_id")
+      .select("notification_is_read.notification_type")
       .where(filter);
     return await query;
   }
   async getNotificationsCount({ filter }) {
-    let query = this.knexProvider("document_is_read")
-      .countDistinct("document_is_read.document_id")
+    let query = this.knexProvider("notification_is_read")
+      .countDistinct("notification_is_read.element_id")
+      .select("notification_is_read.notification_type")
+      .groupBy("notification_is_read.notification_type")
       .where(filter);
     return await query;
   }
 
   async readeNotifications({ filter }) {
-    let query = this.knexProvider("document_is_read")
+    let query = this.knexProvider("notification_is_read")
       .update({ is_read: true })
       .where(filter);
     return await query;
@@ -34,7 +37,7 @@ class DocumentNotificationIsReadSchema {
    * @returns
    */
   async create(files) {
-    return await this.knexProvider("document_is_read").insert(files);
+    return await this.knexProvider("notification_is_read").insert(files);
   }
 }
 
