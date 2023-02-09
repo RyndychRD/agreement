@@ -14,6 +14,14 @@ export async function handlePreview(props) {
     isForPreview: true,
   });
 }
+export function handlePushToDocument(props) {
+  const { file, documentId, addFileIdToDocument } = props;
+  openNotification(
+    "Операция с файлом",
+    "Файл добавлен в оригинальный документ"
+  );
+  addFileIdToDocument({ fileId: file.file_id, documentId });
+}
 
 /**
  *

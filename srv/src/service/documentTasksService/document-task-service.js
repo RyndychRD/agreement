@@ -9,6 +9,13 @@ const {
   createDocumentTaskFilePath,
 } = require("../file-service");
 const FilesModel = require("../../models/catalogModels/files-model");
+const DocumentTasksDocumentValuesModel = require("../../models/documentTaskModels/document_tasks-document_values-model");
+const DocumentTasksDocumentFilesModel = require("../../models/documentTaskModels/document_tasks-document_files");
+const DocumentValuesService = require("../document/document-values-service");
+const DocumentFilesService = require("../document/document-files-service");
+const {
+  notifyDocumentTaskChanged,
+} = require("../notification/notification-service");
 
 class DocumentTasksService {
   static async getIncomeDocumentTasks(currentUserId, query) {
@@ -56,6 +63,7 @@ class DocumentTasksService {
     const func = DocumentTaskModel.getDocumentTask({
       filter: { "document_tasks.id": query.documentTaskId },
       isAddForeignTables: query.isAddForeignTables === "true",
+      isAddDocumentValues: query.isAddDocumentValues === "true",
     });
     let documentTask = await DevTools.addDelay(func);
     if (query?.isAddForeignTables === "true") {
@@ -72,6 +80,43 @@ class DocumentTasksService {
         }),
       };
     }
+    if (query?.isAddDocumentValues === "true") {
+      let documentTaskDocumentValues =
+        await DocumentTasksDocumentValuesModel.find({
+          filter: { document_task_id: query.documentTaskId },
+        });
+      if (documentTaskDocumentValues && documentTaskDocumentValues.length > 0) {
+        const valuesIds = documentTaskDocumentValues.map(
+          (el) => el.document_value_id
+        );
+        documentTaskDocumentValues = await DocumentValuesService.getValues({
+          query: { isGetConnectedTables: "true" },
+          filterIn: (builder) =>
+            builder.whereIn("document_values.id", valuesIds),
+        });
+      }
+      documentTask = await {
+        ...documentTask,
+        documentValues: documentTaskDocumentValues,
+      };
+    }
+    if (query?.isAddDocumentFiles === "true") {
+      let documentTaskDocumentFiles =
+        await DocumentTasksDocumentFilesModel.find({
+          filter: { document_task_id: query.documentTaskId },
+        });
+      if (documentTaskDocumentFiles && documentTaskDocumentFiles.length > 0) {
+        const valuesIds = documentTaskDocumentFiles.map((el) => el.file_id);
+        documentTaskDocumentFiles = await DocumentFilesService.getFiles({
+          query: { isGetConnectedTables: "true" },
+          filterIn: (builder) => builder.whereIn("files.id", valuesIds),
+        });
+      }
+      documentTask = await {
+        ...documentTask,
+        documentFiles: documentTaskDocumentFiles,
+      };
+    }
 
     return documentTask;
   }
@@ -84,7 +129,29 @@ class DocumentTasksService {
       problem: body.problem,
       due_at: body.dueAt,
     });
-    return await DevTools.addDelay(func);
+    const documentTask = await DevTools.addDelay(func);
+    if (body?.documentPassedValues && body.documentPassedValues.length > 0) {
+      const preparedPassedValues = body.documentPassedValues.map(
+        (documentValue) => ({
+          document_task_id: documentTask[0].id,
+          document_value_id: documentValue,
+        })
+      );
+      DocumentTasksDocumentValuesModel.create(preparedPassedValues);
+    }
+    if (body?.documentPassedFiles && body.documentPassedFiles.length > 0) {
+      const preparedPassedValues = body.documentPassedFiles.map(
+        (documentValue) => ({
+          document_task_id: documentTask[0].id,
+          file_id: documentValue,
+        })
+      );
+      DocumentTasksDocumentFilesModel.create(preparedPassedValues);
+    }
+
+    // Создание поручение всегда создает с статусом 1 - Поручено
+    notifyDocumentTaskChanged(documentTask[0].id, 1);
+    return documentTask;
   }
 
   static async deleteDocumentTask(query) {
@@ -113,6 +180,9 @@ class DocumentTasksService {
       query.id,
       updatedDocumentTasksDocumentId[0].document_id
     );
+
+    // Создание поручение всегда создает с статусом 1
+    notifyDocumentTaskChanged(query.id, body.documentTaskStatusId);
     return await DevTools.addDelay(updatedDocumentTasksDocumentId);
   }
 

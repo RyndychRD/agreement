@@ -4,11 +4,13 @@ const { isFileHashChanged } = require("../file-service");
 const path = require("path");
 
 class DocumentFilesService {
-  async getOneDocumentFiles(query) {
+  async getFiles({ query, filterIn }) {
     const func = DocumentFilesModels.findFiles({
-      filter: {
-        document_id: query.documentId,
-      },
+      filter: filterIn
+        ? filterIn
+        : {
+            document_id: query.documentId,
+          },
     });
     const files = await DevTools.addDelay(func);
     //После получения списка файлов проверяем хеш каждого файла
@@ -24,6 +26,15 @@ class DocumentFilesService {
       }
     });
     return result;
+  }
+
+  async addFileIdToDocument(props) {
+    const { fileId, documentId } = props;
+    const func = DocumentFilesModels.create({
+      document_id: documentId,
+      file_id: fileId,
+    });
+    return await DevTools.addDelay(func);
   }
 }
 

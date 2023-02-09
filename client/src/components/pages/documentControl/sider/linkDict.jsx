@@ -69,7 +69,10 @@ const dict = {
     "/document-control/signing/my-signed-documents"
   ),
   my_tasks: getItem(
-    <NavLink to="/document-control/tasks/my_tasks">Входящие</NavLink>,
+    <NavLink to="/document-control/tasks/my_tasks">
+      Входящие
+      <NotificationCount type="IncomeTask" />
+    </NavLink>,
     "/document-control/tasks/my_tasks"
   ),
 };

@@ -10,10 +10,11 @@ class DocumentValuesSchema {
    * Находит первое вхождение в таблице
    * @param {json} filter
    */
-  async findOneDocumentValues({ filter }) {
+  async find({ filter }) {
     let query = this.knexProvider("document_values")
-      .select("document_values.*")
       .select("document_element_IO_dictionary.*")
+      //Поменял порядок чтобы id у нас был от document_values
+      .select("document_values.*")
       .orderBy("document_values.id", "asc")
       .leftJoin(
         "document_element_IO_dictionary",

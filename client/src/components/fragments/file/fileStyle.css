@@ -1,0 +1,29 @@
+.category-list * {
+  transition: 0.4s linear;
+}
+.category-list {
+  background: white;
+  list-style-type: circle;
+  list-style-position: inside;
+  padding: 0 10px;
+  margin: 0;
+}
+
+.category-list li {
+  border-bottom: 1px solid #efefef;
+  padding: 10px 0;
+}
+.category-list span {
+  text-decoration: none;
+  color: #555;
+}
+.category-list li div {
+  float: right;
+  padding: 0 5px;
+  font-size: 13px;
+  color: #999;
+}
+
+.category-list li:hover span {
+  color: blue;
+}

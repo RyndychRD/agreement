@@ -43,6 +43,8 @@ export default function DocumentTasksTable(props) {
         title="Поручения по документу"
         customDispatch={useInnerTableDispatch}
         customState={useInnerTableState}
+        // Не работает, служит просто как заглушка
+        queryIdNameForOpen="taskId"
       />
 
       <CreateButtonModel documentId={documentId} />

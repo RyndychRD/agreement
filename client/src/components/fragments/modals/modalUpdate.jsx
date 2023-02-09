@@ -8,6 +8,7 @@ import {
 import { AModal } from "../../adapter";
 import SimpleError from "../messages/Error";
 import SimpleSpinner from "../messages/Spinner";
+import NotificationService from "../../../services/DocumentControlServices/NotificationService";
 import {
   useTableModalDispatch,
   useTableModalsState,
@@ -33,6 +34,8 @@ export default function ModalUpdate({
   formDefaultValues,
   preFinishFunc = null,
   isAddForeignTables = false,
+  additionalGetQueryProps = {},
+  notificationType,
 }) {
   const state = useTableModalsState();
   const dispatch = useTableModalDispatch();
@@ -53,6 +56,7 @@ export default function ModalUpdate({
     isStart: state.isShowUpdateModal && state?.currentRow,
     isAddRights: true,
     isAddForeignTables,
+    ...additionalGetQueryProps,
   });
 
   /**
@@ -62,7 +66,6 @@ export default function ModalUpdate({
     form
       .validateFields()
       .then(async (values) => {
-        console.log(values);
         const preparedValues = preFinishFunc ? preFinishFunc(values) : values;
         await updateFunc({
           ...preparedValues,
@@ -87,6 +90,13 @@ export default function ModalUpdate({
    */
   useEffect(
     () => {
+      if (notificationType && state.isShowUpdateModal) {
+        // Читаем все нотификации по этому документу если передан идентификатор по которому читать
+        NotificationService.readNotifications({
+          elementId: state.currentRow.key,
+          notificationType,
+        });
+      }
       if (!isErrorUpdate && state.isShowUpdateModal) {
         form.resetFields();
         form.setFieldsValue(formDefaultValues(data));
@@ -94,7 +104,7 @@ export default function ModalUpdate({
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [state.isShowUpdateModal, data]
+    [state.isShowUpdateModal, data, isOpen]
   );
 
   const isLoading = isLoadingGet || isLoadingUpdate;

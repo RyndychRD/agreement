@@ -4,8 +4,42 @@ import { getUserNameAndPositionOptionsForSelect } from "../../../../../services/
 import SelectInputFormItem from "../../../inputs/selectInputs";
 import DateInputFormItem from "../../../inputs/dateInput";
 import { LargeTextInputFormItem } from "../../../inputs/textInputs";
-import { useGetDocumentValuesQueryHook } from "../../../../../core/redux/api/DocumentControl/DocumentApi";
+import {
+  useGetDocumentValuesQueryHook,
+  useGetDocumentFilesQueryHook,
+} from "../../../../../core/redux/api/DocumentControl/DocumentApi";
 import { CheckboxGroupInputFormItem } from "../../../inputs/checkboxInputs";
+import DocumentValuesService from "../../../../../services/DocumentControlServices/DocumentsServices/DocumentValuesService";
+import { TextOutputWithLabel } from "../../../outputs/textOutputs";
+import { UploadListItem } from "../../../file/fileOutputs";
+
+function prepareDocumentValuesForCheckbox(documentValues) {
+  return documentValues.map((documentValue) => {
+    const parsedDocumentValue =
+      DocumentValuesService.getValueAndLabelFromDocumentValue(documentValue);
+    return {
+      value: documentValue.id,
+      label: (
+        <TextOutputWithLabel
+          label={parsedDocumentValue.label}
+          text={parsedDocumentValue.value}
+        />
+      ),
+    };
+  });
+}
+function prepareDocumentFilesForCheckbox(documentFiles) {
+  return documentFiles.map((documentFile) => ({
+    value: documentFile.file_id,
+    label: (
+      <UploadListItem
+        key={documentFile.id}
+        file={documentFile}
+        isTempFile={false}
+      />
+    ),
+  }));
+}
 
 export default function CreateForm({ form, documentId }) {
   const {
@@ -17,8 +51,23 @@ export default function CreateForm({ form, documentId }) {
     data: documentValues = {},
     isLoading: isLoadingValues,
     isError: isErrorValues,
-  } = useGetDocumentValuesQueryHook({ documentId, isAddForeignTables: true });
-  console.log(documentValues);
+  } = useGetDocumentValuesQueryHook({
+    documentId,
+    isGetConnectedTables: true,
+  });
+  const {
+    data: documentFiles = {},
+    isLoading: isLoadingFiles,
+    isError: isErrorFiles,
+  } = useGetDocumentFilesQueryHook({ documentId });
+  let preparedDocumentValues = [];
+  let preparedDocumentFiles = [];
+  if (!(isLoadingValues || isErrorValues)) {
+    preparedDocumentValues = prepareDocumentValuesForCheckbox(documentValues);
+  }
+  if (!(isLoadingFiles || isErrorFiles)) {
+    preparedDocumentFiles = prepareDocumentFilesForCheckbox(documentFiles);
+  }
   return (
     <Form form={form}>
       <Form.Item hidden name="documentId" />
@@ -62,8 +111,17 @@ export default function CreateForm({ form, documentId }) {
         isLoading={isLoadingValues}
         key="documentPassedValues"
         name="documentPassedValues"
-        options={[]}
-        title="Данные из документа"
+        options={preparedDocumentValues}
+        title="Данные из документа, отображаемые для исполнителя"
+      />
+      <CheckboxGroupInputFormItem
+        isError={isLoadingFiles}
+        isLoading={isErrorFiles}
+        className="category-list"
+        key="documentPassedFiles"
+        name="documentPassedFiles"
+        options={preparedDocumentFiles}
+        title="Файлы из документа, отображаемые для исполнителя"
       />
     </Form>
   );

@@ -3,7 +3,9 @@ const DocumentValuesService = require("../../service/document/document-values-se
 class DocumentValuesController {
   async getDocumentValues(req, res, next) {
     try {
-      const data = await DocumentValuesService.getOneDocumentValues(req?.query);
+      const data = await DocumentValuesService.getValues({
+        query: req?.query,
+      });
       return res.json(data);
     } catch (e) {
       next(e);

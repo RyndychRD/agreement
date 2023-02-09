@@ -1,4 +1,4 @@
-const DocumentNotificationService = require("../../service/notification/document-read-notification-service");
+const DocumentNotificationService = require("../../service/notification/notification-is-read-service");
 
 class DocumentNotificationController {
   async getNotificationCount(req, res, next) {

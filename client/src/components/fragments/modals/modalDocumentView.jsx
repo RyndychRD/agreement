@@ -37,7 +37,7 @@ export default function ModalDocumentView(props) {
     if (notificationType && isOpen) {
       // Читаем все нотификации по этому документу если передан идентификатор по которому читать
       NotificationService.readNotifications({
-        documentId: state.currentRow.document_id,
+        elementId: state.currentRow.document_id,
         notificationType,
       });
     }

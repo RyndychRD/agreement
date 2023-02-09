@@ -25,6 +25,7 @@ function InnerTableModalReducer(state, action) {
         isShowCreateModal: false,
         isShowDeleteModal: false,
         isShowUpdateModal: false,
+        currentRow: null,
       };
     }
     case "openDeleteModal": {

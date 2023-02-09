@@ -38,6 +38,7 @@ export default function IncomeTasks() {
         dataSource={data ? DocumentTasksService.prepareForTable(data) : null}
         title="Входящие задачи"
         buttons={["update"]}
+        notificationType="IncomeTask"
       />
       <UpdateButtonModel />
     </TableModalProvider>

@@ -32,4 +32,19 @@ export default class DocumentFilesService {
     );
     return response.data;
   }
+
+  static async pushDocumentTaskFileToDocument({ documentId, fileId }) {
+    console.log(
+      `вызов в DocumentFilesService -> Добавить файл с ID=${fileId} из поручения в документ c ID=${documentId}`
+    );
+    const response = await api.post(
+      `${this.API_ROUTE}/add-file-id-to-document`,
+      { documentId, fileId }
+    );
+    console.log(
+      `вызов в DocumentFilesService ->  Добавить файл с ID=${fileId} из поручения в документ c ID=${documentId}`,
+      response
+    );
+    return response.data;
+  }
 }

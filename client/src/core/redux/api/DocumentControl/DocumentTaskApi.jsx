@@ -54,12 +54,16 @@ export const documentTasksApi = createApi({
         currentRow = {},
         isStart = true,
         isAddForeignTables = false,
+        isAddDocumentValues = false,
+        isAddDocumentFiles = false,
       }) => {
         if (isStart) {
           try {
             const response = await DocumentTasksService.getDocumentTask({
               id: id || currentRow?.document_task_id,
               isAddForeignTables,
+              isAddDocumentValues,
+              isAddDocumentFiles,
             });
             return { data: response };
           } catch (e) {
@@ -107,7 +111,7 @@ export const documentTasksApi = createApi({
               ? bodyValues.id
               : bodyValues.currentRow.document_task_id,
             documentTaskStatusId: 2,
-            documentTaskFileIds: bodyValues.files.fileList.map(
+            documentTaskFileIds: bodyValues.files?.fileList.map(
               (file) => file.response.fileId
             ),
           });

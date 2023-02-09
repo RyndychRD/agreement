@@ -1,5 +1,4 @@
 import { Button, Modal } from "antd";
-import { clearUrlQueryParams } from "../../../../../services/CommonFunctions";
 import SimpleSpinner from "../../../messages/Spinner";
 import SimpleError from "../../../messages/Error";
 
@@ -23,9 +22,10 @@ export default function ShowButtonModel() {
     currentRow: state?.currentRow,
     isStart: state.isShowUpdateModal,
     isAddForeignTables: true,
+    isAddDocumentValues: true,
+    isAddDocumentFiles: true,
   });
   const onCancel = () => {
-    clearUrlQueryParams();
     dispatch({ type: "closeAllModal" });
   };
   return (

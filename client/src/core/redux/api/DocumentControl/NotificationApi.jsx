@@ -1,27 +1,33 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import NotificationService from "../../../../services/DocumentControlServices/NotificationService";
 
+const TAG_TYPE = "Notification";
+
 export const notificationsApi = createApi({
   reducerPath: "notificationsApi",
-  tagTypes: ["ReworkDocument", "Signing"],
+  tagTypes: [TAG_TYPE],
+  // Кеш протухает через секунду
+  keepUnusedDataFor: 10,
   endpoints: (build) => ({
-    getUnreadNotificationsByType: build.query({
+    getUnreadNotifications: build.query({
       queryFn: async (props) => {
-        const { notificationType, isGetNotificationCount = true } = props;
-        if (notificationType) {
-          try {
-            const response =
-              await NotificationService.getUnreadNotificationsByType(
-                notificationType,
-                isGetNotificationCount
-              );
-            return { data: response };
-          } catch (e) {
-            return { error: e.message };
-          }
+        const { isGetNotificationCount = true } = props;
+        try {
+          const response = await NotificationService.getUnreadNotifications(
+            isGetNotificationCount
+          );
+          return { data: response };
+        } catch (e) {
+          return { error: e.message };
         }
-        return {};
       },
+      providesTags: (result) =>
+        result
+          ? [
+              { ...result, type: TAG_TYPE, id: result?.id },
+              { type: TAG_TYPE, id: "LIST" },
+            ]
+          : [{ type: TAG_TYPE, id: "LIST" }],
     }),
     // Не используется, оставлено в качестве напоминания использовать при переходе на кэш
     readNotifications: build.query({
@@ -37,13 +43,11 @@ export const notificationsApi = createApi({
   }),
 });
 
-export const {
-  useGetUnreadNotificationsByTypeQuery,
-  useReadNotificationsMutation,
-} = notificationsApi;
+export const { useGetUnreadNotificationsQuery, useReadNotificationsMutation } =
+  notificationsApi;
 
-export const useGetUnreadNotificationsByTypeQueryHook =
-  useGetUnreadNotificationsByTypeQuery;
+export const useGetUnreadNotificationsQueryHook =
+  useGetUnreadNotificationsQuery;
 
 /**
  * `useUpdateDocumentMutationHook` Хук

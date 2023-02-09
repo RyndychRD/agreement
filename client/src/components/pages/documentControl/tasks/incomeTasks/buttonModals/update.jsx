@@ -23,6 +23,12 @@ export default function UpdateButtonModel() {
       CreateUpdateForm={updateForm}
       formDefaultValues={formDefaultValues}
       isAddForeignTables
+      isAddDocumentValues
+      additionalGetQueryProps={{
+        isAddDocumentValues: true,
+        isAddDocumentFiles: true,
+      }}
+      notificationType="IncomeTask"
     />
   );
 }

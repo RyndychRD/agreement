@@ -78,7 +78,10 @@ export default function DocumentPreview({ onCancel }) {
         result.push(
           <>
             <HeaderTextOutput text="Данные документа" />
-            <DocumentInformationShow data={Object.values(element.json)} />
+            <DocumentInformationShow
+              data={Object.values(element.json)}
+              isPrepareData={false}
+            />
           </>
         );
         preparedValuesToSave.documentFilledInformation = Object.values(
