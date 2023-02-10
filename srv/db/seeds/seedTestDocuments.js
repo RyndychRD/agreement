@@ -2,7 +2,7 @@
 
 async function seedDocs(knex) {
   await knex("documents").del();
-  await knex.raw("SELECT setval('documents_id_seq', 2, true);");
+  await knex.raw("SELECT setval('documents_id_seq', 3, true);");
   await knex("documents").insert([
     {
       id: 1,
@@ -19,13 +19,8 @@ async function seedDocs(knex) {
       creator_id: "1",
     },
     {
-      name: "Я Согласование на продажу готовой продукции, который должен отображаться в Созданные мною и в На доработку  и Все документы",
-      document_status_id: "7",
-      document_type_id: "26",
-      creator_id: "1",
-    },
-    {
-      name: "Я Закуп ТРУ, который должен отображаться в Созданные мною и в Согласованные  и Все документы",
+      id: 3,
+      name: "Я Закуп ТРУ согласованный",
       document_status_id: "4",
       document_type_id: "10",
       creator_id: "1",
@@ -93,6 +88,28 @@ async function seedDocRoute(knex) {
       deputy_signer_id: 1,
       step: 3,
     },
+    {
+      document_id: 3,
+      signer_id: 1,
+      actual_signer_id: 1,
+      document_signature_type_id: 1,
+      step: 1,
+    },
+    {
+      document_id: 3,
+      signer_id: 3,
+      actual_signer_id: 3,
+      document_signature_type_id: 1,
+      step: 2,
+    },
+    {
+      document_id: 3,
+      signer_id: 3,
+      actual_signer_id: 3,
+      document_signature_type_id: 1,
+      deputy_signer_id: 1,
+      step: 3,
+    },
   ]);
 }
 async function seedDocValues(knex) {
@@ -137,6 +154,90 @@ async function seedDocValues(knex) {
     },
     {
       document_id: 2,
+      document_element_IO_dictionary_key: "Name_of_Goods_Works_Services",
+      value: "ewq",
+      label: "Поле ввода",
+    },
+    {
+      document_id: 3,
+      document_element_IO_dictionary_key: "Payment_currency",
+      value: "Казахстанский тенге",
+      label: "Валюта",
+    },
+    {
+      document_id: 3,
+      document_element_IO_dictionary_key: "Data_Document",
+      value: "2023-02-02",
+      label: "Дата",
+    },
+    {
+      document_id: 3,
+      document_element_IO_dictionary_key: "Counterparty_contacts",
+      value: "320",
+      label: "Контакты",
+    },
+    {
+      document_id: 3,
+      document_element_IO_dictionary_key: "Subdivision_name",
+      value: "1",
+      label: "Подразделение",
+    },
+    {
+      document_id: 3,
+      document_element_IO_dictionary_key: "Contractors_phone_number",
+      value: "20",
+      label: "Телефон",
+    },
+    {
+      document_id: 3,
+      document_element_IO_dictionary_key: "Email_contacts",
+      value: "r.roman1234@yandex.ru",
+      label: "Мыло",
+    },
+    {
+      document_id: 3,
+      document_element_IO_dictionary_key: "Name_of_Goods_Works_Services",
+      value: "ewq",
+      label: "Поле ввода",
+    },
+    {
+      document_id: 3,
+      document_element_IO_dictionary_key: "Contractors_phone_number",
+      value: "20",
+      label: "Телефон",
+    },
+    {
+      document_id: 3,
+      document_element_IO_dictionary_key: "Email_contacts",
+      value: "r.roman1234@yandex.ru",
+      label: "Мыло",
+    },
+    {
+      document_id: 3,
+      document_element_IO_dictionary_key: "Name_of_Goods_Works_Services",
+      value: "ewq",
+      label: "Поле ввода",
+    },
+    {
+      document_id: 3,
+      document_element_IO_dictionary_key: "Email_contacts",
+      value: "r.roman1234@yandex.ru",
+      label: "Мыло",
+    },
+    {
+      document_id: 3,
+      document_element_IO_dictionary_key: "Name_of_Goods_Works_Services",
+      value: "ewq",
+      label: "Поле ввода",
+    },
+    {
+      document_id: 3,
+      document_element_IO_dictionary_key: "Email_contacts",
+      value: "r.roman1234@yandex.ru",
+      label: "Мыло",
+    },
+    {
+      document_id: 3,
       document_element_IO_dictionary_key: "Name_of_Goods_Works_Services",
       value: "ewq",
       label: "Поле ввода",

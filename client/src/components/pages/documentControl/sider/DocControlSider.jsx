@@ -40,9 +40,7 @@ function getSigningBlock() {
     isAccessGranted("MySignedDocuments")
       ? getLink("my_signed_documents")
       : null,
-    // isAccessGranted("SignedInOOPZDocuments")
-    //   ? getItem("Документы подписанные в ООПЗ", "FILL_ME7")
-    //   : null,
+    isAccessGranted("SignedInOOPZDocuments") ? getLink("signed_in_oopz") : null,
   ]);
 }
 

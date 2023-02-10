@@ -266,6 +266,19 @@ export const documentsApi = createApi({
       },
       invalidatesTags: [{ type: TAG_TYPE_ROUTE, id: "LIST" }],
     }),
+    putDocumentMitvorgAndChangeStatus: build.mutation({
+      queryFn: async (values) => {
+        try {
+          const response = await DocumentService.setMitvorgAndChangeStatus(
+            values
+          );
+          return { data: response };
+        } catch (e) {
+          return { error: e.message };
+        }
+      },
+      invalidatesTags: [{ type: TAG_TYPE_DOCUMENT, id: "LIST" }],
+    }),
   }),
 });
 
@@ -283,6 +296,7 @@ export const {
   useAddDocumentFilesMutation,
   useUpdateDocumentRouteMutation,
   usePushDocumentTaskFileToDocumentMutation,
+  usePutDocumentMitvorgAndChangeStatusMutation,
 } = documentsApi;
 
 /**
@@ -354,3 +368,6 @@ export const useGetDocumentFilesQueryHook = useGetDocumentFilesQuery;
 /** Хук для запроса файлов по документу */
 export const usePushDocumentTaskFileToDocumentMutationHook =
   usePushDocumentTaskFileToDocumentMutation;
+/** Хук для запроса файлов по документу */
+export const usePutDocumentMitvorgAndChangeStatusMutationHook =
+  usePutDocumentMitvorgAndChangeStatusMutation;

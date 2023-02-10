@@ -35,7 +35,7 @@ export function HeaderTextOutput({
 }) {
   if (isLoading) return <SimpleSpinner />;
   if (isError) return <SimpleError />;
-  return <h3>{text}</h3>;
+  return <h3 className="mt-5">{text}</h3>;
 }
 
 export function MainDocumentInformation({
