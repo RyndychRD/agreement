@@ -13,6 +13,7 @@ const {
 const NotificationService = require("../notification/notification-service");
 const FilesModel = require("../../models/catalogModels/files-model");
 const DocumentValuesService = require("./document-values-service");
+const DocumentMitvorgModel = require("../../models/document/document-mitvorg-model");
 
 function getCurrentSigner(document) {
   //Изначально никто не текущий подписант
@@ -217,18 +218,40 @@ class DocumentService {
     return await DevTools.addDelay(func);
   }
 
-  async updateDocument(query, body) {
-    const func = DocumentModels.update(
-      {
-        id: query.id,
-      },
-      {
-        remark: body.newRemark,
-      }
+  async updateDocumentMitvorgAndChangeStatus(body) {
+    let result = null;
+    const func = DocumentMitvorgModel.create({
+      number: body.mitvorgNumber,
+      registration_date: body.mitvorgRegistrationDate,
+      document_id: body.documentId,
+    });
+    result = await DevTools.addDelay(func);
+    result = DocumentService.changeDocumentStatus(
+      body.documentId,
+      body.newDocumentStatusId
     );
-    const result = await DevTools.addDelay(func);
+
+    return result;
+  }
+
+  async updateDocument(query, body) {
+    let result = null;
+    if (body?.newRemark) {
+      const func = DocumentModels.update(
+        {
+          id: query.id,
+        },
+        {
+          remark: body.newRemark,
+        }
+      );
+      result = await DevTools.addDelay(func);
+    }
     if (body?.newDocumentStatusId) {
-      DocumentService.changeDocumentStatus(query.id, body.newDocumentStatusId);
+      result = DocumentService.changeDocumentStatus(
+        query.id,
+        body.newDocumentStatusId
+      );
     }
     return result;
   }

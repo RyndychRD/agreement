@@ -11,5 +11,7 @@ router.post("/",authMiddleware,documentController.createNewDocument);
 router.delete("/",authMiddleware,documentController.deleteDocument);
 // prettier-ignore
 router.put("/",authMiddleware, documentController.updateDocument);
+// prettier-ignore
+router.post("/set-mitvorg-and-change-status",authMiddleware, documentController.updateDocumentMitvorgAndChangeStatus);
 
 module.exports = router;

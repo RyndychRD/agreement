@@ -33,6 +33,16 @@ class DocumentController {
       next(e);
     }
   }
+  async updateDocumentMitvorgAndChangeStatus(req, res, next) {
+    try {
+      const data = await DocumentService.updateDocumentMitvorgAndChangeStatus(
+        req.body
+      );
+      return res.json(data);
+    } catch (e) {
+      next(e);
+    }
+  }
   async deleteDocument(req, res, next) {
     try {
       const data = await DocumentService.deleteDocument(req.query);

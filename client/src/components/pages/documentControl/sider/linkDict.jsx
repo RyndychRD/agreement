@@ -75,6 +75,12 @@ const dict = {
     </NavLink>,
     "/document-control/tasks/my_tasks"
   ),
+  signed_in_oopz: getItem(
+    <NavLink to="/document-control/signing/signed-in-oopz">
+      Документы, подписанные в ООПЗ
+    </NavLink>,
+    "/document-control/signing/signed-in-oopz"
+  ),
 };
 
 function getLink(LinkKey) {

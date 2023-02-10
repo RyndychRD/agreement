@@ -13,7 +13,7 @@ export default function RenderDataPicker(props) {
         onChange={setValueInDatePickerOnForm}
         id={elemNameForForm}
         type="text"
-        format={(value) => `Выбранная дата: ${value.format("DD/MM/YY")}`}
+        format={(value) => `Выбранная дата: ${value.format("DD.MM.YY")}`}
       />
     </FBElementLayout>
   );

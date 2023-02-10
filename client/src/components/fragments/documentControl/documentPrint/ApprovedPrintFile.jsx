@@ -50,7 +50,6 @@ function getQrCode(document, documentValues) {
       className="qr-code"
       style={{ width: "300px", height: "300px" }}
       value={htmlValueArray.join(" | ")}
-      errorCorrectionLevel="M"
     />
   );
 }
@@ -97,7 +96,7 @@ export default function ApprovedPrintFile(props) {
       <td>{route.actual_signer.position_name}</td>
       <td>{route.document_signature_type.name}</td>
       <td>{userNameMask(route.actual_signer)}</td>
-      <td>{renderDate(route.sign_date)}</td>
+      <td>{renderDate(route.sign_date, false)}</td>
     </tr>
   ));
 

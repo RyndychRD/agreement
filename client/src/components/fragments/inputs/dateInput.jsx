@@ -25,7 +25,7 @@ export default function DateInputFormItem({
         type="text"
         locale={locale}
         onChange={setValueInDatePickerOnForm}
-        format={(value) => `Выбранная дата: ${value.format("DD/MM/YY")}`}
+        format={(value) => `Выбранная дата: ${value.format("DD.MM.YY")}`}
       />
     </Form.Item>
   );

@@ -40,6 +40,17 @@ class DocumentSchema {
             ' = "currentSigner"."step"'
         )
       );
+    //подтягиваем данные по митворгу
+    query = query
+      .select("document_mitvorg.number as document_mitvorg_number")
+      .select(
+        "document_mitvorg.registration_date as document_mitvorg_registration_date"
+      )
+      .leftJoin(
+        "document_mitvorg",
+        "documents.id",
+        "document_mitvorg.document_id"
+      );
     return query;
   }
 
