@@ -2,12 +2,15 @@ const ApiError = require("../exceptions/api-error");
 
 /**
  * Обработка прав пользователя
- * @param {*} requiredRights - Список прав, при наличии хотя бы одного из которых разрешается доступ. Доступ админа дает доступ ко всему всегда
+ * @param {*} requiredRights - Список прав, при наличии хотя бы одного из которых разрешается доступ. Доступ админа дает доступ ко всему всегда. Если права не определены - просто пропускаем
  * @returns ApiError
  */
 module.exports = function rightMiddleware(requiredRights = []) {
   return function (req, res, next) {
     try {
+      if (requiredRights.length === 0) {
+        return next();
+      }
       //Добавляем права админа, чтобы всегда иметь доступ ко всему
       requiredRights.push("Admin");
       //Выбираем права пользователя по кодовому имени

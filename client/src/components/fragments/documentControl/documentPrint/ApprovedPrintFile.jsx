@@ -47,8 +47,7 @@ function getQrCode(document, documentValues) {
   ].concat(documentValuesString);
   return (
     <QRCode
-      className="qr-code"
-      style={{ width: "300px", height: "300px" }}
+      style={{ width: "250px", height: "250px" }}
       value={htmlValueArray.join(" | ")}
     />
   );
@@ -93,10 +92,10 @@ export default function ApprovedPrintFile(props) {
 
   const routeStepsTrs = routeSteps.map((route) => (
     <tr key={route.id} style={{ textAlign: "center" }}>
-      <td>{route.actual_signer.position_name}</td>
-      <td>{route.document_signature_type.name}</td>
-      <td>{userNameMask(route.actual_signer)}</td>
-      <td>{renderDate(route.sign_date, false)}</td>
+      <td>{route?.actual_signer?.position_name}</td>
+      <td>{route?.document_signature_type?.name}</td>
+      <td>{userNameMask(route?.actual_signer)}</td>
+      <td>{renderDate(route?.sign_date, false)}</td>
     </tr>
   ));
 

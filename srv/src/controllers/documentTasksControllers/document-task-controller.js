@@ -15,7 +15,8 @@ class DocumentTasksController {
   async getDocumentTasksByDocument(req, res, next) {
     try {
       const data = await DocumentTasksService.getDocumentTasksByDocument(
-        req?.query
+        req?.query,
+        req.user
       );
       return res.json(data);
     } catch (e) {

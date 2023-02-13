@@ -61,11 +61,7 @@ div.page-footer {
   outline: 2cm #ffeaea solid;
 }
 .qr-container {
-  position: absolute;
-  right: 30px;
-  bottom: 30px;
-}
-
-.qr-code {
-  position: relative;
+  display: flex;
+  justify-content: right;
+  margin-top: 30px;
 }

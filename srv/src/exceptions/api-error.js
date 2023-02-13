@@ -16,6 +16,8 @@ class ApiError extends Error {
    * @returns
    */
   static UnauthorizedError() {
+    console.log("Пользователь не авторизован");
+    return;
     return new ApiError(401, "Пользователь не авторизован");
   }
 

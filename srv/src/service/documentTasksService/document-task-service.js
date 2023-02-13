@@ -39,9 +39,18 @@ class DocumentTasksService {
     return documentTasks;
   }
 
-  static async getDocumentTasksByDocument(query) {
+  static async getDocumentTasksByDocument(query, currentUser) {
+    const filter = {
+      document_id: query.documentId,
+      creator_id: currentUser.id,
+    };
+    console.log(currentUser);
+    //Для админа показываем все поручения
+    if (currentUser.id === 1) {
+      delete filter["creator_id"];
+    }
     const func = DocumentTaskModel.getDocumentTasks({
-      filter: { document_id: query.documentId },
+      filter,
       isAddForeignTables: query.isAddForeignTables === "true",
     });
     let documentTasks = await DevTools.addDelay(func);

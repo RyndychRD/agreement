@@ -62,7 +62,7 @@ class UserController {
       const { refreshToken } = req.cookies;
       const token = await loginService.logout(refreshToken);
       res.clearCookie("refreshToken");
-      return res.json(token);
+      return res.send("");
     } catch (e) {
       next(e);
     }
@@ -100,7 +100,8 @@ class UserController {
       });
       return res.json(userData);
     } catch (e) {
-      next(e);
+      console.log(e);
+      res.status(401).end();
     }
   }
 }

@@ -14,26 +14,29 @@ const authFunction = function (req, res, next) {
     const authorizationHeader = req.headers.authorization;
     if (!authorizationHeader) {
       //Пользователь не авторизован
-      return next(ApiError.UnauthorizedError());
+      ApiError.UnauthorizedError();
+      return res.status(401).end();
     }
 
     //Парсим Bearer токен
     const accessToken = authorizationHeader.split(" ")[1];
     if (!accessToken) {
-      return next(ApiError.UnauthorizedError());
+      ApiError.UnauthorizedError();
+      return res.status(401).end();
     }
 
     //Проверяем на корректность данных
     const userData = tokenService.validateAccessToken(accessToken);
     if (!userData) {
-      return next(ApiError.UnauthorizedError());
+      ApiError.UnauthorizedError();
+      return res.status(401).end();
     }
-
     req.user = userData;
     next();
   } catch (e) {
+    ApiError.UnauthorizedError();
     //Пользователь не авторизован
-    return next(ApiError.UnauthorizedError());
+    return res.status(401).end();
   }
 };
 

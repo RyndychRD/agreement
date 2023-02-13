@@ -25,7 +25,7 @@ exports.documentTypeDefaultRoutesSeed = async function (knex) {
         //Заместитель генерального  директора по финансовым и коммерческим вопросам
         //И.о. генерального директора  Заместитель генерального директора по производству
         routeSteps: [
-          getItem(7, 1),
+          getItem(7),
           getItem(11),
           getItem(44),
           getItem(14),
