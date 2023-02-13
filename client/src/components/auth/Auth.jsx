@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
-  AuthCheckAsync,
+  refreshAsync,
   loginAsync,
 } from "../../core/redux/reducers/AuthReducer";
 import {
@@ -37,7 +37,7 @@ function Auth() {
     if (localStorage.getItem("token")) {
       console.log("Проверяем была ли авторизация");
       console.log("Авторизация была, попытка обновить токен");
-      dispatch(AuthCheckAsync());
+      dispatch(refreshAsync());
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

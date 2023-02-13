@@ -12,6 +12,7 @@ export const loginAsync = createAsyncThunk(
   async (action) => {
     try {
       const response = await AuthService.login(action.login, action.password);
+
       localStorage.setItem("token", await response.data.accessToken);
       saveUserRights({ user: response.data.user });
       return await response.data;
@@ -21,24 +22,21 @@ export const loginAsync = createAsyncThunk(
   }
 );
 
-export const AuthCheckAsync = createAsyncThunk(
-  "AuthSlice/authCheck",
-  async () => {
-    try {
-      const response = await axios.get(`${API_URL}/refresh`, {
-        withCredentials: true,
-      });
-      localStorage.setItem("token", await response.data.accessToken);
-      saveUserRights({ user: response.data.user });
-      // eslint-disable-next-line no-console
-      console.log("Токен успешно обновлен,входим в систему.");
-      return await response.data;
-    } catch (error) {
-      // console.log(error.response?.data?.message)
-      return error.response?.data?.message;
-    }
+export const refreshAsync = createAsyncThunk("AuthSlice/refresh", async () => {
+  try {
+    const response = await axios.get(`${API_URL}/refresh`, {
+      withCredentials: true,
+    });
+    localStorage.setItem("token", await response.data.accessToken);
+    saveUserRights({ user: response.data.user });
+    // eslint-disable-next-line no-console
+    console.log("Токен успешно обновлен,входим в систему.");
+    return await response.data;
+  } catch (error) {
+    // console.log(error.response?.data?.message)
+    return error.response?.data?.message;
   }
-);
+});
 
 export const logoutAsync = createAsyncThunk("AuthSlice/logout", async () => {
   try {
@@ -88,7 +86,7 @@ export const AuthSlice = createSlice({
         // console.log(error)
       }
     },
-    [AuthCheckAsync.fulfilled]: (state, action) => {
+    [refreshAsync.fulfilled]: (state, action) => {
       try {
         if (action.payload?.user) {
           state.current_user = action.payload.user;
