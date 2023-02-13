@@ -12,10 +12,10 @@ export const loginAsync = createAsyncThunk(
   async (action) => {
     try {
       const response = await AuthService.login(action.login, action.password);
-
+      document.cookie = `refreshToken=${response.data.refreshToken}`;
       localStorage.setItem("token", await response.data.accessToken);
       saveUserRights({ user: response.data.user });
-      return await response.data;
+      return response.data;
     } catch (error) {
       return error.response?.data?.message;
     }

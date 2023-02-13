@@ -121,7 +121,10 @@ class LoginService {
       }
     }
     const object_userDTO = new UserDto(user);
-    const tokens = TokenService.generateTokens({ ...object_userDTO });
+    const tokens = TokenService.generateTokens({
+      ...object_userDTO,
+      rights: null,
+    });
 
     await TokenService.saveToken(object_userDTO.id, tokens.refreshToken);
     console.log("\x1b[33m%s\x1b[0m", "Зашел пользователь с логином", login);
@@ -166,7 +169,10 @@ class LoginService {
       isAddRights: true,
     });
     const object_userDTO = new UserDto(user);
-    const tokens = TokenService.generateTokens({ ...object_userDTO });
+    const tokens = TokenService.generateTokens({
+      ...object_userDTO,
+      rights: null,
+    });
 
     await TokenService.saveToken(object_userDTO.id, tokens.refreshToken);
     return { ...tokens, user: object_userDTO };
