@@ -9,6 +9,7 @@
     "start": "npx nodemon server.js",
     "migrate": "npx knex migrate:latest --knexfile db/knexfile.js",
     "seed": "npx knex seed:run --knexfile db/knexfile.js",
+    "seedCustom": "npx knex seed:run --specific=seedCustom.js --knexfile db/knexfile.js",
     "seedTestDocuments": "npx knex seed:run --specific=seedTestDocuments.js --knexfile db/knexfile.js",
     "seedTestTasks": "npx knex seed:run --specific=seedTestTasks.js --knexfile db/knexfile.js",
     "seedTestRoutes": "npx knex seed:run --specific=seedTestRoutes.js --knexfile db/knexfile.js",

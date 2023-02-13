@@ -250,6 +250,8 @@ async function seedDocValues(knex) {
  * @returns { Promise<void> }
  */
 exports.seed = async function (knex) {
+  console.log("!Сидирование тестовых документов не проведено!");
+  return;
   await seedDocs(knex);
   await seedDocRoute(knex);
   await seedDocValues(knex);
