@@ -114,7 +114,12 @@ function Auth() {
                 />
               </AFormItem>
               <AFormItem className="loginFormItem">
-                <AButton className="login_btn" htmlType="submit">
+                <AButton
+                  className="login_btn"
+                  htmlType="submit"
+                  type="primary"
+                  style={{ width: "100%" }}
+                >
                   Войти
                 </AButton>
               </AFormItem>
