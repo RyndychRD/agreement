@@ -1,8 +1,9 @@
 {
-  "name": "template",
+  "name": "agreementserver",
   "version": "1.0.0",
-  "description": "",
+  "description": "Agreement server",
   "main": "server.js",
+  "author": "ZavodKirowa",
   "scripts": {
     "eslint": "node_modules/.bin/eslint src/**",
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -19,10 +20,9 @@
     "prettier": "prettier --write src/**/*.js"
   },
   "keywords": [],
-  "author": "",
   "license": "ISC",
   "dependencies": {
-    "bcrypt": "5.1.0",
+    "bcryptjs": "^2.4.3",
     "body-parser": "1.20.1",
     "cookie-parser": "1.4.6",
     "cors": "2.8.5",
@@ -42,6 +42,7 @@
     "nodemon": "2.0.20",
     "passport": "0.6.0",
     "pg": "8.8.0",
+    "pkg": "^5.8.0",
     "uuid": "9.0.0"
   },
   "devDependencies": {
@@ -58,6 +59,15 @@
       "pre-commit": "lint-staged"
     }
   },
+  "pkg": {
+    "scripts": [
+      "src/**/*.js"
+    ],
+    "assets": [
+      "SSL/**/*"
+    ]
+  },
+  "bin": "server.js",
   "lint-staged": {
     "*.{js, jsx}": [
       "node_modules/.bin/eslint --max-warnings=0",

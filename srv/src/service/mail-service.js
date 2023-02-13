@@ -1,6 +1,6 @@
 const nodemailer = require("nodemailer");
-const certPathException = require("path").join(__dirname, "../../SSL/cert.crt");
-const certPath = require("path").join(__dirname, "../../SSL/EXCHANGE.cer");
+const certPathException = require("path").join(process.cwd(), "./SSL/cert.crt");
+const certPath = require("path").join(process.cwd(), "./SSL/EXCHANGE.cer");
 
 //Флаг, который отслеживает переключение на запасной транпортер только один раз
 let isExceptionAlerted = false;
