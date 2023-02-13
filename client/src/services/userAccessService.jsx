@@ -26,6 +26,7 @@ export function isAnyAccessGranted(rightsToCheck = []) {
 
 // TODO: Возможно, имеет смысл переделать на JSON объект
 export function saveUserRights({ user }) {
+  console.log("user,", user);
   localStorage.setItem(
     "rights",
     getUniqNotNullCustom(user.rights, "code_name")

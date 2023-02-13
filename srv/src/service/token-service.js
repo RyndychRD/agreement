@@ -33,8 +33,9 @@ class TokenService {
       const userData = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
       return userData;
     } catch (e) {
-      console.log("\n", process.env.JWT_ACCESS_SECRET);
-      console.log("\nValidateAccessToken провалено !", e);
+      console.log(
+        "\nValidateAccessToken провалено. Скорее всего пользователь разлогинился в системе"
+      );
       return null;
     }
   }

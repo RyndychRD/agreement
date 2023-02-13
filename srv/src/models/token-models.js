@@ -40,7 +40,8 @@ class TokenSchema {
    * @returns
    */
   async deleteOne(filter) {
-    return await this.knexProvider("users_sessions").where(filter).delete();
+    const query = this.knexProvider("users_sessions").where(filter).delete();
+    return await query;
   }
 }
 
