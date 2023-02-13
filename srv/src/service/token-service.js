@@ -50,8 +50,9 @@ class TokenService {
       const userData = jwt.verify(token, process.env.JWT_REFRESH_SECRET);
       return userData;
     } catch (e) {
-      console.log("\n", process.env.JWT_REFRESH_SECRET);
-      console.log("\nValidateRefreshToken провалено !", e);
+      console.log(
+        "\nValidateRefreshToken провалено ! Токен пользователя истек"
+      );
       return null;
     }
   }

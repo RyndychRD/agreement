@@ -70,7 +70,7 @@ class NotificationService {
     if (StatusToNotificationType[newDocumentStatusId]) {
       addNotification(
         documentTask.id,
-        documentTask.creator_id,
+        documentTask.executor_id,
         StatusToNotificationType[newDocumentStatusId]
       );
     }

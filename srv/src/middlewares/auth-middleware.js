@@ -31,7 +31,6 @@ const authFunction = function (req, res, next) {
       ApiError.UnauthorizedError();
       return res.status(401).end();
     }
-
     req.user = userData;
     next();
   } catch (e) {
