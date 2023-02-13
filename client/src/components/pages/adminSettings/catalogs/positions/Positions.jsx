@@ -12,13 +12,7 @@ import PositionService from "../../../../../services/AdminServices/PositionServi
 /** Справочник Должностей */
 export default function Positions() {
   const columns = {
-    data: [
-      "position_id",
-      "position_name",
-      "department_name",
-      "position_is_signer",
-      "rights_list",
-    ],
+    data: ["position_id", "position_name", "department_name", "rights_list"],
   };
   /**
    * При открытии форму подгружаем новые необходимые данные

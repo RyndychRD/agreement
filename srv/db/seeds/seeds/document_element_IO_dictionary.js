@@ -46,7 +46,7 @@ exports.document_element_IO_dictionarySeed = async function (knex) {
     },
     {
       id: 6,
-      key: "Base",
+      key: "Reason",
       name: "Основание:",
       data_type: "text",
       select_value: null,
@@ -115,6 +115,55 @@ exports.document_element_IO_dictionarySeed = async function (knex) {
       key: "Email_contacts",
       name: "Электронная почта:",
       data_type: "email",
+      select_value: null,
+    },
+    {
+      id: 15,
+      key: "Subject_Of_The_Contract",
+      name: "Предмет договора:",
+      data_type: "select_id",
+      select_value: {
+        select_id: [
+          {
+            value: "Закупки товаров, работ и услуг",
+            label: "Закупки товаров, работ и услуг",
+          },
+          {
+            value:
+              "Поставка продукции (выполнение работ, оказание услуг) заказчикам",
+            label:
+              "Поставка продукции (выполнение работ, оказание услуг) заказчикам",
+          },
+          {
+            value: "Передача имущества в аренду (бесплатное пользование)",
+            label: "Передача имущества в аренду (бесплатное пользование)",
+          },
+          {
+            value: "Совместная деятельность",
+            label: "Совместная деятельность",
+          },
+          {
+            value:
+              "Финансирование (кредитование, обеспечение исполнения обязательств)",
+            label:
+              "Финансирование (кредитование, обеспечение исполнения обязательств)",
+          },
+          { value: "Прочие обязательства", label: "Прочие обязательства" },
+        ],
+      },
+    },
+    {
+      id: 16,
+      key: "Date_And_Method_Of_Receipt_From_The_Counterparty",
+      name: "Дата и способ получения от контрагента:",
+      data_type: "text",
+      select_value: null,
+    },
+    {
+      id: 17,
+      key: "Note",
+      name: "Примечание:",
+      data_type: "text",
       select_value: null,
     },
   ]);

@@ -62,6 +62,8 @@ async function seedDocTaskValues(knex) {
  * @returns { Promise<void> }
  */
 exports.seed = async function (knex) {
+  console.log("!Сидирование тестовых поручений не проведено!");
+  return;
   await seedDocTasks(knex);
   await seedDocTaskValues(knex);
 };

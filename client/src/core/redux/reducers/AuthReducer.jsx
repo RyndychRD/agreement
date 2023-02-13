@@ -12,39 +12,37 @@ export const loginAsync = createAsyncThunk(
   async (action) => {
     try {
       const response = await AuthService.login(action.login, action.password);
+      document.cookie = `refreshToken=${response.data.refreshToken}`;
       localStorage.setItem("token", await response.data.accessToken);
       saveUserRights({ user: response.data.user });
-      return await response.data;
+      return response.data;
     } catch (error) {
       return error.response?.data?.message;
     }
   }
 );
 
-export const AuthCheckAsync = createAsyncThunk(
-  "AuthSlice/authCheck",
-  async () => {
-    try {
-      const response = await axios.get(`${API_URL}/refresh`, {
-        withCredentials: true,
-      });
-      localStorage.setItem("token", await response.data.accessToken);
-      saveUserRights({ user: response.data.user });
-      // eslint-disable-next-line no-console
-      console.log("Токен успешно обновлен,входим в систему.");
-      return await response.data;
-    } catch (error) {
-      // console.log(error.response?.data?.message)
-      return error.response?.data?.message;
-    }
+export const refreshAsync = createAsyncThunk("AuthSlice/refresh", async () => {
+  try {
+    const response = await axios.get(`${API_URL}/refresh`, {
+      withCredentials: true,
+    });
+    localStorage.setItem("token", await response.data.accessToken);
+    saveUserRights({ user: response.data.user });
+    // eslint-disable-next-line no-console
+    console.log("Токен успешно обновлен,входим в систему.");
+    return await response.data;
+  } catch (error) {
+    // console.log(error.response?.data?.message)
+    return error.response?.data?.message;
   }
-);
+});
 
 export const logoutAsync = createAsyncThunk("AuthSlice/logout", async () => {
   try {
     // console.log('logoutAsync')
     await AuthService.logout();
-    window.location.reload(true);
+    // window.location.reload(true);
     return "Выход произведён";
   } catch (error) {
     // console.log(error.response?.data?.message)
@@ -88,7 +86,7 @@ export const AuthSlice = createSlice({
         // console.log(error)
       }
     },
-    [AuthCheckAsync.fulfilled]: (state, action) => {
+    [refreshAsync.fulfilled]: (state, action) => {
       try {
         if (action.payload?.user) {
           state.current_user = action.payload.user;

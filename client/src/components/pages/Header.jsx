@@ -112,7 +112,7 @@ function Header() {
             }
           />
         </ACol>
-        <ACol style={{ width: "125px" }}>
+        <ACol style={{ width: "200px" }}>
           <AMenu
             onClick={onClick}
             theme="dark"
