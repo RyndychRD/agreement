@@ -18,7 +18,8 @@
     "down": "npx knex migrate:down --knexfile db/knexfile.js",
     "rollback": "npx knex migrate:rollback --all --knexfile db/knexfile.js",
     "precommit": "lint-staged",
-    "prettier": "prettier --write src/**/*.js"
+    "prettier": "prettier --write src/**/*.js",
+    "build-exe": "pkg . --targets node14-win-x64"
   },
   "keywords": [],
   "license": "ISC",
