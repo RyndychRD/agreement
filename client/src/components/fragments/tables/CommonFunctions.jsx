@@ -61,8 +61,9 @@ export const renderRights = (items) => {
   return uniqItems.map((item) => {
     if (!item?.id || item?.id === null) return "";
     let color = "green";
-    if (item.id === 1) color = "red";
     if (item.isInherited) color = "";
+    if (item.id === 1) color = "red";
+    if (item.id === 13) color = "orange";
     return (
       <ATag style={{ margin: "5px" }} key={item.id} color={color}>
         {item.name}

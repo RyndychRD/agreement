@@ -59,6 +59,11 @@ exports.rightsSeed = async function (knex) {
       code_name: "SignedInOOPZDocuments",
     },
     { id: "12", name: "Просмотр Задачи->Входящие", code_name: "IncomeTasks" },
+    {
+      id: "13",
+      name: "Может подписывать документы",
+      code_name: "CanSignDocuments",
+    },
   ]);
   console.log("rightsSeed executed");
 };

@@ -25,6 +25,7 @@ exports.departmentRightsSeed = async function (knex) {
     getItem(10,1),	getItem(10,2),	getItem(10,3),	getItem(10,4),	getItem(10,5),	getItem(10,6),	getItem(10,7),	getItem(10,8),	getItem(10,9),	getItem(10,10),	getItem(10,11),	getItem(10,12),	getItem(10,13),	getItem(10,14),	getItem(10,15),	getItem(10,16),	getItem(10,17),	getItem(10,18),	getItem(10,20),	getItem(10,21),	getItem(10,22),	getItem(10,23),
     getItem(11,1),	getItem(11,2),	getItem(11,3),	getItem(11,4),	getItem(11,5),	getItem(11,6),	getItem(11,7),	getItem(11,8),	getItem(11,9),	getItem(11,10),	getItem(11,11),	getItem(11,12),	getItem(11,13),	getItem(11,14),	getItem(11,15),	getItem(11,16),	getItem(11,17),	getItem(11,18),	getItem(11,20),	getItem(11,21),	getItem(11,22),	getItem(11,23),
     getItem(12,1),	getItem(12,2),	getItem(12,3),	getItem(12,4),	getItem(12,5),	getItem(12,6),	getItem(12,7),	getItem(12,8),	getItem(12,9),	getItem(12,10),	getItem(12,11),	getItem(12,12),	getItem(12,13),	getItem(12,14),	getItem(12,15),	getItem(12,16),	getItem(12,17),	getItem(12,18),	getItem(12,20),	getItem(12,21),	getItem(12,22),	getItem(12,23),
+    getItem(13,1),	getItem(13,2),	getItem(13,3),	getItem(13,4),	getItem(13,5),	getItem(13,6),	getItem(13,7),	getItem(13,8),	getItem(13,9),	getItem(13,10),	getItem(13,11),	getItem(13,12),	getItem(13,13),	getItem(13,14),	getItem(13,15),	getItem(13,16),	getItem(13,17),	getItem(13,18),	getItem(13,20),	getItem(13,21),	getItem(13,22),	getItem(13,23),
     
   ]);
   console.log("departmentRightsSeed executed");

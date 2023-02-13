@@ -1,5 +1,6 @@
-import { Button, Col, Row } from "antd";
+import { Alert, Button, Col, Row } from "antd";
 import { useRouteStepFragmentDispatch } from "../../RouteStepFragmentProvider";
+import { isAccessGranted } from "../../../../../../services/userAccessService";
 
 /**
  *
@@ -10,6 +11,13 @@ import { useRouteStepFragmentDispatch } from "../../RouteStepFragmentProvider";
 export default function SigningButtons(props) {
   const { isShowReturnBackOneStepButton, isShowRejectButton } = props;
   const dispatch = useRouteStepFragmentDispatch();
+  if (!isAccessGranted("CanSignDocuments"))
+    return (
+      <Alert
+        type="info"
+        message="Вам запрещено подписание документов. Обратитесь к администратору"
+      />
+    );
   return (
     <>
       <Row>
