@@ -10,7 +10,7 @@ export async function handlePreview(props) {
     "Файл подготавливается к предпросмотру"
   );
   FileService.getFile({
-    fileId: file.response?.fileId ? file.response.fileId : file.id,
+    fileId: file.response?.fileId ? file.response.fileId : file.file_id,
     isForPreview: true,
   });
 }
@@ -34,6 +34,6 @@ export function handleDownload(props) {
   if (file.percent !== 100 && isTempFile) return;
   FileService.getFile({
     fileName: file.name,
-    fileId: file.response?.fileId ? file.response.fileId : file.id,
+    fileId: file.response?.fileId ? file.response.fileId : file.file_id,
   });
 }

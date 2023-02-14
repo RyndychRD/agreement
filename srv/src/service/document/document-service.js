@@ -142,7 +142,6 @@ class DocumentService {
     return await DevTools.addDelay(func);
   }
   async createDocumentSignerRoute(body, documentId) {
-    console.log(body?.documentRoute);
     if (!body?.documentRoute || body.documentRoute.length === 0) return null;
     const insertArray = body.documentRoute.map((routeStep) => ({
       document_id: documentId,
