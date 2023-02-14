@@ -5,10 +5,12 @@ import { useDeleteDocumentMutationHook } from "../../../../../../core/redux/api/
 
 export default function DeleteButtonAction() {
   const state = useTableModalsState();
+
   return (
     <ModalDelete
       deleteMutation={useDeleteDocumentMutationHook}
       deleteText={state.currentRow?.document_name}
+      isAbleToDelete={state.currentRow?.is_document_able_to_delete}
     />
   );
 }

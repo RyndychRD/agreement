@@ -23,6 +23,8 @@ export default class DocumentService {
           el.document_status_id === 5 || el.document_status_id === 7
             ? `${el.last_signed_step + 1}/${el.route_steps_count}`
             : "",
+        is_document_able_to_delete:
+          el.document_status_id === 5 && el.last_signed_step === 0,
         document_current_signer: userNameMask(el?.current_signer),
         document_remark: el?.remark,
       }));

@@ -1,4 +1,4 @@
-import { Modal } from "antd";
+import { Alert, Modal } from "antd";
 import { ASpan } from "../../adapter";
 import SimpleError from "../messages/Error";
 import SimpleSpinner from "../messages/Spinner";
@@ -50,6 +50,7 @@ export default function ModalDelete({
   children,
   customState,
   customDispatch,
+  isAbleToDelete = true,
 }) {
   const standardState = useTableModalsState();
   const standardDispatch = useTableModalDispatch();
@@ -69,6 +70,11 @@ export default function ModalDelete({
     }
   };
 
+  const onCancel = () => {
+    reset();
+    dispatch({ type: "closeAllModal" });
+  };
+
   const deleteMessage = getDeleteMessage({
     customDeleteForm: children,
     deleteText,
@@ -76,18 +82,20 @@ export default function ModalDelete({
 
   return (
     <Modal
-      okText="Удалить"
+      okText={isAbleToDelete ? "Удалить" : "Закрыть"}
       cancelText="Отмена"
-      onOk={onFinish}
+      onOk={isAbleToDelete ? onFinish : onCancel}
       open={isOpen}
-      onCancel={() => {
-        reset();
-        dispatch({ type: "closeAllModal" });
-      }}
+      onCancel={onCancel}
     >
       {isLoading ? <SimpleSpinner /> : ""}
       {isError ? <SimpleError /> : ""}
-      {!isLoading && !isError && isOpen ? deleteMessage : ""}
+      {!isAbleToDelete ? (
+        <Alert message="Невозможно удалить элемент" type="error" />
+      ) : (
+        ""
+      )}
+      {isAbleToDelete && !isLoading && !isError && isOpen ? deleteMessage : ""}
     </Modal>
   );
 }
