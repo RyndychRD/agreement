@@ -28,12 +28,9 @@ function Auth() {
   const [showAlert, setShowAlert] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
-    if (isAuth)
-      if (window.location.pathname !== "/login") {
-        navigate(-1);
-      } else {
-        navigate("/");
-      }
+    if (isAuth) {
+      navigate(-1);
+    }
   }, [isAuth, navigate]);
 
   // Если до этого авторизовались и сессия не истекла пробуем войти автоматически

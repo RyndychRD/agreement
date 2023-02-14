@@ -7,7 +7,7 @@ import { HeaderTextOutput } from "../../outputs/textOutputs";
 import { DocumentFilesEdit } from "./DocumentFilesEdit";
 
 export default function DocumentFilesShowFragment(props) {
-  const { documentId, isStart, isAbleToEdit } = props;
+  const { documentId, isStart, isAbleToUploadFiles } = props;
 
   const {
     data: documentFiles = {},
@@ -24,7 +24,7 @@ export default function DocumentFilesShowFragment(props) {
         key="uploadedFilesListHeader"
       />
       <DocumentFilesShow fileList={documentFiles} isTempFile={false} />
-      {isAbleToEdit ? <DocumentFilesEdit documentId={documentId} /> : ""}
+      {isAbleToUploadFiles ? <DocumentFilesEdit documentId={documentId} /> : ""}
     </>
   );
 }

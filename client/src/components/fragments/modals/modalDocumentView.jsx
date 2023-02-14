@@ -24,6 +24,7 @@ export default function ModalDocumentView(props) {
     notificationType = "",
     isAbleToSign = false,
     isAbleToEdit = false,
+    isAbleToUploadFiles = isAbleToEdit,
     isAddForPrint = false,
     isShowDocumentTasks = false,
     isShowRegistrationInOOPZ = false,
@@ -76,7 +77,7 @@ export default function ModalDocumentView(props) {
         <DocumentFilesFragment
           key="FilesUploaded"
           documentId={state.currentRow?.document_id}
-          isAbleToEdit={isAbleToEdit}
+          isAbleToUploadFiles={isAbleToUploadFiles}
         />
         {/* Отображать ли отправку на печать */}
         {isAddForPrint ? (
