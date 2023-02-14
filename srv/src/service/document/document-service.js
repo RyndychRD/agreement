@@ -14,6 +14,7 @@ const NotificationService = require("../notification/notification-service");
 const FilesModel = require("../../models/catalogModels/files-model");
 const DocumentValuesService = require("./document-values-service");
 const DocumentMitvorgModel = require("../../models/document/document-mitvorg-model");
+const NotificationIsReadModel = require("../../models/notification/notification-is-read-model");
 
 function getCurrentSigner(document) {
   //Изначально никто не текущий подписант
@@ -215,6 +216,14 @@ class DocumentService {
     const func = await DocumentModels.deleteOne({
       id: query.id,
     });
+
+    const readNotification = NotificationIsReadModel.readeNotifications({
+      filter: {
+        element_id: query.id,
+        notification_type: "Signing",
+      },
+    });
+    DevTools.addDelay(readNotification);
     return await DevTools.addDelay(func);
   }
 
