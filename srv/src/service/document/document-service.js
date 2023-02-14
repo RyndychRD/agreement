@@ -142,7 +142,8 @@ class DocumentService {
     return await DevTools.addDelay(func);
   }
   async createDocumentSignerRoute(body, documentId) {
-    if (!body?.documentRoute) return null;
+    console.log(body?.documentRoute);
+    if (!body?.documentRoute || body.documentRoute.length === 0) return null;
     const insertArray = body.documentRoute.map((routeStep) => ({
       document_id: documentId,
       signer_id: routeStep.signerId,
@@ -153,7 +154,11 @@ class DocumentService {
   }
 
   async createDocumentValues(body, documentId) {
-    if (!body?.documentFilledInformation) return null;
+    if (
+      !body?.documentFilledInformation ||
+      body.documentFilledInformation === 0
+    )
+      return null;
     const insertArray = body.documentFilledInformation.map((valueStep) => ({
       document_id: documentId,
       document_element_IO_dictionary_key: valueStep.key,
