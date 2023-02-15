@@ -80,6 +80,10 @@ function Header() {
         console.log("Переход в админка...");
         navigate("/admin-settings/catalogs/departments");
         break;
+      case "FAQ":
+        console.log("Переход в справку для пользователя...");
+        navigate("/FAQ");
+        break;
 
       default:
         console.log("Кликнул по ", e.key);

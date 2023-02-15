@@ -7,6 +7,7 @@ import DocumentControl from "./documentControl/DocumentControl";
 import AdminSettings from "./adminSettings/AdminSettings";
 import { Error404 } from "../fragments/messages/Error";
 import Tasks from "./documentControl/tasks/Tasks";
+import FAQ from "./FAQ/FAQ";
 
 /**
  * Все элементы под хедером хранятся в этом компоненте
@@ -17,6 +18,7 @@ function Layout() {
       <Header />
       <Routes>
         <Route exact path="/" element={<MainPage />} />
+        <Route path="/FAQ/*" element={<FAQ />} />
         <Route path="/document-control/*" element={<DocumentControl />} />
         <Route path="/admin-settings/*" element={<AdminSettings />} />
         <Route path="/tasks/*" element={<Tasks />} />
