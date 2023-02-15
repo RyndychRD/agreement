@@ -16,6 +16,7 @@ const DocumentFilesService = require("../document/document-files-service");
 const {
   notifyDocumentTaskChanged,
 } = require("../notification/notification-service");
+const NotificationIsReadModel = require("../../models/notification/notification-is-read-model");
 
 class DocumentTasksService {
   static async getIncomeDocumentTasks(currentUserId, query) {
@@ -167,6 +168,13 @@ class DocumentTasksService {
     const func = DocumentTaskModel.delete({
       id: query.id,
     });
+    const readNotification = NotificationIsReadModel.readeNotifications({
+      filter: {
+        element_id: query.id,
+        notification_type: "IncomeTask",
+      },
+    });
+    DevTools.addDelay(readNotification);
     return await DevTools.addDelay(func);
   }
 

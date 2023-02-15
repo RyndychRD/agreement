@@ -1,70 +1,28 @@
-import { Button, Col, Layout, Modal, Row } from "antd";
-import { Player } from "video-react";
-import { useState, useRef, useEffect } from "react";
-
-import "video-react/dist/video-react.css";
+import { Layout } from "antd";
 
 export default function FAQ() {
   const { Content } = Layout;
-  const [state, setState] = useState({
-    visible: false,
-    src: "videos/default.mp4",
-  });
-
-  const player = useRef(null);
-
-  const hideModal = () => {
-    setState({
-      src: "videos/default.mp4",
-      visible: false,
-    });
-  };
-  const pause = () => {
-    player.current.pause();
-  };
-  useEffect(() => {
-    player.current?.load();
-  }, [state]);
 
   return (
     <Layout>
       <Content className="content">
-        <Row justify="space-between">
-          <Col span={6} offset={2}>
-            <Button
-              type="primary"
-              onClick={() => {
-                setState({ visible: true, src: "videos/default.mp4" });
-              }}
-            >
+        <ul className="category-list">
+          <li>
+            <a href="/FAQ/Creation.pdf" target="_blank" rel="noreferrer">
               Как создать документ
-            </Button>
-          </Col>
-          <Col span={6}>
-            <Button
-              type="primary"
-              onClick={() => {
-                setState({ visible: true, src: "videos/video_1.mp4" });
-              }}
-            >
+            </a>
+          </li>
+          <li>
+            <a href="/FAQ/Signing.pdf" target="_blank" rel="noreferrer">
               Как подписать документ
-            </Button>
-          </Col>
-          <Col span={6}>
-            <Button type="primary">Как исполнить поручение</Button>
-          </Col>
-        </Row>
-        <Modal
-          open={state.visible}
-          footer={null}
-          onCancel={hideModal}
-          afterClose={pause}
-          bodyStyle={{ padding: 0 }}
-        >
-          <Player autoPlay ref={player}>
-            <source src={state.src} type="video/mp4" />
-          </Player>
-        </Modal>
+            </a>
+          </li>
+          <li>
+            <a href="/FAQ/TaskComplete.pdf" target="_blank" rel="noreferrer">
+              Как выполнить поручение
+            </a>
+          </li>
+        </ul>
       </Content>
     </Layout>
   );
