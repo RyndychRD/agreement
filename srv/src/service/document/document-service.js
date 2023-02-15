@@ -155,7 +155,7 @@ class DocumentService {
   async createDocumentValues(body, documentId) {
     if (
       !body?.documentFilledInformation ||
-      body.documentFilledInformation === 0
+      body.documentFilledInformation.length === 0
     )
       return null;
     const insertArray = body.documentFilledInformation.map((valueStep) => ({

@@ -92,7 +92,7 @@ exports.document_element_IO_dictionarySeed = async function (knex) {
     {
       id: 11,
       key: "Surname_of_the_responsible_person",
-      name: "Фамилия ответственного исполнителя:",
+      name: "ФИО пользователя:",
       data_type: "table",
       select_value: { table: "users" },
     },

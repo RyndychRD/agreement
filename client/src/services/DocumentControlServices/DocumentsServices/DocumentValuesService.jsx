@@ -1,5 +1,6 @@
 import { renderDate } from "../../../components/fragments/tables/CommonFunctions";
 import { api } from "../../../http/index";
+import { userNameMask } from "../../CommonFunctions";
 
 export default class DocumentValuesService {
   static API_ROUTE = "/documents/values";
@@ -11,13 +12,14 @@ export default class DocumentValuesService {
       case "select_id":
       case "email":
         return { value: dataStep.value, label: dataStep.label };
-
       case "datePicker":
         return {
           value: renderDate(dataStep.value, false),
           label: dataStep.label,
         };
       case "table":
+        if (dataStep.select_value.table === "users")
+          return { value: userNameMask(dataStep.value), label: dataStep.label };
         return { value: dataStep.value.name, label: dataStep.label };
       default:
         return {

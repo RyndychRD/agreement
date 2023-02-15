@@ -3,6 +3,7 @@ import { useGetPositionsQueryHook } from "../../../../../core/redux/api/Globals/
 import { useGetUsersQueryHook } from "../../../../../core/redux/api/Globals/Catalogs/UserApi";
 import { useGetDepartmentsQueryHook } from "../../../../../core/redux/api/Globals/Catalogs/DepartamentApi";
 import FBElementLayout from "../FBElementLayout";
+import { userNameMask } from "../../../../../services/CommonFunctions";
 
 /**
  *
@@ -22,6 +23,10 @@ function FBSelect(props) {
   const {
     setValueInSelectOnForm = (value) => {
       form.setFieldValue(elemNameForForm, value);
+      form.setFieldValue(
+        [elemNameForForm[0], "select_name"],
+        CurrentElementSelectValue.find((el) => el.value === value).label
+      );
     },
   } = props;
   return (
@@ -77,9 +82,9 @@ function SelectTableUsers(props) {
   const { data = [] } = useGetUsersQueryHook();
   // Переменная для манипуляции с фио
   let fio = "Фамилии еще не определенны";
-  const CurrentElementSelectValue = data.map((i) => {
-    fio = `${i.last_name} ${i.first_name}.${i.middle_name}.`;
-    return { value: i.id, label: fio };
+  const CurrentElementSelectValue = data.map((user) => {
+    fio = userNameMask(user);
+    return { value: user.id, label: fio };
   });
   return (
     <FBSelect

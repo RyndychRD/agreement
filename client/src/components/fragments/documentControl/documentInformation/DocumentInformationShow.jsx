@@ -12,10 +12,16 @@ export default function DocumentInformationShow(props) {
     const information = isPrepareData
       ? DocumentValuesService.getValueAndLabelFromDocumentValue(dataStep)
       : dataStep;
+    console.log(information);
     return (
       <TextOutputWithLabel
         key={keyIn}
-        text={information.value}
+        text={
+          information?.select_name &&
+          information.select_name !== information.key
+            ? information.select_name
+            : information.value
+        }
         label={information.label}
         className={information?.className}
       />

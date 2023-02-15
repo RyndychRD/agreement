@@ -80,7 +80,7 @@ export default function CreateUpdateForm({ form, isAddUpdateOnlyFields }) {
       />
       <TextInputFormItem
         title="Фамилия пользователя"
-        name="newFirstName"
+        name="newLastName"
         rules={[
           {
             required: true,
@@ -90,7 +90,7 @@ export default function CreateUpdateForm({ form, isAddUpdateOnlyFields }) {
       />
       <TextInputFormItem
         title="Имя пользователя"
-        name="newLastName"
+        name="newFirstName"
         rules={[
           {
             required: true,
