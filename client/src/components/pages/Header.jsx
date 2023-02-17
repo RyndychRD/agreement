@@ -55,10 +55,10 @@ function Header() {
               key: "FAQ_admin",
             }
           : "",
-        {
-          label: "Аккаунт",
-          key: "account",
-        },
+        // {
+        //   label: "Аккаунт",
+        //   key: "account",
+        // },
         {
           label: "Выйти",
           key: "logout",
