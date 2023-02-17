@@ -87,7 +87,7 @@ class UserSchema {
   async find({ filter, isAddForeignTables, isAddRights }) {
     let query = this.knexProvider("users")
       .select("users.*")
-      .orderBy("users.id", "asc");
+      .orderBy("users.last_name", "asc");
     if (filter) query = query.where(filter);
     if (isAddForeignTables)
       query = query

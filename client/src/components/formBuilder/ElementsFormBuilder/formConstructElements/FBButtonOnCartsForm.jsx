@@ -1,7 +1,7 @@
 import {
-  DownSquareTwoTone,
+  DownOutlined,
   MinusCircleOutlined,
-  UpSquareTwoTone,
+  UpOutlined,
 } from "@ant-design/icons";
 import { Modal } from "antd";
 import color from "../../FormBuilderColorRow";
@@ -12,6 +12,7 @@ export default function ButtonOnCarts(remove, move, name, fields, key) {
       <button
         className="button-style"
         type="button"
+        title="Удалить"
         onClick={() =>
           Modal.confirm({
             title: "Подтверждение",
@@ -24,24 +25,26 @@ export default function ButtonOnCarts(remove, move, name, fields, key) {
           })
         }
       >
-        Удалить <MinusCircleOutlined />
+        <MinusCircleOutlined />
       </button>
       {name >= 1 && (
         <button
           className="button-style"
+          title="Выше"
           type="button"
           onClick={() => remove(move(name, name - 1))}
         >
-          Выше <UpSquareTwoTone />
+          <UpOutlined />
         </button>
       )}
       {name < fields.length - 1 && (
         <button
           className="button-style"
           type="button"
+          title="Ниже"
           onClick={() => remove(move(name, name + 1))}
         >
-          Ниже <DownSquareTwoTone />
+          <DownOutlined />
         </button>
       )}
       <div

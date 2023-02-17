@@ -1,33 +1,49 @@
 .ant-space-item {
-	width: 100%;
+  width: 100%;
 }
 
 .ant-select {
-	width: 100%;
+  width: 100%;
 }
 
 .background-Cart {
-	display: flex;
-	margin: 5px;
-	padding: 5px;
-	opacity: 1;
-	backdrop-filter: sepia(100%);
+  display: flex;
+  margin: 5px;
+  padding: 5px;
+  opacity: 1;
+  backdrop-filter: sepia(100%);
 }
 
 .button-style {
-	border: 3px ridge;
-	backdrop-filter: sepia(100%);
+  border: none;
+  background-color: white;
+  box-sizing: border-box;
+  color: black;
+  cursor: pointer;
+  text-shadow: none;
+  width: 35px;
+  height: 35px;
+}
+.button-style:hover {
+  background-color: rgb(238, 234, 234);
+}
+
+.button-style .anticon {
+  font-size: 20px;
+  margin-top: 3px;
+  color: grey;
 }
 
 .square {
-	width: 35px;
-	height: 35px;
+  width: 20px;
+  height: 20px;
+  margin-left: 20px;
 }
 
 .flexibleCart {
-	display: flex;
+  display: flex;
 }
 
 .selectInput {
-	width: 350px;
+  width: 350px;
 }
