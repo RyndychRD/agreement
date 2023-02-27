@@ -18,6 +18,7 @@ const documentFilesRouter = require("./documents/document-files-router");
 const notificationRouter = require("./notification/notification-router");
 const documentTasksRouter = require("./documentTasks/document-tasks-router");
 const fileRouter = require("./file-router");
+const faqRouter = require("./catalog/faq-router");
 
 //Авторизация
 router.use("/", authRouter);
@@ -62,5 +63,8 @@ router.use("/files", fileRouter);
 
 /** Нотификация о документах */
 router.use("/notifications", notificationRouter);
+
+/** Справки */
+router.use("/FAQ", faqRouter);
 
 module.exports = router;
