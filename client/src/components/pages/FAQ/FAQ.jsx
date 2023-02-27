@@ -1,27 +1,25 @@
 import { Layout } from "antd";
+import { useGetFAQsQueryHook } from "../../../core/redux/api/Globals/FAQ/FAQApi";
+import SimpleError from "../../fragments/messages/Error";
+import SimpleSpinner from "../../fragments/messages/Spinner";
 
 export default function FAQ() {
   const { Content } = Layout;
 
+  const { data = [], isLoading, isError } = useGetFAQsQueryHook();
+  if (isLoading) return <SimpleSpinner />;
+  if (isError) return <SimpleError />;
   return (
     <Layout>
       <Content className="content">
         <ul className="category-list">
-          <li>
-            <a href="/FAQ/Creation.pdf" target="_blank" rel="noreferrer">
-              Как создать документ
-            </a>
-          </li>
-          <li>
-            <a href="/FAQ/Signing.pdf" target="_blank" rel="noreferrer">
-              Как подписать документ
-            </a>
-          </li>
-          <li>
-            <a href="/FAQ/TaskComplete.pdf" target="_blank" rel="noreferrer">
-              Как выполнить поручение
-            </a>
-          </li>
+          {data.map((faq) => (
+            <li>
+              <a href={faq.url} target="_blank" rel="noreferrer">
+                {faq.name}
+              </a>
+            </li>
+          ))}
         </ul>
       </Content>
     </Layout>
