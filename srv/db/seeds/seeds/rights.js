@@ -5,7 +5,7 @@
 exports.rightsSeed = async function (knex) {
   // Deletes ALL existing entries
   await knex("rights").del();
-  await knex.raw("SELECT setval('rights_id_seq', 4, true);");
+  await knex.raw("SELECT setval('rights_id_seq', 14, true);");
   await knex("rights").insert([
     { id: "1", name: "Администратор", code_name: "Admin" },
     {
@@ -65,5 +65,6 @@ exports.rightsSeed = async function (knex) {
       code_name: "CanSignDocuments",
     },
   ]);
+
   console.log("rightsSeed executed");
 };

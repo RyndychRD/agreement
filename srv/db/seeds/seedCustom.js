@@ -1,5 +1,6 @@
 const { departmentRightsSeed } = require("./seeds/departments-rights");
 const { positionSeed } = require("./seeds/positions");
+const { rightsSeed } = require("./seeds/rights");
 
 /**
  * @param { import("knex").Knex } knex
