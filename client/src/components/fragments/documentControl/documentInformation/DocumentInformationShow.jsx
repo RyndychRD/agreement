@@ -12,7 +12,6 @@ export default function DocumentInformationShow(props) {
     const information = isPrepareData
       ? DocumentValuesService.getValueAndLabelFromDocumentValue(dataStep)
       : dataStep;
-    console.log(information);
     return (
       <TextOutputWithLabel
         key={keyIn}
