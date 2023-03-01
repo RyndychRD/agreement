@@ -27,6 +27,10 @@ const dict = {
     <NavLink to="/admin-settings/catalogs/rights">Права</NavLink>,
     "/admin-settings/catalogs/rights"
   ),
+  archiveTypes: getItem(
+    <NavLink to="/admin-settings/catalogs/archive-types">Типы архива</NavLink>,
+    "/admin-settings/catalogs/archive-types"
+  ),
   routes: getItem(
     <NavLink to="/admin-settings/constructor/routes">Маршруты</NavLink>,
     "/admin-settings/constructor/routes"

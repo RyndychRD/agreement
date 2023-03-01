@@ -162,6 +162,25 @@ export default function getColumns({ dataSource, columns }) {
       onFilter: (value, record) => record?.type_name?.indexOf(value) === 0,
     },
   };
+  const archiveTypeColumns = {
+    archive_type_id: {
+      title: "ID",
+      dataIndex: "archive_type_id",
+      defaultSortOrder: "ascend",
+      align: "center",
+      sorter: (a, b) => sorterInt(a?.archive_type_id, b?.archive_type_id),
+    },
+    archive_type_name: {
+      title: "Наименование типа архива",
+      dataIndex: "archive_type_name",
+      align: "center",
+      sorter: (a, b) =>
+        sorterStringAlphabet(a?.archive_type_name, b?.archive_type_name),
+      filters: filterDataStringSorted(dataSource, "archive_type_name"),
+      onFilter: (value, record) =>
+        record?.archive_type_name?.indexOf(value) === 0,
+    },
+  };
 
   const rightColumns = {
     right_id: {
@@ -204,6 +223,7 @@ export default function getColumns({ dataSource, columns }) {
     ...positionColumns,
     ...userColumns,
     ...rightColumns,
+    ...archiveTypeColumns,
     ...typeColumns,
     ...constructorColumns,
   };
