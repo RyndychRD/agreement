@@ -3,17 +3,16 @@
  * @returns { Promise<void> }
  */
 
+const { seedTable } = require("../../seedHelper/seedHelper");
+
 function getItem(rightId, depId) {
   return { right_id: rightId, department_id: depId };
 }
 
 exports.departmentRightsSeed = async function (knex) {
-  // Deletes ALL existing entries
-  await knex("departments-rights").del();
-  await knex.raw("SELECT setval('departments-rights_id_seq', 1, true);");
   //Даем всем департаментам все права, кроме админских
   // prettier-ignore
-  await knex("departments-rights").insert([
+  const arr=[
     getItem(2,1),	getItem(2,2),	getItem(2,3),	getItem(2,4),	getItem(2,5),	getItem(2,6),	getItem(2,7),	getItem(2,8),	getItem(2,9),	getItem(2,10),	getItem(2,11),	getItem(2,12),	getItem(2,13),	getItem(2,14),	getItem(2,15),	getItem(2,16),	getItem(2,17),	getItem(2,18),	getItem(2,20),	getItem(2,21),	getItem(2,22),	getItem(2,23),
     getItem(3,1),	getItem(3,2),	getItem(3,3),	getItem(3,4),	getItem(3,5),	getItem(3,6),	getItem(3,7),	getItem(3,8),	getItem(3,9),	getItem(3,10),	getItem(3,11),	getItem(3,12),	getItem(3,13),	getItem(3,14),	getItem(3,15),	getItem(3,16),	getItem(3,17),	getItem(3,18),	getItem(3,20),	getItem(3,21),	getItem(3,22),	getItem(3,23),
     getItem(4,1),	getItem(4,2),	getItem(4,3),	getItem(4,4),	getItem(4,5),	getItem(4,6),	getItem(4,7),	getItem(4,8),	getItem(4,9),	getItem(4,10),	getItem(4,11),	getItem(4,12),	getItem(4,13),	getItem(4,14),	getItem(4,15),	getItem(4,16),	getItem(4,17),	getItem(4,18),	getItem(4,20),	getItem(4,21),	getItem(4,22),	getItem(4,23),
@@ -27,6 +26,15 @@ exports.departmentRightsSeed = async function (knex) {
     getItem(12,1),	getItem(12,2),	getItem(12,3),	getItem(12,4),	getItem(12,5),	getItem(12,6),	getItem(12,7),	getItem(12,8),	getItem(12,9),	getItem(12,10),	getItem(12,11),	getItem(12,12),	getItem(12,13),	getItem(12,14),	getItem(12,15),	getItem(12,16),	getItem(12,17),	getItem(12,18),	getItem(12,20),	getItem(12,21),	getItem(12,22),	getItem(12,23),
     getItem(13,1),	getItem(13,2),	getItem(13,3),	getItem(13,4),	getItem(13,5),	getItem(13,6),	getItem(13,7),	getItem(13,8),	getItem(13,9),	getItem(13,10),	getItem(13,11),	getItem(13,12),	getItem(13,13),	getItem(13,14),	getItem(13,15),	getItem(13,16),	getItem(13,17),	getItem(13,18),	getItem(13,20),	getItem(13,21),	getItem(13,22),	getItem(13,23),
     
-  ]);
+  ]
+  const table = "departments-rights";
+
+  await seedTable(knex, {
+    table: table,
+    arr: arr,
+    index: 1,
+    isAddCheck: true,
+  });
+
   console.log("departmentRightsSeed executed");
 };

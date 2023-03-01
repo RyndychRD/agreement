@@ -15,6 +15,7 @@ const FilesModel = require("../../models/catalogModels/files-model");
 const DocumentValuesService = require("./document-values-service");
 const DocumentMitvorgModel = require("../../models/document/document-mitvorg-model");
 const NotificationIsReadModel = require("../../models/notification/notification-is-read-model");
+const DocumentArchiveModel = require("../../models/document/document-archive-model");
 
 function getCurrentSigner(document) {
   //Изначально никто не текущий подписант
@@ -237,6 +238,22 @@ class DocumentService {
       number: body.mitvorgNumber,
       registration_date: body.mitvorgRegistrationDate,
       document_id: body.documentId,
+    });
+    result = await DevTools.addDelay(func);
+    result = DocumentService.changeDocumentStatus(
+      body.documentId,
+      body.newDocumentStatusId
+    );
+
+    return result;
+  }
+
+  async setArchiveTypeAndChangeStatus(body) {
+    let result = null;
+    const func = DocumentArchiveModel.create({
+      document_id: body.documentId,
+      archive_type_id: body.archiveTypeId,
+      passed_at: "now",
     });
     result = await DevTools.addDelay(func);
     result = DocumentService.changeDocumentStatus(

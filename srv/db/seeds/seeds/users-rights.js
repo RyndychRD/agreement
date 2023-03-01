@@ -1,11 +1,20 @@
+const { seedTable } = require("../../seedHelper/seedHelper");
+
 /**
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
 exports.userRightsSeed = async function (knex) {
-  // Deletes ALL existing entries
-  await knex("users-rights").del();
-  await knex.raw("SELECT setval('users-rights_id_seq', 1, true);");
-  await knex("users-rights").insert([{ right_id: "1", user_id: "1" }]);
+  const arr = [{ right_id: "1", user_id: "1" }];
+
+  const table = "users-rights";
+
+  await seedTable(knex, {
+    table: table,
+    arr: arr,
+    index: arr.length,
+    isAddCheck: true,
+  });
+
   console.log("userRightsSeed executed");
 };

@@ -3,17 +3,14 @@
  * @returns { Promise<void> }
  */
 
+const { seedTable } = require("../../seedHelper/seedHelper");
+
 const getItem = (position_id, user_id = -1) => {
   return { position_id: position_id, specified_signer_id: user_id };
 };
 
 exports.documentTypeDefaultRoutesSeed = async function (knex) {
-  // Deletes ALL existing entries
-  await knex("document_type_default_routes").del();
-  await knex.raw(
-    "SELECT setval('document_type_default_routes_id_seq', 1, true);"
-  );
-  await knex("document_type_default_routes").insert([
+  const arr = [
     {
       document_type_id: 10,
       route: {
@@ -85,6 +82,16 @@ exports.documentTypeDefaultRoutesSeed = async function (knex) {
       },
     },
     { document_type_id: 29, route: { routeSteps: [] } },
-  ]);
+  ];
+
+  const table = "departments-rights";
+
+  await seedTable(knex, {
+    table: table,
+    arr: arr,
+    index: 1,
+    isAddCheck: true,
+  });
+
   console.log("documentTypeDefaultRoutesSeed executed");
 };

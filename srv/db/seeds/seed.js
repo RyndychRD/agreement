@@ -1,7 +1,7 @@
 const { departmentsSeed } = require("./seeds/departments");
 const { departmentRightsSeed } = require("./seeds/departments-rights");
 const {
-  document_element_IO_dictionarySeed,
+  documentElementIODictionarySeed,
 } = require("./seeds/document_element_IO_dictionary");
 const {
   documentSignatureTypesSeed,
@@ -38,7 +38,7 @@ exports.seed = async function (knex) {
   await positionRightsSeed(knex);
   await userRightsSeed(knex);
   await documentTypeDefaultRoutesSeed(knex);
-  await document_element_IO_dictionarySeed(knex);
+  await documentElementIODictionarySeed(knex);
   await documentTypeViewsSeed(knex);
   await documentTaskStatusesSeed(knex);
   await faqsSeed(knex);

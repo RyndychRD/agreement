@@ -19,10 +19,7 @@ exports.up = function (knex) {
       .references("archive_types.id")
       .onDelete("SET NULL");
 
-    table
-      .timestamp("created_at")
-      .comment("Когда документ помещен в архив")
-      .defaultTo("now");
+    table.timestamp("passed_at").comment("Когда документ помещен в архив");
     table.comment(
       "Таблица, которая отображает помещенные в архив документы." +
         "Так как требуется нести дополнительную информацию и просто разграничить модули, не стал дополнять основную таблицу"
