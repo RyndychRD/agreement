@@ -19,6 +19,8 @@ const { userRightsSeed } = require("./seeds/users-rights");
 const { documentTypeViewsSeed } = require("./seeds/document_type_views");
 const { documentTaskStatusesSeed } = require("./seeds/document_task_statuses");
 const { faqsSeed } = require("./seeds/faq");
+const { archiveLogEventTypesSeed } = require("./seeds/archive_log_event_types");
+const { archiveTypesSeed } = require("./seeds/archive_types");
 
 /**
  * @param { import("knex").Knex } knex
@@ -40,4 +42,6 @@ exports.seed = async function (knex) {
   await documentTypeViewsSeed(knex);
   await documentTaskStatusesSeed(knex);
   await faqsSeed(knex);
+  await archiveLogEventTypesSeed(knex);
+  await archiveTypesSeed(knex);
 };
