@@ -39,7 +39,7 @@ class NotificationService {
       };
 
       const document = await DocumentModel.findOne({
-        filter: { "document.id": documentId },
+        filter: { "documents.id": documentId },
       });
       const status = await getOneStatus({ id: newDocumentStatusId });
       notifyDocumentStatusChangedEmail(document, status);

@@ -2,8 +2,21 @@
 
 import axios from "axios";
 
-// export const API_URL = "http://localhost:5000/api";
-export const API_URL = process.env.REACT_APP_SERVER_API_URL;
+let API_URL_TEMP = "";
+switch (process.env.REACT_APP_NODE_ENV.trim()) {
+  case "production":
+    API_URL_TEMP = process.env.REACT_APP_SERVER_API_URL_PROD;
+    break;
+  case "testing":
+    API_URL_TEMP = process.env.REACT_APP_SERVER_API_URL_TEST;
+    break;
+  case "development":
+  default:
+    API_URL_TEMP = process.env.REACT_APP_SERVER_API_URL_DEV;
+    break;
+}
+export const API_URL = API_URL_TEMP;
+
 export const api = axios.create({
   withCredentials: true,
   baseURL: API_URL,

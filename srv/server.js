@@ -1,5 +1,6 @@
 //Данные текущего окружения
 require("dotenv").config();
+process.env.NODE_ENV = process.env.NODE_ENV.trim();
 //Фреймворк web-приложений для Node.js(Каркас вокруг него всё строиться)
 const express = require("express");
 //Для без проблемных кросс-доменные запрос
@@ -22,10 +23,28 @@ app.use(bodyParser.json());
 //Включаем возможность работы с Cookie
 app.use(cookieParser());
 //Разрешаем кросс-доменные запросы
+
+let CLIENT_URL = "";
+
+switch (process.env.NODE_ENV) {
+  case "production":
+    CLIENT_URL = process.env.CLIENT_URL_PROD;
+    break;
+  case "testing":
+    CLIENT_URL = process.env.CLIENT_URL_TEST;
+    break;
+  default:
+    console.log("DEFAULT CLIENT URL, NODE_ENV CASE NOT FOUND");
+    process.env.NODE_ENV = "development";
+  case "development":
+    CLIENT_URL = process.env.CLIENT_URL_DEV;
+    break;
+}
+
 app.use(
   cors({
     credentials: true,
-    origin: process.env.CLIENT_URL,
+    origin: CLIENT_URL,
   })
 );
 //Инициализация роутинга
@@ -45,6 +64,7 @@ const start = async () => {
       console.log(
         `"Zik-Согласование договоров v.2" запущен по адресу http://localhost:${port}`
       );
+      console.log(`Ожидаю клиента по адресу ${CLIENT_URL}`);
       console.log(
         `"API доступен по адресу http://localhost:${port}/api/{Метод}`
       );
