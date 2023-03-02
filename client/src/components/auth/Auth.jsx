@@ -30,7 +30,6 @@ function Auth() {
   const location = useLocation();
   useEffect(() => {
     if (isAuth) {
-      console.log(location.state);
       if (location.state?.prev_location) {
         navigate(location.state.prev_location);
       } else {
