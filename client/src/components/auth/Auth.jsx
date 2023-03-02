@@ -30,10 +30,11 @@ function Auth() {
   const location = useLocation();
   useEffect(() => {
     if (isAuth) {
-      if (location.state) {
+      console.log(location.state);
+      if (location.state?.prev_location) {
         navigate(location.state.prev_location);
       } else {
-        navigate(-1);
+        navigate("/");
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
