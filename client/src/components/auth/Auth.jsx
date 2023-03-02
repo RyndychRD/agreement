@@ -29,17 +29,12 @@ function Auth() {
   const navigate = useNavigate();
   const location = useLocation();
   useEffect(() => {
-    if (!isAuth) {
-      navigate("/login");
-    } else if (location.state) {
-      const { from } = location.state;
-      if (from && from.startsWith(window.location.host)) {
-        navigate(from);
+    if (isAuth) {
+      if (location.state) {
+        navigate(location.state.prev_location);
       } else {
-        navigate("/");
+        navigate(-1);
       }
-    } else {
-      navigate("/");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuth, navigate]);

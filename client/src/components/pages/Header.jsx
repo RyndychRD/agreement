@@ -27,16 +27,18 @@ function Header() {
   useEffect(() => {
     console.log("isAuth: ", isAuth);
     if (!isAuth) {
-      navigate("/login");
+      navigate("/login", { state: { prev_location: location.pathname } });
     }
-  }, [isAuth, navigate]);
+  }, [isAuth, location.pathname, navigate]);
 
   /**
    * Полный список элементов, доступных из хедера
    */
   const menuItems = [
     {
-      label: `${currentUser?.last_name} ${currentUser?.first_name}.${currentUser?.middle_name}.`,
+      label: `${currentUser?.last_name} 
+      ${currentUser?.first_name.slice(0, 1)}.
+      ${currentUser?.middle_name.slice(0, 1)}.`,
       key: "user",
       children: [
         isAccessGranted("Admin")
