@@ -3,24 +3,18 @@
   "version": "1.0.0",
   "description": "Agreement server",
   "main": "server.js",
-  "author": "ZavodKirowa",
+  "author": "RyndychRD",
   "scripts": {
     "eslint": "node_modules/.bin/eslint src/**",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npx nodemon server.js",
+    "start": "set NODE_ENV=development && npx nodemon server.js",
     "migrate": "npx knex migrate:latest --knexfile db/knexfile.js",
     "seed": "npx knex seed:run --knexfile db/knexfile.js",
-    "seedFAQ": "npx knex seed:run --specific=seedFaqs.js --knexfile db/knexfile.js",
-    "seedCustom": "npx knex seed:run --specific=seedCustom.js --knexfile db/knexfile.js",
-    "seedTestDocuments": "npx knex seed:run --specific=seedTestDocuments.js --knexfile db/knexfile.js",
-    "seedTestTasks": "npx knex seed:run --specific=seedTestTasks.js --knexfile db/knexfile.js",
-    "seedTestRoutes": "npx knex seed:run --specific=seedTestRoutes.js --knexfile db/knexfile.js",
-    "seedTestForms": "npx knex seed:run --specific=seedTestForms.js --knexfile db/knexfile.js",
     "down": "npx knex migrate:down --knexfile db/knexfile.js",
     "rollback": "npx knex migrate:rollback --all --knexfile db/knexfile.js",
     "precommit": "lint-staged",
     "prettier": "prettier --write src/**/*.js",
-    "build-exe": "pkg . --targets node14-win-x64"
+    "buildTest": "set NODE_ENV=testing && pkg . --targets node14-win-x64",
+    "buildProd": "set NODE_ENV=production && pkg . --targets node14-win-x64"
   },
   "keywords": [],
   "license": "ISC",
@@ -42,7 +36,6 @@
     "moment": "2.29.4",
     "multer": "1.4.3",
     "nodemailer": "6.8.0",
-    "nodemon": "2.0.20",
     "passport": "0.6.0",
     "pg": "8.8.0",
     "pkg": "^5.8.0",
@@ -55,7 +48,8 @@
     "eslint-plugin-prettier": "4.2.1",
     "husky": "8.0.2",
     "lint-staged": "13.1.0",
-    "prettier": "2.8.1"
+    "prettier": "2.8.1",
+    "nodemon": "2.0.20"
   },
   "husky": {
     "hooks": {

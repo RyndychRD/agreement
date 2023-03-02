@@ -14,6 +14,7 @@ import NotificationService from "../../../services/DocumentControlServices/Notif
 import DocumentTasksFragment from "../documentControl/documentTasks/DocumentTasksFragment";
 import DocumentPrintFragment from "../documentControl/documentPrint/DocumentPrintFragment";
 import DocumentRegistrationFragment from "../documentControl/documentRegistration/DocumentMitvorgFragment";
+import DocumentToArchiveFragment from "../documentControl/documentToArchive/documentToArchiveFragment";
 import {
   replaceUrlQueryWithId,
   clearUrlQueryParams,
@@ -29,6 +30,7 @@ export default function ModalDocumentView(props) {
     isShowDocumentTasks = false,
     isShowRegistrationInOOPZ = false,
     isShowRoute = false,
+    isShowToArchive = false,
   } = props;
   const state = useTableModalsState();
   const dispatch = useTableModalDispatch();
@@ -79,6 +81,15 @@ export default function ModalDocumentView(props) {
           documentId={state.currentRow?.document_id}
           isAbleToUploadFiles={isAbleToUploadFiles}
         />
+        {/* Отображать ли кнопку перевода документа в Архив */}
+        {isShowToArchive ? (
+          <DocumentToArchiveFragment
+            documentId={state.currentRow?.document_id}
+            closeModalFunc={onCancel}
+          />
+        ) : (
+          ""
+        )}
         {/* Отображать ли отправку на печать */}
         {isAddForPrint ? (
           <DocumentPrintFragment documentId={state.currentRow?.document_id} />
@@ -94,6 +105,7 @@ export default function ModalDocumentView(props) {
         ) : (
           ""
         )}
+
         {isShowRoute ? (
           <RouteStepsFragment
             isStart={state.isShowUpdateModal}

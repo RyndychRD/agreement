@@ -13,6 +13,7 @@ import { documentIODictionaryElementApi } from "./api/AdminSettings/Constructor/
 import { notificationsApi } from "./api/DocumentControl/NotificationApi";
 import { documentTasksApi } from "./api/DocumentControl/DocumentTaskApi";
 import { FAQsApi } from "./api/Globals/FAQ/FAQApi";
+import { archiveTypesApi } from "./api/Globals/Catalogs/ArchiveTypeApi";
 
 const store = configureStore({
   reducer: {
@@ -29,6 +30,7 @@ const store = configureStore({
     notificationsApi: notificationsApi.reducer,
     documentIODictionaryElementApi: documentIODictionaryElementApi.reducer,
     FAQApi: FAQsApi.reducer,
+    archiveTypesApi: archiveTypesApi.reducer,
     documentTasksApi: documentTasksApi.reducer,
   },
   middleware: (getDefaultMiddlware) =>
@@ -44,6 +46,7 @@ const store = configureStore({
       .concat(notificationsApi.middleware)
       .concat(documentTasksApi.middleware)
       .concat(FAQsApi.middleware)
+      .concat(archiveTypesApi.middleware)
       .concat(documentIODictionaryElementApi.middleware),
 });
 

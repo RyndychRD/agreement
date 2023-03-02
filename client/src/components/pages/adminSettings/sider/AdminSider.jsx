@@ -14,6 +14,7 @@ export default function AdminSider() {
       getLink("users"),
       getLink("rights"),
       getLink("types"),
+      getLink("archiveTypes"),
     ]),
     getItem("Конструкторы", "Constructors", null, [
       getLink("routes"),

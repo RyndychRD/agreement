@@ -13,5 +13,7 @@ router.delete("/",authMiddleware,documentController.deleteDocument);
 router.put("/",authMiddleware, documentController.updateDocument);
 // prettier-ignore
 router.post("/set-mitvorg-and-change-status",authMiddleware, documentController.updateDocumentMitvorgAndChangeStatus);
+// prettier-ignore
+router.post("/set-archive-and-change-status",authMiddleware, documentController.setArchiveTypeAndChangeStatus);
 
 module.exports = router;

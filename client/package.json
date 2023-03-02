@@ -32,10 +32,10 @@
   "scripts": {
     "eslint": "node_modules/.bin/eslint --quiet src/**/*.jsx",
     "prettier": "prettier --write src/**/*.jsx",
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "set REACT_APP_NODE_ENV=development && react-scripts start",
+    "buildTest": "set REACT_APP_NODE_ENV=testing && react-scripts build",
+    "buildProd": "set REACT_APP_NODE_ENV=production && react-scripts build",
     "prodStart": "serve -s build",
-    "test": "react-scripts test",
     "eject": "react-scripts eject",
     "precommit": "lint-staged",
     "docs:build": "documentation build src/** -f html -o docs"

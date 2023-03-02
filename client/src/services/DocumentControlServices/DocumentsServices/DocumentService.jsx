@@ -76,6 +76,22 @@ export default class DocumentService {
     return response.data;
   }
 
+  static async setArchiveTypeAndChangeStatus(values) {
+    console.log(
+      "вызов в DocumentService -> Установить тип архива и поменять статус",
+      values
+    );
+    const response = await api.post(
+      `${this.API_ROUTE}/set-archive-and-change-status`,
+      values
+    );
+    console.log(
+      "вызов в DocumentService -> Установить тип архива и поменять статус -> результат",
+      response
+    );
+    return response.data;
+  }
+
   static async delete(values) {
     console.log("вызов в DocumentService -> Удалить запись", values);
     const response = await api.delete(

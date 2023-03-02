@@ -5,6 +5,7 @@ import Positions from "./positions/Positions";
 import Rights from "./rights/Rights";
 import { Error404 } from "../../../fragments/messages/Error";
 import Types from "./types/Types";
+import ArchiveTypes from "./archiveTypes/ArchiveTypes";
 
 /**
  * Содержит список всех справочников, а также набивает первоначальные значения для отображения
@@ -16,6 +17,7 @@ export default function Catalogs() {
       <Route path="/users" element={<Users />} />
       <Route path="/positions" element={<Positions />} />
       <Route path="/rights" element={<Rights />} />
+      <Route path="/archive-types" element={<ArchiveTypes />} />
       <Route path="/documents/types" element={<Types />} />
       <Route path="*" element={<Error404 />} />
     </Routes>

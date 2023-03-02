@@ -6,6 +6,7 @@ const departmentRouter = require("./catalog/departments-router");
 const positionRouter = require("./catalog/positions-router");
 const usersRouter = require("./catalog/users-router");
 const rightsRouter = require("./catalog/rights-router");
+const archiveTypesRouter = require("./catalog/archive-types-router");
 const documentTypeRouter = require("./catalog/document-types-router");
 const documentStatusRouter = require("./catalog/document-status-router");
 const documentRouter = require("./documents/document-router");
@@ -31,6 +32,8 @@ router.use("/catalog/positions", positionRouter);
 router.use("/catalog/users", usersRouter);
 //Права
 router.use("/catalog/rights", rightsRouter);
+//Типы архива
+router.use("/catalog/archive-types", archiveTypesRouter);
 //Типы документов
 router.use("/catalog/documents/types", documentTypeRouter);
 //Типы статусов документов
