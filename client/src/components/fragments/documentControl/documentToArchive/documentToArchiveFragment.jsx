@@ -5,6 +5,7 @@ import SimpleError from "../../messages/Error";
 import DocumentToArchiveShow from "./documentToArchiveShow";
 
 export default function DocumentToArchiveFragment(props) {
+  return "";
   const { documentId, closeModalFunc } = props;
   const {
     data: document = {},
