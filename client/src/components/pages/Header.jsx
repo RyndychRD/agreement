@@ -4,6 +4,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { isAccessGranted } from "../../services/userAccessService";
 import { logoutAsync } from "../../core/redux/reducers/AuthReducer";
+import { userNameMask } from "../../services/CommonFunctions";
 import {
   AMenu,
   ARow,
@@ -36,9 +37,7 @@ function Header() {
    */
   const menuItems = [
     {
-      label: `${currentUser?.last_name} 
-      ${currentUser?.first_name.slice(0, 1)}.
-      ${currentUser?.middle_name.slice(0, 1)}.`,
+      label: userNameMask(currentUser),
       key: "user",
       children: [
         isAccessGranted("Admin")

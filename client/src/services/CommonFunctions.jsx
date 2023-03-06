@@ -25,8 +25,8 @@ export function replaceUrlQueryWithId(id, queryIdNameForOpen = "id") {
 
 export function userNameMask(user) {
   if (!user) return null;
-  return `${user?.last_name} ${user?.first_name}. ${
-    user?.middle_name ? `${user?.middle_name}.` : ""
+  return `${user?.last_name} ${user?.first_name.slice(0, 1)}. ${
+    user?.middle_name ? `${user?.middle_name.slice(0, 1)}.` : ""
   }`;
 }
 
