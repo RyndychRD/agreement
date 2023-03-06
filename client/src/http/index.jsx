@@ -1,21 +1,9 @@
 /** @format */
 
 import axios from "axios";
+import { getApiUrlByEnv } from "../services/CommonFunctions";
 
-let API_URL_TEMP = "";
-switch (process.env.REACT_APP_NODE_ENV.trim()) {
-  case "production":
-    API_URL_TEMP = process.env.REACT_APP_SERVER_API_URL_PROD;
-    break;
-  case "testing":
-    API_URL_TEMP = process.env.REACT_APP_SERVER_API_URL_TEST;
-    break;
-  case "development":
-  default:
-    API_URL_TEMP = process.env.REACT_APP_SERVER_API_URL_DEV;
-    break;
-}
-export const API_URL = API_URL_TEMP;
+export const API_URL = getApiUrlByEnv();
 
 export const api = axios.create({
   withCredentials: true,

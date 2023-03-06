@@ -2,6 +2,3 @@ node_modules
 files
 out
 *.exe
-./client/.env
-./srv/.env
-.env

@@ -48,3 +48,20 @@ export function getUserNameAndPositionOptionsForSelect(
     }))
   );
 }
+
+export function getApiUrlByEnv() {
+  let API_URL_TEMP = "";
+  switch (process.env.REACT_APP_NODE_ENV.trim().toLowerCase()) {
+    case "production":
+      API_URL_TEMP = process.env.REACT_APP_SERVER_API_URL_PROD;
+      break;
+    case "testing":
+      API_URL_TEMP = process.env.REACT_APP_SERVER_API_URL_TEST;
+      break;
+    case "development":
+    default:
+      API_URL_TEMP = process.env.REACT_APP_SERVER_API_URL_DEV;
+      break;
+  }
+  return API_URL_TEMP;
+}

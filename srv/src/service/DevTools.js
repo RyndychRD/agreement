@@ -25,6 +25,47 @@ class DevTools {
       fs.mkdirSync(path, { recursive: true });
     }
   }
+
+  static getFileStoragePaths() {
+    let result = {
+      mainStorage: "",
+      tempStorage: "",
+    };
+    switch (process.env.NODE_ENV) {
+      case "production":
+        result["mainStorage"] = process.env.FILE_STORAGE_PATH_PROD;
+        result["tempStorage"] = process.env.FILE_TEMP_STORAGE_PATH_PROD;
+        break;
+      case "testing":
+        result["mainStorage"] = process.env.FILE_STORAGE_PATH_TEST;
+        result["tempStorage"] = process.env.FILE_TEMP_STORAGE_PATH_TEST;
+        break;
+      case "development":
+      default:
+        result["mainStorage"] = process.env.FILE_STORAGE_PATH_DEV;
+        result["tempStorage"] = process.env.FILE_TEMP_STORAGE_PATH_DEV;
+        break;
+    }
+    return result;
+  }
+
+  static getClientURL() {
+    let CLIENT_URL = "";
+    switch (process.env.NODE_ENV) {
+      case "production":
+        CLIENT_URL = process.env.CLIENT_URL_PROD;
+        break;
+      case "testing":
+        CLIENT_URL = process.env.CLIENT_URL_TEST;
+        break;
+      default:
+        console.log("DEFAULT CLIENT URL, NODE_ENV CASE NOT FOUND");
+      case "development":
+        CLIENT_URL = process.env.CLIENT_URL_DEV;
+        break;
+    }
+    return CLIENT_URL;
+  }
 }
 
 module.exports = DevTools;
