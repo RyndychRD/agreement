@@ -3,10 +3,12 @@ require("dotenv").config({ path: "../.env" });
 /**
  * @type { Object.<string, import("../node_modules/knex/types").Knex.Config> }
  */
+
 module.exports = {
   development: {
     client: "postgresql",
     connection: {
+      host: process.env.DB_DEV_HOST_DEV,
       database: process.env.DB_DEV_NAME_DEV,
       user: process.env.DB_DEV_USER_DEV,
       password: process.env.DB_DEV_PASS_DEV,
@@ -23,6 +25,7 @@ module.exports = {
   testing: {
     client: "postgresql",
     connection: {
+      host: process.env.DB_DEV_HOST_TEST,
       database: process.env.DB_DEV_NAME_TEST,
       user: process.env.DB_DEV_USER_TEST,
       password: process.env.DB_DEV_PASS_TEST,
@@ -39,6 +42,7 @@ module.exports = {
   production: {
     client: "postgresql",
     connection: {
+      host: process.env.DB_DEV_HOST_PROD,
       database: process.env.DB_DEV_NAME_PROD,
       user: process.env.DB_DEV_USER_PROD,
       password: process.env.DB_DEV_PASS_PROD,
