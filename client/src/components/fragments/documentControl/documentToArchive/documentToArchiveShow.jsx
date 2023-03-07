@@ -1,7 +1,7 @@
 import { Button } from "antd";
 import { useState } from "react";
 import { SimpleTextOutput } from "../../outputs/textOutputs";
-import DocumentToArchiveModal from "./buttons/documentToArchiveModal";
+import DocumentSetArchiveModal from "./buttons/documentSetArchiveModal";
 
 export default function DocumentToArchiveShow(props) {
   const { document, closeMainModal } = props;
@@ -17,7 +17,7 @@ export default function DocumentToArchiveShow(props) {
       >
         Переместить в архив
       </Button>
-      <DocumentToArchiveModal
+      <DocumentSetArchiveModal
         document={document}
         closeParentModalFunc={closeMainModal}
         isOpen={isModalOpen}

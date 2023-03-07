@@ -1,31 +1,22 @@
 import { Form, Modal } from "antd";
-import { useSetDocumentArchiveTypeAndChangeStatusMutationHook } from "../../../../../core/redux/api/DocumentControl/DocumentApi";
-import { useGetArchiveTypesQueryHook } from "../../../../../core/redux/api/Globals/Catalogs/ArchiveTypeApi";
-import SelectInputFormItem from "../../../inputs/selectInputs";
+import { useSetDocumentArchiveTypeMutationHook } from "../../../../../core/redux/api/DocumentControl/DocumentApi";
 import SimpleSpinner from "../../../messages/Spinner";
 import SimpleError from "../../../messages/Error";
+import { SelectArchiveTypesFormItem } from "../../../inputs/byClass/archive";
 
-export default function DocumentToArchiveModal(props) {
+export default function DocumentSetArchiveModal(props) {
   const { document, isOpen, setIsOpen, closeParentModalFunc } = props;
   const [form] = Form.useForm();
-  const {
-    data: archiveTypes = [],
-    isLoading: isLoadingArchiveTypes,
-    isError: isErrorArchiveTypes,
-  } = useGetArchiveTypesQueryHook();
   const [
     updateMutation,
     { isLoading: isLoadingUpdate, isError: isErrorUpdate, reset: resetUpdate },
-  ] = useSetDocumentArchiveTypeAndChangeStatusMutationHook();
+  ] = useSetDocumentArchiveTypeMutationHook();
 
   const transferDocumentToArchive = async (values) => {
     const preparedValues = {
       ...values,
-      // Ставим статус Архив
-      newDocumentStatusId: 11,
       documentId: document.id,
     };
-    console.log(preparedValues);
     await updateMutation(preparedValues).unwrap();
     form.resetFields();
     if (!isErrorUpdate) {
@@ -73,19 +64,7 @@ export default function DocumentToArchiveModal(props) {
         name="document_transfer_to_archive_modal"
         autoComplete="off"
       >
-        <SelectInputFormItem
-          title="Тип архива"
-          isLoading={isLoadingArchiveTypes}
-          isError={isErrorArchiveTypes}
-          name="archiveTypeId"
-          options={archiveTypes}
-          rules={[
-            {
-              required: true,
-              message: "Выберите тип архива",
-            },
-          ]}
-        />
+        <SelectArchiveTypesFormItem />
       </Form>
     </Modal>
   );

@@ -76,17 +76,14 @@ export default class DocumentService {
     return response.data;
   }
 
-  static async setArchiveTypeAndChangeStatus(values) {
-    console.log(
-      "вызов в DocumentService -> Установить тип архива и поменять статус",
-      values
-    );
+  static async setArchiveType(values) {
+    console.log("вызов в DocumentService -> Установить тип архива", values);
     const response = await api.post(
-      `${this.API_ROUTE}/set-archive-and-change-status`,
+      `${this.API_ROUTE}/set-archive-type`,
       values
     );
     console.log(
-      "вызов в DocumentService -> Установить тип архива и поменять статус -> результат",
+      "вызов в DocumentService -> Установить тип архива -> результат",
       response
     );
     return response.data;
