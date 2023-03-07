@@ -25,8 +25,8 @@ export function replaceUrlQueryWithId(id, queryIdNameForOpen = "id") {
 
 export function userNameMask(user) {
   if (!user) return null;
-  return `${user?.last_name} ${user?.first_name}. ${
-    user?.middle_name ? `${user?.middle_name}.` : ""
+  return `${user?.last_name} ${user?.first_name.slice(0, 1)}. ${
+    user?.middle_name ? `${user?.middle_name.slice(0, 1)}.` : ""
   }`;
 }
 
@@ -47,4 +47,21 @@ export function getUserNameAndPositionOptionsForSelect(
       name: `${userNameMask(user)} ${isUserPositionRequired ? `, ${user?.position_name}` : ""}`,
     }))
   );
+}
+
+export function getApiUrlByEnv() {
+  let API_URL_TEMP = "";
+  switch (process.env.REACT_APP_NODE_ENV.trim().toLowerCase()) {
+    case "production":
+      API_URL_TEMP = process.env.REACT_APP_SERVER_API_URL_PROD;
+      break;
+    case "testing":
+      API_URL_TEMP = process.env.REACT_APP_SERVER_API_URL_TEST;
+      break;
+    case "development":
+    default:
+      API_URL_TEMP = process.env.REACT_APP_SERVER_API_URL_DEV;
+      break;
+  }
+  return API_URL_TEMP;
 }

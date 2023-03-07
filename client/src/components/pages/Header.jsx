@@ -4,6 +4,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { isAccessGranted } from "../../services/userAccessService";
 import { logoutAsync } from "../../core/redux/reducers/AuthReducer";
+import { userNameMask } from "../../services/CommonFunctions";
 import {
   AMenu,
   ARow,
@@ -27,16 +28,16 @@ function Header() {
   useEffect(() => {
     console.log("isAuth: ", isAuth);
     if (!isAuth) {
-      navigate("/login");
+      navigate("/login", { state: { prev_location: location.pathname } });
     }
-  }, [isAuth, navigate]);
+  }, [isAuth, location.pathname, navigate]);
 
   /**
    * Полный список элементов, доступных из хедера
    */
   const menuItems = [
     {
-      label: `${currentUser?.last_name} ${currentUser?.first_name}.${currentUser?.middle_name}.`,
+      label: userNameMask(currentUser),
       key: "user",
       children: [
         isAccessGranted("Admin")

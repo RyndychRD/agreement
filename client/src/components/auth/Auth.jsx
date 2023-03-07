@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import {
   refreshAsync,
   loginAsync,
@@ -27,10 +27,16 @@ function Auth() {
   const dispatch = useDispatch();
   const [showAlert, setShowAlert] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
   useEffect(() => {
     if (isAuth) {
-      navigate(-1);
+      if (location.state?.prev_location) {
+        navigate(location.state.prev_location);
+      } else {
+        navigate("/");
+      }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuth, navigate]);
 
   // Если до этого авторизовались и сессия не истекла пробуем войти автоматически

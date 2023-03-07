@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { AForm } from "../../../../../adapter";
-import CheckboxInputFormItem from "../../../../../fragments/inputs/checkboxInputs";
 import SelectInputFormItem from "../../../../../fragments/inputs/selectInputs";
 import TextInputFormItem from "../../../../../fragments/inputs/textInputs";
 import {
@@ -73,10 +72,6 @@ export default function CreateUpdateForm({ form }) {
             message: "Выберите департамент",
           },
         ]}
-      />
-      <CheckboxInputFormItem
-        title="Имеет право подписания документов?"
-        name="isSigner"
       />
       <SelectInputFormItem
         title="Наследуемые права"

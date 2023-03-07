@@ -14,7 +14,6 @@ export default function UpdateButtonModel() {
   const formDefaultValues = (data) => ({
     newPositionName: data?.name,
     departmentId: data?.department_id,
-    isSigner: data?.is_signer,
     rightIds: getUniqNotNullIds(data?.rights),
     inheritedRights: getUniqNotNullIds(data?.rights_inherited),
   });

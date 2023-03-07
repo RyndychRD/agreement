@@ -23,7 +23,6 @@ class PositionService {
     const func = await PositionModels.create({
       position: {
         name: body.newPositionName,
-        is_signer: body.isSigner ? body.isSigner : false,
         department_id: body.departmentId,
       },
       positionRights: body.rightIds,
@@ -43,7 +42,6 @@ class PositionService {
       },
       position: {
         name: body.newPositionName,
-        is_signer: body.isSigner ? body.isSigner : false,
         department_id: body.departmentId,
       },
       positionRights: body.rightIds,

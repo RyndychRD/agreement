@@ -1,6 +1,8 @@
 //Данные текущего окружения
 require("dotenv").config();
-process.env.NODE_ENV = process.env.NODE_ENV.trim();
+const DevTools = require("./src/service/DevTools");
+//Так как запускаем сервер с флагом, нормализуем ввод
+process.env.NODE_ENV = process.env.NODE_ENV.trim().toLowerCase();
 //Фреймворк web-приложений для Node.js(Каркас вокруг него всё строиться)
 const express = require("express");
 //Для без проблемных кросс-доменные запрос
@@ -12,7 +14,6 @@ const cookieParser = require("cookie-parser");
 const mainRouter = require("./src/router/router");
 const errorMiddleware = require("./src/middlewares/error-middleware");
 //Для создания папок подгрузки файлов при старте
-const DevTools = require("./src/service/DevTools");
 
 //Инициализация сервера
 const app = express();
@@ -24,22 +25,8 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 //Разрешаем кросс-доменные запросы
 
-let CLIENT_URL = "";
-
-switch (process.env.NODE_ENV) {
-  case "production":
-    CLIENT_URL = process.env.CLIENT_URL_PROD;
-    break;
-  case "testing":
-    CLIENT_URL = process.env.CLIENT_URL_TEST;
-    break;
-  default:
-    console.log("DEFAULT CLIENT URL, NODE_ENV CASE NOT FOUND");
-    process.env.NODE_ENV = "development";
-  case "development":
-    CLIENT_URL = process.env.CLIENT_URL_DEV;
-    break;
-}
+// Определяем на каком урле будет клиент
+const CLIENT_URL = DevTools.getClientURL();
 
 app.use(
   cors({
@@ -52,6 +39,9 @@ app.use("/api", mainRouter);
 //Обработка ошибок
 app.use(errorMiddleware);
 
+//Определяем значения из ENV по текущему флагу
+process.env.FILE_STORAGE_PATH = DevTools.getFileStoragePaths().mainStorage;
+process.env.FILE_TEMP_STORAGE_PATH = DevTools.getFileStoragePaths().tempStorage;
 //Создание папок для временного и постоянного хранения файлов в случае их отсутствия по указанным путям
 DevTools.createFolderIfNotExist(process.env.FILE_TEMP_STORAGE_PATH);
 DevTools.createFolderIfNotExist(process.env.FILE_STORAGE_PATH);
