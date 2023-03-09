@@ -58,7 +58,14 @@ class DocumentSchema {
         "documents.id",
         "document_archives.document_id"
       )
-      .select("document_archives.archive_type_id as document_archive_type_id");
+      .leftJoin(
+        "archive_types",
+        "document_archives.archive_type_id",
+        "archive_types.id"
+      )
+      .select("document_archives.archive_type_id as document_archive_type_id")
+      .select("document_archives.passed_at as document_passed_to_archive_at")
+      .select("archive_types.name as document_archive_type_name");
     return query;
   }
 

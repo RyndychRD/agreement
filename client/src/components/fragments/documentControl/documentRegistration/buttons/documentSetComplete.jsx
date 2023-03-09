@@ -41,7 +41,7 @@ export default function DocumentSetCompleteModal(props) {
         const preparedValues = {
           ...values,
           documentId: document.id,
-          isAddDelay: true,
+          isAddPassBy: true,
         };
         await updateArchiveTypeMutation(preparedValues).unwrap();
         form.resetFields();

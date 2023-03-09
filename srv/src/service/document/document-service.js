@@ -252,11 +252,19 @@ class DocumentService {
 
   async setArchiveType(body) {
     let result = null;
-    const func = DocumentArchiveModel.create({
+    const archive = {
       document_id: body.documentId,
       archive_type_id: body.archiveTypeId,
-      passed_at: body.isAddDelay ? moment().add(1, "month") : moment(),
-    });
+    };
+    // Мы можем предварительно определить время, после которого мы должны отправить документ в архив
+    // Или пользователь может сам отправить документ в архив, тогда проверять дату этого документа нет смысла
+    if (body.isAddDelay) {
+      archive.pass_by = moment().add(1, "month").format("YYYY-MM-DD");
+    } else {
+      archive.passed_at = "now";
+      archive.pass_by = null;
+    }
+    const func = DocumentArchiveModel.create(archive);
     result = await DevTools.addDelay(func);
 
     return result;

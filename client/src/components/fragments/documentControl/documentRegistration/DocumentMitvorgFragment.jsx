@@ -47,6 +47,7 @@ export default function DocumentRegistrationFragment(props) {
       break;
     /* Если документ находится в статусе Документы, подписанные в ООПЗ - просто показать заполненые данные от Митворг */
     case 10:
+    case 11:
       content = (
         <DocumentMitvorgRegistrationShow
           documentId={documentId}

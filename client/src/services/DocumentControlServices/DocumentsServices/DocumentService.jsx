@@ -27,6 +27,8 @@ export default class DocumentService {
           el.document_status_id === 5 && el.last_signed_step === 0,
         document_current_signer: userNameMask(el?.current_signer),
         document_remark: el?.remark,
+        document_passed_to_archive_at: el?.document_passed_to_archive_at,
+        document_archive_type_name: el?.document_archive_type_name,
       }));
     } catch (e) {
       console.log("Ошибка пред-обработки данных:", e);
@@ -76,7 +78,7 @@ export default class DocumentService {
     return response.data;
   }
 
-  // Если в values передан флаг isAddDelay, то запишем дату помещения в архив через месяц
+  // Если в values передан флаг isAddPassBy, то запишем дату помещения в архив через месяц
   static async setArchiveType(values) {
     console.log("вызов в DocumentService -> Установить тип архива", values);
     const response = await api.post(
