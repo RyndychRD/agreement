@@ -10,6 +10,7 @@ import { HeaderTextOutput } from "../../../outputs/textOutputs";
 
 export default function DocumentSetArchiveModal(props) {
   const { document, isOpen, setIsOpen, closeParentModalFunc } = props;
+
   const [form] = Form.useForm();
   const [
     updateArchiveTypeMutation,
@@ -30,7 +31,7 @@ export default function DocumentSetArchiveModal(props) {
     }
   };
 
-  const transferDocumentToArchive = async (values) => {
+  const setDocumentArchiveType = async (values) => {
     const preparedValues = {
       ...values,
       documentId: document.id,
@@ -51,7 +52,7 @@ export default function DocumentSetArchiveModal(props) {
           content:
             "Вы действительно хотите досрочно поместить документ в архив?",
           onOk: () => {
-            transferDocumentToArchive(values);
+            setDocumentArchiveType(values);
           },
           okText: "Да, я хочу поместить документ в архив",
           cancelText: "Нет",
@@ -62,8 +63,9 @@ export default function DocumentSetArchiveModal(props) {
       });
   };
 
-  form.setFieldValue("archiveTypeId", document.document_archive_type_id);
-
+  if (isOpen) {
+    form.setFieldValue("archiveTypeId", document.document_archive_type_id);
+  }
   return (
     <Modal
       okText="Поместить в архив"
