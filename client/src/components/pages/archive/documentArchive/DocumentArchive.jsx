@@ -40,6 +40,7 @@ export default function DocumentArchive() {
         isLoading={isLoading}
         isError={isError}
         columns={columns}
+        buttons={["update", "excel"]}
         dataSource={data ? DocumentService.prepareForTable(data) : null}
         title="Архив документов"
       />

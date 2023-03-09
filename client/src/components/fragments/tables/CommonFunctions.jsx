@@ -1,8 +1,8 @@
 /** @format */
 import _ from "lodash";
 import moment from "moment";
-import { Col, Row } from "antd";
-import { AButton, AAlert, ATag } from "../../adapter";
+import { Col, Row, Button } from "antd";
+import { AAlert, ATag } from "../../adapter";
 
 /**
  * Используется для создания фильтра по всем значениями из таблицы. По факту магия, я не могу понять что здесь происходит
@@ -124,34 +124,43 @@ export default function getTitle(name, buttons, buttonsActions) {
    */
   const buttonsDict = {
     create: (
-      <AButton
+      <Button
         key="keyCreateAdminTableSettings"
         type="primary"
         onClick={buttonsActions.create}
         className="space-right"
       >
         Создать
-      </AButton>
+      </Button>
     ),
     delete: (
-      <AButton
+      <Button
         key="keyDeleteAdminTableSettings"
         danger
         onClick={buttonsActions.delete}
         className="space-right"
       >
         Удалить
-      </AButton>
+      </Button>
     ),
     update: (
-      <AButton
+      <Button
         key="keyUpdateAdminTableSettings"
         type="primary"
         onClick={buttonsActions.update}
         className="space-right "
       >
         Просмотр
-      </AButton>
+      </Button>
+    ),
+    excel: (
+      <Button
+        key="keyDownloadExcelAdminTableSettings"
+        onClick={buttonsActions.excel}
+        className="space-right "
+      >
+        Скачать в Excel
+      </Button>
     ),
   };
 
