@@ -43,11 +43,9 @@ class DocumentController {
       next(e);
     }
   }
-  async setArchiveTypeAndChangeStatus(req, res, next) {
+  async setArchiveType(req, res, next) {
     try {
-      const data = await DocumentService.setArchiveTypeAndChangeStatus(
-        req.body
-      );
+      const data = await DocumentService.setArchiveType(req.body);
       return res.json(data);
     } catch (e) {
       next(e);

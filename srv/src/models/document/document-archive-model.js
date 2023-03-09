@@ -23,7 +23,10 @@ class DocumentArchiveSchema {
    * @returns
    */
   async create(archive) {
-    return await this.knexProvider("document_archives").insert(archive);
+    return await this.knexProvider("document_archives")
+      .insert(archive)
+      .onConflict("document_id")
+      .merge();
   }
 }
 

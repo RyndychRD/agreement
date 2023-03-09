@@ -51,6 +51,14 @@ class DocumentSchema {
         "documents.id",
         "document_mitvorg.document_id"
       );
+    // Подтягиваем данные по архиву для документа
+    query = query
+      .leftJoin(
+        "document_archives",
+        "documents.id",
+        "document_archives.document_id"
+      )
+      .select("document_archives.archive_type_id as document_archive_type_id");
     return query;
   }
 

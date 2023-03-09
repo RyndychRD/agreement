@@ -7,12 +7,9 @@ const Readable = require("stream").Readable;
 const fs = require("fs");
 const crypto = require("crypto");
 const path = require("path");
-const DocumentFilesModel = require("../models/document/document-file-model");
 const DocumentModels = require("../models/catalogModels/document-models");
 const moment = require("moment/moment");
 const FilesModel = require("../models/catalogModels/files-model");
-const DocumentTaskFilesModel =
-  require("../models/documentTaskModels/document-task-files-model").default;
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {

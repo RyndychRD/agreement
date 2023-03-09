@@ -16,6 +16,7 @@ const DocumentValuesService = require("./document-values-service");
 const DocumentMitvorgModel = require("../../models/document/document-mitvorg-model");
 const NotificationIsReadModel = require("../../models/notification/notification-is-read-model");
 const DocumentArchiveModel = require("../../models/document/document-archive-model");
+const moment = require("moment/moment");
 
 function getCurrentSigner(document) {
   //Изначально никто не текущий подписант
@@ -89,6 +90,7 @@ class DocumentService {
     };
     const func = DocumentModels.findOne({
       isAddForeignTables: query?.isAddForeignTables === "true",
+      isGetDocumentArchiveType: query?.isGetDocumentArchiveType === "true",
       filter,
     });
     let document = await DevTools.addDelay(func);
@@ -248,18 +250,14 @@ class DocumentService {
     return result;
   }
 
-  async setArchiveTypeAndChangeStatus(body) {
+  async setArchiveType(body) {
     let result = null;
     const func = DocumentArchiveModel.create({
       document_id: body.documentId,
       archive_type_id: body.archiveTypeId,
-      passed_at: "now",
+      passed_at: body.isAddDelay ? moment().add(1, "month") : moment(),
     });
     result = await DevTools.addDelay(func);
-    result = DocumentService.changeDocumentStatus(
-      body.documentId,
-      body.newDocumentStatusId
-    );
 
     return result;
   }
@@ -273,6 +271,17 @@ class DocumentService {
         },
         {
           remark: body.newRemark,
+        }
+      );
+      result = await DevTools.addDelay(func);
+    }
+    if (body?.finishedAt) {
+      const func = DocumentModels.update(
+        {
+          id: query.id,
+        },
+        {
+          finished_at: body.finishedAt,
         }
       );
       result = await DevTools.addDelay(func);

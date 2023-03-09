@@ -12,8 +12,7 @@ export default function DocumentToArchiveFragment(props) {
     isError,
   } = useGetDocumentQueryHook({
     id: documentId,
-    // Пока что не реализовано
-    isGetDocumentArchiveType: true,
+    isAddForeignTables: true,
   });
   return (
     <>

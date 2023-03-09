@@ -8,7 +8,7 @@ export default function DocumentToArchiveShow(props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   return (
     <>
-      <SimpleTextOutput text="Автоматическое перемещение в архив пока не реализовано. Необходимо при перемещении документа в Исполненные добавить поле в какой архив надо послать документ" />
+      <SimpleTextOutput text="Автоматическое перемещение в архив пока не реализовано" />
       <Button
         type="primary"
         onClick={() => {

@@ -76,6 +76,7 @@ export default class DocumentService {
     return response.data;
   }
 
+  // Если в values передан флаг isAddDelay, то запишем дату помещения в архив через месяц
   static async setArchiveType(values) {
     console.log("вызов в DocumentService -> Установить тип архива", values);
     const response = await api.post(
