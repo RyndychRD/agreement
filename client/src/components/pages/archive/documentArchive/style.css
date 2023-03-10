@@ -1,0 +1,12 @@
+.mainContainer {
+  padding: 10px;
+  border-radius: 20px;
+  background-color: white;
+}
+
+.mainContainerButtonDiv {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  flex-wrap: wrap;
+}

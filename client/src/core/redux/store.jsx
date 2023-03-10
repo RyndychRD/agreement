@@ -14,6 +14,7 @@ import { notificationsApi } from "./api/DocumentControl/NotificationApi";
 import { documentTasksApi } from "./api/DocumentControl/DocumentTaskApi";
 import { FAQsApi } from "./api/Globals/FAQ/FAQApi";
 import { archiveTypesApi } from "./api/Globals/Catalogs/ArchiveTypeApi";
+import { documentArchivesApi } from "./api/Archive/DocumentArchive";
 
 const store = configureStore({
   reducer: {
@@ -32,6 +33,7 @@ const store = configureStore({
     FAQApi: FAQsApi.reducer,
     archiveTypesApi: archiveTypesApi.reducer,
     documentTasksApi: documentTasksApi.reducer,
+    documentArchivesApi: documentArchivesApi.reducer,
   },
   middleware: (getDefaultMiddlware) =>
     getDefaultMiddlware()
@@ -47,6 +49,7 @@ const store = configureStore({
       .concat(documentTasksApi.middleware)
       .concat(FAQsApi.middleware)
       .concat(archiveTypesApi.middleware)
+      .concat(documentArchivesApi.middleware)
       .concat(documentIODictionaryElementApi.middleware),
 });
 

@@ -14,6 +14,16 @@ class DocumentController {
       next(e);
     }
   }
+  async getDocumentArchives(req, res, next) {
+    try {
+      const data = await DocumentService.getAllDocumentArchives({
+        query: req?.query,
+      });
+      return res.json(data);
+    } catch (e) {
+      next(e);
+    }
+  }
   async createNewDocument(req, res, next) {
     try {
       const data = await DocumentService.createNewDocument(

@@ -12,6 +12,7 @@ export function SelectArchiveTypesFormItem(props) {
         message: "Выберите тип архива",
       },
     ],
+    isModeMultiple = false,
   } = props;
   const {
     data: archiveTypes = [],
@@ -20,6 +21,7 @@ export function SelectArchiveTypesFormItem(props) {
   } = useGetArchiveTypesQueryHook();
   return (
     <SelectInputFormItem
+      isModeMultiple={isModeMultiple}
       title={title}
       isLoading={isLoadingArchiveTypes}
       isError={isErrorArchiveTypes}

@@ -126,6 +126,20 @@ export default class DocumentService {
     return response.data;
   }
 
+  static async getAllForArchive({ archiveTypes, dateRange }) {
+    console.log(
+      `вызов в DocumentService -> Взять все записи для архива со значениями archiveTypes=${archiveTypes}&dateCreationRange=${dateRange}`
+    );
+    const response = await api.get(
+      `${this.API_ROUTE}/archives?archiveTypes=${archiveTypes}&dateCreationRange=${dateRange}`
+    );
+    console.log(
+      "вызов в DocumentService -> Взять все записи для архива -> результат",
+      response
+    );
+    return response.data;
+  }
+
   static async getOne(props) {
     const { id, isAddDocumentData, isAddForeignTables } = props;
     console.log("вызов в DocumentService -> Взять одну записи");

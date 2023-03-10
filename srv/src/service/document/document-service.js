@@ -83,6 +83,43 @@ class DocumentService {
     }
     return await documents;
   }
+  async getAllDocumentArchives(props) {
+    const { query } = props;
+    const archiveTypes = JSON.parse(query.archiveTypes);
+    const dateCreationRange = query.dateCreationRange
+      ? JSON.parse(query.dateCreationRange)
+      : {};
+    const filter = function () {
+      if (dateCreationRange?.start) {
+        this.where("documents.created_at", ">=", dateCreationRange.start);
+      }
+      if (dateCreationRange?.end) {
+        this.where("documents.created_at", "<=", dateCreationRange.end);
+      }
+      this.where("documents.document_status_id", "=", 11);
+      this.whereIn("document_archives.archive_type_id", archiveTypes);
+    };
+
+    const func = DocumentModels.find({
+      isAddForeignTables: true,
+      filter,
+    });
+    //подтягиваем общее количество шагов для подписания
+    //разыменовываем текущего подписанта
+    let documents = await func;
+    documents = await Promise.all(
+      documents.map(async (document) => {
+        return {
+          ...document,
+          creator: await getOneUser({
+            id: document.creator_id,
+            isAddForeignTables: "true",
+          }),
+        };
+      })
+    );
+    return await documents;
+  }
 
   async getOneDocument(query) {
     const filter = {

@@ -141,6 +141,9 @@ export default function getColumns({ dataSource, columns }) {
       align: "center",
       sorter: (a, b) => sorterDate(a, b),
       render: (value) => renderDate(value),
+      filters: filterDateYearly(dataSource, "document_passed_to_archive_at"),
+      onFilter: (value, record) =>
+        filterDateLogic(value, record, "document_passed_to_archive_at"),
     },
   };
 
