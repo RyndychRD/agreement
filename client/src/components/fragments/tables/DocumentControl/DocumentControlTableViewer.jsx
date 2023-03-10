@@ -40,12 +40,17 @@ export default function DocumentControlTableViewer({
 
   const columnsNamed = getColumns({ dataSource, columns });
 
+  // FIXME: Костыль для отмены запросов нотификации, если таблица этого не требует. Убрать
+  const pollingInterval = notificationType
+    ? {
+        pollingInterval: 1000,
+      }
+    : {};
+
   const { data: notificationIds, isLoading: isLoadingNotifications } =
     useGetUnreadNotificationsQueryHook(
       { isGetNotificationCount: false },
-      {
-        pollingInterval: 1000,
-      }
+      pollingInterval
     );
 
   let documentForNotifying = [];
@@ -108,7 +113,6 @@ export default function DocumentControlTableViewer({
 
   if (isLoading) return <SimpleSpinner />;
   if (isError) return <SimpleError />;
-
   return (
     <Table
       scroll={{ x: "1000" }}

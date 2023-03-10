@@ -51,6 +51,20 @@ export const renderDate = (date, isAddTime = true) => {
   return date ? moment(date).format("DD.MM.YYYY") : "";
 };
 
+export const filterDateLogic = (value, record, columnName) =>
+  moment(record[columnName]).format("YYYY") === value;
+
+export const filterDateYearly = (dataSource, columnName) =>
+  _?.uniqWith(
+    filterData(
+      // Сортируем в порядке убывания
+      dataSource?.sort(
+        (a, b) => !a?.[columnName]?.localeCompare(b?.[columnName])
+      )
+    )((i) => moment(i?.[columnName]).format("YYYY")),
+    _?.isEqual
+  );
+
 /**
  * Функция для рендера прав
  * @param {*} items

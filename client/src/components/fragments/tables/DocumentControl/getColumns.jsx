@@ -1,6 +1,9 @@
 // import { Tag } from "antd";
+
 import {
   filterDataStringSorted,
+  filterDateLogic,
+  filterDateYearly,
   renderDate,
   sorterDate,
   sorterInt,
@@ -43,7 +46,11 @@ export default function getColumns({ dataSource, columns }) {
       align: "center",
       sorter: (a, b) => sorterDate(a, b),
       render: (value) => renderDate(value),
+      filters: filterDateYearly(dataSource, "document_created_at"),
+      onFilter: (value, record) =>
+        filterDateLogic(value, record, "document_created_at"),
     },
+
     document_updated_at: {
       title: "Последние изменение",
       dataIndex: "document_updated_at",
