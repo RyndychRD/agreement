@@ -13,6 +13,7 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const mainRouter = require("./src/router/router");
 const errorMiddleware = require("./src/middlewares/error-middleware");
+const { scheduler } = require("./src/schedule/schedule");
 //Для создания папок подгрузки файлов при старте
 
 //Инициализация сервера
@@ -27,7 +28,7 @@ app.use(cookieParser());
 
 // Определяем на каком урле будет клиент
 const CLIENT_URL = DevTools.getClientURL();
-
+// Устанавливаем политики клиента, чтобы использовать CORS защиту
 app.use(
   cors({
     credentials: true,
@@ -45,6 +46,9 @@ process.env.FILE_TEMP_STORAGE_PATH = DevTools.getFileStoragePaths().tempStorage;
 //Создание папок для временного и постоянного хранения файлов в случае их отсутствия по указанным путям
 DevTools.createFolderIfNotExist(process.env.FILE_TEMP_STORAGE_PATH);
 DevTools.createFolderIfNotExist(process.env.FILE_STORAGE_PATH);
+
+// Включает выполнение задач по расписанию
+scheduler();
 
 //Точка входа в приложение (Тут же будем отлавливать ошибки)
 const start = async () => {

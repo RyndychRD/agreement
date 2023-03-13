@@ -383,6 +383,9 @@ class DocumentService {
     NotificationService.notifyDocumentStatusChanged(documentId, newStatusId);
     return await DevTools.addDelay(func);
   }
+  async changeDocumentStatusObj(documentId, newStatusId) {
+    return DocumentService.changeDocumentStatus(documentId, newStatusId);
+  }
 }
 
 module.exports = new DocumentService();
