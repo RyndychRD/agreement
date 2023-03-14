@@ -2,15 +2,17 @@ import FileService from "../../../services/FileService";
 import openNotification from "../messages/Notification";
 
 export async function handlePreview(props) {
-  const { file, isTempFile = true } = props;
+  const { file, isTempFile = true, log } = props;
   // Если файл еще не полностью загрузился, не отображаем превью. Только для временных файлов. После сохранения в документ проверка не работает
   if (file.percent !== 100 && isTempFile) return;
   openNotification(
     "Подготовка к предпросмотру",
     "Файл подготавливается к предпросмотру"
   );
+  const fileId = file.response?.fileId ? file.response.fileId : file.file_id;
+  log(fileId);
   FileService.getFile({
-    fileId: file.response?.fileId ? file.response.fileId : file.file_id,
+    fileId,
     isForPreview: true,
   });
 }
@@ -29,11 +31,13 @@ export function handlePushToDocument(props) {
  * @returns
  */
 export function handleDownload(props) {
-  const { file, isTempFile = true } = props;
+  const { file, isTempFile = true, log } = props;
   // Если файл еще не полностью загрузился, не отображаем превью. Только для временных файлов. После сохранения в документ проверка не работает
   if (file.percent !== 100 && isTempFile) return;
+  const fileId = file.response?.fileId ? file.response.fileId : file.file_id;
+  log(fileId);
   FileService.getFile({
     fileName: file.name,
-    fileId: file.response?.fileId ? file.response.fileId : file.file_id,
+    fileId,
   });
 }

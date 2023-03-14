@@ -18,6 +18,7 @@ const documentValuesRouter = require("./documents/document-values-router");
 const documentFilesRouter = require("./documents/document-files-router");
 const notificationRouter = require("./notification/notification-router");
 const documentTasksRouter = require("./documentTasks/document-tasks-router");
+const logRouter = require("./log/log-router");
 const fileRouter = require("./file-router");
 const faqRouter = require("./catalog/faq-router");
 
@@ -69,5 +70,7 @@ router.use("/notifications", notificationRouter);
 
 /** Справки */
 router.use("/FAQ", faqRouter);
+/** Логи */
+router.use("/log", logRouter);
 
 module.exports = router;

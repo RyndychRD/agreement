@@ -1,10 +1,13 @@
 import { Button, Checkbox, Col, Form, Row } from "antd";
 import { useState } from "react";
+import ArchiveLogService from "../../../../services/LogService/ArchiveLogService";
 import { SelectArchiveTypesFormItem } from "../../../fragments/inputs/byClass/archive";
 import { DateRangeInputFormItem } from "../../../fragments/inputs/dateInput";
 import { HeaderTextOutput } from "../../../fragments/outputs/textOutputs";
+import { useLogState } from "../../../log/LogProvider";
 
 export default function DocumentArchiveFilter(props) {
+  const stateLog = useLogState();
   const { setDataTable } = props;
   const [isAllRange, setIsAllRange] = useState(false);
   const [form] = Form.useForm();
@@ -18,6 +21,13 @@ export default function DocumentArchiveFilter(props) {
           dateRange: values.documentCreateRange,
           archiveTypes: values.archiveTypeId,
         });
+        // Отправляем данные в логи
+        if (stateLog.logTypes.logFilter) {
+          new ArchiveLogService().logUserRequestDocuments(
+            values.archiveTypeId,
+            isAllRange ? null : values.documentCreateRange
+          );
+        }
       })
       .catch((info) => {
         console.log("Ошибка на форме создания:", info);

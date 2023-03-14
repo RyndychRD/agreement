@@ -19,6 +19,7 @@ import {
   replaceUrlQueryWithId,
   clearUrlQueryParams,
 } from "../../../services/CommonFunctions";
+import { useLogState } from "../../log/LogProvider";
 
 export default function ModalDocumentView(props) {
   const {
@@ -35,6 +36,15 @@ export default function ModalDocumentView(props) {
   const state = useTableModalsState();
   const dispatch = useTableModalDispatch();
   const isOpen = state.isShowUpdateModal && state.currentRow;
+
+  const stateLog = useLogState();
+  if (
+    isOpen &&
+    stateLog?.logTypes.LogDocumentOpen &&
+    stateLog?.logFunctions.LogDocumentOpen
+  ) {
+    stateLog.logFunctions.LogDocumentOpen(state.currentRow.document_id);
+  }
 
   const navigate = useNavigate();
   const onCancel = () => {
