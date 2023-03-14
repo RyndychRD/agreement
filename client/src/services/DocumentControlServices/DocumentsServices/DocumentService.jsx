@@ -29,6 +29,7 @@ export default class DocumentService {
         document_remark: el?.remark,
         document_passed_to_archive_at: el?.document_passed_to_archive_at,
         document_archive_type_name: el?.document_archive_type_name,
+        document_archive_pass_by: el?.document_archive_pass_by,
       }));
     } catch (e) {
       console.log("Ошибка пред-обработки данных:", e);

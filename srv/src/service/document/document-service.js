@@ -295,7 +295,7 @@ class DocumentService {
     };
     // Мы можем предварительно определить время, после которого мы должны отправить документ в архив
     // Или пользователь может сам отправить документ в архив, тогда проверять дату этого документа нет смысла
-    if (body.isAddDelay) {
+    if (body.isAddPassBy) {
       archive.pass_by = moment().add(1, "month").format("YYYY-MM-DD");
     } else {
       archive.passed_at = "now";

@@ -65,6 +65,7 @@ class DocumentSchema {
       )
       .select("document_archives.archive_type_id as document_archive_type_id")
       .select("document_archives.passed_at as document_passed_to_archive_at")
+      .select("document_archives.pass_by as document_archive_pass_by")
       .select("archive_types.name as document_archive_type_name");
     return query;
   }

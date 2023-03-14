@@ -1,4 +1,4 @@
-import { Button, Checkbox, Col, Form, Row } from "antd";
+import { Button, Checkbox, Col, Form, Modal, Row } from "antd";
 import { useState } from "react";
 import ArchiveLogService from "../../../../services/LogService/ArchiveLogService";
 import { SelectArchiveTypesFormItem } from "../../../fragments/inputs/byClass/archive";
@@ -11,22 +11,40 @@ export default function DocumentArchiveFilter(props) {
   const { setDataTable } = props;
   const [isAllRange, setIsAllRange] = useState(false);
   const [form] = Form.useForm();
+
+  const setData = (values) => {
+    setDataTable({
+      isFilterRun: true,
+      isAllRange,
+      dateRange: values.documentCreateRange,
+      archiveTypes: values.archiveTypeId,
+    });
+    // Отправляем данные в логи
+    if (stateLog.logTypes.logFilter) {
+      new ArchiveLogService().logUserRequestDocuments(
+        values.archiveTypeId,
+        isAllRange ? null : values.documentCreateRange
+      );
+    }
+  };
+
   const onFilter = () => {
     form
       .validateFields()
       .then(async (values) => {
-        setDataTable({
-          isFilterRun: true,
-          isAllRange,
-          dateRange: values.documentCreateRange,
-          archiveTypes: values.archiveTypeId,
-        });
-        // Отправляем данные в логи
-        if (stateLog.logTypes.logFilter) {
-          new ArchiveLogService().logUserRequestDocuments(
-            values.archiveTypeId,
-            isAllRange ? null : values.documentCreateRange
-          );
+        if (isAllRange) {
+          Modal.confirm({
+            title: "Подтверждение",
+            content:
+              "Загрузка архива за все время может занять продолжительное время. Вы уверены?",
+            onOk: () => {
+              setData(values);
+            },
+            okText: "Да, выгрузить архив за все время",
+            cancelText: "Нет",
+          });
+        } else {
+          setData(values);
         }
       })
       .catch((info) => {

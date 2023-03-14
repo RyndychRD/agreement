@@ -56,7 +56,7 @@ export default function DocumentSetCompleteModal(props) {
 
   return (
     <Modal
-      okText="Поместить в архив"
+      okText="Выбрать тип архива"
       cancelText="Отмена"
       destroyOnClose
       onCancel={() => {
