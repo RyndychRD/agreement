@@ -27,6 +27,9 @@ export default class DocumentService {
           el.document_status_id === 5 && el.last_signed_step === 0,
         document_current_signer: userNameMask(el?.current_signer),
         document_remark: el?.remark,
+        document_passed_to_archive_at: el?.document_passed_to_archive_at,
+        document_archive_type_name: el?.document_archive_type_name,
+        document_archive_pass_by: el?.document_archive_pass_by,
       }));
     } catch (e) {
       console.log("Ошибка пред-обработки данных:", e);
@@ -76,17 +79,15 @@ export default class DocumentService {
     return response.data;
   }
 
-  static async setArchiveTypeAndChangeStatus(values) {
-    console.log(
-      "вызов в DocumentService -> Установить тип архива и поменять статус",
-      values
-    );
+  // Если в values передан флаг isAddPassBy, то запишем дату помещения в архив через месяц
+  static async setArchiveType(values) {
+    console.log("вызов в DocumentService -> Установить тип архива", values);
     const response = await api.post(
-      `${this.API_ROUTE}/set-archive-and-change-status`,
+      `${this.API_ROUTE}/set-archive-type`,
       values
     );
     console.log(
-      "вызов в DocumentService -> Установить тип архива и поменять статус -> результат",
+      "вызов в DocumentService -> Установить тип архива -> результат",
       response
     );
     return response.data;
@@ -121,6 +122,20 @@ export default class DocumentService {
     );
     console.log(
       "вызов в DocumentService -> Взять все записи -> результат",
+      response
+    );
+    return response.data;
+  }
+
+  static async getAllForArchive({ archiveTypes, dateRange }) {
+    console.log(
+      `вызов в DocumentService -> Взять все записи для архива со значениями archiveTypes=${archiveTypes}&dateCreationRange=${dateRange}`
+    );
+    const response = await api.get(
+      `${this.API_ROUTE}/archives?archiveTypes=${archiveTypes}&dateCreationRange=${dateRange}`
+    );
+    console.log(
+      "вызов в DocumentService -> Взять все записи для архива -> результат",
       response
     );
     return response.data;

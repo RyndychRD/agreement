@@ -1,14 +1,21 @@
 import { Button } from "antd";
 import { useState } from "react";
 import { SimpleTextOutput } from "../../outputs/textOutputs";
-import DocumentToArchiveModal from "./buttons/documentToArchiveModal";
+import { renderDate } from "../../tables/CommonFunctions";
+import DocumentSetArchiveModal from "./buttons/documentSetArchiveModal";
 
 export default function DocumentToArchiveShow(props) {
   const { document, closeMainModal } = props;
   const [isModalOpen, setIsModalOpen] = useState(false);
+  console.log(document);
   return (
     <>
-      <SimpleTextOutput text="Автоматическое перемещение в архив пока не реализовано. Необходимо при перемещении документа в Исполненные добавить поле в какой архив надо послать документ" />
+      <SimpleTextOutput
+        text={`Документ будет автоматически перемещен ${renderDate(
+          document.document_archive_pass_by,
+          false
+        )} в архив ${document.document_archive_type_name}`}
+      />
       <Button
         type="primary"
         onClick={() => {
@@ -17,7 +24,7 @@ export default function DocumentToArchiveShow(props) {
       >
         Переместить в архив
       </Button>
-      <DocumentToArchiveModal
+      <DocumentSetArchiveModal
         document={document}
         closeParentModalFunc={closeMainModal}
         isOpen={isModalOpen}

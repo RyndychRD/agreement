@@ -1,4 +1,4 @@
-import { ASelect, AFormItem } from "../../adapter";
+import { Form, Select } from "antd";
 import SimpleSpinner from "../messages/Spinner";
 import SimpleError from "../messages/Error";
 
@@ -46,7 +46,7 @@ export default function SelectInputFormItem({
     result = <SimpleSpinner />;
   } else {
     result = (
-      <ASelect
+      <Select
         {...mode}
         options={formatOptions}
         placeholder={title}
@@ -58,8 +58,8 @@ export default function SelectInputFormItem({
   }
 
   return (
-    <AFormItem label={title} name={name} rules={rules} labelCol={{ span: 24 }}>
+    <Form.Item label={title} name={name} rules={rules} labelCol={{ span: 24 }}>
       {result}
-    </AFormItem>
+    </Form.Item>
   );
 }

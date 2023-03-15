@@ -23,7 +23,22 @@ class DocumentArchiveSchema {
    * @returns
    */
   async create(archive) {
-    return await this.knexProvider("document_archives").insert(archive);
+    return await this.knexProvider("document_archives")
+      .insert(archive)
+      .onConflict("document_id")
+      .merge();
+  }
+  async update({ archive, filter }) {
+    return await this.knexProvider("document_archives")
+      .update(archive)
+      .where(filter);
+  }
+
+  async find({ filter }) {
+    let query = this.knexProvider("document_archives")
+      .select("document_archives.*")
+      .where(filter);
+    return await query;
   }
 }
 

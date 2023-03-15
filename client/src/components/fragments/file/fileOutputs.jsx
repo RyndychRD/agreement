@@ -3,6 +3,7 @@
 
 import { DownloadOutlined, EyeOutlined } from "@ant-design/icons";
 import { usePushDocumentTaskFileToDocumentMutationHook } from "../../../core/redux/api/DocumentControl/DocumentApi";
+import { useLogState } from "../../log/LogProvider";
 import { handlePreview, handleDownload, handlePushToDocument } from "./File";
 import "./fileStyle.css";
 
@@ -17,6 +18,17 @@ export function UploadListItem(props) {
 
   const [addFileIdToDocument] = usePushDocumentTaskFileToDocumentMutationHook();
 
+  let logDownload = () => {};
+  let logPreview = () => {};
+
+  const stateLog = useLogState();
+  if (
+    stateLog?.logTypes.LogDocumentOpen &&
+    stateLog?.logFunctions.LogDocumentOpen
+  ) {
+    logDownload = (fileId) => stateLog.logFunctions.LogFileDownload(fileId);
+    logPreview = (fileId) => stateLog.logFunctions.LogFilePreview(fileId);
+  }
   return (
     <li
       className="ant-upload-list-item ant-upload-list-item-done"
@@ -30,7 +42,7 @@ export function UploadListItem(props) {
         <button
           title="Скачать"
           type="button"
-          onClick={() => handleDownload({ file, isTempFile })}
+          onClick={() => handleDownload({ file, isTempFile, log: logDownload })}
           className="ant-btn css-dev-only-do-not-override-1ij74fp ant-btn-text ant-btn-sm "
         >
           <span>
@@ -40,7 +52,7 @@ export function UploadListItem(props) {
         <button
           title="Предпросмотр"
           type="button"
-          onClick={() => handlePreview({ file, isTempFile })}
+          onClick={() => handlePreview({ file, isTempFile, log: logPreview })}
           className="ant-btn css-dev-only-do-not-override-1ij74fp ant-btn-text ant-btn-sm "
         >
           <span>

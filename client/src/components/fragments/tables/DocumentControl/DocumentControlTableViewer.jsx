@@ -1,10 +1,11 @@
 import { useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { Table } from "antd";
+import { Excel } from "antd-table-saveas-excel";
 import {
   useTableModalDispatch,
   useTableModalsState,
 } from "../TableModalProvider";
-import { ATable } from "../../../adapter";
 import getTitle from "../CommonFunctions";
 import "../style.css";
 import SimpleSpinner from "../../messages/Spinner";
@@ -37,12 +38,19 @@ export default function DocumentControlTableViewer({
   const state = customState ? customState() : standardState;
   const dispatch = customDispatch ? customDispatch() : standardDispatch;
 
+  const columnsNamed = getColumns({ dataSource, columns });
+
+  // FIXME: Костыль для отмены запросов нотификации, если таблица этого не требует. Убрать
+  const pollingInterval = notificationType
+    ? {
+        pollingInterval: 1000,
+      }
+    : {};
+
   const { data: notificationIds, isLoading: isLoadingNotifications } =
     useGetUnreadNotificationsQueryHook(
       { isGetNotificationCount: false },
-      {
-        pollingInterval: 1000,
-      }
+      pollingInterval
     );
 
   let documentForNotifying = [];
@@ -69,6 +77,22 @@ export default function DocumentControlTableViewer({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query, dataSource]);
+
+  // TODO: Возможно, стоит заменить на useRef. Пока не понимаю импакта на производительность
+  const [currentDataSource, setCurrentDataSource] = useState(dataSource);
+
+  // Функция, которая отвечает за экспорт в Excel
+  const handleExport = () => {
+    const excel = new Excel();
+    excel
+      .addSheet("test")
+      .addColumns(columnsNamed)
+      .addDataSource(currentDataSource, {
+        str2Percent: true,
+      })
+      .saveAs("Excel.xlsx");
+  };
+
   /**
    * Дефолтная логика для кнопок. Пока что нет задачи изменять количество кнопок
    */
@@ -82,16 +106,21 @@ export default function DocumentControlTableViewer({
     delete: () => {
       dispatch({ type: "openDeleteModal" });
     },
+    excel: () => {
+      handleExport();
+    },
   };
 
   if (isLoading) return <SimpleSpinner />;
   if (isError) return <SimpleError />;
-
   return (
-    <ATable
+    <Table
       scroll={{ x: "1000" }}
+      onChange={(pagination, filters, sorter, extra) => {
+        setCurrentDataSource(extra.currentDataSource);
+      }}
       key="keyDocumentControlTableViewer"
-      columns={getColumns({ dataSource, columns })}
+      columns={columnsNamed}
       dataSource={dataSource}
       pagination={{ position: ["bottomCenter"] }}
       className="height-100"

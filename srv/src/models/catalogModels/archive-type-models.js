@@ -22,7 +22,8 @@ class ArchiveTypeSchema {
    * Находит все вхождение в таблице
    * @param {json} filter
    */
-  async find({ filter }) {
+  async find(props) {
+    const { filter } = props;
     let query = this.knexProvider("archive_types")
       .select("archive_types.*")
       .orderBy("archive_types.id", "asc");

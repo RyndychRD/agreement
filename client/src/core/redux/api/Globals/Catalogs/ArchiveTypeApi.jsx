@@ -104,7 +104,6 @@ export const {
 
 /**
  * `useGetArchiveTypesQueryHook` Хук для запроса всех данных по департаментам
- * @param {boolean} [isAddRights=true]   Флаг true включает параметризированный запрос
  * @example
  * useGetArchiveTypesQueryHook(true) // Запрос с параметрами
  * const response = await api.get(`${this.API_ROUTE}?isAddRights=${isAddRights}`);

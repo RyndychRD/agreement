@@ -16,6 +16,7 @@ const DocumentValuesService = require("./document-values-service");
 const DocumentMitvorgModel = require("../../models/document/document-mitvorg-model");
 const NotificationIsReadModel = require("../../models/notification/notification-is-read-model");
 const DocumentArchiveModel = require("../../models/document/document-archive-model");
+const moment = require("moment/moment");
 
 function getCurrentSigner(document) {
   //Изначально никто не текущий подписант
@@ -82,6 +83,43 @@ class DocumentService {
     }
     return await documents;
   }
+  async getAllDocumentArchives(props) {
+    const { query } = props;
+    const archiveTypes = JSON.parse(query.archiveTypes);
+    const dateCreationRange = query.dateCreationRange
+      ? JSON.parse(query.dateCreationRange)
+      : {};
+    const filter = function () {
+      if (dateCreationRange?.start) {
+        this.where("documents.created_at", ">=", dateCreationRange.start);
+      }
+      if (dateCreationRange?.end) {
+        this.where("documents.created_at", "<=", dateCreationRange.end);
+      }
+      this.where("documents.document_status_id", "=", 11);
+      this.whereIn("document_archives.archive_type_id", archiveTypes);
+    };
+
+    const func = DocumentModels.find({
+      isAddForeignTables: true,
+      filter,
+    });
+    //подтягиваем общее количество шагов для подписания
+    //разыменовываем текущего подписанта
+    let documents = await func;
+    documents = await Promise.all(
+      documents.map(async (document) => {
+        return {
+          ...document,
+          creator: await getOneUser({
+            id: document.creator_id,
+            isAddForeignTables: "true",
+          }),
+        };
+      })
+    );
+    return await documents;
+  }
 
   async getOneDocument(query) {
     const filter = {
@@ -89,6 +127,7 @@ class DocumentService {
     };
     const func = DocumentModels.findOne({
       isAddForeignTables: query?.isAddForeignTables === "true",
+      isGetDocumentArchiveType: query?.isGetDocumentArchiveType === "true",
       filter,
     });
     let document = await DevTools.addDelay(func);
@@ -248,18 +287,22 @@ class DocumentService {
     return result;
   }
 
-  async setArchiveTypeAndChangeStatus(body) {
+  async setArchiveType(body) {
     let result = null;
-    const func = DocumentArchiveModel.create({
+    const archive = {
       document_id: body.documentId,
       archive_type_id: body.archiveTypeId,
-      passed_at: "now",
-    });
+    };
+    // Мы можем предварительно определить время, после которого мы должны отправить документ в архив
+    // Или пользователь может сам отправить документ в архив, тогда проверять дату этого документа нет смысла
+    if (body.isAddPassBy) {
+      archive.pass_by = moment().add(1, "month").format("YYYY-MM-DD");
+    } else {
+      archive.passed_at = "now";
+      archive.pass_by = null;
+    }
+    const func = DocumentArchiveModel.create(archive);
     result = await DevTools.addDelay(func);
-    result = DocumentService.changeDocumentStatus(
-      body.documentId,
-      body.newDocumentStatusId
-    );
 
     return result;
   }
@@ -273,6 +316,17 @@ class DocumentService {
         },
         {
           remark: body.newRemark,
+        }
+      );
+      result = await DevTools.addDelay(func);
+    }
+    if (body?.finishedAt) {
+      const func = DocumentModels.update(
+        {
+          id: query.id,
+        },
+        {
+          finished_at: body.finishedAt,
         }
       );
       result = await DevTools.addDelay(func);
@@ -328,6 +382,9 @@ class DocumentService {
     );
     NotificationService.notifyDocumentStatusChanged(documentId, newStatusId);
     return await DevTools.addDelay(func);
+  }
+  async changeDocumentStatusObj(documentId, newStatusId) {
+    return DocumentService.changeDocumentStatus(documentId, newStatusId);
   }
 }
 

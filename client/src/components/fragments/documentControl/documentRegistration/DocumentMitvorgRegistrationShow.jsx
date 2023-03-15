@@ -1,12 +1,11 @@
 import { Button, Col, Row } from "antd";
-import {
-  useGetDocumentQueryHook,
-  useUpdateDocumentMutation,
-} from "../../../../core/redux/api/DocumentControl/DocumentApi";
+import { useState } from "react";
+import { useGetDocumentQueryHook } from "../../../../core/redux/api/DocumentControl/DocumentApi";
 import SimpleSpinner from "../../messages/Spinner";
 import SimpleError from "../../messages/Error";
 import { TextOutputWithLabel } from "../../outputs/textOutputs";
 import { renderDate } from "../../tables/CommonFunctions";
+import DocumentSetCompleteModal from "./buttons/documentSetComplete";
 
 /**
  *
@@ -16,27 +15,13 @@ import { renderDate } from "../../tables/CommonFunctions";
  */
 export default function DocumentMitvorgRegistrationShow(props) {
   const { documentId, closeModalFunc, isAddButton = false } = props;
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
   // prettier-ignore
   const {data: document = {},isLoading: isLoadingDocument,isError: isErrorDocument} = 
     useGetDocumentQueryHook({id: documentId,isAddForeignTables: true,});
-  // prettier-ignore
-  const [updateFunc, { isLoading: isLoadingUpdate, isError: isErrorUpdate }] = 
-    useUpdateDocumentMutation();
 
-  const onClick = async () => {
-    const valuesToSend = {
-      document_id: documentId,
-      newDocumentStatusId: 10,
-    };
-    await updateFunc(valuesToSend).unwrap();
-    if (!isErrorUpdate) {
-      closeModalFunc();
-    }
-  };
-
-  const isLoading = isLoadingDocument || isLoadingUpdate;
-  const isError = isErrorDocument || isErrorUpdate;
+  const isLoading = isLoadingDocument;
+  const isError = isErrorDocument;
   if (isLoading) return <SimpleSpinner />;
   if (isError) return <SimpleError />;
 
@@ -51,13 +36,26 @@ export default function DocumentMitvorgRegistrationShow(props) {
         text={document.document_mitvorg_number}
       />
       {isAddButton ? (
-        <Row className="mt-5">
-          <Col push={7}>
-            <Button type="primary" onClick={onClick}>
-              Документ исполнен
-            </Button>
-          </Col>
-        </Row>
+        <>
+          <Row className="mt-5">
+            <Col push={7}>
+              <Button
+                type="primary"
+                onClick={() => {
+                  setIsModalOpen(true);
+                }}
+              >
+                Документ исполнен
+              </Button>
+            </Col>
+          </Row>
+          <DocumentSetCompleteModal
+            document={document}
+            isOpen={isModalOpen}
+            setIsOpen={setIsModalOpen}
+            closeParentModalFunc={closeModalFunc}
+          />
+        </>
       ) : (
         ""
       )}

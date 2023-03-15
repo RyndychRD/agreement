@@ -1,6 +1,9 @@
 // import { Tag } from "antd";
+
 import {
   filterDataStringSorted,
+  filterDateLogic,
+  filterDateYearly,
   renderDate,
   sorterDate,
   sorterInt,
@@ -17,8 +20,6 @@ export default function getColumns({ dataSource, columns }) {
   /**
    * Словарь всех возможных колонок для таблицы
    */
-
-  // Наименование договора | Время создания | Последние изменение | Тип договора | Статус | На подписи | Этап
 
   const documentColumns = {
     document_id: {
@@ -45,7 +46,11 @@ export default function getColumns({ dataSource, columns }) {
       align: "center",
       sorter: (a, b) => sorterDate(a, b),
       render: (value) => renderDate(value),
+      filters: filterDateYearly(dataSource, "document_created_at"),
+      onFilter: (value, record) =>
+        filterDateLogic(value, record, "document_created_at"),
     },
+
     document_updated_at: {
       title: "Последние изменение",
       dataIndex: "document_updated_at",
@@ -71,6 +76,7 @@ export default function getColumns({ dataSource, columns }) {
       onFilter: (value, record) =>
         record?.document_status?.indexOf(value) === 0,
     },
+
     document_type: {
       title: "Тип договора",
       dataIndex: "document_type",
@@ -112,6 +118,32 @@ export default function getColumns({ dataSource, columns }) {
       title: "Замечание",
       dataIndex: "document_remark",
       align: "center",
+    },
+  };
+
+  const documentArchive = {
+    document_archive_type_name: {
+      title: "Тип архива",
+      dataIndex: "document_archive_type_name",
+      align: "center",
+      sorter: (a, b) =>
+        sorterStringAlphabet(
+          a?.document_archive_type_name,
+          b?.document_archive_type_name
+        ),
+      filters: filterDataStringSorted(dataSource, "document_archive_type_name"),
+      onFilter: (value, record) =>
+        record?.document_archive_type_name?.indexOf(value) === 0,
+    },
+    document_passed_to_archive_at: {
+      title: "Дата помещения в архив",
+      dataIndex: "document_passed_to_archive_at",
+      align: "center",
+      sorter: (a, b) => sorterDate(a, b),
+      render: (value) => renderDate(value),
+      filters: filterDateYearly(dataSource, "document_passed_to_archive_at"),
+      onFilter: (value, record) =>
+        filterDateLogic(value, record, "document_passed_to_archive_at"),
     },
   };
 
@@ -183,6 +215,7 @@ export default function getColumns({ dataSource, columns }) {
   const dictColumn = {
     ...documentColumns,
     ...documentTaskColumns,
+    ...documentArchive,
   };
 
   /**

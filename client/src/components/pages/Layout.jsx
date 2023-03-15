@@ -1,5 +1,6 @@
 import { Layout as ALayout } from "antd";
 import { Routes, Route } from "react-router-dom";
+
 import Header from "./Header";
 import MainPage from "./mainPage/MainPage";
 
@@ -8,10 +9,9 @@ import AdminSettings from "./adminSettings/AdminSettings";
 import { Error404 } from "../fragments/messages/Error";
 import Tasks from "./documentControl/tasks/Tasks";
 import FAQ from "./FAQ/FAQ";
+import Archive from "./archive/Archive";
+import Pashalka from "./FAQ/Pashalka";
 
-/**
- * Все элементы под хедером хранятся в этом компоненте
- */
 function Layout() {
   return (
     <ALayout className="layout">
@@ -22,8 +22,10 @@ function Layout() {
         <Route path="/document-control/*" element={<DocumentControl />} />
         <Route path="/admin-settings/*" element={<AdminSettings />} />
         <Route path="/tasks/*" element={<Tasks />} />
+        <Route path="/archive/*" element={<Archive />} />
         <Route path="*" element={<Error404 />} />
       </Routes>
+      <Pashalka />
     </ALayout>
   );
 }

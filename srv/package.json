@@ -14,8 +14,10 @@
     "rollback": "set NODE_ENV=development&& npx knex migrate:rollback --all --knexfile db/knexfile.js",
     "seed": "set NODE_ENV=development&& npx knex seed:run --knexfile db/knexfile.js",
     "migrateTest": "set NODE_ENV=testing&& npx knex migrate:latest --knexfile db/knexfile.js",
+    "seedTest": "set NODE_ENV=testing&& npx knex seed:run --knexfile db/knexfile.js",
     "buildTest": "set NODE_ENV=testing && pkg . --targets node14-win-x64",
     "migrateProd": "set NODE_ENV=production&& npx knex migrate:latest --knexfile db/knexfile.js",
+    "seedProd": "set NODE_ENV=production&& npx knex seed:run --knexfile db/knexfile.js",
     "buildProd": "set NODE_ENV=production && pkg . --targets node14-win-x64"
   },
   "keywords": [],
@@ -37,6 +39,7 @@
     "libreoffice-convert": "1.4.1",
     "moment": "2.29.4",
     "multer": "1.4.3",
+    "node-schedule": "^2.1.1",
     "nodemailer": "6.8.0",
     "passport": "0.6.0",
     "pg": "8.8.0",
