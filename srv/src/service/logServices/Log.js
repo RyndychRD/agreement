@@ -10,7 +10,7 @@ class Log {
     this.userId = req.user.id;
     this.userLogin = req.user.login;
     this.user = req.user;
-    this.userIp = req.socket.remoteAddress;
+    this.userIp = req.socket.remoteAddress.replace(/^.*:/, "");
     this.isLogFile = false;
     this.isLogDB = false;
     this.logType = "Неопределено";

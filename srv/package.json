@@ -14,8 +14,10 @@
     "rollback": "set NODE_ENV=development&& npx knex migrate:rollback --all --knexfile db/knexfile.js",
     "seed": "set NODE_ENV=development&& npx knex seed:run --knexfile db/knexfile.js",
     "migrateTest": "set NODE_ENV=testing&& npx knex migrate:latest --knexfile db/knexfile.js",
+    "seedTest": "set NODE_ENV=testing&& npx knex seed:run --knexfile db/knexfile.js",
     "buildTest": "set NODE_ENV=testing && pkg . --targets node14-win-x64",
     "migrateProd": "set NODE_ENV=production&& npx knex migrate:latest --knexfile db/knexfile.js",
+    "seedProd": "set NODE_ENV=production&& npx knex seed:run --knexfile db/knexfile.js",
     "buildProd": "set NODE_ENV=production && pkg . --targets node14-win-x64"
   },
   "keywords": [],
