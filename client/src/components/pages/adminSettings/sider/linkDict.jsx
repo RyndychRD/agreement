@@ -45,6 +45,10 @@ const dict = {
     <NavLink to="/admin-settings/constructor/forms">Формы</NavLink>,
     "/admin-settings/constructor/forms"
   ),
+  logArchive: getItem(
+    <NavLink to="/admin-settings/log/archive">Лог архива</NavLink>,
+    "/admin-settings/log/archive"
+  ),
 };
 
 function getLink(LinkKey) {

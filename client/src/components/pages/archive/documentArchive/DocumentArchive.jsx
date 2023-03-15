@@ -20,6 +20,8 @@ export default function DocumentArchive() {
           new ArchiveLogService().logUserOpenDocument(documentId),
         LogFileDownload: (fileId) =>
           new ArchiveLogService().logUserLoadDocumentFile(fileId),
+        LogFilePreview: (fileId) =>
+          new ArchiveLogService().logUserLoadDocumentFile(fileId, false),
       }}
     >
       <DocumentArchiveFilter setDataTable={setDataTable} />

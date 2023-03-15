@@ -8,7 +8,8 @@ exports.archiveLogEventTypesSeed = async function (knex) {
   const arr = [
     { id: 1, name: "Пользователь зашел" },
     { id: 2, name: "Документ открыт" },
-    { id: 3, name: "Файл скачен/предпросмотрен" },
+    { id: 3, name: "Файл скачен" },
+    { id: 4, name: "Файл предпросмотрен" },
   ];
   const table = "archive_log_event_types";
 

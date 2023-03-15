@@ -9,6 +9,7 @@ class Log {
     this.logFileName = LOG_FILE + `_${moment().format("YYYY_MM_DD")}.txt`;
     this.userId = req.user.id;
     this.userLogin = req.user.login;
+    this.user = req.user;
     this.userIp = req.socket.remoteAddress;
     this.isLogFile = false;
     this.isLogDB = false;

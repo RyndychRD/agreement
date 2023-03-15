@@ -18,14 +18,16 @@ export function UploadListItem(props) {
 
   const [addFileIdToDocument] = usePushDocumentTaskFileToDocumentMutationHook();
 
-  let log = () => {};
+  let logDownload = () => {};
+  let logPreview = () => {};
 
   const stateLog = useLogState();
   if (
     stateLog?.logTypes.LogDocumentOpen &&
     stateLog?.logFunctions.LogDocumentOpen
   ) {
-    log = (fileId) => stateLog.logFunctions.LogFileDownload(fileId);
+    logDownload = (fileId) => stateLog.logFunctions.LogFileDownload(fileId);
+    logPreview = (fileId) => stateLog.logFunctions.LogFilePreview(fileId);
   }
   return (
     <li
@@ -40,7 +42,7 @@ export function UploadListItem(props) {
         <button
           title="Скачать"
           type="button"
-          onClick={() => handleDownload({ file, isTempFile, log })}
+          onClick={() => handleDownload({ file, isTempFile, log: logDownload })}
           className="ant-btn css-dev-only-do-not-override-1ij74fp ant-btn-text ant-btn-sm "
         >
           <span>
@@ -50,7 +52,7 @@ export function UploadListItem(props) {
         <button
           title="Предпросмотр"
           type="button"
-          onClick={() => handlePreview({ file, isTempFile, log })}
+          onClick={() => handlePreview({ file, isTempFile, log: logPreview })}
           className="ant-btn css-dev-only-do-not-override-1ij74fp ant-btn-text ant-btn-sm "
         >
           <span>

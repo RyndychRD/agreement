@@ -19,8 +19,8 @@ export default class ArchiveLogService extends LogService {
     this.sendLog();
   }
 
-  logUserLoadDocumentFile(fileId) {
-    this.action_type = 3;
+  logUserLoadDocumentFile(fileId, isDownload = true) {
+    this.action_type = isDownload ? 3 : 4;
     this.fileId = fileId;
     this.sendLog();
   }

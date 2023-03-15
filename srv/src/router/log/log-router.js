@@ -4,6 +4,7 @@ const authMiddleware = require("../../middlewares/auth-middleware");
 const archiveLogController = require("../../controllers/logControllers/archive-log-controller");
 
 // prettier-ignore
-router.post("/archive-log",authMiddleware, archiveLogController.addArchiveLog);
+router.get("/archive-log",authMiddleware, archiveLogController.getArchiveLogs);
+router.post("/archive-log", authMiddleware, archiveLogController.addArchiveLog);
 
 module.exports = router;

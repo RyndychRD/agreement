@@ -6,6 +6,8 @@ import {
   sorterInt,
   sorterStringAlphabet,
   renderRights,
+  sorterDate,
+  renderDate,
 } from "../CommonFunctions";
 
 /**
@@ -99,6 +101,40 @@ export default function getColumns({ dataSource, columns }) {
     },
   };
 
+  const logColumns = {
+    log_id: {
+      title: "ID",
+      dataIndex: "log_id",
+      defaultSortOrder: "ascend",
+      align: "center",
+      sorter: (a, b) => sorterInt(a?.log_id, b?.log_id),
+    },
+    log_user_fio: {
+      title: "ФИО пользователя",
+      dataIndex: "log_user_fio",
+      align: "center",
+      sorter: (a, b) => sorterStringAlphabet(a?.log_user_fio, b?.log_user_fio),
+      filters: filterDataStringSorted(dataSource, "log_user_fio"),
+      onFilter: (value, record) => record?.log_user_fio?.indexOf(value) === 0,
+    },
+    archive_action_type: {
+      title: "Тип действия в архиве",
+      dataIndex: "archive_action_type",
+      align: "center",
+      sorter: (a, b) =>
+        sorterStringAlphabet(a?.archive_action_type, b?.archive_action_type),
+      filters: filterDataStringSorted(dataSource, "archive_action_type"),
+      onFilter: (value, record) =>
+        record?.archive_action_type?.indexOf(value) === 0,
+    },
+    log_created_at: {
+      title: "Дата действия",
+      dataIndex: "log_created_at",
+      align: "center",
+      sorter: (a, b) => sorterDate(a, b),
+      render: (value) => renderDate(value),
+    },
+  };
   const userColumns = {
     user_id: {
       title: "ID",
@@ -226,6 +262,7 @@ export default function getColumns({ dataSource, columns }) {
     ...archiveTypeColumns,
     ...typeColumns,
     ...constructorColumns,
+    ...logColumns,
   };
 
   /**
