@@ -9,9 +9,7 @@ export default function DocumentPrintFragment(props) {
   const componentRef = useRef(null);
   const [isComponentLoaded, setIsComponentLoaded] = useState(false);
   const trigger = () => (
-    <Button disabled={!isComponentLoaded}>
-      Получить файл согласованного договора
-    </Button>
+    <Button disabled={!isComponentLoaded}>Получить лист согласования</Button>
   );
 
   return (
