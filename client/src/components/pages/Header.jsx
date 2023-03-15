@@ -28,9 +28,16 @@ function Header() {
   useEffect(() => {
     console.log("isAuth: ", isAuth);
     if (!isAuth) {
-      navigate("/login", { state: { prev_location: location.pathname } });
+      navigate("/login", {
+        state: {
+          prev_location: `${location.pathname}?${location.search}`.replace(
+            /([?&])+/g,
+            "$1"
+          ),
+        },
+      });
     }
-  }, [isAuth, location.pathname, navigate]);
+  }, [isAuth, location.pathname, location.search, navigate]);
 
   /**
    * Полный список элементов, доступных из хедера
