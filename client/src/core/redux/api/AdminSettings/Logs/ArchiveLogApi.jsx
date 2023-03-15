@@ -6,6 +6,7 @@ const TAG_TYPE = "ArchiveLogs";
 export const archiveLogsApi = createApi({
   reducerPath: "archiveLogsApi",
   tagLogs: [TAG_TYPE],
+  keepUnusedDataFor: 1,
   endpoints: (build) => ({
     getArchiveLogs: build.query({
       queryFn: async () => {

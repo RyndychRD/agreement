@@ -105,7 +105,7 @@ export default function getColumns({ dataSource, columns }) {
     log_id: {
       title: "ID",
       dataIndex: "log_id",
-      defaultSortOrder: "ascend",
+      defaultSortOrder: "descend",
       align: "center",
       sorter: (a, b) => sorterInt(a?.log_id, b?.log_id),
     },
