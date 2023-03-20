@@ -91,10 +91,18 @@ class DocumentService {
       : {};
     const filter = function () {
       if (dateCreationRange?.start) {
-        this.where("documents.created_at", ">=", dateCreationRange.start);
+        this.where(
+          "document_mitvorg.registration_date",
+          ">=",
+          dateCreationRange.start
+        );
       }
       if (dateCreationRange?.end) {
-        this.where("documents.created_at", "<=", dateCreationRange.end);
+        this.where(
+          "document_mitvorg.registration_date",
+          "<=",
+          dateCreationRange.end
+        );
       }
       this.where("documents.document_status_id", "=", 11);
       this.whereIn("document_archives.archive_type_id", archiveTypes);

@@ -27,6 +27,7 @@ export default function DocumentArchive() {
       <DocumentArchiveFilter setDataTable={setDataTable} />
       {isFilterRun ? (
         <DocumentArchiveTable
+          dataTable={dataTable}
           archiveTypes={archiveTypes}
           dateRange={dateRange}
           isAllRange={isAllRange}
