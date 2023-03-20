@@ -144,6 +144,88 @@ export default function ApprovedPrintFile(props) {
             </div>
           </div>
         </div>
+        <div style={{ pageBreakAfter: "always" }} />
+        <div
+          style={{ marginLeft: "15px", marginRight: "15px", marginTop: "20px" }}
+        >
+          <h3 style={{ fontWeight: "bold", marginLeft: "50px" }}>Раздел II:</h3>
+          <table border="1">
+            <thead>
+              <tr>
+                <th rowSpan={2}>
+                  <b>№ п/п</b>
+                </th>
+                <th rowSpan={2}>
+                  <b>Наименование ТРУ</b>
+                </th>
+                <th rowSpan={2}>
+                  <b>Полное наименование статьи в бюджете</b>
+                </th>
+                <th colSpan={2}>
+                  <b>Сумма по бюджету, тыс. тенге</b>
+                </th>
+                <th colSpan={2}>
+                  <b>Сумма по договору, тыс. тенге</b>
+                </th>
+              </tr>
+              <tr>
+                <th>
+                  <b>без НДС</b>
+                </th>
+                <th>
+                  <b>с НДС</b>
+                </th>
+                <th>
+                  <b>без НДС</b>
+                </th>
+                <th>
+                  <b>с НДС</b>
+                </th>
+              </tr>
+              <tr>
+                <th>1</th>
+                <th>2</th>
+                <th>3</th>
+                <th>4</th>
+                <th>5</th>
+                <th>6</th>
+                <th>7</th>
+              </tr>
+            </thead>
+            <tbody />
+          </table>
+          <div style={{ paddingTop: "20px", marginLeft: "10px" }}>
+            <div style={{ marginBottom: "10px" }}>
+              Сотрудник ДЭиП_______________ ФИО
+            </div>
+            <div style={{ marginBottom: "10px" }}>
+              Директор ДЭиП_______________ ФИО
+            </div>
+            <div>
+              Курс валюты на дату
+              <hr style={{ width: "50px" }} />
+              <div style={{ textAlign: "center" }}>(подпись)</div>
+              тенге/рубли РФ, доллары США и т.д.
+            </div>
+          </div>
+          <div style={{ paddingTop: "20px" }}>
+            <h3 style={{ fontWeight: "bold", marginLeft: "50px" }}>
+              Примечание:
+            </h3>
+            <div style={{ textAlign: "center" }}>
+              ______________________________________________________________________
+            </div>
+            <div style={{ textAlign: "center" }}>
+              ______________________________________________________________________
+            </div>
+            <div style={{ textAlign: "center" }}>
+              ______________________________________________________________________
+            </div>
+            <div style={{ textAlign: "center" }}>
+              ______________________________________________________________________
+            </div>
+          </div>
+        </div>
         <div className="qr-container">
           {getQrCode(document, documentValues)}
         </div>
