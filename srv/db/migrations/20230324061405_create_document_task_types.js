@@ -7,15 +7,11 @@ exports.up = function (knex) {
     .createTable("document_task_types", function (table) {
       table.increments("id");
       table.string("name").comment("Название типа задачи");
-      table
-        .string("uniq_name")
-        .unique()
-        .comment("Название типа задачи для использования в разработке");
       table.comment("Таблица со списком всех возможных типов задач");
     })
     .then(() => {
       return knex("document_task_types").insert([
-        { id: 1, name: "Обычное поручение", uniq_name: "default" },
+        { id: 1, name: "Обычное поручение" },
       ]);
     })
     .then(() => {

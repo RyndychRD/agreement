@@ -9,7 +9,6 @@ exports.documentTaskTypesSeed = async function (knex) {
     {
       id: 2,
       name: "Поручение для 2 листа согласования Закупа ТРУ",
-      uniq_name: "getInformationForSecondPageZakupTRU",
     },
   ];
 
