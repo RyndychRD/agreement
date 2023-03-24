@@ -137,6 +137,7 @@ class DocumentTasksService {
       executor_id: body.executorId,
       document_id: body.documentId,
       problem: body.problem,
+      document_task_type_id: body.typeId,
       due_at: body.dueAt,
     });
     const documentTask = await DevTools.addDelay(func);

@@ -13,6 +13,7 @@ import {
   useTableModalDispatch,
   useTableModalsState,
 } from "../tables/TableModalProvider";
+import { onCancelConfirm } from "../tables/CommonFunctions";
 
 /**
  * Общее окно для отображения модального окна изменения чего либо.
@@ -36,6 +37,7 @@ export default function ModalUpdate({
   isAddForeignTables = false,
   additionalGetQueryProps = {},
   notificationType,
+  isAddConfirmOnCancel = true,
 }) {
   const state = useTableModalsState();
   const dispatch = useTableModalDispatch();
@@ -110,17 +112,25 @@ export default function ModalUpdate({
   const isLoading = isLoadingGet || isLoadingUpdate;
   const isError = isErrorGet || isErrorUpdate;
 
+  const onCancel = () => {
+    resetUpdate();
+    clearUrlQueryParams();
+    dispatch({ type: "closeAllModal" });
+  };
+
   return (
     <AModal
       okText="Редактировать"
       cancelText="Отмена"
       onOk={onFinish}
       open={isOpen}
-      onCancel={() => {
-        resetUpdate();
-        clearUrlQueryParams();
-        dispatch({ type: "closeAllModal" });
-      }}
+      onCancel={
+        isAddConfirmOnCancel
+          ? () => {
+              onCancelConfirm(onCancel);
+            }
+          : onCancel
+      }
     >
       {isLoading ? <SimpleSpinner /> : ""}
       {isError ? <SimpleError /> : ""}

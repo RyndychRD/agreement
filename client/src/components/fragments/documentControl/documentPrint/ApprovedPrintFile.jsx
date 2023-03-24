@@ -202,10 +202,8 @@ export default function ApprovedPrintFile(props) {
               Директор ДЭиП_______________ ФИО
             </div>
             <div>
-              Курс валюты на дату
-              <hr style={{ width: "50px" }} />
-              <div style={{ textAlign: "center" }}>(подпись)</div>
-              тенге/рубли РФ, доллары США и т.д.
+              Курс валюты на дату ________________ тенге/рубли РФ, доллары США и
+              т.д.
             </div>
           </div>
           <div style={{ paddingTop: "20px" }}>

@@ -79,26 +79,33 @@ export default function DocumentControlTableViewer({
   }, [query, dataSource]);
 
   // TODO: Возможно, стоит заменить на useRef. Пока не понимаю импакта на производительность
-  const [currentDataSource, setCurrentDataSource] = useState(dataSource);
+  const [currentDataSourceForExcel, setCurrentDataSourceForExcel] =
+    useState(dataSource);
 
   // Функция, которая отвечает за экспорт в Excel
   const handleExport = () => {
     const excel = new Excel();
     excel
-      .addSheet("test")
+      .addSheet("Выгрузка")
       .addColumns(columnsNamed)
-      .addDataSource(currentDataSource, {
+      .addDataSource(currentDataSourceForExcel, {
         str2Percent: true,
       })
       .saveAs("Excel.xlsx");
   };
 
   /**
-   * Дефолтная логика для кнопок. Пока что нет задачи изменять количество кнопок
+   * Логика для кнопок
    */
   const buttonsActions = {
     create: () => {
       dispatch({ type: "openCreateModal" });
+    },
+    createSpecialTask: () => {
+      dispatch({
+        type: "openCreateModal",
+        modalTypeId: 2,
+      });
     },
     update: () => {
       dispatch({ type: "openUpdateModal" });
@@ -117,7 +124,7 @@ export default function DocumentControlTableViewer({
     <Table
       scroll={{ x: "1000" }}
       onChange={(pagination, filters, sorter, extra) => {
-        setCurrentDataSource(extra.currentDataSource);
+        setCurrentDataSourceForExcel(extra.currentDataSource);
       }}
       key="keyDocumentControlTableViewer"
       columns={columnsNamed}

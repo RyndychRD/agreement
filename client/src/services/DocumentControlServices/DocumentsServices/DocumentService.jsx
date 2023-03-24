@@ -12,6 +12,7 @@ export default class DocumentService {
         document_id: el.id,
         document_name: el.name,
         document_type: el?.document_type_name,
+        document_type_id: el?.document_type_id,
         document_status: el?.document_status_name,
         document_status_id: el?.document_status_id,
         document_created_at: el.created_at,
