@@ -1,6 +1,7 @@
-import { AModal } from "../../adapter";
+import { Modal } from "antd";
 import SimpleError from "../messages/Error";
 import SimpleSpinner from "../messages/Spinner";
+import { onCancelConfirm } from "../tables/CommonFunctions";
 import {
   useTableModalsState,
   useTableModalDispatch,
@@ -21,6 +22,7 @@ export default function ModalInput({
   customState,
   customDispatch,
   CreateUpdateFormProps = {},
+  isAddConfirmOnCancel = true,
 }) {
   const standardState = useTableModalsState();
   const standardDispatch = useTableModalDispatch();
@@ -51,22 +53,31 @@ export default function ModalInput({
         console.log("Ошибка на форме создания:", info);
       });
   };
+
+  const onCancel = () => {
+    reset();
+    form.resetFields();
+    dispatch({ type: "closeAllModal" });
+  };
+
   return (
-    <AModal
+    <Modal
       okText="Сохранить"
       cancelText="Отмена"
       destroyOnClose
       onOk={onFinish}
-      onCancel={() => {
-        reset();
-        form.resetFields();
-        dispatch({ type: "closeAllModal" });
-      }}
+      onCancel={
+        isAddConfirmOnCancel
+          ? () => {
+              onCancelConfirm(onCancel);
+            }
+          : onCancel
+      }
       open={isOpen}
     >
       {isLoading ? <SimpleSpinner /> : ""}
       {isError ? <SimpleError /> : ""}
       {!isLoading && !isError && isOpen ? children : ""}
-    </AModal>
+    </Modal>
   );
 }

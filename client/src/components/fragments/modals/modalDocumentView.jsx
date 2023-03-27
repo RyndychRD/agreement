@@ -115,7 +115,6 @@ export default function ModalDocumentView(props) {
         ) : (
           ""
         )}
-
         {isShowRoute ? (
           <RouteStepsFragment
             isStart={state.isShowUpdateModal}
@@ -133,7 +132,10 @@ export default function ModalDocumentView(props) {
         />
         {/* Отображать ли поручения по документу */}
         {isShowDocumentTasks ? (
-          <DocumentTasksFragment documentId={state.currentRow?.document_id} />
+          <DocumentTasksFragment
+            documentId={state.currentRow?.document_id}
+            documentTypeId={state.currentRow?.document_type_id}
+          />
         ) : (
           ""
         )}

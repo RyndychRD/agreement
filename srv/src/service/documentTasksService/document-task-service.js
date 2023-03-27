@@ -45,7 +45,6 @@ class DocumentTasksService {
       document_id: query.documentId,
       creator_id: currentUser.id,
     };
-    console.log(currentUser);
     //Для админа показываем все поручения
     if (currentUser.id === 1) {
       delete filter["creator_id"];
@@ -53,6 +52,8 @@ class DocumentTasksService {
     const func = DocumentTaskModel.getDocumentTasks({
       filter,
       isAddForeignTables: query.isAddForeignTables === "true",
+      isConfirmedForSecondPageOnly:
+        query.isConfirmedForSecondPageOnly === "true",
     });
     let documentTasks = await DevTools.addDelay(func);
     if (query?.isAddForeignTables === "true") {
@@ -69,6 +70,7 @@ class DocumentTasksService {
     }
     return documentTasks;
   }
+
   static async getDocumentTaskById(query) {
     const func = DocumentTaskModel.getDocumentTask({
       filter: { "document_tasks.id": query.documentTaskId },
@@ -137,6 +139,7 @@ class DocumentTasksService {
       executor_id: body.executorId,
       document_id: body.documentId,
       problem: body.problem,
+      document_task_type_id: body.typeId,
       due_at: body.dueAt,
     });
     const documentTask = await DevTools.addDelay(func);
@@ -185,6 +188,9 @@ class DocumentTasksService {
       },
       {
         result: body.result,
+        custom_fields: body.customFields,
+        is_second_page_agreement_from_custom_fields_confirmed:
+          body.isSecondPageAgreementFromCustomFieldsConfirmed || false,
         document_task_status_id: body.documentTaskStatusId,
         finished_at: "now",
         updated_at: "now",
@@ -198,7 +204,6 @@ class DocumentTasksService {
       updatedDocumentTasksDocumentId[0].document_id
     );
 
-    // Создание поручение всегда создает с статусом 1
     notifyDocumentTaskChanged(query.id, body.documentTaskStatusId);
     return await DevTools.addDelay(updatedDocumentTasksDocumentId);
   }

@@ -1,3 +1,4 @@
+import { useSelector } from "react-redux";
 import { useGetDocumentTasksByDocumentQueryHook } from "../../../../core/redux/api/DocumentControl/DocumentTaskApi";
 import DocumentControlTableViewer from "../../tables/DocumentControl/DocumentControlTableViewer";
 import DocumentTasksService from "../../../../services/DocumentControlServices/DocumentsServices/DocumentTasksService/DocumentTaskService";
@@ -12,7 +13,7 @@ import DeleteButtonAction from "./buttonModals/delete";
 import ShowButtonModel from "./buttonModals/show";
 
 export default function DocumentTasksTable(props) {
-  const { documentId } = props;
+  const { documentId, documentTypeId } = props;
   const columns = {
     data: [
       "document_task_id",
@@ -33,12 +34,24 @@ export default function DocumentTasksTable(props) {
     isAddForeignTables: true,
     documentId,
   });
+
+  const buttons = ["create", "update", "delete"];
+  // Кнопка Запросить 2 раздел листа согласования доступна только для Директора департамента экономики и планирования
+  // И только для типа документа Закуп ТРУ
+  const isShowSpecialTask =
+    useSelector((state) => state.session.current_user.position_id === 14) &&
+    documentTypeId === 10;
+  if (isShowSpecialTask) {
+    buttons.unshift("createSpecialTask");
+  }
+
   return (
     <InnerTableModalProvider>
       <DocumentControlTableViewer
         isLoading={isLoading}
         isError={isError}
         columns={columns}
+        buttons={buttons}
         dataSource={data ? DocumentTasksService.prepareForTable(data) : null}
         title="Поручения по документу"
         customDispatch={useInnerTableDispatch}

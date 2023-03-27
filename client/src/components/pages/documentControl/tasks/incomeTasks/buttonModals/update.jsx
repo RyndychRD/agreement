@@ -13,6 +13,7 @@ export default function UpdateButtonModel() {
   // Пока что ничего не делает, осталось тут скорее как пример и закладка
   const formDefaultValues = (data) => ({
     result: data.result,
+    currentNDS: 12,
   });
 
   return (
