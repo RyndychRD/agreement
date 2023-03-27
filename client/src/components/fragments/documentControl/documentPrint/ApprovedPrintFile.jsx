@@ -223,12 +223,12 @@ export default function ApprovedPrintFile(props) {
                 <td>1</td>
                 <td>{document.name}</td>
                 <td>
-                  {lastConfirmedTask.custom_fields.fullNameOfTheItemInBudget}
+                  {lastConfirmedTask?.custom_fields.fullNameOfTheItemInBudget}
                 </td>
-                <td>{lastConfirmedTask.custom_fields.budgetSumNoNDS}</td>
-                <td>{lastConfirmedTask.custom_fields.budgetSumWithNDS}</td>
-                <td>{lastConfirmedTask.custom_fields.contractSumNoNDS}</td>
-                <td>{lastConfirmedTask.custom_fields.contractSumWithNDS}</td>
+                <td>{lastConfirmedTask?.custom_fields.budgetSumNoNDS}</td>
+                <td>{lastConfirmedTask?.custom_fields.budgetSumWithNDS}</td>
+                <td>{lastConfirmedTask?.custom_fields.contractSumNoNDS}</td>
+                <td>{lastConfirmedTask?.custom_fields.contractSumWithNDS}</td>
               </tr>
             </tbody>
           </table>
@@ -236,7 +236,7 @@ export default function ApprovedPrintFile(props) {
             <div style={{ marginBottom: "10px" }}>
               Сотрудник ДЭиП_______________ ФИО{" "}
               <span style={{ textDecoration: "underline" }}>
-                {userNameMask(lastConfirmedTask.executor)}
+                {userNameMask(lastConfirmedTask?.executor)}
               </span>
             </div>
             <div style={{ marginBottom: "10px" }}>
@@ -248,7 +248,7 @@ export default function ApprovedPrintFile(props) {
             <div>
               Курс валюты на дату{" "}
               <span style={{ textDecoration: "underline" }}>
-                {lastConfirmedTask.custom_fields.exchangeRates}
+                {lastConfirmedTask?.custom_fields.exchangeRates}
               </span>{" "}
               тенге/рубли РФ, доллары США и т.д.
             </div>
@@ -266,7 +266,7 @@ export default function ApprovedPrintFile(props) {
                 textDecoration: "underline",
               }}
             >
-              {lastConfirmedTask.custom_fields.remark}
+              {lastConfirmedTask?.custom_fields.remark}
             </div>
           </div>
         </div>
