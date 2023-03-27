@@ -170,106 +170,123 @@ export default function ApprovedPrintFile(props) {
             </div>
           </div>
         </div>
-        <div style={{ pageBreakAfter: "always" }} />
-        <div
-          style={{ marginLeft: "15px", marginRight: "15px", marginTop: "20px" }}
-        >
-          <h3 style={{ fontWeight: "bold", marginLeft: "50px" }}>Раздел II:</h3>
-          <table border="1">
-            <thead>
-              <tr>
-                <th rowSpan={2}>
-                  <b>№ п/п</b>
-                </th>
-                <th rowSpan={2}>
-                  <b>Наименование ТРУ</b>
-                </th>
-                <th rowSpan={2}>
-                  <b>Полное наименование статьи в бюджете</b>
-                </th>
-                <th colSpan={2}>
-                  <b>Сумма по бюджету, тыс. тенге</b>
-                </th>
-                <th colSpan={2}>
-                  <b>Сумма по договору, тыс. тенге</b>
-                </th>
-              </tr>
-              <tr>
-                <th>
-                  <b>без НДС</b>
-                </th>
-                <th>
-                  <b>с НДС</b>
-                </th>
-                <th>
-                  <b>без НДС</b>
-                </th>
-                <th>
-                  <b>с НДС</b>
-                </th>
-              </tr>
-              <tr>
-                <th>1</th>
-                <th>2</th>
-                <th>3</th>
-                <th>4</th>
-                <th>5</th>
-                <th>6</th>
-                <th>7</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr style={{ textAlign: "center" }}>
-                <td>1</td>
-                <td>{document.name}</td>
-                <td>
-                  {lastConfirmedTask?.custom_fields.fullNameOfTheItemInBudget}
-                </td>
-                <td>{lastConfirmedTask?.custom_fields.budgetSumNoNDS}</td>
-                <td>{lastConfirmedTask?.custom_fields.budgetSumWithNDS}</td>
-                <td>{lastConfirmedTask?.custom_fields.contractSumNoNDS}</td>
-                <td>{lastConfirmedTask?.custom_fields.contractSumWithNDS}</td>
-              </tr>
-            </tbody>
-          </table>
-          <div style={{ paddingTop: "20px", marginLeft: "10px" }}>
-            <div style={{ marginBottom: "10px" }}>
-              Сотрудник ДЭиП_______________ ФИО{" "}
-              <span style={{ textDecoration: "underline" }}>
-                {userNameMask(lastConfirmedTask?.executor)}
-              </span>
-            </div>
-            <div style={{ marginBottom: "10px" }}>
-              Директор ДЭиП_______________ ФИО{" "}
-              <span style={{ textDecoration: "underline" }}>
-                {userNameMask(deipDirector)}
-              </span>
-            </div>
-            <div>
-              Курс валюты на дату{" "}
-              <span style={{ textDecoration: "underline" }}>
-                {lastConfirmedTask?.custom_fields.exchangeRates}
-              </span>{" "}
-              тенге/рубли РФ, доллары США и т.д.
-            </div>
-          </div>
-          <div style={{ paddingTop: "20px" }}>
-            <h3 style={{ fontWeight: "bold", marginLeft: "50px" }}>
-              Примечание:
-            </h3>
+        {deipDirector && document.document_type_id === 10 ? (
+          <>
+            <div style={{ pageBreakAfter: "always" }} />
             <div
               style={{
-                marginLeft: "50px",
-                marginRight: "50px",
-                textAlign: "start",
-                width: "700px",
-                textDecoration: "underline",
+                marginLeft: "15px",
+                marginRight: "15px",
+                marginTop: "20px",
               }}
             >
-              {lastConfirmedTask?.custom_fields.remark}
+              <h3 style={{ fontWeight: "bold", marginLeft: "50px" }}>
+                Раздел II:
+              </h3>
+              <table border="1">
+                <thead>
+                  <tr>
+                    <th rowSpan={2}>
+                      <b>№ п/п</b>
+                    </th>
+                    <th rowSpan={2}>
+                      <b>Наименование ТРУ</b>
+                    </th>
+                    <th rowSpan={2}>
+                      <b>Полное наименование статьи в бюджете</b>
+                    </th>
+                    <th colSpan={2}>
+                      <b>Сумма по бюджету, тыс. тенге</b>
+                    </th>
+                    <th colSpan={2}>
+                      <b>Сумма по договору, тыс. тенге</b>
+                    </th>
+                  </tr>
+                  <tr>
+                    <th>
+                      <b>без НДС</b>
+                    </th>
+                    <th>
+                      <b>с НДС</b>
+                    </th>
+                    <th>
+                      <b>без НДС</b>
+                    </th>
+                    <th>
+                      <b>с НДС</b>
+                    </th>
+                  </tr>
+                  <tr>
+                    <th>1</th>
+                    <th>2</th>
+                    <th>3</th>
+                    <th>4</th>
+                    <th>5</th>
+                    <th>6</th>
+                    <th>7</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr style={{ textAlign: "center" }}>
+                    <td>1</td>
+                    <td>{document.name}</td>
+                    <td>
+                      {
+                        lastConfirmedTask?.custom_fields
+                          .fullNameOfTheItemInBudget
+                      }
+                    </td>
+                    <td>{lastConfirmedTask?.custom_fields.budgetSumNoNDS}</td>
+                    <td>{lastConfirmedTask?.custom_fields.budgetSumWithNDS}</td>
+                    <td>{lastConfirmedTask?.custom_fields.contractSumNoNDS}</td>
+                    <td>
+                      {lastConfirmedTask?.custom_fields.contractSumWithNDS}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div style={{ paddingTop: "20px", marginLeft: "10px" }}>
+                <div style={{ marginBottom: "10px" }}>
+                  Сотрудник ДЭиП_______________ ФИО{" "}
+                  <span style={{ textDecoration: "underline" }}>
+                    {userNameMask(lastConfirmedTask?.executor)}
+                  </span>
+                </div>
+                <div style={{ marginBottom: "10px" }}>
+                  Директор ДЭиП_______________ ФИО{" "}
+                  <span style={{ textDecoration: "underline" }}>
+                    {userNameMask(deipDirector)}
+                  </span>
+                </div>
+                <div>
+                  Курс валюты на дату{" "}
+                  <span style={{ textDecoration: "underline" }}>
+                    {lastConfirmedTask?.custom_fields.exchangeRates}
+                  </span>{" "}
+                  тенге/рубли РФ, доллары США и т.д.
+                </div>
+              </div>
+              <div style={{ paddingTop: "20px" }}>
+                <h3 style={{ fontWeight: "bold", marginLeft: "50px" }}>
+                  Примечание:
+                </h3>
+                <div
+                  style={{
+                    marginLeft: "50px",
+                    marginRight: "50px",
+                    textAlign: "start",
+                    width: "700px",
+                    textDecoration: "underline",
+                  }}
+                >
+                  {lastConfirmedTask?.custom_fields.remark}
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
+          </>
+        ) : (
+          ""
+        )}
         <div className="qr-container">
           {getQrCode(document, documentValues)}
         </div>
