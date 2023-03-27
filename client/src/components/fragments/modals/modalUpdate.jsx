@@ -1,11 +1,11 @@
 /** @format */
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Modal } from "antd";
 import {
   clearUrlQueryParams,
   replaceUrlQueryWithId,
 } from "../../../services/CommonFunctions";
-import { AModal } from "../../adapter";
 import SimpleError from "../messages/Error";
 import SimpleSpinner from "../messages/Spinner";
 import NotificationService from "../../../services/DocumentControlServices/NotificationService";
@@ -38,9 +38,13 @@ export default function ModalUpdate({
   additionalGetQueryProps = {},
   notificationType,
   isAddConfirmOnCancel = true,
+  customState,
+  customDispatch,
 }) {
-  const state = useTableModalsState();
-  const dispatch = useTableModalDispatch();
+  const standardState = useTableModalsState();
+  const standardDispatch = useTableModalDispatch();
+  const state = customState ? customState() : standardState;
+  const dispatch = customDispatch ? customDispatch() : standardDispatch;
   const navigate = useNavigate();
   const isOpen = state.isShowUpdateModal && state.currentRow;
 
@@ -99,7 +103,7 @@ export default function ModalUpdate({
           notificationType,
         });
       }
-      if (!isErrorUpdate && state.isShowUpdateModal) {
+      if (!isErrorGet && !isLoadingGet && state.isShowUpdateModal) {
         form.resetFields();
         form.setFieldsValue(formDefaultValues(data));
         replaceUrlQueryWithId(state.currentRow?.key);
@@ -119,7 +123,7 @@ export default function ModalUpdate({
   };
 
   return (
-    <AModal
+    <Modal
       okText="Редактировать"
       cancelText="Отмена"
       onOk={onFinish}
@@ -139,6 +143,6 @@ export default function ModalUpdate({
       ) : (
         ""
       )}
-    </AModal>
+    </Modal>
   );
 }

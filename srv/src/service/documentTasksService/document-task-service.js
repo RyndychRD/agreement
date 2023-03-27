@@ -186,6 +186,9 @@ class DocumentTasksService {
       },
       {
         result: body.result,
+        custom_fields: body.customFields,
+        is_second_page_agreement_from_custom_fields_confirmed:
+          body.isSecondPageAgreementFromCustomFieldsConfirmed || false,
         document_task_status_id: body.documentTaskStatusId,
         finished_at: "now",
         updated_at: "now",
@@ -199,7 +202,6 @@ class DocumentTasksService {
       updatedDocumentTasksDocumentId[0].document_id
     );
 
-    // Создание поручение всегда создает с статусом 1
     notifyDocumentTaskChanged(query.id, body.documentTaskStatusId);
     return await DevTools.addDelay(updatedDocumentTasksDocumentId);
   }

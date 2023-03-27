@@ -114,6 +114,18 @@ export const documentTasksApi = createApi({
             documentTaskFileIds: bodyValues.files?.fileList.map(
               (file) => file.response.fileId
             ),
+            isSecondPageAgreementFromCustomFieldsConfirmed:
+              body.isSecondPageAgreementFromCustomFieldsConfirmed,
+            customFields: {
+              budgetSumNoNDS: parseInt(bodyValues.budgetSumNoNDS, 10),
+              budgetSumWithNDS: bodyValues.budgetSumWithNDS,
+              contractSumNoNDS: parseInt(bodyValues.contractSumNoNDS, 10),
+              contractSumWithNDS: bodyValues.contractSumWithNDS,
+              currentNDS: parseInt(bodyValues.currentNDS, 10),
+              exchangeRates: bodyValues.exchangeRates,
+              fullNameOfTheItemInBudget: bodyValues.fullNameOfTheItemInBudget,
+              remark: bodyValues.remark,
+            },
           });
           const response = await DocumentTasksService.update(
             bodyPrepared(body)

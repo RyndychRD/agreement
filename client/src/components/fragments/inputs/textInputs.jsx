@@ -12,7 +12,7 @@ export default function TextInputFormItem({
     </Form.Item>
   );
 }
-export function IntegerInputFormItem({
+export function NumberInputFormItem({
   title = "Поле ввода",
   name = "formItemName",
   rules = {},
@@ -36,6 +36,7 @@ export function IntegerInputFormItem({
         parser={parser}
         placeholder={title}
         defaultValue={value}
+        value={value}
         stringMode
       />
     </Form.Item>

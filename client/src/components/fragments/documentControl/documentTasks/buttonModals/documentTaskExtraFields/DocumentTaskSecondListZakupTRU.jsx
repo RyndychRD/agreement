@@ -1,10 +1,11 @@
 import { Col, Form, Row } from "antd";
 import TextInputFormItem, {
   LargeTextInputFormItem,
-  IntegerInputFormItem,
+  NumberInputFormItem,
 } from "../../../../inputs/textInputs";
 
 function calculateWithNDS(sumNoNDS, NDS) {
+  if (parseInt(sumNoNDS, 10) <= 0 || !sumNoNDS) return 0;
   return parseInt(sumNoNDS, 10) + (sumNoNDS / 100) * NDS;
 }
 
@@ -27,7 +28,7 @@ export default function DocumentTaskSecondListZakupTRU(props) {
       />
       <Row gutter={2}>
         <Col span={10}>
-          <IntegerInputFormItem
+          <NumberInputFormItem
             title="Сумма по бюджету, тыс. тенге (Без НДС)"
             name="budgetSumNoNDS"
             onBlur={() => {
@@ -47,7 +48,7 @@ export default function DocumentTaskSecondListZakupTRU(props) {
           />
         </Col>
         <Col span={10}>
-          <IntegerInputFormItem
+          <NumberInputFormItem
             title="Сумма по бюджету, тыс. тенге (C НДС)"
             name="budgetSumWithNDS"
             value={0}
@@ -63,7 +64,7 @@ export default function DocumentTaskSecondListZakupTRU(props) {
       </Row>
       <Row gutter={2}>
         <Col span={10}>
-          <IntegerInputFormItem
+          <NumberInputFormItem
             title="Сумма по договору, тыс. тенге (Без НДС)"
             name="contractSumNoNDS"
             value={0}
@@ -83,7 +84,7 @@ export default function DocumentTaskSecondListZakupTRU(props) {
           />
         </Col>
         <Col span={10}>
-          <IntegerInputFormItem
+          <NumberInputFormItem
             title="Сумма по договору, тыс. тенге (C НДС)"
             name="contractSumWithNDS"
             value={0}
@@ -97,7 +98,7 @@ export default function DocumentTaskSecondListZakupTRU(props) {
           />
         </Col>
       </Row>
-      <IntegerInputFormItem
+      <NumberInputFormItem
         title="Текущий НДС"
         name="currentNDS"
         addonAfter="%"
@@ -133,7 +134,7 @@ export default function DocumentTaskSecondListZakupTRU(props) {
       <LargeTextInputFormItem
         title="Примечание"
         name="remark"
-        value="12"
+        value=""
         rules={[]}
       />
     </>

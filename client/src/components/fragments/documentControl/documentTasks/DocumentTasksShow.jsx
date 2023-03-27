@@ -1,3 +1,4 @@
+import { Form } from "antd";
 import {
   HeaderTextOutput,
   SimpleTextOutput,
@@ -8,13 +9,19 @@ import { renderDate } from "../../tables/CommonFunctions";
 import UploadList, { UploadListItem } from "../../file/fileOutputs";
 import DocumentInformationShow from "../documentInformation/DocumentInformationShow";
 import { useGetDocumentFilesQueryHook } from "../../../../core/redux/api/DocumentControl/DocumentApi";
+import DocumentTaskSecondListZakupTRU from "./buttonModals/documentTaskExtraFields/DocumentTaskSecondListZakupTRU";
 
 export default function DocumentTasksShowBlock(props) {
-  const { task } = props;
+  const { rawData: task, form: passedForm } = props;
 
   const { data: documentFiles = [] } = useGetDocumentFilesQueryHook({
     documentId: task.document_id,
   });
+
+  let [form] = Form.useForm();
+  if (passedForm) {
+    form = passedForm;
+  }
 
   return (
     <>
@@ -62,37 +69,47 @@ export default function DocumentTasksShowBlock(props) {
       <HeaderTextOutput text="Задача" />
       <SimpleTextOutput text={task?.problem} />
 
-      {task?.result ? (
+      {task?.document_task_status_id === 2 ? (
         <>
           <HeaderTextOutput text="Результат" />
 
-          <SimpleTextOutput text={task?.result} />
-
-          {task?.files.length > 0 ? (
-            <>
-              <HeaderTextOutput text="Файлы, загруженные в результате выполнения поручения" />
-              <UploadList>
-                {task.files.map((file) => (
-                  <UploadListItem
-                    key={file.id}
-                    file={file}
-                    isTempFile={false}
-                    isAddPushToDocumentButton={
-                      !documentFiles.find((el) => el.file_id === file.id)
-                    }
-                    documentId={task.document_id}
-                  />
-                ))}
-              </UploadList>
-            </>
+          {task?.result ? <SimpleTextOutput text={task?.result} /> : ""}
+          {task?.document_task_type_id === 2 ? (
+            <Form form={form}>
+              <DocumentTaskSecondListZakupTRU form={form} />
+            </Form>
           ) : (
             ""
           )}
-          <TextOutputWithLabel
-            label="Дата и время завершения задачи"
-            text={renderDate(task.finished_at)}
-          />
         </>
+      ) : (
+        ""
+      )}
+      {task?.files.length > 0 ? (
+        <>
+          <HeaderTextOutput text="Файлы, загруженные в результате выполнения поручения" />
+          <UploadList>
+            {task.files.map((file) => (
+              <UploadListItem
+                key={file.id}
+                file={file}
+                isTempFile={false}
+                isAddPushToDocumentButton={
+                  !documentFiles.find((el) => el.file_id === file.id)
+                }
+                documentId={task.document_id}
+              />
+            ))}
+          </UploadList>
+        </>
+      ) : (
+        ""
+      )}
+      {task?.document_task_status_id === 2 ? (
+        <TextOutputWithLabel
+          label="Дата и время завершения задачи"
+          text={renderDate(task.finished_at)}
+        />
       ) : (
         ""
       )}
