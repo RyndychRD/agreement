@@ -45,7 +45,6 @@ class DocumentTasksService {
       document_id: query.documentId,
       creator_id: currentUser.id,
     };
-    console.log(currentUser);
     //Для админа показываем все поручения
     if (currentUser.id === 1) {
       delete filter["creator_id"];
@@ -53,6 +52,8 @@ class DocumentTasksService {
     const func = DocumentTaskModel.getDocumentTasks({
       filter,
       isAddForeignTables: query.isAddForeignTables === "true",
+      isConfirmedForSecondPageOnly:
+        query.isConfirmedForSecondPageOnly === "true",
     });
     let documentTasks = await DevTools.addDelay(func);
     if (query?.isAddForeignTables === "true") {
@@ -69,6 +70,7 @@ class DocumentTasksService {
     }
     return documentTasks;
   }
+
   static async getDocumentTaskById(query) {
     const func = DocumentTaskModel.getDocumentTask({
       filter: { "document_tasks.id": query.documentTaskId },

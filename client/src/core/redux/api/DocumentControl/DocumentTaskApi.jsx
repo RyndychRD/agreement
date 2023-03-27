@@ -28,11 +28,17 @@ export const documentTasksApi = createApi({
           : [{ type: TAG_TYPE, id: "LIST" }],
     }),
     getDocumentTasksByDocument: build.query({
-      queryFn: async ({ isAddForeignTables = false, documentId }) => {
+      queryFn: async (props) => {
+        const {
+          isConfirmedForSecondPageOnly = false,
+          isAddForeignTables = false,
+          documentId,
+        } = props;
         try {
           const response =
             await DocumentTasksService.getDocumentTasksByDocumentId({
               isAddForeignTables,
+              isConfirmedForSecondPageOnly,
               documentId,
             });
           return { data: response };

@@ -32,17 +32,17 @@ export default function ShowButtonModel() {
   const onCancel = () => {
     dispatch({ type: "closeAllModal" });
   };
-  if (data.document_task_type_id === 2) {
+  if (data.document_task_type_id === 2 && data.document_task_status_id === 2) {
     const formDefaultValues = (dataRaw) => ({
       fullNameOfTheItemInBudget:
-        dataRaw.custom_fields.fullNameOfTheItemInBudget,
-      currentNDS: dataRaw.custom_fields.currentNDS,
-      budgetSumNoNDS: dataRaw.custom_fields.budgetSumNoNDS,
-      budgetSumWithNDS: dataRaw.custom_fields.budgetSumWithNDS,
-      contractSumNoNDS: dataRaw.custom_fields.contractSumNoNDS,
-      contractSumWithNDS: dataRaw.custom_fields.contractSumWithNDS,
-      exchangeRates: dataRaw.custom_fields.exchangeRates,
-      remark: dataRaw.custom_fields.remark,
+        dataRaw.custom_fields?.fullNameOfTheItemInBudget,
+      currentNDS: dataRaw.custom_fields?.currentNDS,
+      budgetSumNoNDS: dataRaw.custom_fields?.budgetSumNoNDS,
+      budgetSumWithNDS: dataRaw.custom_fields?.budgetSumWithNDS,
+      contractSumNoNDS: dataRaw.custom_fields?.contractSumNoNDS,
+      contractSumWithNDS: dataRaw.custom_fields?.contractSumWithNDS,
+      exchangeRates: dataRaw.custom_fields?.exchangeRates,
+      remark: dataRaw.custom_fields?.remark,
     });
 
     const preFinishFunc = (values) => ({

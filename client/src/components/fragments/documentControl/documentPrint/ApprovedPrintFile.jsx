@@ -9,6 +9,7 @@ import "./print.css";
 import DocumentValuesService from "../../../../services/DocumentControlServices/DocumentsServices/DocumentValuesService";
 import { userNameMask } from "../../../../services/CommonFunctions";
 import { renderDate } from "../../tables/CommonFunctions";
+import { useGetDocumentTasksByDocumentQueryHook } from "../../../../core/redux/api/DocumentControl/DocumentTaskApi";
 
 function getDocumentHeader(document, documentValues) {
   const documentValuesDivs = documentValues.map((documentValue) => {
@@ -22,6 +23,7 @@ function getDocumentHeader(document, documentValues) {
       </div>
     );
   });
+
   return (
     <>
       <div style={{ marginBottom: "10px" }}>
@@ -76,28 +78,52 @@ export default function ApprovedPrintFile(props) {
       documentId,
       isStart,
     });
+  const {
+    data: confirmedForSecondPageDocumentTask = [],
+    isLoadingDocumentTasks,
+  } = useGetDocumentTasksByDocumentQueryHook({
+    isConfirmedForSecondPageOnly: true,
+    isAddForeignTables: true,
+    documentId,
+  });
 
   useEffect(() => {
     setIsComponentLoaded(
-      !(isLoadingDocument || isLoadingDocumentValues || isLoadingDocumentRoute)
+      !(
+        isLoadingDocument ||
+        isLoadingDocumentValues ||
+        isLoadingDocumentRoute ||
+        isLoadingDocumentTasks
+      )
     );
   }, [
     isLoadingDocument,
     isLoadingDocumentValues,
     isLoadingDocumentRoute,
     setIsComponentLoaded,
+    isLoadingDocumentTasks,
   ]);
 
   if (!isComponentLoaded) return null;
 
-  const routeStepsTrs = routeSteps.map((route) => (
-    <tr key={route.id} style={{ textAlign: "center" }}>
-      <td>{route?.actual_signer?.position_name}</td>
-      <td>{route?.document_signature_type?.name}</td>
-      <td>{userNameMask(route?.actual_signer)}</td>
-      <td>{renderDate(route?.sign_date, false)}</td>
-    </tr>
-  ));
+  let deipDirector = "";
+
+  const routeStepsTrs = routeSteps.map((route) => {
+    deipDirector =
+      route?.actual_signer.position_id === 14
+        ? route?.actual_signer
+        : deipDirector;
+    return (
+      <tr key={route.id} style={{ textAlign: "center" }}>
+        <td>{route?.actual_signer?.position_name}</td>
+        <td>{route?.document_signature_type?.name}</td>
+        <td>{userNameMask(route?.actual_signer)}</td>
+        <td>{renderDate(route?.sign_date, false)}</td>
+      </tr>
+    );
+  });
+
+  const lastConfirmedTask = confirmedForSecondPageDocumentTask[0];
 
   return (
     <div>
@@ -192,35 +218,55 @@ export default function ApprovedPrintFile(props) {
                 <th>7</th>
               </tr>
             </thead>
-            <tbody />
+            <tbody>
+              <tr style={{ textAlign: "center" }}>
+                <td>1</td>
+                <td>{document.name}</td>
+                <td>
+                  {lastConfirmedTask.custom_fields.fullNameOfTheItemInBudget}
+                </td>
+                <td>{lastConfirmedTask.custom_fields.budgetSumNoNDS}</td>
+                <td>{lastConfirmedTask.custom_fields.budgetSumWithNDS}</td>
+                <td>{lastConfirmedTask.custom_fields.contractSumNoNDS}</td>
+                <td>{lastConfirmedTask.custom_fields.contractSumWithNDS}</td>
+              </tr>
+            </tbody>
           </table>
           <div style={{ paddingTop: "20px", marginLeft: "10px" }}>
             <div style={{ marginBottom: "10px" }}>
-              Сотрудник ДЭиП_______________ ФИО
+              Сотрудник ДЭиП_______________ ФИО{" "}
+              <span style={{ textDecoration: "underline" }}>
+                {userNameMask(lastConfirmedTask.executor)}
+              </span>
             </div>
             <div style={{ marginBottom: "10px" }}>
-              Директор ДЭиП_______________ ФИО
+              Директор ДЭиП_______________ ФИО{" "}
+              <span style={{ textDecoration: "underline" }}>
+                {userNameMask(deipDirector)}
+              </span>
             </div>
             <div>
-              Курс валюты на дату ________________ тенге/рубли РФ, доллары США и
-              т.д.
+              Курс валюты на дату{" "}
+              <span style={{ textDecoration: "underline" }}>
+                {lastConfirmedTask.custom_fields.exchangeRates}
+              </span>{" "}
+              тенге/рубли РФ, доллары США и т.д.
             </div>
           </div>
           <div style={{ paddingTop: "20px" }}>
             <h3 style={{ fontWeight: "bold", marginLeft: "50px" }}>
               Примечание:
             </h3>
-            <div style={{ textAlign: "center" }}>
-              ______________________________________________________________________
-            </div>
-            <div style={{ textAlign: "center" }}>
-              ______________________________________________________________________
-            </div>
-            <div style={{ textAlign: "center" }}>
-              ______________________________________________________________________
-            </div>
-            <div style={{ textAlign: "center" }}>
-              ______________________________________________________________________
+            <div
+              style={{
+                marginLeft: "50px",
+                marginRight: "50px",
+                textAlign: "start",
+                width: "700px",
+                textDecoration: "underline",
+              }}
+            >
+              {lastConfirmedTask.custom_fields.remark}
             </div>
           </div>
         </div>

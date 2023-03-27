@@ -89,6 +89,9 @@ export default function ModalUpdate({
       });
   };
 
+  const isLoading = isLoadingGet || isLoadingUpdate;
+  const isError = isErrorGet || isErrorUpdate;
+
   /**
    * Очищаем форму, достаем нужную строку из хранилища редакса по переданному ID
    * Заполняем форму полученными данными
@@ -103,7 +106,7 @@ export default function ModalUpdate({
           notificationType,
         });
       }
-      if (!isErrorGet && !isLoadingGet && state.isShowUpdateModal) {
+      if (!isError && !isLoading && state.isShowUpdateModal) {
         form.resetFields();
         form.setFieldsValue(formDefaultValues(data));
         replaceUrlQueryWithId(state.currentRow?.key);
@@ -112,9 +115,6 @@ export default function ModalUpdate({
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [state.isShowUpdateModal, data, isOpen]
   );
-
-  const isLoading = isLoadingGet || isLoadingUpdate;
-  const isError = isErrorGet || isErrorUpdate;
 
   const onCancel = () => {
     resetUpdate();

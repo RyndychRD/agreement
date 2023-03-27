@@ -50,13 +50,14 @@ export default class DocumentTasksService {
 
   static async getDocumentTasksByDocumentId({
     isAddForeignTables,
+    isConfirmedForSecondPageOnly,
     documentId,
   }) {
     console.log(
       `вызов в DocumentTasksService -> Взять  поручения по документу с ID=${documentId}`
     );
     const response = await api.get(
-      `${this.API_ROUTE}/?isAddForeignTables=${isAddForeignTables}&documentId=${documentId}`
+      `${this.API_ROUTE}/?isAddForeignTables=${isAddForeignTables}&documentId=${documentId}&isConfirmedForSecondPageOnly=${isConfirmedForSecondPageOnly}`
     );
     console.log(
       `вызов в DocumentTasksService -> Взять  поручения по документу с ID=${documentId} -> результат`,

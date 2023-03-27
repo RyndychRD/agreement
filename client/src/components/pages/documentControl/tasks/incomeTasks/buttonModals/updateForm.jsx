@@ -7,7 +7,7 @@ import DocumentTaskSecondListZakupTRU from "../../../../../fragments/documentCon
 export default function updateForm({ form, rawData }) {
   return (
     <>
-      <DocumentTasksShowBlock task={rawData} />
+      <DocumentTasksShowBlock rawData={rawData} />
       <Form form={form}>
         {/* Если это Поручение для 2 листа согласования Закупа ТРУ */}
         {rawData.document_task_type_id === 2 ? (

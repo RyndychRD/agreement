@@ -13,7 +13,6 @@ import DocumentTaskSecondListZakupTRU from "./buttonModals/documentTaskExtraFiel
 
 export default function DocumentTasksShowBlock(props) {
   const { rawData: task, form: passedForm } = props;
-
   const { data: documentFiles = [] } = useGetDocumentFilesQueryHook({
     documentId: task.document_id,
   });
