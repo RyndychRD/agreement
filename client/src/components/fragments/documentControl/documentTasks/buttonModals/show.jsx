@@ -60,6 +60,7 @@ export default function ShowButtonModel() {
         formDefaultValues={formDefaultValues}
         customState={useInnerTableState}
         customDispatch={useInnerTableDispatch}
+        okButtonText="Подтвердить"
         additionalGetQueryProps={{
           currentRow: state?.currentRow,
           isStart: state.isShowUpdateModal,

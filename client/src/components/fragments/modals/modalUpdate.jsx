@@ -40,6 +40,7 @@ export default function ModalUpdate({
   isAddConfirmOnCancel = true,
   customState,
   customDispatch,
+  okButtonText = "Редактировать",
 }) {
   const standardState = useTableModalsState();
   const standardDispatch = useTableModalDispatch();
@@ -124,7 +125,7 @@ export default function ModalUpdate({
 
   return (
     <Modal
-      okText="Редактировать"
+      okText={okButtonText}
       cancelText="Отмена"
       onOk={onFinish}
       open={isOpen}
