@@ -21,7 +21,7 @@ function getMessage(type) {
   }
 }
 
-export default function ChangeDocumentStatus({ documentId }) {
+export default function ReturnRejectDocumentModal({ documentId }) {
   const state = useRouteStepFragmentState();
   const dispatchConfirm = useRouteStepFragmentDispatch();
   const dispatchTable = useTableModalDispatch();

@@ -260,9 +260,13 @@ export default function ApprovedPrintFile(props) {
                 </div>
                 <div>
                   Курс валюты на дату{" "}
-                  <span style={{ textDecoration: "underline" }}>
-                    {lastConfirmedTask?.custom_fields.exchangeRates}
-                  </span>{" "}
+                  {lastConfirmedTask?.custom_fields.exchangeRates ? (
+                    <span style={{ textDecoration: "underline" }}>
+                      {lastConfirmedTask?.custom_fields.exchangeRates}
+                    </span>
+                  ) : (
+                    "_".repeat(30)
+                  )}{" "}
                   тенге/рубли РФ, доллары США и т.д.
                 </div>
               </div>
@@ -270,16 +274,22 @@ export default function ApprovedPrintFile(props) {
                 <h3 style={{ fontWeight: "bold", marginLeft: "50px" }}>
                   Примечание:
                 </h3>
+
                 <div
                   style={{
                     marginLeft: "50px",
                     marginRight: "50px",
                     textAlign: "start",
                     width: "700px",
-                    textDecoration: "underline",
                   }}
                 >
-                  {lastConfirmedTask?.custom_fields.remark}
+                  {lastConfirmedTask?.custom_fields.remark ? (
+                    <span style={{ textDecoration: "underline" }}>
+                      {lastConfirmedTask?.custom_fields.remark}
+                    </span>
+                  ) : (
+                    `${"_".repeat(70)}\n`.repeat(5)
+                  )}
                 </div>
               </div>
             </div>

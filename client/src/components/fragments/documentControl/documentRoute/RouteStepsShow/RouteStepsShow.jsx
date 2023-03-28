@@ -5,7 +5,7 @@ import ButtonShowSigned from "./buttons/showSignedButton";
 import ButtonShowUnsigned from "./buttons/showUnsignedButton";
 import SignStep from "./modals/SignStep";
 import SigningButtons from "./buttons/signingButtons";
-import ChangeDocumentStatus from "./modals/ChangeDocumentStatus";
+import ChangeDocumentStatus from "./modals/ReturnRejectDocumentModal";
 
 export default function RouteStepsShow({ routeSteps, isAbleToSign }) {
   const currentSignStep = routeSteps.filter((el) => !el.actual_signer_id)[0];

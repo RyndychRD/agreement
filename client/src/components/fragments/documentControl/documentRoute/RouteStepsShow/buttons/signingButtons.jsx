@@ -11,6 +11,7 @@ import { isAccessGranted } from "../../../../../../services/userAccessService";
 export default function SigningButtons(props) {
   const { isShowReturnBackOneStepButton, isShowRejectButton } = props;
   const dispatch = useRouteStepFragmentDispatch();
+
   if (!isAccessGranted("CanSignDocuments"))
     return (
       <Alert
