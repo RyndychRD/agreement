@@ -13,7 +13,7 @@ import DocumentSetCompleteModal from "./buttons/documentSetComplete";
  * @param isShowRejectButton - Показать кнопку Отклонить
  * @returns
  */
-export default function DocumentMitvorgRegistrationShow(props) {
+export default function DocumentRegistrationShow(props) {
   const { documentId, closeModalFunc, isAddButton = false } = props;
   const [isModalOpen, setIsModalOpen] = useState(false);
   // prettier-ignore
@@ -28,12 +28,12 @@ export default function DocumentMitvorgRegistrationShow(props) {
   return (
     <>
       <TextOutputWithLabel
-        label="Дата регистрации в Митворг"
-        text={renderDate(document.document_mitvorg_registration_date, false)}
+        label="Дата регистрации"
+        text={renderDate(document.document_registration_date, false)}
       />
       <TextOutputWithLabel
-        label="Митворг номер"
-        text={document.document_mitvorg_number}
+        label="Номер документа"
+        text={document.document_registration_number}
       />
       {isAddButton ? (
         <>

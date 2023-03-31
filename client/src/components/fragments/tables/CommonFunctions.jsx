@@ -1,7 +1,7 @@
 /** @format */
 import _ from "lodash";
 import moment from "moment";
-import { Col, Row, Button } from "antd";
+import { Col, Row, Button, Modal } from "antd";
 import { AAlert, ATag } from "../../adapter";
 
 /**
@@ -16,6 +16,9 @@ export const filterData = (data) => (formatter) =>
     text: formatter(item),
     value: formatter(item),
   }));
+
+export const getCurrentDate = (format = "DD.MM.YYYY") =>
+  moment().format(format);
 
 /**
  * Возвращает данные для фильтрации в отсортированном порядке. Используется для строк
@@ -143,8 +146,20 @@ export default function getTitle(name, buttons, buttonsActions) {
         type="primary"
         onClick={buttonsActions.create}
         className="space-right"
+        style={{ height: "max-height" }}
       >
         Создать
+      </Button>
+    ),
+    createSpecialTask: (
+      <Button
+        key="keyCreateSpecialTask"
+        type="primary"
+        onClick={buttonsActions.createSpecialTask}
+        className="space-right"
+        style={{ width: "200px", whiteSpace: "normal", height: "auto" }}
+      >
+        Запросить 2 раздел листа согласования закупа ТРУ
       </Button>
     ),
     delete: (
@@ -191,7 +206,18 @@ export default function getTitle(name, buttons, buttonsActions) {
           <span className="table-header">{name}</span>
         </div>
       </Col>
-      <Col>{buttonsView}</Col>
+      <Col style={{ display: "flex", alignItems: "center" }}>{buttonsView}</Col>
     </Row>
   );
+}
+export function onCancelConfirm(onCancel) {
+  Modal.confirm({
+    title: "Подтверждение",
+    content: "Вы точно хотите прекратить и потерять все заполненные данные?",
+    onOk: () => {
+      onCancel();
+    },
+    okText: "Да, я хочу потерять заполненные данные",
+    cancelText: "Нет",
+  });
 }

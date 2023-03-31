@@ -84,7 +84,7 @@ exports.documentTypeDefaultRoutesSeed = async function (knex) {
     { document_type_id: 29, route: { routeSteps: [] } },
   ];
 
-  const table = "departments-rights";
+  const table = "document_type_default_routes";
 
   await seedTable(knex, {
     table: table,

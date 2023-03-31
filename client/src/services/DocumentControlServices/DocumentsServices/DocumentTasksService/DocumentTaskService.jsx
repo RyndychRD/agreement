@@ -4,6 +4,18 @@ import { userNameMask } from "../../../CommonFunctions";
 export default class DocumentTasksService {
   static API_ROUTE = "/document-tasks";
 
+  static statusSpecialFormatter(el) {
+    // Если это от Михеевой поручение, то она должна подтвердить выполнение поручения
+    if (
+      !el.is_second_page_agreement_from_custom_fields_confirmed &&
+      el.document_task_status_id === 2 &&
+      el.document_task_type_id === 2
+    ) {
+      return `${el.document_task_status_name}/ Требуется подтверждение`;
+    }
+    return el.document_task_status_name;
+  }
+
   /** Преобразует входящий массив данных из редакса для правильного отображения в таблице */
   static prepareForTable(data) {
     try {
@@ -11,7 +23,7 @@ export default class DocumentTasksService {
         key: el.id,
         document_task_id: el.id,
         document_task_problem: el.problem,
-        document_task_status: el.document_task_status_name,
+        document_task_status: DocumentTasksService.statusSpecialFormatter(el),
         document_task_status_id: el.document_task_status_id,
         document_task_created_at: el.created_at,
         document_task_due_at: el.due_at,
@@ -38,13 +50,14 @@ export default class DocumentTasksService {
 
   static async getDocumentTasksByDocumentId({
     isAddForeignTables,
+    isConfirmedForSecondPageOnly,
     documentId,
   }) {
     console.log(
       `вызов в DocumentTasksService -> Взять  поручения по документу с ID=${documentId}`
     );
     const response = await api.get(
-      `${this.API_ROUTE}/?isAddForeignTables=${isAddForeignTables}&documentId=${documentId}`
+      `${this.API_ROUTE}/?isAddForeignTables=${isAddForeignTables}&documentId=${documentId}&isConfirmedForSecondPageOnly=${isConfirmedForSecondPageOnly}`
     );
     console.log(
       `вызов в DocumentTasksService -> Взять  поручения по документу с ID=${documentId} -> результат`,

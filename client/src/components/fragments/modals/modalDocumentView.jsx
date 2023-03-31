@@ -13,7 +13,7 @@ import DocumentRemark from "../documentControl/documentRemark/DocumentRemark";
 import NotificationService from "../../../services/DocumentControlServices/NotificationService";
 import DocumentTasksFragment from "../documentControl/documentTasks/DocumentTasksFragment";
 import DocumentPrintFragment from "../documentControl/documentPrint/DocumentPrintFragment";
-import DocumentRegistrationFragment from "../documentControl/documentRegistration/DocumentMitvorgFragment";
+import DocumentRegistrationFragment from "../documentControl/documentRegistration/DocumentRegistrationFragment";
 import DocumentToArchiveFragment from "../documentControl/documentToArchive/documentToArchiveFragment";
 import {
   replaceUrlQueryWithId,
@@ -115,7 +115,6 @@ export default function ModalDocumentView(props) {
         ) : (
           ""
         )}
-
         {isShowRoute ? (
           <RouteStepsFragment
             isStart={state.isShowUpdateModal}
@@ -133,7 +132,10 @@ export default function ModalDocumentView(props) {
         />
         {/* Отображать ли поручения по документу */}
         {isShowDocumentTasks ? (
-          <DocumentTasksFragment documentId={state.currentRow?.document_id} />
+          <DocumentTasksFragment
+            documentId={state.currentRow?.document_id}
+            documentTypeId={state.currentRow?.document_type_id}
+          />
         ) : (
           ""
         )}

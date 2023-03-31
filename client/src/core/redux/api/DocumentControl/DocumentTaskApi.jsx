@@ -28,11 +28,17 @@ export const documentTasksApi = createApi({
           : [{ type: TAG_TYPE, id: "LIST" }],
     }),
     getDocumentTasksByDocument: build.query({
-      queryFn: async ({ isAddForeignTables = false, documentId }) => {
+      queryFn: async (props) => {
+        const {
+          isConfirmedForSecondPageOnly = false,
+          isAddForeignTables = false,
+          documentId,
+        } = props;
         try {
           const response =
             await DocumentTasksService.getDocumentTasksByDocumentId({
               isAddForeignTables,
+              isConfirmedForSecondPageOnly,
               documentId,
             });
           return { data: response };
@@ -114,6 +120,18 @@ export const documentTasksApi = createApi({
             documentTaskFileIds: bodyValues.files?.fileList.map(
               (file) => file.response.fileId
             ),
+            isSecondPageAgreementFromCustomFieldsConfirmed:
+              body.isSecondPageAgreementFromCustomFieldsConfirmed,
+            customFields: {
+              budgetSumNoNDS: parseInt(bodyValues.budgetSumNoNDS, 10),
+              budgetSumWithNDS: bodyValues.budgetSumWithNDS,
+              contractSumNoNDS: parseInt(bodyValues.contractSumNoNDS, 10),
+              contractSumWithNDS: bodyValues.contractSumWithNDS,
+              currentNDS: parseInt(bodyValues.currentNDS, 10),
+              exchangeRates: bodyValues.exchangeRates,
+              fullNameOfTheItemInBudget: bodyValues.fullNameOfTheItemInBudget,
+              remark: bodyValues.remark,
+            },
           });
           const response = await DocumentTasksService.update(
             bodyPrepared(body)

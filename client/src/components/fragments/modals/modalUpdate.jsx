@@ -1,11 +1,11 @@
 /** @format */
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Modal } from "antd";
 import {
   clearUrlQueryParams,
   replaceUrlQueryWithId,
 } from "../../../services/CommonFunctions";
-import { AModal } from "../../adapter";
 import SimpleError from "../messages/Error";
 import SimpleSpinner from "../messages/Spinner";
 import NotificationService from "../../../services/DocumentControlServices/NotificationService";
@@ -13,6 +13,7 @@ import {
   useTableModalDispatch,
   useTableModalsState,
 } from "../tables/TableModalProvider";
+import { onCancelConfirm } from "../tables/CommonFunctions";
 
 /**
  * Общее окно для отображения модального окна изменения чего либо.
@@ -36,9 +37,15 @@ export default function ModalUpdate({
   isAddForeignTables = false,
   additionalGetQueryProps = {},
   notificationType,
+  isAddConfirmOnCancel = true,
+  customState,
+  customDispatch,
+  okButtonText = "Редактировать",
 }) {
-  const state = useTableModalsState();
-  const dispatch = useTableModalDispatch();
+  const standardState = useTableModalsState();
+  const standardDispatch = useTableModalDispatch();
+  const state = customState ? customState() : standardState;
+  const dispatch = customDispatch ? customDispatch() : standardDispatch;
   const navigate = useNavigate();
   const isOpen = state.isShowUpdateModal && state.currentRow;
 
@@ -83,6 +90,9 @@ export default function ModalUpdate({
       });
   };
 
+  const isLoading = isLoadingGet || isLoadingUpdate;
+  const isError = isErrorGet || isErrorUpdate;
+
   /**
    * Очищаем форму, достаем нужную строку из хранилища редакса по переданному ID
    * Заполняем форму полученными данными
@@ -97,7 +107,7 @@ export default function ModalUpdate({
           notificationType,
         });
       }
-      if (!isErrorUpdate && state.isShowUpdateModal) {
+      if (!isError && !isLoading && state.isShowUpdateModal) {
         form.resetFields();
         form.setFieldsValue(formDefaultValues(data));
         replaceUrlQueryWithId(state.currentRow?.key);
@@ -107,20 +117,25 @@ export default function ModalUpdate({
     [state.isShowUpdateModal, data, isOpen]
   );
 
-  const isLoading = isLoadingGet || isLoadingUpdate;
-  const isError = isErrorGet || isErrorUpdate;
+  const onCancel = () => {
+    resetUpdate();
+    clearUrlQueryParams();
+    dispatch({ type: "closeAllModal" });
+  };
 
   return (
-    <AModal
-      okText="Редактировать"
+    <Modal
+      okText={okButtonText}
       cancelText="Отмена"
       onOk={onFinish}
       open={isOpen}
-      onCancel={() => {
-        resetUpdate();
-        clearUrlQueryParams();
-        dispatch({ type: "closeAllModal" });
-      }}
+      onCancel={
+        isAddConfirmOnCancel
+          ? () => {
+              onCancelConfirm(onCancel);
+            }
+          : onCancel
+      }
     >
       {isLoading ? <SimpleSpinner /> : ""}
       {isError ? <SimpleError /> : ""}
@@ -129,6 +144,6 @@ export default function ModalUpdate({
       ) : (
         ""
       )}
-    </AModal>
+    </Modal>
   );
 }

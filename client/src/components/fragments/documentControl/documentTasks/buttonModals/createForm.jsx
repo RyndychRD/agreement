@@ -71,6 +71,7 @@ export default function CreateForm({ form, documentId }) {
   return (
     <Form form={form}>
       <Form.Item hidden name="documentId" />
+      <Form.Item hidden name="typeId" />
       <SelectInputFormItem
         title="Исполнитель"
         isLoading={isLoadingUsers}

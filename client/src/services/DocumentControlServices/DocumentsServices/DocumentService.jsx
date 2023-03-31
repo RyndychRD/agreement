@@ -12,6 +12,7 @@ export default class DocumentService {
         document_id: el.id,
         document_name: el.name,
         document_type: el?.document_type_name,
+        document_type_id: el?.document_type_id,
         document_status: el?.document_status_name,
         document_status_id: el?.document_status_id,
         document_created_at: el.created_at,
@@ -63,17 +64,17 @@ export default class DocumentService {
     return response.data;
   }
 
-  static async setMitvorgAndChangeStatus(values) {
+  static async setRegistrationAndChangeStatus(values) {
     console.log(
-      "вызов в DocumentService -> Установить митворг данные и поменять статус",
+      "вызов в DocumentService -> Установить данные по регистрации документа и поменять статус",
       values
     );
     const response = await api.post(
-      `${this.API_ROUTE}/set-mitvorg-and-change-status?`,
+      `${this.API_ROUTE}/set-registration-and-change-status?`,
       values
     );
     console.log(
-      "вызов в DocumentService -> Установить митворг данные и поменять статус -> результат",
+      "вызов в DocumentService -> Установить данные по регистрации документа и поменять статус -> результат",
       response
     );
     return response.data;

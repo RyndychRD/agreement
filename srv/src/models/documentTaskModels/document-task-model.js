@@ -18,13 +18,28 @@ class DocumentTaskSchema {
     return query;
   }
 
+  //Вытаскиваем только один последний результат по подтвержденным для 2 страницы поручениям
+  addConfirmedForSecondPageOnly(query) {
+    query = query.limit(1).orderBy("id", "desc");
+    return query;
+  }
+
   /**
    * @param {json} filter
    */
-  async getDocumentTasks({ filter, isAddForeignTables }) {
+  async getDocumentTasks({
+    filter,
+    isAddForeignTables,
+    isConfirmedForSecondPageOnly,
+  }) {
     let query = this.knexProvider("document_tasks").select("document_tasks.*");
+    if (isConfirmedForSecondPageOnly) {
+      filter["is_second_page_agreement_from_custom_fields_confirmed"] = true;
+    }
     if (filter) query = query.where(filter);
     if (isAddForeignTables) query = this.addForeignTablesInformation(query);
+    if (isConfirmedForSecondPageOnly)
+      query = this.addConfirmedForSecondPageOnly(query);
     return await query;
   }
   async getDocumentTask({ filter, isAddForeignTables }) {

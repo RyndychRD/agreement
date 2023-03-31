@@ -13,6 +13,16 @@ import {
 export default function CreateButtonModel({ documentId }) {
   /** Служит для отслеживания формы из модального окна для обработки по кнопке */
   const [form] = Form.useForm();
+  const state = useInnerTableState();
+  if (state.modalTypeId === 2) {
+    form.setFieldValue(
+      "problem",
+      "Собрать информацию для заполнения 2 раздела"
+    );
+  } else {
+    form.setFieldValue("problem", "");
+  }
+  form.setFieldValue("typeId", state.modalTypeId ? state.modalTypeId : 1);
   form.setFieldValue("documentId", documentId);
 
   return (

@@ -17,6 +17,7 @@ function InnerTableModalReducer(state, action) {
         isShowCreateModal: true,
         isShowDeleteModal: false,
         isShowUpdateModal: false,
+        modalTypeId: action.modalTypeId ? action.modalTypeId : 1,
       };
     }
     case "closeAllModal": {
@@ -57,6 +58,9 @@ function createInitialState() {
     isShowCreateModal: false,
     isShowDeleteModal: false,
     isShowUpdateModal: false,
+    // В этой переменной мы передаем тип модального окна.
+    // Например, у нас есть стандартное поручение и особенное. В этом поле мы как раз определяем какое мы хотим открыть
+    modalTypeId: 1,
   };
 }
 

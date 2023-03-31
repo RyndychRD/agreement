@@ -62,11 +62,11 @@ export default function DocumentArchiveFilter(props) {
               form={form}
               key="documentCreateRange"
               name="documentCreateRange"
-              title="Выберите промежуток дат регистрации на Митворг"
+              title="Выберите промежуток дат регистрации"
               rules={[
                 {
                   required: true,
-                  message: "Выберите тип архива",
+                  message: "Выберите промежуток дат регистрации",
                 },
               ]}
               disabled={isAllRange}
