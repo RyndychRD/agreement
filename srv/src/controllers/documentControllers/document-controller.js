@@ -43,11 +43,12 @@ class DocumentController {
       next(e);
     }
   }
-  async updateDocumentMitvorgAndChangeStatus(req, res, next) {
+  async updateDocumentRegistrationAndChangeStatus(req, res, next) {
     try {
-      const data = await DocumentService.updateDocumentMitvorgAndChangeStatus(
-        req.body
-      );
+      const data =
+        await DocumentService.updateDocumentRegistrationAndChangeStatus(
+          req.body
+        );
       return res.json(data);
     } catch (e) {
       next(e);

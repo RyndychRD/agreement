@@ -40,16 +40,18 @@ class DocumentSchema {
             ' = "currentSigner"."step"'
         )
       );
-    //подтягиваем данные по митворгу
+    //подтягиваем данные по регистрации документа
     query = query
-      .select("document_mitvorg.number as document_mitvorg_number")
       .select(
-        "document_mitvorg.registration_date as document_mitvorg_registration_date"
+        "document_registration.registration_number as document_registration_number"
+      )
+      .select(
+        "document_registration.registration_date as document_registration_date"
       )
       .leftJoin(
-        "document_mitvorg",
+        "document_registration",
         "documents.id",
-        "document_mitvorg.document_id"
+        "document_registration.document_id"
       );
     // Подтягиваем данные по архиву для документа
     query = query

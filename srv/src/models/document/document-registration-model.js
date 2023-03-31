@@ -1,7 +1,7 @@
 //Доступ в БД
 const knexConfig = require("../../../db/knexfile");
 
-class DocumentMitvorgSchema {
+class DocumentRegistrationSchema {
   constructor() {
     this.knexProvider = require("knex")(knexConfig[process.env.NODE_ENV]);
   }
@@ -11,20 +11,22 @@ class DocumentMitvorgSchema {
    * @param {json} filter
    */
   async findOne({ filter }) {
-    let query = this.knexProvider("document_mitvorg")
-      .first("document_mitvorg.*")
+    let query = this.knexProvider("document_registration")
+      .first("document_registration.*")
       .where(filter);
     return await query;
   }
 
   /**
    * Создаёт новый путь для документа
-   * @param {Array} mitvorg
+   * @param {Array} registration
    * @returns
    */
-  async create(mitvorg) {
-    return await this.knexProvider("document_mitvorg").insert(mitvorg);
+  async create(registration) {
+    return await this.knexProvider("document_registration").insert(
+      registration
+    );
   }
 }
 
-module.exports = new DocumentMitvorgSchema();
+module.exports = new DocumentRegistrationSchema();

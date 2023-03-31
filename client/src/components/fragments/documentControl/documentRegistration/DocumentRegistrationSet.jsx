@@ -1,7 +1,7 @@
 import { Button, Form } from "antd";
 import DateInputFormItem from "../../inputs/dateInput";
 import TextInputFormItem from "../../inputs/textInputs";
-import { usePutDocumentMitvorgAndChangeStatusMutationHook } from "../../../../core/redux/api/DocumentControl/DocumentApi";
+import { usePutDocumentRegistrationAndChangeStatusMutationHook } from "../../../../core/redux/api/DocumentControl/DocumentApi";
 import SimpleSpinner from "../../messages/Spinner";
 import SimpleError from "../../messages/Error";
 
@@ -11,13 +11,13 @@ import SimpleError from "../../messages/Error";
  * @param isShowRejectButton - Показать кнопку Отклонить
  * @returns
  */
-export default function DocumentMitvorgRegistrationSet(props) {
+export default function DocumentRegistrationSet(props) {
   const { documentId, closeModalFunc } = props;
 
   const [form] = Form.useForm();
 
   const [updateFunc, { isLoading, isError }] =
-    usePutDocumentMitvorgAndChangeStatusMutationHook();
+    usePutDocumentRegistrationAndChangeStatusMutationHook();
   const onFinish = () => {
     form
       .validateFields()
@@ -37,28 +37,28 @@ export default function DocumentMitvorgRegistrationSet(props) {
   };
 
   return (
-    <Form form={form} name="mitvorgInputForm" onFinish={onFinish}>
+    <Form form={form} name="registrationInputForm" onFinish={onFinish}>
       <DateInputFormItem
         form={form}
-        key="mitvorgRegistrationDate"
-        name="mitvorgRegistrationDate"
-        title="Дата регистрации на Митворге"
+        key="registrationDate"
+        name="registrationDate"
+        title="Дата регистрации"
         rules={[
           {
             required: true,
-            message: "Укажите дату регистрации на Митворге",
+            message: "Укажите дату регистрации",
           },
         ]}
       />
       <TextInputFormItem
         form={form}
-        key="mitvorgNumber"
-        name="mitvorgNumber"
-        title="Митворг номер"
+        key="registrationNumber"
+        name="registrationNumber"
+        title="Номер документа"
         rules={[
           {
             required: true,
-            message: "Укажите Митворг номер",
+            message: "Укажите номер документа",
           },
         ]}
       />

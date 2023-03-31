@@ -9,7 +9,7 @@ import SimpleError from "../../messages/Error";
  * @param isShowRejectButton - Показать кнопку Отклонить
  * @returns
  */
-export default function DocumentMitvorgRegistrationButton(props) {
+export default function DocumentRegistrationButton(props) {
   const { documentId, closeModalFunc } = props;
   const [updateFunc, { isLoading, isError }] = useUpdateDocumentMutation();
   const valuesToSend = {

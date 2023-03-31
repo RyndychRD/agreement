@@ -1,10 +1,10 @@
 import { Alert } from "antd";
-import DocumentMitvorgRegistrationButton from "./DocumentMitvorgRegistrationButton";
+import DocumentRegistrationButton from "./DocumentRegistrationButton";
 import { HeaderTextOutput } from "../../outputs/textOutputs";
 import { useGetDocumentQueryHook } from "../../../../core/redux/api/DocumentControl/DocumentApi";
 import SimpleSpinner from "../../messages/Spinner";
-import DocumentMitvorgRegistrationSet from "./DocumentMitvorgRegistrationSet";
-import DocumentMitvorgRegistrationShow from "./DocumentMitvorgRegistrationShow";
+import DocumentRegistrationSet from "./DocumentRegistrationSet";
+import DocumentRegistrationShow from "./DocumentRegistrationShow";
 
 export default function DocumentRegistrationFragment(props) {
   const { documentId, closeModalFunc } = props;
@@ -20,36 +20,36 @@ export default function DocumentRegistrationFragment(props) {
     /* Если документ находится в статусе Согласован - показать кнопку Отправить на регистрацию */
     case 4:
       content = (
-        <DocumentMitvorgRegistrationButton
+        <DocumentRegistrationButton
           documentId={documentId}
           closeModalFunc={closeModalFunc}
         />
       );
       break;
-    /* Если документ находится в статусе Регистрация документа - показать форму для заполнения данных от Митворг */
+    /* Если документ находится в статусе Регистрация документа - показать форму для заполнения данных по регистрации документа */
     case 8:
       content = (
-        <DocumentMitvorgRegistrationSet
+        <DocumentRegistrationSet
           documentId={documentId}
           closeModalFunc={closeModalFunc}
         />
       );
       break;
-    /* Если документ находится в статусе Документы, подписанные в ООПЗ - показать заполненые данные от Митворг и дать перевести в Исполненные */
+    /* Если документ находится в статусе Документы, подписанные в ООПЗ - показать заполненые данные по регистрации документа и дать перевести в Исполненные */
     case 9:
       content = (
-        <DocumentMitvorgRegistrationShow
+        <DocumentRegistrationShow
           documentId={documentId}
           closeModalFunc={closeModalFunc}
           isAddButton
         />
       );
       break;
-    /* Если документ находится в статусе Документы, подписанные в ООПЗ - просто показать заполненые данные от Митворг */
+    /* Если документ находится в статусе Документы, подписанные в ООПЗ - просто показать заполненые данные по регистрации документа */
     case 10:
     case 11:
       content = (
-        <DocumentMitvorgRegistrationShow
+        <DocumentRegistrationShow
           documentId={documentId}
           closeModalFunc={closeModalFunc}
         />
@@ -67,7 +67,7 @@ export default function DocumentRegistrationFragment(props) {
 
   return (
     <>
-      <HeaderTextOutput text="Регистрация в Митворг" />
+      <HeaderTextOutput text="Регистрация документа" />
       {content}
     </>
   );

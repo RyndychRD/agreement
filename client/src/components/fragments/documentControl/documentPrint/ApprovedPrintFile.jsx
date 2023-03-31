@@ -149,15 +149,12 @@ export default function ApprovedPrintFile(props) {
             </h2>
             <b>
               {`к договору No ${
-                document.document_mitvorg_number
-                  ? document.document_mitvorg_number
+                document.document_registration_number
+                  ? document.document_registration_number
                   : "_____________"
               } от ${
-                document.document_mitvorg_registration_date
-                  ? renderDate(
-                      document.document_mitvorg_registration_date,
-                      false
-                    )
+                document.document_registration_date
+                  ? renderDate(document.document_registration_date, false)
                   : `____________ ${getCurrentDate("YYYY")}г.`
               }`}
             </b>
