@@ -47,6 +47,16 @@ function getQrCode(document, documentValues) {
     `Наименование договора: ${document.name}`,
     `Тип договора: ${document.document_type_name}`,
   ].concat(documentValuesString);
+  if (document.document_registration_number) {
+    htmlValueArray.push(
+      `Номер договора: ${document.document_registration_number}`
+    );
+  }
+  if (document.document_registration_date) {
+    htmlValueArray.push(
+      `Дата договора: ${renderDate(document.document_registration_date, false)}`
+    );
+  }
   return (
     <QRCode
       style={{ width: "250px", height: "250px" }}
@@ -112,10 +122,10 @@ export default function ApprovedPrintFile(props) {
     // Собираем замечания по документу
     if (route?.document_signature_type_id !== 1) {
       remarkList.push(
-        <tr key={`${route.id}_remark`} style={{ textAlign: "center" }}>
-          <td>{userNameMask(route?.actual_signer)}</td>
-          <td>{route?.remark}</td>
-        </tr>
+        <>
+          <h4>{userNameMask(route?.actual_signer)}:</h4>
+          <p style={{ textIndent: "20px" }}>{route?.remark}</p>
+        </>
       );
     }
     // Отдельно выделяем Михееву для Закупа ТРУ
@@ -345,15 +355,7 @@ export default function ApprovedPrintFile(props) {
               <h3 style={{ fontWeight: "bold", marginLeft: "50px" }}>
                 Замечания к листу согласования:
               </h3>
-              <table border="1" style={{ width: "100%" }}>
-                <thead>
-                  <tr>
-                    <th rowSpan={8}>ФИО</th>
-                    <th rowSpan={16}>Замечание</th>
-                  </tr>
-                </thead>
-                <tbody>{remarkList}</tbody>
-              </table>
+              {remarkList}
             </div>
           </div>
         ) : (
