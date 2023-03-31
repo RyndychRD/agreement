@@ -13,7 +13,7 @@ import DocumentRemark from "../documentControl/documentRemark/DocumentRemark";
 import NotificationService from "../../../services/DocumentControlServices/NotificationService";
 import DocumentTasksFragment from "../documentControl/documentTasks/DocumentTasksFragment";
 import DocumentPrintFragment from "../documentControl/documentPrint/DocumentPrintFragment";
-import DocumentRegistrationFragment from "../documentControl/documentRegistration/DocumentMitvorgFragment";
+import DocumentRegistrationFragment from "../documentControl/documentRegistration/DocumentRegistrationFragment";
 import DocumentToArchiveFragment from "../documentControl/documentToArchive/documentToArchiveFragment";
 import {
   replaceUrlQueryWithId,

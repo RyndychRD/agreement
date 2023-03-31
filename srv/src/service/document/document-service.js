@@ -13,7 +13,7 @@ const {
 const NotificationService = require("../notification/notification-service");
 const FilesModel = require("../../models/catalogModels/files-model");
 const DocumentValuesService = require("./document-values-service");
-const DocumentMitvorgModel = require("../../models/document/document-mitvorg-model");
+const DocumentRegistrationModel = require("../../models/document/document-registration-model");
 const NotificationIsReadModel = require("../../models/notification/notification-is-read-model");
 const DocumentArchiveModel = require("../../models/document/document-archive-model");
 const moment = require("moment/moment");
@@ -92,14 +92,14 @@ class DocumentService {
     const filter = function () {
       if (dateCreationRange?.start) {
         this.where(
-          "document_mitvorg.registration_date",
+          "document_registration.registration_date",
           ">=",
           dateCreationRange.start
         );
       }
       if (dateCreationRange?.end) {
         this.where(
-          "document_mitvorg.registration_date",
+          "document_registration.registration_date",
           "<=",
           dateCreationRange.end
         );
@@ -279,11 +279,11 @@ class DocumentService {
     return await DevTools.addDelay(func);
   }
 
-  async updateDocumentMitvorgAndChangeStatus(body) {
+  async updateDocumentRegistrationAndChangeStatus(body) {
     let result = null;
-    const func = DocumentMitvorgModel.create({
-      number: body.mitvorgNumber,
-      registration_date: body.mitvorgRegistrationDate,
+    const func = DocumentRegistrationModel.create({
+      registration_number: body.registrationNumber,
+      registration_date: body.registrationDate,
       document_id: body.documentId,
     });
     result = await DevTools.addDelay(func);
