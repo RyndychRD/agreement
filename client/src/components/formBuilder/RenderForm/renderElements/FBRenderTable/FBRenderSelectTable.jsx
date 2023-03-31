@@ -29,10 +29,16 @@ function FBSelect(props) {
       );
     },
   } = props;
+  const handleKeyDown = (e) => {
+    if (e.ctrlKey && e.key === "v") {
+      e.preventDefault();
+    }
+  };
   return (
     <FBElementLayout name={CurrentElement.name}>
       <Select
         showSearch
+        onKeyDown={handleKeyDown}
         optionFilterProp="children"
         onChange={setValueInSelectOnForm}
         filterOption={(input, option) =>

@@ -8,11 +8,17 @@ export default function RenderSelectID(props) {
   const setValueInSelectOnForm = (value) => {
     form.setFieldValue(elemNameForForm, value);
   };
+  const handleKeyDown = (e) => {
+    if (e.ctrlKey && e.key === "v") {
+      e.preventDefault();
+    }
+  };
   return (
     <FBElementLayout name={CurrentElement.name}>
       <Select
         showSearch
         optionFilterProp="children"
+        onKeyDown={handleKeyDown}
         onChange={setValueInSelectOnForm}
         filterOption={(input, option) =>
           (option?.label.toLowerCase() ?? "").includes(input.toLowerCase())
