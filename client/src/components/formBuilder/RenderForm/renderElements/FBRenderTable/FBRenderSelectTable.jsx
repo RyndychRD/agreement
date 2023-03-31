@@ -29,16 +29,15 @@ function FBSelect(props) {
       );
     },
   } = props;
-  const handleKeyDown = (e) => {
-    if (e.ctrlKey && e.key === "v") {
-      e.preventDefault();
-    }
+  const handlePaste = (e) => {
+    e.preventDefault();
   };
   return (
     <FBElementLayout name={CurrentElement.name}>
       <Select
         showSearch
-        onKeyDown={handleKeyDown}
+        onPaste={handlePaste}
+        onDrop={handlePaste}
         optionFilterProp="children"
         onChange={setValueInSelectOnForm}
         filterOption={(input, option) =>
