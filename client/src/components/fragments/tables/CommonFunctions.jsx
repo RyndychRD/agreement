@@ -17,6 +17,9 @@ export const filterData = (data) => (formatter) =>
     value: formatter(item),
   }));
 
+export const getCurrentDate = (format = "DD.MM.YYYY") =>
+  moment().format(format);
+
 /**
  * Возвращает данные для фильтрации в отсортированном порядке. Используется для строк
  * @param {*} dataSource

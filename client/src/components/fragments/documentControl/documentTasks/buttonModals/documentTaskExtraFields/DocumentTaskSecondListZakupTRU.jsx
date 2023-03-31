@@ -124,12 +124,7 @@ export default function DocumentTaskSecondListZakupTRU(props) {
       <TextInputFormItem
         title="Курсы валюты на дату(тенге/рубли РФ, доллары США и тд.)"
         name="exchangeRates"
-        rules={[
-          {
-            required: true,
-            message: "Необходимо для заполнения!",
-          },
-        ]}
+        rules={[]}
       />
       <LargeTextInputFormItem
         title="Примечание"
