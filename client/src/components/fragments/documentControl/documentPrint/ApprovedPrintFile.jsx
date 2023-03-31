@@ -12,17 +12,23 @@ import { getCurrentDate, renderDate } from "../../tables/CommonFunctions";
 import { useGetDocumentTasksByDocumentQueryHook } from "../../../../core/redux/api/DocumentControl/DocumentTaskApi";
 
 function getDocumentHeader(document, documentValues) {
-  const documentValuesDivs = documentValues.map((documentValue) => {
-    const preparedDocValue =
-      DocumentValuesService.getValueAndLabelFromDocumentValue(documentValue);
-    return (
-      <div key={documentValue.id} style={{ marginBottom: "10px" }}>
-        <span>
-          <b>{`${preparedDocValue.label}`}</b>:{`${preparedDocValue.value}`}
-        </span>
-      </div>
-    );
-  });
+  const documentValuesDivs =
+    documentValues.length > 0
+      ? documentValues.map((documentValue) => {
+          const preparedDocValue =
+            DocumentValuesService.getValueAndLabelFromDocumentValue(
+              documentValue
+            );
+          return (
+            <div key={documentValue.id} style={{ marginBottom: "10px" }}>
+              <span>
+                <b>{`${preparedDocValue.label}`}</b>:
+                {`${preparedDocValue.value}`}
+              </span>
+            </div>
+          );
+        })
+      : [];
 
   return (
     <>
@@ -38,11 +44,16 @@ function getDocumentHeader(document, documentValues) {
 }
 
 function getQrCode(document, documentValues) {
-  const documentValuesString = documentValues.map((documentValue) => {
-    const preparedDocValue =
-      DocumentValuesService.getValueAndLabelFromDocumentValue(documentValue);
-    return `${preparedDocValue.label} : ${preparedDocValue.value}`;
-  });
+  const documentValuesString =
+    documentValues.length > 0
+      ? documentValues.map((documentValue) => {
+          const preparedDocValue =
+            DocumentValuesService.getValueAndLabelFromDocumentValue(
+              documentValue
+            );
+          return `${preparedDocValue.label} : ${preparedDocValue.value}`;
+        })
+      : [];
   const htmlValueArray = [
     `Наименование договора: ${document.name}`,
     `Тип договора: ${document.document_type_name}`,
@@ -130,7 +141,7 @@ export default function ApprovedPrintFile(props) {
     }
     // Отдельно выделяем Михееву для Закупа ТРУ
     if (
-      route?.actual_signer.position_id === 14 &&
+      route?.actual_signer?.position_id === 14 &&
       document.document_type_id === 10
     ) {
       deipDirectorSignature = route;
@@ -196,7 +207,7 @@ export default function ApprovedPrintFile(props) {
               </table>
             </div>
             <div style={{ paddingTop: "20px" }}>
-              <b>Исполнитель:</b> {document.creator.position_name},{" "}
+              <b>Исполнитель:</b> {document?.creator?.position_name},{" "}
               {userNameMask(document.creator)} <br />
               <b>Телефоны исполнителя:</b> _________________ <br />
               <b>Полученный сторонами оригинал договора получен:</b>{" "}
