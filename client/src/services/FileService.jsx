@@ -19,7 +19,11 @@ export default class FileService {
     if (isForPreview) {
       const file1 = new Blob([response.data], { type: "application/pdf" });
       const fileURL = URL.createObjectURL(file1);
-      window.open(fileURL);
+      window.open(
+        fileURL,
+        "Название вкладки",
+        "width=1280,height=1024,top=100,left=100"
+      );
       return null;
     }
     // иначе просто посылаем готовый файл на скачку

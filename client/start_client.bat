@@ -1,1 +1,1 @@
-serve -s build
+start serve -s build -n

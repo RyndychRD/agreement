@@ -1,1 +1,1 @@
-set NODE_ENV=production&& agreementserver.exe
+set NODE_ENV=production&& start agreementserver.exe -n
