@@ -73,6 +73,7 @@ export default function ShowButtonModel() {
   }
   return (
     <Modal
+      width={800}
       footer={<Button onClick={onCancel}>Закрыть</Button>}
       onCancel={onCancel}
       open={isOpen}
