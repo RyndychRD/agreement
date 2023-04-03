@@ -8,6 +8,7 @@ export default class DocumentValuesService {
   static getValueAndLabelFromDocumentValue(dataStep) {
     switch (dataStep?.data_type) {
       case "text":
+      case "number":
       case "phone":
       case "select_id":
       case "email":
