@@ -9,6 +9,12 @@ export default function FormBuilderDataComponent({ FormBuilderData, form }) {
     const keyIn2 = `${index}value2`;
     const keyIn3 = `${index}value3`;
     const keyIn4 = `${index}value4`;
+    const rules = [];
+    if (ComponentItem.isFieldRequired)
+      rules.push({
+        required: true,
+        message: "Данные не внесены",
+      });
     return (
       <>
         <Form.Item
@@ -16,12 +22,7 @@ export default function FormBuilderDataComponent({ FormBuilderData, form }) {
           name={elemNameForForm}
           label={ComponentItem.label}
           labelCol={{ span: 24 }}
-          rules={[
-            {
-              required: true,
-              message: "Данные не внесены",
-            },
-          ]}
+          rules={rules}
         >
           <ReturnElement
             ComponentNameForForm={elemNameForForm}

@@ -5,7 +5,6 @@ import DocumentValuesService from "../../../../services/DocumentControlServices/
 // Сюда передается информация только для отображения. Сбор самой информации по документу производится выше
 export default function DocumentInformationShow(props) {
   const { data, isPrepareData = true } = props;
-  console.log(data);
   if (!data || data.length === 0)
     return <Alert type="error" message="Данные документа отсутствуют" />;
   return data.map((dataStep, index) => {
@@ -13,18 +12,20 @@ export default function DocumentInformationShow(props) {
     const information = isPrepareData
       ? DocumentValuesService.getValueAndLabelFromDocumentValue(dataStep)
       : dataStep;
-    return (
-      <TextOutputWithLabel
-        key={keyIn}
-        text={
-          information?.select_name &&
-          information.select_name !== information.key
-            ? information.select_name
-            : information.value
-        }
-        label={information.label}
-        className={information?.className}
-      />
-    );
+    const text =
+      information?.select_name && information.select_name !== information.key
+        ? information.select_name
+        : information.value;
+    if (text) {
+      return (
+        <TextOutputWithLabel
+          key={keyIn}
+          text={text}
+          label={information.label}
+          className={information?.className}
+        />
+      );
+    }
+    return "";
   });
 }

@@ -45,7 +45,7 @@ export default function DocumentCreationPipelineRouteConstruct({
     !isLoadingType &&
     !type.is_route_construct_available
   ) {
-    const clearedValues = routeByType.route.map((routeStep, index) => ({
+    const clearedValues = routeByType?.route?.map((routeStep, index) => ({
       signer_id: routeStep.default_signer.id,
       signer: routeStep.default_signer,
       step: index + 1,

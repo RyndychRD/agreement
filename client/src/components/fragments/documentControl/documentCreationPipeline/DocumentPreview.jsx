@@ -53,7 +53,7 @@ export default function DocumentPreview({ onCancel }) {
             />
           </>
         );
-        preparedValuesToSave.documentRoute = element.json.map((routeStep) => ({
+        preparedValuesToSave.documentRoute = element.json?.map((routeStep) => ({
           signerId: routeStep.signer_id,
           step: routeStep.step,
         }));
