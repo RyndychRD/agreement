@@ -12,6 +12,7 @@ import {
 } from "../../../../core/redux/reducers/documentCreationPipelineReducer";
 import { useGetUsersQueryHook } from "../../../../core/redux/api/Globals/Catalogs/UserApi";
 import RestoreButton from "./RestoreButton";
+import SimpleSpinner from "../../messages/Spinner";
 
 /**
  * @return Модальное окно для создания нового документа
@@ -36,13 +37,30 @@ export default function DocumentCreationPipelineRouteConstruct({
   // prettier-ignore
   const {data: users = [],isError: isErrorUsers,isLoading: isLoadingUsers} = useGetUsersQueryHook({ isAddForeignTables:true });
 
+  // Для всех типов создания документа мы проверяем доступность этого шага
+  // Если шаг не доступен, запоминаем дефолтные значения и пропускаем
+  if (
+    !isErrorRoutes &&
+    !isLoadingRoutes &&
+    !isLoadingType &&
+    !type.is_route_construct_available
+  ) {
+    const clearedValues = routeByType.route.map((routeStep, index) => ({
+      signer_id: routeStep.default_signer.id,
+      signer: routeStep.default_signer,
+      step: index + 1,
+    }));
+    pipelineDispatch(saveCurrentStepJson(clearedValues));
+    pipelineDispatch(nextStep());
+  }
+
   // После загрузки наполняем форму маршрутов данными.
   // У нас приходят данные в виде массива, каждый элемент которого является одним шагом.
   // В одном шаге у нас есть specified_signer_id - он показывает, установлен ли конкретный человек на подписанта. Если = -1 --- не установлен
   // Также нам в любом случае приходит default_signer - человек, который является подписантом
   // Так как мы переиспользуем фрагмент из каталога, то он ожидает принять значение по specified_signer_id. Если подписант не установлен, то он выводит значение По умолчанию
   // Но так как у нас здесь не может быть значения по умолчанию, мы вместо него передаем id разымновыванного подписанта, поддерживая таким образом 2 реализации
-  if (!isErrorRoutes && !isLoadingRoutes) {
+  if (!isErrorRoutes && !isLoadingRoutes && !isLoadingType) {
     form.setFieldsValue({
       routeSteps: routeByType.route?.map((el) => {
         if (el.specified_signer_id !== -1) return el;
@@ -63,6 +81,7 @@ export default function DocumentCreationPipelineRouteConstruct({
           ),
           step: index + 1,
         }));
+        console.log(clearedValues);
         form.resetFields();
         pipelineDispatch(saveCurrentStepJson(clearedValues));
         pipelineDispatch(nextStep());
@@ -72,6 +91,15 @@ export default function DocumentCreationPipelineRouteConstruct({
       });
   };
 
+  if (isLoadingType || isLoadingUsers || isLoadingRoutes) {
+    return (
+      <Modal open footer={[]}>
+        Подождите, данные подгружаются
+        <SimpleSpinner />
+      </Modal>
+    );
+  }
+
   return (
     <Modal
       open
@@ -80,7 +108,7 @@ export default function DocumentCreationPipelineRouteConstruct({
       cancelText="Закрыть"
       okText="Далее"
       okButtonProps={
-        isErrorUsers || isLoadingUsers
+        isErrorUsers || isLoadingUsers || isLoadingType
           ? {
               disabled: "disabled",
             }
@@ -96,7 +124,13 @@ export default function DocumentCreationPipelineRouteConstruct({
       <HeaderTextOutput text="Маршрут" />
       <RestoreButton
         isShow={
-          !(isErrorRoutes || isErrorUsers || isLoadingRoutes || isLoadingUsers)
+          !(
+            isErrorRoutes ||
+            isErrorUsers ||
+            isLoadingRoutes ||
+            isLoadingUsers ||
+            isLoadingType
+          )
         }
         onClick={() => {
           form.setFieldsValue({
