@@ -43,6 +43,7 @@ export function MainDocumentInformation({
   isError,
   documentName,
   typeName,
+  documentCreator,
 }) {
   if (isLoading) return <SimpleSpinner />;
   if (isError) return <SimpleError />;
@@ -53,6 +54,8 @@ export function MainDocumentInformation({
         <b>Наименование документа:</b> {documentName}
         <br />
         <b>Тип документа:</b> {typeName}
+        <br />
+        <b>Исполнитель по договору:</b> {documentCreator}
       </p>
     </>
   );
