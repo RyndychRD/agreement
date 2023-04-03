@@ -5,7 +5,7 @@ import "./FBEmailInput.css";
 import FBElementLayout from "../FBElementLayout";
 
 export default function RenderEmailInput(props) {
-  const { elemNameForForm, CurrentElement } = props;
+  const { elemNameForForm, title } = props;
 
   const [statusWarningEmail, setWarning] = useState("empty-email");
   const valueEmail = useRef();
@@ -21,7 +21,7 @@ export default function RenderEmailInput(props) {
     }
   };
   return (
-    <FBElementLayout name={CurrentElement.name}>
+    <FBElementLayout name={title}>
       <div className={statusWarningEmail}>
         <Input
           ref={valueEmail}

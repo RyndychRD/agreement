@@ -7,7 +7,7 @@ import { userNameMask } from "../../../../../services/CommonFunctions";
 
 /**
  *
- * @param {{elemNameForForm:<string>, form:<Form>,CurrentElement<json>,CurrentElementSelectValue<json> }} props
+ * @param {{elemNameForForm:<string>, form:<Form>,title<string>,CurrentElementSelectValue<json> }} props
  * @example
  * CurrentElement:{
  * 					id:number,
@@ -18,8 +18,7 @@ import { userNameMask } from "../../../../../services/CommonFunctions";
  * CurrentElementSelectValue:{[{value:string,label:string}]}
  */
 function FBSelect(props) {
-  const { elemNameForForm, form, CurrentElement, CurrentElementSelectValue } =
-    props;
+  const { elemNameForForm, form, title, CurrentElementSelectValue } = props;
   const {
     setValueInSelectOnForm = (value) => {
       form.setFieldValue(elemNameForForm, value);
@@ -33,7 +32,7 @@ function FBSelect(props) {
     e.preventDefault();
   };
   return (
-    <FBElementLayout name={CurrentElement.name}>
+    <FBElementLayout name={title}>
       <Select
         showSearch
         onPaste={handlePaste}

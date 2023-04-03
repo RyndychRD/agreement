@@ -2,7 +2,7 @@ import { Select } from "antd";
 import FBElementLayout from "../FBElementLayout";
 
 export default function RenderSelectID(props) {
-  const { elemNameForForm, form, CurrentElement } = props;
+  const { elemNameForForm, form, CurrentElement, title } = props;
 
   const CurrentElementSelect = CurrentElement?.select_value?.select_id;
   const setValueInSelectOnForm = (value) => {
@@ -12,7 +12,7 @@ export default function RenderSelectID(props) {
     e.preventDefault();
   };
   return (
-    <FBElementLayout name={CurrentElement.name}>
+    <FBElementLayout name={title}>
       <Select
         showSearch
         optionFilterProp="children"

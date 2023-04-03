@@ -9,7 +9,7 @@ import SimpleSpinner from "../../fragments/messages/Spinner";
 import SimpleError from "../../fragments/messages/Error";
 
 export default function ReturnElement(props) {
-  const { ComponentNameForForm, ComponentKey, form } = props;
+  const { ComponentNameForForm, ComponentKey, form, title } = props;
   const {
     data: DocumentIODictionaryElements = [],
     isLoading: isLoadingDictionary,
@@ -25,22 +25,19 @@ export default function ReturnElement(props) {
   switch (CurrentDictElement.data_type) {
     case "text":
       return (
-        <RenderTextInput
-          CurrentElement={CurrentDictElement}
-          elemNameForForm={ComponentNameForForm}
-        />
+        <RenderTextInput title={title} elemNameForForm={ComponentNameForForm} />
       );
     case "email":
       return (
         <RenderEmailInput
-          CurrentElement={CurrentDictElement}
+          title={title}
           elemNameForForm={ComponentNameForForm}
         />
       );
     case "datePicker":
       return (
         <RenderDataPicker
-          CurrentElement={CurrentDictElement}
+          title={title}
           elemNameForForm={ComponentNameForForm}
           form={form}
         />
@@ -48,7 +45,7 @@ export default function ReturnElement(props) {
     case "phone":
       return (
         <RenderPhone
-          CurrentElement={CurrentDictElement}
+          title={title}
           elemNameForForm={ComponentNameForForm}
           form={form}
         />
@@ -56,6 +53,7 @@ export default function ReturnElement(props) {
     case "select_id":
       return (
         <RenderSelectID
+          title={title}
           CurrentElement={CurrentDictElement}
           elemNameForForm={ComponentNameForForm}
           form={form}
@@ -65,6 +63,7 @@ export default function ReturnElement(props) {
     case "table":
       return (
         <RenderSelectTable
+          title={title}
           CurrentElement={CurrentDictElement}
           elemNameForForm={ComponentNameForForm}
           {...props}

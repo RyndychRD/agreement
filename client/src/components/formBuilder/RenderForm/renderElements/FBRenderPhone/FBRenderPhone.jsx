@@ -3,7 +3,7 @@ import { useRef } from "react";
 import FBElementLayout from "../FBElementLayout";
 
 export default function RenderPhone(props) {
-  const { elemNameForForm, form, CurrentElement } = props;
+  const { elemNameForForm, form, title } = props;
 
   const PhoneBodyRef = useRef("");
   const CustomPhoneCodeCountryRef = useRef("");
@@ -40,7 +40,7 @@ export default function RenderPhone(props) {
 
   const { Option } = Select;
   return (
-    <FBElementLayout name={CurrentElement.name}>
+    <FBElementLayout name={title}>
       <Input.Group compact>
         <Select
           onChange={setValueInCustomPhoneCodeCountryOnForm}

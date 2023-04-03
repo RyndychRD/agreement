@@ -1,4 +1,4 @@
-import { Card, Form } from "antd";
+import { Form } from "antd";
 import ReturnElement from "./FBReturnElement";
 import "../FormBuilderStyle.css";
 
@@ -16,6 +16,8 @@ export default function FormBuilderDataComponent({ FormBuilderData, form }) {
         <Form.Item
           key={keyIn}
           name={elemNameForForm}
+          label={ComponentItem.label}
+          labelCol={{ span: 24 }}
           rules={[
             {
               required: true,
@@ -23,17 +25,12 @@ export default function FormBuilderDataComponent({ FormBuilderData, form }) {
             },
           ]}
         >
-          <Card
-            size="small"
-            title={`${ComponentItem.label}`}
-            key={ComponentItem.label}
-          >
-            <ReturnElement
-              ComponentNameForForm={elemNameForForm}
-              ComponentKey={ComponentItem.key}
-              form={form}
-            />
-          </Card>
+          <ReturnElement
+            ComponentNameForForm={elemNameForForm}
+            ComponentKey={ComponentItem.key}
+            title={ComponentItem.label}
+            form={form}
+          />
         </Form.Item>
         <Form.Item
           hidden

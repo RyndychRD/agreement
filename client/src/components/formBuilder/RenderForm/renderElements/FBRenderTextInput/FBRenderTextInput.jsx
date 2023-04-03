@@ -2,10 +2,10 @@ import { Input } from "antd";
 import FBElementLayout from "../FBElementLayout";
 
 export default function RenderTextInput(props) {
-  const { CurrentElement, elemNameForForm } = props;
+  const { elemNameForForm, title } = props;
 
   return (
-    <FBElementLayout name={CurrentElement.name}>
+    <FBElementLayout name={title}>
       <Input id={elemNameForForm} type="text" />
     </FBElementLayout>
   );
