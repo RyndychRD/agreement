@@ -38,25 +38,9 @@ export default function DocumentPreview({ onCancel }) {
             typeName={element.json.typeName}
           />
         );
-        result.push(
-          <>
-            <HeaderTextOutput
-              text="Загруженные файлы"
-              key="uploadedFilesListHeader"
-            />
-            <DocumentFilesShow
-              key="FilesUploaded"
-              fileList={element.json.fileList}
-            />
-          </>
-        );
 
-        preparedValuesToSave.documentName = element.json.documentName;
         preparedValuesToSave.documentTypeId = element.json.typeId;
         preparedValuesToSave.documentStatusId = DOCUMENT_CREATION_STATUS;
-        preparedValuesToSave.documentFileIds = element.json.fileList.map(
-          (file) => file.response.fileId
-        );
         break;
       case "RouteConstruct":
         result.push(
@@ -79,13 +63,30 @@ export default function DocumentPreview({ onCancel }) {
           <>
             <HeaderTextOutput text="Данные документа" />
             <DocumentInformationShow
-              data={Object.values(element.json)}
+              data={Object.values(element.json.formValues)}
               isPrepareData={false}
             />
           </>
         );
+        result.push(
+          <>
+            <HeaderTextOutput
+              text="Загруженные файлы"
+              key="uploadedFilesListHeader"
+            />
+            <DocumentFilesShow
+              key="FilesUploaded"
+              fileList={element.json.fileList}
+            />
+          </>
+        );
+
+        preparedValuesToSave.documentName = element.json.documentName;
+        preparedValuesToSave.documentFileIds = element.json.fileList.map(
+          (file) => file.response.fileId
+        );
         preparedValuesToSave.documentFilledInformation = Object.values(
-          element.json
+          element.json.formValues
         );
         break;
       default:

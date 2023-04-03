@@ -3,8 +3,6 @@ import ReturnElement from "./FBReturnElement";
 import "../FormBuilderStyle.css";
 
 export default function FormBuilderDataComponent({ FormBuilderData, form }) {
-  // console.log("FormBuilderDataComponent=>", FormBuilderData);
-
   return FormBuilderData?.map((ComponentItem, index) => {
     const elemNameForForm = [index, "value"];
     const keyIn = `${index}value`;

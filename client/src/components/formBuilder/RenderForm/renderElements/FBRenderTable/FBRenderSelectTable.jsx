@@ -2,7 +2,6 @@ import { Select } from "antd";
 import { useGetPositionsQueryHook } from "../../../../../core/redux/api/Globals/Catalogs/PositionsApi";
 import { useGetUsersQueryHook } from "../../../../../core/redux/api/Globals/Catalogs/UserApi";
 import { useGetDepartmentsQueryHook } from "../../../../../core/redux/api/Globals/Catalogs/DepartamentApi";
-import FBElementLayout from "../FBElementLayout";
 import { userNameMask } from "../../../../../services/CommonFunctions";
 
 /**
@@ -18,7 +17,7 @@ import { userNameMask } from "../../../../../services/CommonFunctions";
  * CurrentElementSelectValue:{[{value:string,label:string}]}
  */
 function FBSelect(props) {
-  const { elemNameForForm, form, title, CurrentElementSelectValue } = props;
+  const { elemNameForForm, form, CurrentElementSelectValue } = props;
   const {
     setValueInSelectOnForm = (value) => {
       form.setFieldValue(elemNameForForm, value);
@@ -32,20 +31,18 @@ function FBSelect(props) {
     e.preventDefault();
   };
   return (
-    <FBElementLayout name={title}>
-      <Select
-        showSearch
-        onPaste={handlePaste}
-        onDrop={handlePaste}
-        optionFilterProp="children"
-        onChange={setValueInSelectOnForm}
-        filterOption={(input, option) =>
-          (option?.label.toLowerCase() ?? "").includes(input.toLowerCase())
-        }
-        id={elemNameForForm}
-        options={CurrentElementSelectValue}
-      />
-    </FBElementLayout>
+    <Select
+      showSearch
+      onPaste={handlePaste}
+      onDrop={handlePaste}
+      optionFilterProp="children"
+      onChange={setValueInSelectOnForm}
+      filterOption={(input, option) =>
+        (option?.label.toLowerCase() ?? "").includes(input.toLowerCase())
+      }
+      id={elemNameForForm}
+      options={CurrentElementSelectValue}
+    />
   );
 }
 

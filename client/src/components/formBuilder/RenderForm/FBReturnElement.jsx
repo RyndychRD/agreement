@@ -9,7 +9,7 @@ import SimpleSpinner from "../../fragments/messages/Spinner";
 import SimpleError from "../../fragments/messages/Error";
 
 export default function ReturnElement(props) {
-  const { ComponentNameForForm, ComponentKey, form, title } = props;
+  const { ComponentNameForForm, ComponentKey, form } = props;
   const {
     data: DocumentIODictionaryElements = [],
     isLoading: isLoadingDictionary,
@@ -25,35 +25,21 @@ export default function ReturnElement(props) {
   switch (CurrentDictElement.data_type) {
     case "text":
       return (
-        <RenderTextInput title={title} elemNameForForm={ComponentNameForForm} />
+        <RenderTextInput elemNameForForm={ComponentNameForForm} form={form} />
       );
     case "email":
       return (
-        <RenderEmailInput
-          title={title}
-          elemNameForForm={ComponentNameForForm}
-        />
+        <RenderEmailInput elemNameForForm={ComponentNameForForm} form={form} />
       );
     case "datePicker":
       return (
-        <RenderDataPicker
-          title={title}
-          elemNameForForm={ComponentNameForForm}
-          form={form}
-        />
+        <RenderDataPicker elemNameForForm={ComponentNameForForm} form={form} />
       );
     case "phone":
-      return (
-        <RenderPhone
-          title={title}
-          elemNameForForm={ComponentNameForForm}
-          form={form}
-        />
-      );
+      return <RenderPhone elemNameForForm={ComponentNameForForm} form={form} />;
     case "select_id":
       return (
         <RenderSelectID
-          title={title}
           CurrentElement={CurrentDictElement}
           elemNameForForm={ComponentNameForForm}
           form={form}
@@ -63,7 +49,6 @@ export default function ReturnElement(props) {
     case "table":
       return (
         <RenderSelectTable
-          title={title}
           CurrentElement={CurrentDictElement}
           elemNameForForm={ComponentNameForForm}
           {...props}
@@ -75,7 +60,7 @@ export default function ReturnElement(props) {
         "Попытались найти элемент но такого не существует в списке элементов =>",
         CurrentDictElement.data_type
       );
-      return <span>Не найдено нечего !</span>;
+      return <span>Не найден data_type={CurrentDictElement.data_type} !</span>;
     }
   }
 }

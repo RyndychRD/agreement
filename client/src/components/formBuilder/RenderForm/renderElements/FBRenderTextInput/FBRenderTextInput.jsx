@@ -1,12 +1,15 @@
 import { Input } from "antd";
-import FBElementLayout from "../FBElementLayout";
 
 export default function RenderTextInput(props) {
-  const { elemNameForForm, title } = props;
+  const { elemNameForForm, form } = props;
 
   return (
-    <FBElementLayout name={title}>
-      <Input id={elemNameForForm} type="text" />
-    </FBElementLayout>
+    <Input
+      id={elemNameForForm}
+      type="text"
+      onChange={(e) => {
+        form.setFieldValue(elemNameForForm, e.target.value);
+      }}
+    />
   );
 }
