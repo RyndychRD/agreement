@@ -1,4 +1,4 @@
-import { Select } from "antd";
+import { AutoComplete } from "antd";
 
 export default function RenderSelectID(props) {
   const { elemNameForForm, form, CurrentElement } = props;
@@ -7,15 +7,11 @@ export default function RenderSelectID(props) {
   const setValueInSelectOnForm = (value) => {
     form.setFieldValue(elemNameForForm, value);
   };
-  const handlePaste = (e) => {
-    e.preventDefault();
-  };
+
   return (
-    <Select
-      showSearch
+    <AutoComplete
       optionFilterProp="children"
-      onPaste={handlePaste}
-      onDrop={handlePaste}
+      onSelect={setValueInSelectOnForm}
       onChange={setValueInSelectOnForm}
       filterOption={(input, option) =>
         (option?.label.toLowerCase() ?? "").includes(input.toLowerCase())

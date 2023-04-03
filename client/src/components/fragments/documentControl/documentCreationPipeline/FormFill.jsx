@@ -67,11 +67,21 @@ export default function DocumentCreationPipelineFormFill({
       });
   };
 
+  const confirmModal = () =>
+    Modal.confirm({
+      title: "Подтверждение",
+      content:
+        "Вы уверены что данные введены корректно? Вернуться к этой форме вы уже не сможете",
+      onOk: onFinish,
+      okText: "Да, данные введены корректно",
+      cancelText: "Нет",
+    });
+
   return (
     <Modal
       open
       onCancel={onCancel}
-      onOk={onFinish}
+      onOk={confirmModal}
       cancelText="Закрыть"
       okText="Далее"
     >

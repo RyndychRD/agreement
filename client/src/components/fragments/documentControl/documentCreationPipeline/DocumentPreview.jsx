@@ -102,10 +102,18 @@ export default function DocumentPreview({ onCancel }) {
       reset();
     }
   };
+  const confirmModal = () =>
+    Modal.confirm({
+      title: "Подтверждение",
+      content: "Вы уверены что хотите создать документ с такими данными?",
+      onOk: onFinish,
+      okText: "Да, я хочу создать новый документ",
+      cancelText: "Нет",
+    });
   return (
     <Modal
       open
-      onOk={onFinish}
+      onOk={confirmModal}
       onCancel={onCancel}
       cancelText="Закрыть"
       okText="Сохранить"

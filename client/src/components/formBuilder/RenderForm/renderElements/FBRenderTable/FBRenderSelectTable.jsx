@@ -38,7 +38,7 @@ function FBSelect(props) {
       optionFilterProp="children"
       onChange={setValueInSelectOnForm}
       filterOption={(input, option) =>
-        (option?.label.toLowerCase() ?? "").includes(input.toLowerCase())
+        (option?.label.toLowerCase() ?? "").include(input.toLowerCase())
       }
       id={elemNameForForm}
       options={CurrentElementSelectValue}
