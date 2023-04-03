@@ -7,6 +7,7 @@ import RenderSelectTable from "./renderElements/FBRenderTable/FBRenderSelectTabl
 import { useGetDocumentIODictionaryElementsHook } from "../../../core/redux/api/AdminSettings/Constructor/formConstructor/DocumentIODictionaryElementApi";
 import SimpleSpinner from "../../fragments/messages/Spinner";
 import SimpleError from "../../fragments/messages/Error";
+import RenderNumberInput from "./renderElements/FBRenderTextInput/FBRenderNumberInput";
 
 export default function ReturnElement(props) {
   const { ComponentNameForForm, ComponentKey, form } = props;
@@ -26,6 +27,10 @@ export default function ReturnElement(props) {
     case "text":
       return (
         <RenderTextInput elemNameForForm={ComponentNameForForm} form={form} />
+      );
+    case "number":
+      return (
+        <RenderNumberInput elemNameForForm={ComponentNameForForm} form={form} />
       );
     case "email":
       return (
