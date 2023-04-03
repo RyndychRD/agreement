@@ -17,6 +17,8 @@ class TypeService {
   async createNewType(body) {
     const func = await TypeModels.create({
       name: body.newTypeName,
+      is_route_construct_available: body.isRouteConstructAvailable,
+      is_form_construct_available: body.isFormConstructAvailable,
     });
     return await DevTools.addDelay(func);
   }
@@ -33,6 +35,8 @@ class TypeService {
       },
       {
         name: body.newTypeName,
+        is_route_construct_available: body.isRouteConstructAvailable,
+        is_form_construct_available: body.isFormConstructAvailable,
       }
     );
     return await DevTools.addDelay(func);
