@@ -35,8 +35,8 @@ export function UploadListItem(props) {
       key={savedFileName}
     >
       <span href="" className="ant-upload-list-item-name" title={originalName}>
-        {originalName.substring(0, 60)}
-        {originalName.length > 60 ? "..." : ""}
+        {originalName.substring(0, 50)}
+        {originalName.length > 50 ? "..." : ""}
       </span>
       <div>
         <button

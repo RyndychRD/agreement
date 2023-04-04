@@ -13,6 +13,7 @@ import {
 import { useGetUsersQueryHook } from "../../../../core/redux/api/Globals/Catalogs/UserApi";
 import RestoreButton from "./RestoreButton";
 import SimpleSpinner from "../../messages/Spinner";
+import { useGetPositionsQueryHook } from "../../../../core/redux/api/Globals/Catalogs/PositionsApi";
 
 /**
  * @return Модальное окно для создания нового документа
@@ -37,19 +38,28 @@ export default function DocumentCreationPipelineRouteConstruct({
   // prettier-ignore
   const {data: users = [],isError: isErrorUsers,isLoading: isLoadingUsers} = useGetUsersQueryHook({ isAddForeignTables:true });
 
+  const { data: positions = [], isLoading: isLoadingPositions } =
+    useGetPositionsQueryHook({});
   // Для всех типов создания документа мы проверяем доступность этого шага
   // Если шаг не доступен, запоминаем дефолтные значения и пропускаем
   if (
     !isErrorRoutes &&
     !isLoadingRoutes &&
     !isLoadingType &&
+    !isLoadingPositions &&
     !type.is_route_construct_available
   ) {
     const clearedValues = routeByType?.route?.map((routeStep, index) => ({
       signer_id: routeStep.default_signer.id,
-      signer: routeStep.default_signer,
+      signer: {
+        ...routeStep.default_signer,
+        position_name: positions.find(
+          (el) => el.id === routeStep.default_signer.position_id
+        ).name,
+      },
       step: index + 1,
     }));
+
     pipelineDispatch(saveCurrentStepJson(clearedValues));
     pipelineDispatch(nextStep());
   }
