@@ -14,7 +14,7 @@ export default function DocumentCreationPipelineMainModal({
   pipelineDispatch,
 }) {
   // prettier-ignore
-  const {data: types = [], isError: isErrorTypes, isLoading: isLoadingTypes} = useGetTypesQueryHook();
+  const {data: types = [], isError: isErrorTypes, isLoading: isLoadingTypes} = useGetTypesQueryHook({isShowOnlyForCreation:true});
   const [form] = Form.useForm();
   const onFinish = () => {
     form

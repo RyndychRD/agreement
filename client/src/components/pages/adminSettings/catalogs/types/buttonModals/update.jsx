@@ -13,6 +13,8 @@ export default function UpdateButtonModel() {
     newTypeName: data?.name,
     isRouteConstructAvailable: data?.is_route_construct_available,
     isFormConstructAvailable: data?.is_form_construct_available,
+    isShowForDocumentCreation: data?.is_show_for_document_creation,
+    isFileUploadRequired: data?.is_file_upload_required,
   });
   return (
     <ModalUpdate

@@ -25,6 +25,14 @@ export default function CreateUpdateForm({ form }) {
         title="Форма доступна для конструирования пользователем?"
         name="isFormConstructAvailable"
       />
+      <CheckboxInputFormItem
+        title="Отображать тип для создания документов?"
+        name="isShowForDocumentCreation"
+      />
+      <CheckboxInputFormItem
+        title="Загрузка файлов при создании обязательна для этого типа?"
+        name="isFileUploadRequired"
+      />
     </Form>
   );
 }
