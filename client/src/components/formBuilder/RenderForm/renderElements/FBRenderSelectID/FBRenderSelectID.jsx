@@ -1,5 +1,4 @@
-import { Select } from "antd";
-import FBElementLayout from "../FBElementLayout";
+import { AutoComplete } from "antd";
 
 export default function RenderSelectID(props) {
   const { elemNameForForm, form, CurrentElement } = props;
@@ -8,18 +7,17 @@ export default function RenderSelectID(props) {
   const setValueInSelectOnForm = (value) => {
     form.setFieldValue(elemNameForForm, value);
   };
+
   return (
-    <FBElementLayout name={CurrentElement.name}>
-      <Select
-        showSearch
-        optionFilterProp="children"
-        onChange={setValueInSelectOnForm}
-        filterOption={(input, option) =>
-          (option?.label.toLowerCase() ?? "").includes(input.toLowerCase())
-        }
-        id={elemNameForForm}
-        options={CurrentElementSelect}
-      />
-    </FBElementLayout>
+    <AutoComplete
+      optionFilterProp="children"
+      onSelect={setValueInSelectOnForm}
+      onChange={setValueInSelectOnForm}
+      filterOption={(input, option) =>
+        (option?.label.toLowerCase() ?? "").includes(input.toLowerCase())
+      }
+      id={elemNameForForm}
+      options={CurrentElementSelect}
+    />
   );
 }

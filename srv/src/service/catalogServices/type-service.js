@@ -2,8 +2,14 @@ const TypeModels = require("../../models/catalogModels/type-models");
 const DevTools = require("../DevTools");
 
 class TypeService {
-  async getAllTypes() {
-    const func = TypeModels.find({});
+  async getAllTypes(query) {
+    let filter = {};
+    if (query.isShowOnlyForCreation === "true") {
+      filter = {
+        is_show_for_document_creation: true,
+      };
+    }
+    const func = TypeModels.find({ filter });
     return await DevTools.addDelay(func);
   }
   async getOneType(query) {
@@ -17,6 +23,10 @@ class TypeService {
   async createNewType(body) {
     const func = await TypeModels.create({
       name: body.newTypeName,
+      is_route_construct_available: body.isRouteConstructAvailable,
+      is_form_construct_available: body.isFormConstructAvailable,
+      is_show_for_document_creation: body.isShowForDocumentCreation,
+      is_file_upload_required: body.isFileUploadRequired,
     });
     return await DevTools.addDelay(func);
   }
@@ -33,6 +43,10 @@ class TypeService {
       },
       {
         name: body.newTypeName,
+        is_route_construct_available: body.isRouteConstructAvailable,
+        is_form_construct_available: body.isFormConstructAvailable,
+        is_show_for_document_creation: body.isShowForDocumentCreation,
+        is_file_upload_required: body.isFileUploadRequired,
       }
     );
     return await DevTools.addDelay(func);

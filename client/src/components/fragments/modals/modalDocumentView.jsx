@@ -80,6 +80,7 @@ export default function ModalDocumentView(props) {
         <MainDocumentInformation
           key="MainModal"
           documentName={state.currentRow?.document_name}
+          documentCreator={state.currentRow?.document_creator}
           typeName={state.currentRow?.document_type}
         />
         <DocumentInformationFragment

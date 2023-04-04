@@ -7,6 +7,7 @@ import RenderSelectTable from "./renderElements/FBRenderTable/FBRenderSelectTabl
 import { useGetDocumentIODictionaryElementsHook } from "../../../core/redux/api/AdminSettings/Constructor/formConstructor/DocumentIODictionaryElementApi";
 import SimpleSpinner from "../../fragments/messages/Spinner";
 import SimpleError from "../../fragments/messages/Error";
+import RenderNumberInput from "./renderElements/FBRenderTextInput/FBRenderNumberInput";
 
 export default function ReturnElement(props) {
   const { ComponentNameForForm, ComponentKey, form } = props;
@@ -25,34 +26,22 @@ export default function ReturnElement(props) {
   switch (CurrentDictElement.data_type) {
     case "text":
       return (
-        <RenderTextInput
-          CurrentElement={CurrentDictElement}
-          elemNameForForm={ComponentNameForForm}
-        />
+        <RenderTextInput elemNameForForm={ComponentNameForForm} form={form} />
+      );
+    case "number":
+      return (
+        <RenderNumberInput elemNameForForm={ComponentNameForForm} form={form} />
       );
     case "email":
       return (
-        <RenderEmailInput
-          CurrentElement={CurrentDictElement}
-          elemNameForForm={ComponentNameForForm}
-        />
+        <RenderEmailInput elemNameForForm={ComponentNameForForm} form={form} />
       );
     case "datePicker":
       return (
-        <RenderDataPicker
-          CurrentElement={CurrentDictElement}
-          elemNameForForm={ComponentNameForForm}
-          form={form}
-        />
+        <RenderDataPicker elemNameForForm={ComponentNameForForm} form={form} />
       );
     case "phone":
-      return (
-        <RenderPhone
-          CurrentElement={CurrentDictElement}
-          elemNameForForm={ComponentNameForForm}
-          form={form}
-        />
-      );
+      return <RenderPhone elemNameForForm={ComponentNameForForm} form={form} />;
     case "select_id":
       return (
         <RenderSelectID
@@ -76,7 +65,7 @@ export default function ReturnElement(props) {
         "Попытались найти элемент но такого не существует в списке элементов =>",
         CurrentDictElement.data_type
       );
-      return <span>Не найдено нечего !</span>;
+      return <span>Не найден data_type={CurrentDictElement.data_type} !</span>;
     }
   }
 }

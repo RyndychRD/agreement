@@ -114,6 +114,7 @@ export default function CreateForm({ form, documentId }) {
         name="documentPassedValues"
         options={preparedDocumentValues}
         title="Данные из документа, отображаемые для исполнителя"
+        form={form}
       />
       <CheckboxGroupInputFormItem
         isError={isLoadingFiles}
@@ -123,6 +124,7 @@ export default function CreateForm({ form, documentId }) {
         name="documentPassedFiles"
         options={preparedDocumentFiles}
         title="Файлы из документа, отображаемые для исполнителя"
+        form={form}
       />
     </Form>
   );

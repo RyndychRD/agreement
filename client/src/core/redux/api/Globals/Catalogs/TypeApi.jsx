@@ -8,9 +8,12 @@ export const typesApi = createApi({
   tagTypes: [TAG_TYPE],
   endpoints: (build) => ({
     getTypes: build.query({
-      queryFn: async () => {
+      queryFn: async (props) => {
+        const isShowOnlyForCreation = props?.isShowOnlyForCreation
+          ? props.isShowOnlyForCreation
+          : false;
         try {
-          const response = await TypeService.getAll();
+          const response = await TypeService.getAll(isShowOnlyForCreation);
           return { data: response };
         } catch (e) {
           return { error: e.message };

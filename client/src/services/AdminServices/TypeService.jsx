@@ -47,11 +47,15 @@ export default class TypeService {
     return response.data;
   }
 
-  static async getAll() {
-    console.log("вызов в TypeService -> Взять все записи");
-    const response = await api.get(`${this.API_ROUTE}`);
+  static async getAll(isShowOnlyForCreation) {
     console.log(
-      "вызов в TypeService -> Взять все записи -> результат",
+      `вызов в TypeService -> Взять все записи с флагом isShowOnlyForCreation=${isShowOnlyForCreation}`
+    );
+    const response = await api.get(
+      `${this.API_ROUTE}?isShowOnlyForCreation=${isShowOnlyForCreation}`
+    );
+    console.log(
+      `вызов в TypeService -> Взять все записи с флагом isShowOnlyForCreation=${isShowOnlyForCreation} -> результат`,
       response
     );
     return response.data;
