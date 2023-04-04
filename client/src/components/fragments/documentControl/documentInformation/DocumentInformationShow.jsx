@@ -12,18 +12,20 @@ export default function DocumentInformationShow(props) {
     const information = isPrepareData
       ? DocumentValuesService.getValueAndLabelFromDocumentValue(dataStep)
       : dataStep;
-    return (
-      <TextOutputWithLabel
-        key={keyIn}
-        text={
-          information?.select_name &&
-          information.select_name !== information.key
-            ? information.select_name
-            : information.value
-        }
-        label={information.label}
-        className={information?.className}
-      />
-    );
+    const text =
+      information?.select_name && information.select_name !== information.key
+        ? information.select_name
+        : information.value;
+    if (text) {
+      return (
+        <TextOutputWithLabel
+          key={keyIn}
+          text={text}
+          label={information.label}
+          className={information?.className}
+        />
+      );
+    }
+    return "";
   });
 }

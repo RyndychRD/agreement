@@ -5,8 +5,13 @@ import SelectElementForm from "./formConstructElements/FBSelectElementsForm";
 import ButtonOnCarts from "./formConstructElements/FBButtonOnCartsForm";
 import SimpleSpinner from "../../fragments/messages/Spinner";
 import SimpleError from "../../fragments/messages/Error";
+import CheckboxInputFormItem from "../../fragments/inputs/checkboxInputs";
 
-export default function FBConstructForm({ isLoading, isError }) {
+export default function FBConstructForm({
+  isLoading,
+  isError,
+  isAddRequiredCheckbox,
+}) {
   if (isLoading) return <SimpleSpinner />;
   if (isError) return <SimpleError />;
   return (
@@ -20,6 +25,14 @@ export default function FBConstructForm({ isLoading, isError }) {
                 title={`Порядок в списке №${name + 1}`}
                 extra={ButtonOnCarts(remove, move, name, fields, key)}
               >
+                {isAddRequiredCheckbox ? (
+                  <CheckboxInputFormItem
+                    title="Поле обязательно для заполнения?"
+                    name={[name, "isFieldRequired"]}
+                  />
+                ) : (
+                  ""
+                )}
                 <InputElementForm restField={restField} name={name} />
                 <SelectElementForm restField={restField} name={name} />
               </Card>

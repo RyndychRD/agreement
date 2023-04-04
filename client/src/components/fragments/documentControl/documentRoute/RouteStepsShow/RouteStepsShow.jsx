@@ -8,12 +8,12 @@ import SigningButtons from "./buttons/signingButtons";
 import ChangeDocumentStatus from "./modals/ReturnRejectDocumentModal";
 
 export default function RouteStepsShow({ routeSteps, isAbleToSign }) {
-  const currentSignStep = routeSteps.filter((el) => !el.actual_signer_id)[0];
-  const signedSteps = routeSteps.filter((el) => el.actual_signer_id);
-  const isAnySignedSteps = signedSteps.length > 0;
+  const currentSignStep = routeSteps?.filter((el) => !el.actual_signer_id)[0];
+  const signedSteps = routeSteps?.filter((el) => el.actual_signer_id);
+  const isAnySignedSteps = signedSteps?.length > 0;
   const previousSignStep = signedSteps?.at(-1);
   const isAnyUnsignedSteps = currentSignStep;
-  const isLastUnsignedSteps = currentSignStep === routeSteps.at(-1);
+  const isLastUnsignedSteps = currentSignStep === routeSteps?.at(-1);
   const documentId = currentSignStep?.document_id;
 
   // Показать все подписанные шаги если не подписанных не осталось
@@ -25,7 +25,7 @@ export default function RouteStepsShow({ routeSteps, isAbleToSign }) {
   // Показать все не подписанные шаги. Изначально показывает только следующий неподписанный шаг
   const [showUnsignedSteps, setShowUnsignedSteps] = useState(false);
 
-  if (routeSteps.length === 0) {
+  if (!routeSteps || routeSteps.length === 0) {
     return <Alert message="У документа отсутствует маршрут" type="error" />;
   }
   return (

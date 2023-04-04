@@ -13,7 +13,7 @@ exports.documentElementIODictionarySeed = async function (knex) {
     { id: 4, key: "Name_of_Goods_Works_Services", name: "Наименование Товаров Работ Услуг:", data_type: "text", select_value: null},
     { id: 5, key: "Suppliers_of_Goods_Works_Services", name: "Поставщики Товаров Работ Услуг:", data_type: "text", select_value: null},
     { id: 6, key: "Reason", name: "Основание:", data_type: "text", select_value: null},
-    { id: 7, key: "Total_contract_amount", name: "Общая сумма договора:", data_type: "text", select_value: null},
+    { id: 7, key: "Total_contract_amount", name: "Общая сумма договора:", data_type: "number", select_value: null},
     { id: 8, key: "Payment_currency", name: "Валюта платежа:", data_type: "select_id", select_value: {select_id: [{ value: "Казахстанский тенге", label: "Казахстанский тенге" },  { value: "Доллар США", label: "Доллар США" }, { value: "Фунт стерлингов", label: "Фунт стерлингов" }, { value: "Евро", label: "Евро" }, { value: "Китайский юань", label: "Китайский юань" }, { value: "Белорусский рубль", label: "Белорусский рубль" }, { value: "Российский рубль", label: "Российский рубль" }], }},
     { id: 9, key: "Data_Document", name: "Дата:", data_type: "datePicker", select_value: null},
     { id: 10, key: "Subdivision_name", name: "Наименование подразделения:", data_type: "table", select_value: { table: "departments" }},

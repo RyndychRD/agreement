@@ -39,13 +39,15 @@ export default class FileService {
   }
 
   static prepareFileListFromFormToSend(values) {
-    return values.files.fileList.map((file) => ({
-      ...file,
-      // Вытаскиваем из респонса uuid, под которым сохранен файл
-      uniq: file.response.savedFileName,
-      lastModifiedDate: null,
-      originFileObj: null,
-      xhr: null,
-    }));
+    return values.files?.fileList
+      ? values.files?.fileList.map((file) => ({
+          ...file,
+          // Вытаскиваем из респонса uuid, под которым сохранен файл
+          uniq: file.response.savedFileName,
+          lastModifiedDate: null,
+          originFileObj: null,
+          xhr: null,
+        }))
+      : [];
   }
 }

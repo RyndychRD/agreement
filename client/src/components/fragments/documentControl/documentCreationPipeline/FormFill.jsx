@@ -12,6 +12,9 @@ import {
 } from "../../../../core/redux/reducers/documentCreationPipelineReducer";
 import { useGetDocumentIODictionaryElementsHook } from "../../../../core/redux/api/AdminSettings/Constructor/formConstructor/DocumentIODictionaryElementApi";
 import FormBuilderDataComponent from "../../../formBuilder/RenderForm/FBRenderFormItem";
+import TextInputFormItem from "../../inputs/textInputs";
+import FragmentFileUploader from "../../file/FragmentFileUploader";
+import FileService from "../../../../services/FileService";
 
 /**
  * @return Модальное окно для создания нового документа
@@ -43,8 +46,20 @@ export default function DocumentCreationPipelineFormFill({
     form
       .validateFields()
       .then(async (values) => {
+        const { documentName } = values;
+        // Передаем почти все значения файла, чтобы потом их использовать в предпросмотре. Удалил только не сериализуемые элементы
+        const fileList = FileService.prepareFileListFromFormToSend(values);
+        // eslint-disable-next-line no-param-reassign
+        delete values.documentName;
+        // eslint-disable-next-line no-param-reassign
+        delete values.files;
+        const preparedValues = {
+          documentName,
+          fileList,
+          formValues: { ...values },
+        };
         form.resetFields();
-        pipelineDispatch(saveCurrentStepJson(values));
+        pipelineDispatch(saveCurrentStepJson(preparedValues));
         pipelineDispatch(nextStep());
       })
       .catch((info) => {
@@ -52,23 +67,46 @@ export default function DocumentCreationPipelineFormFill({
       });
   };
 
+  const confirmModal = () =>
+    Modal.confirm({
+      title: "Подтверждение",
+      content:
+        "Вы уверены что данные введены корректно? Вернуться к этой форме вы уже не сможете",
+      onOk: onFinish,
+      okText: "Да, данные введены корректно",
+      cancelText: "Нет",
+    });
+
   return (
     <Modal
       open
       onCancel={onCancel}
-      onOk={onFinish}
+      onOk={confirmModal}
       cancelText="Закрыть"
       okText="Далее"
     >
       <MainDocumentInformation
         isLoading={isLoadingType}
         isError={isErrorType}
-        documentName={documentMainValues.documentName}
+        // documentName={documentMainValues.documentName}
         typeName={type.name}
       />
-      <HeaderTextOutput text="Заполнение формы" />
+
       <Form form={form} name="FormFill" key="FormFill">
+        <HeaderTextOutput text="Ввод наименования договора" />
+        <TextInputFormItem
+          title="Наименование договора"
+          name="documentName"
+          rules={[
+            {
+              required: true,
+              message: "Введите наименование договора",
+            },
+          ]}
+        />
+        <HeaderTextOutput text="Заполнение формы" />
         <FormBuilderDataComponent FormBuilderData={elementsOrder} form={form} />
+        <FragmentFileUploader isRequired={type.is_file_upload_required} />
       </Form>
     </Modal>
   );

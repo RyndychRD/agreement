@@ -36,13 +36,6 @@ class DocumentTypeViewsModelsService {
           };
         }),
       },
-      view_print: {
-        elements_order: body.elementsOrder.map((element) => {
-          return {
-            ...element,
-          };
-        }),
-      },
     });
     return await DevTools.addDelay(func);
   }
@@ -53,13 +46,6 @@ class DocumentTypeViewsModelsService {
       },
       {
         view: {
-          elements_order: body.elementsOrder.map((element) => {
-            return {
-              ...element,
-            };
-          }),
-        },
-        view_print: {
           elements_order: body.elementsOrder.map((element) => {
             return {
               ...element,

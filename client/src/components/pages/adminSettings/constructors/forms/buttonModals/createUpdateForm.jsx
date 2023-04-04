@@ -46,7 +46,7 @@ export default function CreateUpdateForm({ form, isAddUpdateOnlyFields }) {
           },
         ]}
       />
-      <FBConstructForm />
+      <FBConstructForm isAddRequiredCheckbox />
     </Form>
   );
 }
