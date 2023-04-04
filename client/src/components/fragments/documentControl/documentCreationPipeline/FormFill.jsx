@@ -106,7 +106,7 @@ export default function DocumentCreationPipelineFormFill({
         />
         <HeaderTextOutput text="Заполнение формы" />
         <FormBuilderDataComponent FormBuilderData={elementsOrder} form={form} />
-        <FragmentFileUploader />
+        <FragmentFileUploader isRequired={type.is_file_upload_required} />
       </Form>
     </Modal>
   );
