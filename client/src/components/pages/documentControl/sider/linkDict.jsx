@@ -75,6 +75,12 @@ const dict = {
     </NavLink>,
     "/document-control/tasks/my_tasks"
   ),
+  my_completed_tasks: getItem(
+    <NavLink to="/document-control/tasks/my_completed_tasks">
+      Выполненные
+    </NavLink>,
+    "/document-control/tasks/my_completed_tasks"
+  ),
   signed_in_oopz: getItem(
     <NavLink to="/document-control/signing/signed-in-oopz">
       Документы, подписанные в ООПЗ

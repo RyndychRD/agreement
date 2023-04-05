@@ -12,6 +12,17 @@ class DocumentTasksController {
       next(e);
     }
   }
+  async getCompletedDocumentTasks(req, res, next) {
+    try {
+      const data = await DocumentTasksService.getIncomeDocumentTasks(
+        req.user.id,
+        req?.query
+      );
+      return res.json(data);
+    } catch (e) {
+      next(e);
+    }
+  }
   async getDocumentTasksByDocument(req, res, next) {
     try {
       const data = await DocumentTasksService.getDocumentTasksByDocument(

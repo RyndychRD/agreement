@@ -26,6 +26,7 @@ export default class DocumentTasksService {
         document_task_status: DocumentTasksService.statusSpecialFormatter(el),
         document_task_status_id: el.document_task_status_id,
         document_task_created_at: el.created_at,
+        document_task_finished_at: el.finished_at,
         document_task_due_at: el.due_at,
         document_task_creator: userNameMask(el.creator),
         document_task_executor: userNameMask(el.executor),
@@ -43,6 +44,23 @@ export default class DocumentTasksService {
     );
     console.log(
       "вызов в DocumentTasksService -> Взять мои поручения -> результат",
+      response
+    );
+    return response.data;
+  }
+
+  static async getCompletedDocumentTasks({
+    isAddForeignTables,
+    isOnlyMyTasks,
+  }) {
+    console.log(
+      `вызов в DocumentTasksService -> Взять выполненные поручения isAddForeignTables=${isAddForeignTables}&isOnlyMyTasks=${isOnlyMyTasks}`
+    );
+    const response = await api.get(
+      `${this.API_ROUTE}/my-tasks?isAddForeignTables=${isAddForeignTables}&isOnlyMyTasks=${isOnlyMyTasks}`
+    );
+    console.log(
+      "вызов в DocumentTasksService -> Взять выполненные поручения -> результат",
       response
     );
     return response.data;

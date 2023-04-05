@@ -193,6 +193,13 @@ export default function getColumns({ dataSource, columns }) {
       sorter: (a, b) => sorterDate(a, b),
       render: (value) => renderDate(value),
     },
+    document_task_finished_at: {
+      title: "Дата и время завершения",
+      dataIndex: "document_task_finished_at",
+      align: "center",
+      sorter: (a, b) => sorterDate(a, b),
+      render: (value) => renderDate(value),
+    },
     document_task_due_at: {
       title: "Выполнить до",
       dataIndex: "document_task_due_at",
