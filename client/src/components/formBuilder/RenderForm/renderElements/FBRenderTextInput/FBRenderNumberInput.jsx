@@ -7,6 +7,7 @@ export default function RenderNumberInput(props) {
     <InputNumber
       id={elemNameForForm}
       formatter={(value) => value.replace(",", ".")}
+      parser={(value) => value.replace(",", ".")}
       stringMode
       style={{ width: "175px" }}
       precision={2}
