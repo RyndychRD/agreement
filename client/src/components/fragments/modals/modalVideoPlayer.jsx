@@ -1,72 +1,36 @@
-import { Button, Col, Layout, Modal, Row } from "antd";
+import { Modal } from "antd";
 import { Player } from "video-react";
-import { useState, useRef, useEffect } from "react";
+import { useRef, useEffect } from "react";
 
 import "video-react/dist/video-react.css";
 
-/** TODO: Доделать */
-export default function ModalVideoPlayer() {
-  const { Content } = Layout;
-  const [state, setState] = useState({
-    visible: false,
-    src: "FAQ/videos/default.mp4",
-  });
-
+export default function ModalVideoPlayer(props) {
+  const { videoPlayer, setVideoPlayer } = props;
   const player = useRef(null);
 
-  const hideModal = () => {
-    setState({
-      src: "videos/default.mp4",
+  const hideModal = () =>
+    setVideoPlayer({
       visible: false,
+      src: "FAQ/videos/default.mp4",
     });
-  };
   const pause = () => {
     player.current.pause();
   };
   useEffect(() => {
     player.current?.load();
-  }, [state]);
+  }, [videoPlayer]);
 
   return (
-    <Layout>
-      <Content className="content">
-        <Row justify="space-between">
-          <Col span={6} offset={2}>
-            <Button
-              type="primary"
-              onClick={() => {
-                setState({ visible: true, src: "videos/default.mp4" });
-              }}
-            >
-              Как создать документ
-            </Button>
-          </Col>
-          <Col span={6}>
-            <Button
-              type="primary"
-              onClick={() => {
-                setState({ visible: true, src: "videos/video_1.mp4" });
-              }}
-            >
-              Как подписать документ
-            </Button>
-          </Col>
-          <Col span={6}>
-            <Button type="primary">Как исполнить поручение</Button>
-          </Col>
-        </Row>
-        <Modal
-          open={state.visible}
-          footer={null}
-          onCancel={hideModal}
-          afterClose={pause}
-          bodyStyle={{ padding: 0 }}
-        >
-          <Player autoPlay ref={player}>
-            <source src={state.src} type="video/mp4" />
-          </Player>
-        </Modal>
-      </Content>
-    </Layout>
+    <Modal
+      open={videoPlayer.visible}
+      footer={null}
+      onCancel={hideModal}
+      afterClose={pause}
+      bodyStyle={{ padding: 0 }}
+    >
+      <Player autoPlay ref={player}>
+        <source src={videoPlayer.src} type="video/mp4" />
+      </Player>
+    </Modal>
   );
 }
