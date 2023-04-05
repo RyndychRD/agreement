@@ -39,9 +39,13 @@ class DocumentTasksService {
     }
     return documentTasks;
   }
-  static async getCompletedDocumentTasks(currentUserId, query) {
+  static async getCompletedDocumentTasks(query, currentUserId = null) {
+    const filter = { document_task_status_id: 2 };
+    if (query.isOnlyMyTasks === "true") {
+      filter["executor_id"] = currentUserId ? currentUserId : -1;
+    }
     const func = DocumentTaskModel.getDocumentTasks({
-      filter: { executor_id: currentUserId, document_task_status_id: 1 },
+      filter: filter,
       isAddForeignTables: query.isAddForeignTables === "true",
     });
     let documentTasks = await DevTools.addDelay(func);

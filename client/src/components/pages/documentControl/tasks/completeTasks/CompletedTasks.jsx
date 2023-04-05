@@ -4,6 +4,7 @@ import { TableModalProvider } from "../../../../fragments/tables/TableModalProvi
 import DocumentControlTableViewer from "../../../../fragments/tables/DocumentControl/DocumentControlTableViewer";
 import { useGetCompletedDocumentTasksQueryHook } from "../../../../../core/redux/api/DocumentControl/DocumentTaskApi";
 import DocumentTasksService from "../../../../../services/DocumentControlServices/DocumentsServices/DocumentTasksService/DocumentTaskService";
+import ShowButtonModel from "./buttonModals/show";
 // import ShowButtonModel from "./buttonModals/show";
 
 export default function CompletedTasks() {
@@ -11,7 +12,6 @@ export default function CompletedTasks() {
     data: [
       "document_task_id",
       "document_task_problem",
-      "document_task_status",
       "document_task_created_at",
       "document_task_finished_at",
     ],
@@ -24,7 +24,7 @@ export default function CompletedTasks() {
     isLoading,
     isError,
   } = useGetCompletedDocumentTasksQueryHook({
-    isAddForeignTables: true,
+    isAddForeignTables: false,
     isOnlyMyTasks: true,
   });
 
@@ -39,7 +39,7 @@ export default function CompletedTasks() {
         title="Выполненные задачи"
         buttons={["update"]}
       />
-      {/* <ShowButtonModel /> */}
+      <ShowButtonModel />
     </TableModalProvider>
   );
 }

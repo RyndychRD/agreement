@@ -14,9 +14,9 @@ class DocumentTasksController {
   }
   async getCompletedDocumentTasks(req, res, next) {
     try {
-      const data = await DocumentTasksService.getIncomeDocumentTasks(
-        req.user.id,
-        req?.query
+      const data = await DocumentTasksService.getCompletedDocumentTasks(
+        req?.query,
+        req.user.id
       );
       return res.json(data);
     } catch (e) {

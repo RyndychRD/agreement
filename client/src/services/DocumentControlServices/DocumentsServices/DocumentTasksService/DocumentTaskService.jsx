@@ -57,7 +57,7 @@ export default class DocumentTasksService {
       `вызов в DocumentTasksService -> Взять выполненные поручения isAddForeignTables=${isAddForeignTables}&isOnlyMyTasks=${isOnlyMyTasks}`
     );
     const response = await api.get(
-      `${this.API_ROUTE}/my-tasks?isAddForeignTables=${isAddForeignTables}&isOnlyMyTasks=${isOnlyMyTasks}`
+      `${this.API_ROUTE}/completed_tasks?isAddForeignTables=${isAddForeignTables}&isOnlyMyTasks=${isOnlyMyTasks}`
     );
     console.log(
       "вызов в DocumentTasksService -> Взять выполненные поручения -> результат",
