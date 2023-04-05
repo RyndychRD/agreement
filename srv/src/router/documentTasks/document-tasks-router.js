@@ -7,6 +7,8 @@ const rightMiddleware = require("../../middlewares/right-middleware");
 // prettier-ignore
 router.get("/my-tasks",authMiddleware, rightMiddleware(),DocumentTasksController.getIncomeDocumentTasks);
 // prettier-ignore
+router.get("/completed_tasks",authMiddleware, rightMiddleware(),DocumentTasksController.getCompletedDocumentTasks);
+// prettier-ignore
 router.get("/",authMiddleware, rightMiddleware(),DocumentTasksController.getDocumentTasksByDocument);
 // prettier-ignore
 router.get("/task",authMiddleware, rightMiddleware(),DocumentTasksController.getDocumentTask);

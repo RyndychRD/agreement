@@ -13,7 +13,7 @@ import {
   useTableModalDispatch,
   useTableModalsState,
 } from "../tables/TableModalProvider";
-import { onCancelConfirm } from "../tables/CommonFunctions";
+import { onCancelConfirm, onOkConfirm } from "../tables/CommonFunctions";
 
 /**
  * Общее окно для отображения модального окна изменения чего либо.
@@ -38,9 +38,10 @@ export default function ModalUpdate({
   additionalGetQueryProps = {},
   notificationType,
   isAddConfirmOnCancel = true,
+  isAddConfirmOnOk = true,
   customState,
   customDispatch,
-  okButtonText = "Редактировать",
+  okButtonText = "Сохранить",
 }) {
   const standardState = useTableModalsState();
   const standardDispatch = useTableModalDispatch();
@@ -127,7 +128,13 @@ export default function ModalUpdate({
     <Modal
       okText={okButtonText}
       cancelText="Отмена"
-      onOk={onFinish}
+      onOk={
+        isAddConfirmOnOk
+          ? () => {
+              onOkConfirm(onFinish);
+            }
+          : onFinish
+      }
       open={isOpen}
       onCancel={
         isAddConfirmOnCancel

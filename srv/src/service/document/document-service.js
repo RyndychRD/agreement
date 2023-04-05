@@ -17,6 +17,7 @@ const DocumentRegistrationModel = require("../../models/document/document-regist
 const NotificationIsReadModel = require("../../models/notification/notification-is-read-model");
 const DocumentArchiveModel = require("../../models/document/document-archive-model");
 const moment = require("moment/moment");
+const DocumentTasksService = require("../documentTasksService/document-task-service");
 
 function getCurrentSigner(document) {
   //Изначально никто не текущий подписант
@@ -77,6 +78,27 @@ class DocumentService {
               id: document.creator_id,
               isAddForeignTables: "true",
             }),
+          };
+        })
+      );
+    }
+    // Подтягиваем количество выполненных и общее количество задач по документу
+    if (query?.isOnlyForSigningDocuments.trim() === "true") {
+      documents = await Promise.all(
+        documents.map(async (document) => {
+          let documentTasksForDocument =
+            await DocumentTasksService.getDocumentTasksByDocument(
+              {
+                documentId: document.id,
+              },
+              null
+            );
+          return {
+            ...document,
+            document_tasks_assigned_count: documentTasksForDocument.length,
+            document_tasks_completed_count: documentTasksForDocument.filter(
+              (task) => task.document_task_status_id === 2
+            ).length,
           };
         })
       );
@@ -229,34 +251,37 @@ class DocumentService {
     const insertArray = await Promise.all(
       body.documentFileIds.map(async (fileIdToSave) => {
         const file = await FilesModel.findOne(fileIdToSave);
-        const tempFilePath = getFileTempPath(file.path);
-        const storageFilePath = await createDocumentFilePath({
-          documentId,
-          fileUuid: file.uniq,
-          fileName: file.name,
-        });
-        // Передвигаем файл в место постоянного хранения. Функция ассинхронна, дожидаться завершения не будет
-        // TODO: Сделать нормальную обработку ошибки
-        fs.rename(tempFilePath, storageFilePath, function (err) {
-          if (err) {
-            console.log(err);
-          }
-        });
-        file.isTemp = false;
-        file.path = await createDocumentFilePath(
-          {
+        if (file) {
+          const tempFilePath = getFileTempPath(file.path);
+          const storageFilePath = await createDocumentFilePath({
             documentId,
             fileUuid: file.uniq,
             fileName: file.name,
-          },
-          false
-        );
-        FilesModel.update({ file });
+          });
+          // Передвигаем файл в место постоянного хранения. Функция ассинхронна, дожидаться завершения не будет
+          // TODO: Сделать нормальную обработку ошибки
+          fs.rename(tempFilePath, storageFilePath, function (err) {
+            if (err) {
+              console.log(err);
+            }
+          });
+          file.isTemp = false;
+          file.path = await createDocumentFilePath(
+            {
+              documentId,
+              fileUuid: file.uniq,
+              fileName: file.name,
+            },
+            false
+          );
+          FilesModel.update({ file });
 
-        return {
-          document_id: documentId,
-          file_id: file.id,
-        };
+          return {
+            document_id: documentId,
+            file_id: file.id,
+          };
+        }
+        return {};
       })
     );
 

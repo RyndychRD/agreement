@@ -15,6 +15,7 @@ import FormBuilderDataComponent from "../../../formBuilder/RenderForm/FBRenderFo
 import TextInputFormItem from "../../inputs/textInputs";
 import FragmentFileUploader from "../../file/FragmentFileUploader";
 import FileService from "../../../../services/FileService";
+import ModalConfirm from "../../modals/ModalConfirm";
 
 /**
  * @return Модальное окно для создания нового документа
@@ -68,8 +69,7 @@ export default function DocumentCreationPipelineFormFill({
   };
 
   const confirmModal = () =>
-    Modal.confirm({
-      title: "Подтверждение",
+    ModalConfirm({
       content:
         "Вы уверены что данные введены корректно? Вернуться к этой форме вы уже не сможете",
       onOk: onFinish,

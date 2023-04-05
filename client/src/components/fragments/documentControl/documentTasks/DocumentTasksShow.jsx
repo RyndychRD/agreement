@@ -12,7 +12,11 @@ import { useGetDocumentFilesQueryHook } from "../../../../core/redux/api/Documen
 import DocumentTaskSecondListZakupTRU from "./buttonModals/documentTaskExtraFields/DocumentTaskSecondListZakupTRU";
 
 export default function DocumentTasksShowBlock(props) {
-  const { rawData: task, form: passedForm } = props;
+  const {
+    rawData: task,
+    form: passedForm,
+    isAddPushToDocumentButton = true,
+  } = props;
   const { data: documentFiles = [] } = useGetDocumentFilesQueryHook({
     documentId: task.document_id,
   });
@@ -94,7 +98,8 @@ export default function DocumentTasksShowBlock(props) {
                 file={file}
                 isTempFile={false}
                 isAddPushToDocumentButton={
-                  !documentFiles.find((el) => el.file_id === file.id)
+                  !documentFiles.find((el) => el.file_id === file.id) &&
+                  isAddPushToDocumentButton
                 }
                 documentId={task.document_id}
               />

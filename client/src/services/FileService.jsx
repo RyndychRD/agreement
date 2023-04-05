@@ -39,8 +39,9 @@ export default class FileService {
   }
 
   static prepareFileListFromFormToSend(values) {
-    return values.files?.fileList
-      ? values.files?.fileList.map((file) => ({
+    const tempFileList = values.files?.fileList.filter((file) => !file.error);
+    return tempFileList
+      ? tempFileList.map((file) => ({
           ...file,
           // Вытаскиваем из респонса uuid, под которым сохранен файл
           uniq: file.response.savedFileName,

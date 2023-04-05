@@ -48,6 +48,7 @@ function getTaskBlock() {
   if (!isAnyAccessGranted(["IncomeTasks"])) return null;
   return getItem("Задачи", "Tasks", null, [
     isAccessGranted("IncomeTasks") ? getLink("my_tasks") : null,
+    isAccessGranted("CompletedTasks") ? getLink("my_completed_tasks") : null,
   ]);
 }
 

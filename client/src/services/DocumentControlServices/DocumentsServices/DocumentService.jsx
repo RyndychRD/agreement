@@ -31,6 +31,7 @@ export default class DocumentService {
         document_passed_to_archive_at: el?.document_passed_to_archive_at,
         document_archive_type_name: el?.document_archive_type_name,
         document_archive_pass_by: el?.document_archive_pass_by,
+        document_assigned_document_tasks_complete_rate: `${el.document_tasks_completed_count}/${el.document_tasks_assigned_count}`,
       }));
     } catch (e) {
       console.log("Ошибка пред-обработки данных:", e);

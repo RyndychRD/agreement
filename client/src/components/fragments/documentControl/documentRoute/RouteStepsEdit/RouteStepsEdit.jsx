@@ -4,6 +4,7 @@ import RouteFormList from "../../../inputs/routeInput";
 import RouteStepShow from "../RouteStepsShow/RouteStepShow";
 import { HeaderTextOutput } from "../../../outputs/textOutputs";
 import { useUpdateDocumentRouteMutationHook } from "../../../../../core/redux/api/DocumentControl/DocumentApi";
+import ModalConfirm from "../../../modals/ModalConfirm";
 
 export function DocumentRoutesEditModal(props) {
   const { open, setOpen, routeSteps, documentId } = props;
@@ -64,7 +65,9 @@ export function DocumentRoutesEditModal(props) {
           }
           return result;
         });
-        updateRoute({ documentId, routeSteps: preparedValues });
+        if (preparedValues.length > 0) {
+          updateRoute({ documentId, routeSteps: preparedValues });
+        }
         form.resetFields();
         setOpen(false);
       })
@@ -76,7 +79,9 @@ export function DocumentRoutesEditModal(props) {
   return (
     <Modal
       open={open}
-      onOk={onFinish}
+      onOk={() => {
+        ModalConfirm({ onOk: onFinish, content: "Сохранить маршрут?" });
+      }}
       onCancel={() => {
         setOpen(false);
       }}

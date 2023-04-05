@@ -27,6 +27,28 @@ export const documentTasksApi = createApi({
             ]
           : [{ type: TAG_TYPE, id: "LIST" }],
     }),
+    getCompletedDocumentTasks: build.query({
+      queryFn: async ({ isAddForeignTables = false, isOnlyMyTasks = true }) => {
+        try {
+          const response = await DocumentTasksService.getCompletedDocumentTasks(
+            {
+              isAddForeignTables,
+              isOnlyMyTasks,
+            }
+          );
+          return { data: response };
+        } catch (e) {
+          return { error: e.message };
+        }
+      },
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.map(({ id }) => ({ type: TAG_TYPE, id })),
+              { type: TAG_TYPE, id: "LIST" },
+            ]
+          : [{ type: TAG_TYPE, id: "LIST" }],
+    }),
     getDocumentTasksByDocument: build.query({
       queryFn: async (props) => {
         const {
@@ -148,6 +170,7 @@ export const documentTasksApi = createApi({
 
 export const {
   useGetIncomeDocumentTasksQuery,
+  useGetCompletedDocumentTasksQuery,
   useGetDocumentTasksByDocumentQuery,
   useGetDocumentTaskQuery,
   useDeleteDocumentTaskMutation,
@@ -157,6 +180,8 @@ export const {
 
 export const useGetIncomeDocumentTasksQueryHook =
   useGetIncomeDocumentTasksQuery;
+export const useGetCompletedDocumentTasksQueryHook =
+  useGetCompletedDocumentTasksQuery;
 
 export const useGetDocumentTasksByDocumentQueryHook =
   useGetDocumentTasksByDocumentQuery;
