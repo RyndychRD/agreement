@@ -45,6 +45,7 @@ const fileUpload = (req, res) => {
     if (err) {
       // prettier-ignore
       res.status(500).send({error: { message: ` uploading error: ${err.message}` },}).end();
+      return;
     }
 
     const file = {

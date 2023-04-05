@@ -220,34 +220,37 @@ class DocumentTasksService {
     const insertArray = await Promise.all(
       body.documentTaskFileIds.map(async (fileIdToSave) => {
         const file = await FilesModel.findOne(fileIdToSave);
-        const tempFilePath = getFileTempPath(file.path);
-        const storageFilePath = await createDocumentTaskFilePath({
-          documentId,
-          fileUuid: file.uniq,
-          fileName: file.name,
-        });
-        // Передвигаем файл в место постоянного хранения. Функция ассинхронна, дожидаться завершения не будет
-        // TODO: Сделать нормальную обработку ошибки
-        fs.rename(tempFilePath, storageFilePath, function (err) {
-          if (err) {
-            console.log(err);
-          }
-        });
-        file.isTemp = false;
-        file.path = await createDocumentTaskFilePath(
-          {
+        if (file) {
+          const tempFilePath = getFileTempPath(file.path);
+          const storageFilePath = await createDocumentTaskFilePath({
             documentId,
             fileUuid: file.uniq,
             fileName: file.name,
-          },
-          false
-        );
-        FilesModel.update({ file });
+          });
+          // Передвигаем файл в место постоянного хранения. Функция ассинхронна, дожидаться завершения не будет
+          // TODO: Сделать нормальную обработку ошибки
+          fs.rename(tempFilePath, storageFilePath, function (err) {
+            if (err) {
+              console.log(err);
+            }
+          });
+          file.isTemp = false;
+          file.path = await createDocumentTaskFilePath(
+            {
+              documentId,
+              fileUuid: file.uniq,
+              fileName: file.name,
+            },
+            false
+          );
+          FilesModel.update({ file });
 
-        return {
-          document_task_id: documentTaskId,
-          file_id: file.id,
-        };
+          return {
+            document_task_id: documentTaskId,
+            file_id: file.id,
+          };
+        }
+        return {};
       })
     );
 

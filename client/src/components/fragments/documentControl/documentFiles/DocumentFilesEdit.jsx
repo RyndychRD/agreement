@@ -1,7 +1,7 @@
 import { Button, Form, Modal } from "antd";
 import { useState } from "react";
 import { useAddDocumentFilesMutationHook } from "../../../../core/redux/api/DocumentControl/DocumentApi";
-import FileInput from "../../file/FragmentFileUploader";
+import FragmentFileUploader from "../../file/FragmentFileUploader";
 import ModalConfirm from "../../modals/ModalConfirm";
 
 export default function DocumentFilesEditModal(props) {
@@ -43,7 +43,7 @@ export default function DocumentFilesEditModal(props) {
       okText="Сохранить"
     >
       <Form form={form} name="document_edit_file_modal" autoComplete="off">
-        <FileInput />
+        <FragmentFileUploader />
       </Form>
     </Modal>
   );
