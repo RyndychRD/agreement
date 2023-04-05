@@ -17,6 +17,7 @@ export default function ForSigningDocuments() {
       "document_stage",
       "document_created_at",
       "document_updated_at",
+      "document_assigned_document_tasks_complete_rate",
     ],
   };
   /**

@@ -43,11 +43,10 @@ class DocumentTasksService {
   static async getDocumentTasksByDocument(query, currentUser) {
     const filter = {
       document_id: query.documentId,
-      creator_id: currentUser.id,
     };
     //Для админа показываем все поручения
-    if (currentUser.id === 1) {
-      delete filter["creator_id"];
+    if (currentUser && currentUser.id !== 1) {
+      filter.creator_id = currentUser.id;
     }
     const func = DocumentTaskModel.getDocumentTasks({
       filter,
