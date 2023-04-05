@@ -1,7 +1,7 @@
 import { Modal } from "antd";
 import SimpleError from "../messages/Error";
 import SimpleSpinner from "../messages/Spinner";
-import { onCancelConfirm } from "../tables/CommonFunctions";
+import { onCancelConfirm, onOkConfirm } from "../tables/CommonFunctions";
 import {
   useTableModalsState,
   useTableModalDispatch,
@@ -23,6 +23,7 @@ export default function ModalInput({
   customDispatch,
   CreateUpdateFormProps = {},
   isAddConfirmOnCancel = true,
+  isAddConfirmOnOk = true,
 }) {
   const standardState = useTableModalsState();
   const standardDispatch = useTableModalDispatch();
@@ -65,7 +66,13 @@ export default function ModalInput({
       okText="Сохранить"
       cancelText="Отмена"
       destroyOnClose
-      onOk={onFinish}
+      onOk={
+        isAddConfirmOnOk
+          ? () => {
+              onOkConfirm(onFinish);
+            }
+          : onFinish
+      }
       onCancel={
         isAddConfirmOnCancel
           ? () => {

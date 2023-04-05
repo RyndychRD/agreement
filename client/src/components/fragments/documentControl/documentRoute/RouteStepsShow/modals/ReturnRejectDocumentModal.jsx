@@ -41,7 +41,6 @@ export default function ReturnRejectDocumentModal({ documentId }) {
           newDocumentStatusId: state.documentStatusId,
           newRemark: values.remark,
         };
-        console.log(valuesToSend);
 
         await updateFunc(valuesToSend).unwrap();
         form.resetFields();

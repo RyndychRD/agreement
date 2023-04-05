@@ -181,9 +181,21 @@ export default function getColumns({ dataSource, columns }) {
       onFilter: (value, record) =>
         record?.document_task_executor?.indexOf(value) === 0,
     },
+    document_assigned_document_tasks_complete_rate: {
+      title: "Поручения Выполненные/Порученные",
+      dataIndex: "document_assigned_document_tasks_complete_rate",
+      align: "center",
+    },
     document_task_created_at: {
       title: "Дата и время создания",
       dataIndex: "document_task_created_at",
+      align: "center",
+      sorter: (a, b) => sorterDate(a, b),
+      render: (value) => renderDate(value),
+    },
+    document_task_finished_at: {
+      title: "Дата и время завершения",
+      dataIndex: "document_task_finished_at",
       align: "center",
       sorter: (a, b) => sorterDate(a, b),
       render: (value) => renderDate(value),

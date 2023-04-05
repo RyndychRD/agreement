@@ -1,8 +1,9 @@
 /** @format */
 import _ from "lodash";
 import moment from "moment";
-import { Col, Row, Button, Modal } from "antd";
+import { Col, Row, Button } from "antd";
 import { AAlert, ATag } from "../../adapter";
+import ModalConfirm from "../modals/ModalConfirm";
 
 /**
  * Используется для создания фильтра по всем значениями из таблицы. По факту магия, я не могу понять что здесь происходит
@@ -191,6 +192,16 @@ export default function getTitle(name, buttons, buttonsActions) {
         Скачать в Excel
       </Button>
     ),
+    reject: (
+      <Button
+        key="keyRejectDocumentAdminTableSettings"
+        onClick={buttonsActions.reject}
+        danger
+        className="space-right "
+      >
+        Отклонить документ
+      </Button>
+    ),
   };
 
   /** Выбираем только запрошенные кнопки */
@@ -211,13 +222,23 @@ export default function getTitle(name, buttons, buttonsActions) {
   );
 }
 export function onCancelConfirm(onCancel) {
-  Modal.confirm({
-    title: "Подтверждение",
+  ModalConfirm({
     content: "Вы точно хотите прекратить и потерять все заполненные данные?",
     onOk: () => {
       onCancel();
     },
     okText: "Да, я хочу потерять заполненные данные",
+    cancelText: "Нет",
+  });
+}
+
+export function onOkConfirm(onCancel) {
+  ModalConfirm({
+    content: "Вы точно хотите продолжить?",
+    onOk: () => {
+      onCancel();
+    },
+    okText: "Да",
     cancelText: "Нет",
   });
 }

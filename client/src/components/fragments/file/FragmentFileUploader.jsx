@@ -1,5 +1,6 @@
 import { InboxOutlined } from "@ant-design/icons";
 import { Form, Upload } from "antd";
+import { useState } from "react";
 import { API_URL } from "../../../http";
 import openNotification from "../messages/Notification";
 import { handlePreview, handleDownload } from "./File";
@@ -31,6 +32,16 @@ export default function FragmentFileUploader(props) {
       ]
     : [];
 
+  const [isAllFilesUploaded, setIsAllFilesUploaded] = useState(true);
+  rules.push(() => ({
+    validator() {
+      if (isAllFilesUploaded) {
+        return Promise.resolve();
+      }
+      return Promise.reject();
+    },
+  }));
+
   return (
     <Form.Item
       name="files"
@@ -60,17 +71,24 @@ export default function FragmentFileUploader(props) {
         onChange={(info) => {
           const { status } = info.file;
           switch (status) {
+            case "uploading":
+              if (isAllFilesUploaded) {
+                setIsAllFilesUploaded(false);
+              }
+              break;
             case "done":
               openNotification(
                 "Файл загружен успешно",
                 `${info.file.name} - загружен успешно.`
               );
+              setIsAllFilesUploaded(true);
               break;
             case "error":
               openNotification(
                 "Файл не загружен",
                 `${info.file.name} - ошибка при загрузке.`
               );
+              setIsAllFilesUploaded(true);
               break;
             default:
               console.log(`Текущий статус ${status}`);

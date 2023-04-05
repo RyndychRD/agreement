@@ -15,6 +15,7 @@ import SimpleError from "../../messages/Error";
 import DocumentInformationShow from "../documentInformation/DocumentInformationShow";
 import { useTableModalDispatch } from "../../tables/TableModalProvider";
 import DocumentFilesShow from "../documentFiles/DocumentFilesShow";
+import ModalConfirm from "../../modals/ModalConfirm";
 
 const DOCUMENT_CREATION_STATUS = 5;
 
@@ -38,6 +39,36 @@ export default function DocumentPreview({ onCancel }) {
             typeName={element.json.typeName}
           />
         );
+
+        preparedValuesToSave.documentTypeId = element.json.typeId;
+        preparedValuesToSave.documentStatusId = DOCUMENT_CREATION_STATUS;
+        break;
+      case "RouteConstruct":
+        result.push(
+          <>
+            <HeaderTextOutput text="Маршрут документа" />
+            <RouteStepsShow
+              key="RouteConstruct"
+              routeSteps={element.json}
+              isAbleToSign={false}
+            />
+          </>
+        );
+        preparedValuesToSave.documentRoute = element.json?.map((routeStep) => ({
+          signerId: routeStep.signer_id,
+          step: routeStep.step,
+        }));
+        break;
+      case "FormFill":
+        result.push(
+          <>
+            <HeaderTextOutput text="Данные документа" />
+            <DocumentInformationShow
+              data={Object.values(element.json.formValues)}
+              isPrepareData={false}
+            />
+          </>
+        );
         result.push(
           <>
             <HeaderTextOutput
@@ -52,40 +83,11 @@ export default function DocumentPreview({ onCancel }) {
         );
 
         preparedValuesToSave.documentName = element.json.documentName;
-        preparedValuesToSave.documentTypeId = element.json.typeId;
-        preparedValuesToSave.documentStatusId = DOCUMENT_CREATION_STATUS;
         preparedValuesToSave.documentFileIds = element.json.fileList.map(
           (file) => file.response.fileId
         );
-        break;
-      case "RouteConstruct":
-        result.push(
-          <>
-            <HeaderTextOutput text="Маршрут документа" />
-            <RouteStepsShow
-              key="RouteConstruct"
-              routeSteps={element.json}
-              isAbleToSign={false}
-            />
-          </>
-        );
-        preparedValuesToSave.documentRoute = element.json.map((routeStep) => ({
-          signerId: routeStep.signer_id,
-          step: routeStep.step,
-        }));
-        break;
-      case "FormFill":
-        result.push(
-          <>
-            <HeaderTextOutput text="Данные документа" />
-            <DocumentInformationShow
-              data={Object.values(element.json)}
-              isPrepareData={false}
-            />
-          </>
-        );
         preparedValuesToSave.documentFilledInformation = Object.values(
-          element.json
+          element.json.formValues
         );
         break;
       default:
@@ -101,10 +103,17 @@ export default function DocumentPreview({ onCancel }) {
       reset();
     }
   };
+  const confirmModal = () =>
+    ModalConfirm({
+      content: "Вы уверены что хотите создать документ с такими данными?",
+      onOk: onFinish,
+      okText: "Да, я хочу создать новый документ",
+      cancelText: "Нет",
+    });
   return (
     <Modal
       open
-      onOk={onFinish}
+      onOk={confirmModal}
       onCancel={onCancel}
       cancelText="Закрыть"
       okText="Сохранить"

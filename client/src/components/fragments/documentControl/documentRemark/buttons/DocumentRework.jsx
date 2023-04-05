@@ -6,6 +6,7 @@ import {
 } from "../../../tables/TableModalProvider";
 import SimpleSpinner from "../../../messages/Spinner";
 import SimpleError from "../../../messages/Error";
+import ModalConfirm from "../../../modals/ModalConfirm";
 
 export default function DocumentReworkButtons() {
   const state = useTableModalsState();
@@ -25,7 +26,17 @@ export default function DocumentReworkButtons() {
   };
   return (
     <>
-      <Button onClick={onClick} type="primary" className="mt-5">
+      <Button
+        onClick={() => {
+          ModalConfirm({
+            onOk: onClick,
+            content:
+              "Вы действительно хотите вернуть документ создателю замечания?",
+          });
+        }}
+        type="primary"
+        className="mt-5"
+      >
         Замечание исправлено
       </Button>
       {isLoadingUpdate ? <SimpleSpinner /> : ""}

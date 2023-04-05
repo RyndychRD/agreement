@@ -32,14 +32,12 @@ async function seedTable(knex, props) {
           console.log(`Таблица ${table} не пустая, сидирование пропущено`);
           return;
         } else {
-          await knex.raw(
-            `ALTER SEQUENCE public."${table}_id_seq" START ${index};`
-          );
+          await knex.raw(`SELECT setval('"${table}_id_seq"', ${index});`);
           await knex(table).insert(arr);
         }
       });
   } else {
-    await knex.raw(`ALTER SEQUENCE public."${table}_id_seq" START ${index};`);
+    await knex.raw(`SELECT setval('"${table}_id_seq"', ${index});`);
     if (isIgnoreConflict) {
       await knex(table).insert(arr).onConflict("id").ignore();
     } else {

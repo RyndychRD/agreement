@@ -11,6 +11,7 @@ import {
 import FBConstructForm from "../../../formBuilder/ElementsFormBuilder/FBCustomInput";
 import { useGetDocumentTypeViewByDocumentTypeHook } from "../../../../core/redux/api/AdminSettings/Constructor/formConstructor/DocumentTypesViewsApi";
 import RestoreButton from "./RestoreButton";
+import SimpleSpinner from "../../messages/Spinner";
 
 /**
  * @return Модальное окно для создания нового документа
@@ -25,6 +26,20 @@ export default function DocumentCreationPipelineFormConstruct({
   const {data: type = "",isError: isErrorType,isLoading: isLoadingType} = useGetTypeQueryHook({ isStart: true, id: documentMainValues.typeId });
   // prettier-ignore
   const {data: DocumentTypeViewByDocumentType = "",isError: isErrorDocumentTypeView,isLoading: isLoadingDocumentTypeView} = useGetDocumentTypeViewByDocumentTypeHook({  typeId: documentMainValues.typeId });
+
+  // Для всех типов создания документа мы проверяем доступность этого шага
+  // Если шаг не доступен, запоминаем дефолтные значения и пропускаем
+  if (
+    !isErrorDocumentTypeView &&
+    !isLoadingDocumentTypeView &&
+    !isLoadingType &&
+    !type.is_form_construct_available
+  ) {
+    const clearedValues = DocumentTypeViewByDocumentType?.view?.elements_order;
+    pipelineDispatch(saveCurrentStepJson(clearedValues));
+    pipelineDispatch(nextStep());
+    return "";
+  }
 
   if (
     !isErrorDocumentTypeView &&
@@ -48,6 +63,15 @@ export default function DocumentCreationPipelineFormConstruct({
         console.log("Ошибка на форме создания:", info);
       });
   };
+
+  if (isLoadingType) {
+    return (
+      <Modal open footer={[]}>
+        Подождите, данные подгружаются
+        <SimpleSpinner />
+      </Modal>
+    );
+  }
 
   return (
     <Modal

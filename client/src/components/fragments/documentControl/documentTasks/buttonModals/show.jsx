@@ -16,7 +16,7 @@ import ModalUpdate from "../../../modals/modalUpdate";
 export default function ShowButtonModel() {
   const state = useInnerTableState();
   const dispatch = useInnerTableDispatch();
-  const isOpen = state.isShowUpdateModal;
+  const isOpen = state.isShowUpdateModal && state?.currentRow;
   const [form] = Form.useForm();
   const {
     data = {},
@@ -73,6 +73,7 @@ export default function ShowButtonModel() {
   }
   return (
     <Modal
+      width={700}
       footer={<Button onClick={onCancel}>Закрыть</Button>}
       onCancel={onCancel}
       open={isOpen}
