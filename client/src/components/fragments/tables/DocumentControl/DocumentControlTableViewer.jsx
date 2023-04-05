@@ -2,7 +2,6 @@ import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Table } from "antd";
 import { Excel } from "antd-table-saveas-excel";
-import Modal from "antd/es/modal/Modal";
 import {
   useTableModalDispatch,
   useTableModalsState,
@@ -14,6 +13,7 @@ import SimpleError from "../../messages/Error";
 import getColumns from "./getColumns";
 import { useGetUnreadNotificationsQueryHook } from "../../../../core/redux/api/DocumentControl/NotificationApi";
 import { useUpdateDocumentMutation } from "../../../../core/redux/api/DocumentControl/DocumentApi";
+import ModalConfirm from "../../modals/ModalConfirm";
 
 const REJECT_STATUS_ID = 2;
 
@@ -124,9 +124,11 @@ export default function DocumentControlTableViewer({
     },
     // TODO: Вынести в отдельную функцию
     reject: () => {
-      if (state?.currentRow.document_status_id === 5) {
-        Modal.confirm({
-          title: "Подтверждение",
+      if (
+        state?.currentRow.document_status_id === 5 ||
+        state?.currentRow.document_status_id === 7
+      ) {
+        ModalConfirm({
           content:
             "Вы точно хотите отклонить документ? Вы не сможете вернуть документ на маршрут согласования после отклонения, придется создавать документ заново",
           onOk: () => {
@@ -140,9 +142,10 @@ export default function DocumentControlTableViewer({
           cancelText: "Нет",
         });
       } else {
-        Modal.confirm({
+        ModalConfirm({
           title: "Ошибка",
-          content: "Только документы в статусе 'В работе' можно отклонить",
+          content:
+            "Только документы в статусе 'В работе' и 'На доработке' можно отклонить",
           okText: "Хорошо",
           cancelText: "Закрыть",
         });

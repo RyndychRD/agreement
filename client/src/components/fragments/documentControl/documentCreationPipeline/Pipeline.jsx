@@ -1,5 +1,4 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Modal } from "antd";
 import {
   clearDocumentCreation,
   getCurrentStepModal,
@@ -16,6 +15,7 @@ import DocumentCreationPipelineRouteConstruct from "./RouteConstruct";
 import DocumentPreview from "./DocumentPreview";
 import DocumentCreationPipelineFormConstruct from "./FormConstruct";
 import DocumentCreationPipelineFormFill from "./FormFill";
+import ModalConfirm from "../../modals/ModalConfirm";
 
 /**
  * @return Модальное окно для создания нового документа
@@ -45,8 +45,7 @@ export default function DocumentCreationPipeline() {
   };
 
   const onCancel = () =>
-    Modal.confirm({
-      title: "Подтверждение",
+    ModalConfirm({
       content:
         "Вы точно хотите прекратить создание документа и потерять все заполненные данные?",
       onOk: closeModal,

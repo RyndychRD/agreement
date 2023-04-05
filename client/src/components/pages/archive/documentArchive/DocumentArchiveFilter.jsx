@@ -5,6 +5,7 @@ import { SelectArchiveTypesFormItem } from "../../../fragments/inputs/byClass/ar
 import { DateRangeInputFormItem } from "../../../fragments/inputs/dateInput";
 import { HeaderTextOutput } from "../../../fragments/outputs/textOutputs";
 import { useLogState } from "../../../log/LogProvider";
+import ModalConfirm from "../../../fragments/modals/ModalConfirm";
 
 export default function DocumentArchiveFilter(props) {
   const stateLog = useLogState();
@@ -33,8 +34,7 @@ export default function DocumentArchiveFilter(props) {
       .validateFields()
       .then(async (values) => {
         if (isAllRange) {
-          Modal.confirm({
-            title: "Подтверждение",
+          ModalConfirm({
             content:
               "Загрузка архива за все время может занять продолжительное время. Вы уверены?",
             onOk: () => {

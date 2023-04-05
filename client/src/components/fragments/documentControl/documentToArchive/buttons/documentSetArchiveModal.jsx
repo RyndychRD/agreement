@@ -7,6 +7,7 @@ import SimpleSpinner from "../../../messages/Spinner";
 import SimpleError from "../../../messages/Error";
 import { SelectArchiveTypesFormItem } from "../../../inputs/byClass/archive";
 import { HeaderTextOutput } from "../../../outputs/textOutputs";
+import ModalConfirm from "../../../modals/ModalConfirm";
 
 export default function DocumentSetArchiveModal(props) {
   const { document, isOpen, setIsOpen, closeParentModalFunc } = props;
@@ -47,8 +48,7 @@ export default function DocumentSetArchiveModal(props) {
     form
       .validateFields()
       .then(async (values) => {
-        Modal.confirm({
-          title: "Подтверждение",
+        ModalConfirm({
           content:
             "Вы действительно хотите досрочно поместить документ в архив?",
           onOk: () => {

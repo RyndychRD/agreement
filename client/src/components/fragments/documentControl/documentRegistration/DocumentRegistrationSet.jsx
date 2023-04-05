@@ -4,6 +4,7 @@ import TextInputFormItem from "../../inputs/textInputs";
 import { usePutDocumentRegistrationAndChangeStatusMutationHook } from "../../../../core/redux/api/DocumentControl/DocumentApi";
 import SimpleSpinner from "../../messages/Spinner";
 import SimpleError from "../../messages/Error";
+import ModalConfirm from "../../modals/ModalConfirm";
 
 /**
  *
@@ -37,7 +38,17 @@ export default function DocumentRegistrationSet(props) {
   };
 
   return (
-    <Form form={form} name="registrationInputForm" onFinish={onFinish}>
+    <Form
+      form={form}
+      name="registrationInputForm"
+      onFinish={() => {
+        ModalConfirm({
+          onOk: onFinish,
+          content: "Вы точно хотите подписать документ?",
+          okText: "Да, я хочу подписать документ",
+        });
+      }}
+    >
       <DateInputFormItem
         form={form}
         key="registrationDate"

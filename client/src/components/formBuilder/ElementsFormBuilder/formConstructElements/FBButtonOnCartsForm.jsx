@@ -3,8 +3,8 @@ import {
   MinusCircleOutlined,
   UpOutlined,
 } from "@ant-design/icons";
-import { Modal } from "antd";
 import color from "../../FormBuilderColorRow";
+import ModalConfirm from "../../../fragments/modals/ModalConfirm";
 
 export default function ButtonOnCarts(remove, move, name, fields, key) {
   return (
@@ -14,8 +14,7 @@ export default function ButtonOnCarts(remove, move, name, fields, key) {
         type="button"
         title="Удалить"
         onClick={() =>
-          Modal.confirm({
-            title: "Подтверждение",
+          ModalConfirm({
             content: "Вы точно хотите удалить элемент?",
             onOk: () => {
               remove(name);

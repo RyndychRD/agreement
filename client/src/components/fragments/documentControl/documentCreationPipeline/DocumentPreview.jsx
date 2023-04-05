@@ -15,6 +15,7 @@ import SimpleError from "../../messages/Error";
 import DocumentInformationShow from "../documentInformation/DocumentInformationShow";
 import { useTableModalDispatch } from "../../tables/TableModalProvider";
 import DocumentFilesShow from "../documentFiles/DocumentFilesShow";
+import ModalConfirm from "../../modals/ModalConfirm";
 
 const DOCUMENT_CREATION_STATUS = 5;
 
@@ -103,8 +104,7 @@ export default function DocumentPreview({ onCancel }) {
     }
   };
   const confirmModal = () =>
-    Modal.confirm({
-      title: "Подтверждение",
+    ModalConfirm({
       content: "Вы уверены что хотите создать документ с такими данными?",
       onOk: onFinish,
       okText: "Да, я хочу создать новый документ",

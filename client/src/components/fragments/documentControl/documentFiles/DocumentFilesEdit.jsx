@@ -2,6 +2,7 @@ import { Button, Form, Modal } from "antd";
 import { useState } from "react";
 import { useAddDocumentFilesMutationHook } from "../../../../core/redux/api/DocumentControl/DocumentApi";
 import FileInput from "../../file/FragmentFileUploader";
+import ModalConfirm from "../../modals/ModalConfirm";
 
 export default function DocumentFilesEditModal(props) {
   const { open, setOpen, documentId } = props;
@@ -28,7 +29,13 @@ export default function DocumentFilesEditModal(props) {
   return (
     <Modal
       open={open}
-      onOk={onFinish}
+      onOk={() => {
+        ModalConfirm({
+          onOk: onFinish,
+          content:
+            "После загрузки файла в документ вы не сможете его удалить. Вы точно хотите продолжить?",
+        });
+      }}
       onCancel={() => {
         setOpen(false);
       }}

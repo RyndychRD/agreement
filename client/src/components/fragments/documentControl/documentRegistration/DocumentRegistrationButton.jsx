@@ -1,7 +1,8 @@
-import { Button, Modal } from "antd";
+import { Button } from "antd";
 import { useUpdateDocumentMutation } from "../../../../core/redux/api/DocumentControl/DocumentApi";
 import SimpleSpinner from "../../messages/Spinner";
 import SimpleError from "../../messages/Error";
+import ModalConfirm from "../../modals/ModalConfirm";
 
 /**
  *
@@ -21,8 +22,7 @@ export default function DocumentRegistrationButton(props) {
     <>
       <Button
         onClick={() =>
-          Modal.confirm({
-            title: "Подтверждение",
+          ModalConfirm({
             content:
               "Вы точно хотите отправить документ на регистрацию в ООПЗ?",
             onOk: async () => {
