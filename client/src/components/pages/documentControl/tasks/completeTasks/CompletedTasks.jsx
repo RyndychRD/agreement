@@ -28,7 +28,7 @@ export default function CompletedTasks() {
     isOnlyMyTasks: true,
   });
 
-  if (!isAccessGranted("CompleteTasks")) return <Error403 />;
+  if (!isAccessGranted("CompletedTasks")) return <Error403 />;
   return (
     <TableModalProvider>
       <DocumentControlTableViewer
