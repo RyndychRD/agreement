@@ -251,34 +251,37 @@ class DocumentService {
     const insertArray = await Promise.all(
       body.documentFileIds.map(async (fileIdToSave) => {
         const file = await FilesModel.findOne(fileIdToSave);
-        const tempFilePath = getFileTempPath(file.path);
-        const storageFilePath = await createDocumentFilePath({
-          documentId,
-          fileUuid: file.uniq,
-          fileName: file.name,
-        });
-        // Передвигаем файл в место постоянного хранения. Функция ассинхронна, дожидаться завершения не будет
-        // TODO: Сделать нормальную обработку ошибки
-        fs.rename(tempFilePath, storageFilePath, function (err) {
-          if (err) {
-            console.log(err);
-          }
-        });
-        file.isTemp = false;
-        file.path = await createDocumentFilePath(
-          {
+        if (file) {
+          const tempFilePath = getFileTempPath(file.path);
+          const storageFilePath = await createDocumentFilePath({
             documentId,
             fileUuid: file.uniq,
             fileName: file.name,
-          },
-          false
-        );
-        FilesModel.update({ file });
+          });
+          // Передвигаем файл в место постоянного хранения. Функция ассинхронна, дожидаться завершения не будет
+          // TODO: Сделать нормальную обработку ошибки
+          fs.rename(tempFilePath, storageFilePath, function (err) {
+            if (err) {
+              console.log(err);
+            }
+          });
+          file.isTemp = false;
+          file.path = await createDocumentFilePath(
+            {
+              documentId,
+              fileUuid: file.uniq,
+              fileName: file.name,
+            },
+            false
+          );
+          FilesModel.update({ file });
 
-        return {
-          document_id: documentId,
-          file_id: file.id,
-        };
+          return {
+            document_id: documentId,
+            file_id: file.id,
+          };
+        }
+        return {};
       })
     );
 
