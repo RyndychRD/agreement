@@ -5,10 +5,21 @@ export default function SelectElementForm({ restField, name }) {
   const { data: DocumentElementIODictionaries = [] } =
     useGetDocumentIODictionaryElementsHook();
 
-  const options = DocumentElementIODictionaries.map((i) => ({
-    value: i.key,
-    label: i.name,
-  }));
+  const options = DocumentElementIODictionaries.map((i) => {
+    const typeNameDict = {
+      text: "Ввод текста",
+      table: `Выбор из таблицы ${i?.select_value?.table}`,
+      select_id: "Выбор из вариантов и ввод своего",
+      datePicker: "Выбор даты",
+      phone: "Ввод телефона",
+      number: "Ввод числа",
+      email: "Ввод Email",
+    };
+    return {
+      value: i.key,
+      label: `${i.name} ${typeNameDict[i.data_type]}`,
+    };
+  });
 
   return (
     <Form.Item
