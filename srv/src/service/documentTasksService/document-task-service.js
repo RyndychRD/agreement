@@ -201,7 +201,7 @@ class DocumentTasksService {
       {
         result: body.result,
         custom_fields: body.customFields,
-        is_second_page_agreement_from_custom_fields_confirmed:
+        is_confirmed:
           body.isSecondPageAgreementFromCustomFieldsConfirmed || false,
         document_task_status_id: body.documentTaskStatusId,
         finished_at: "now",

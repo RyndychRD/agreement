@@ -7,7 +7,7 @@ export default class DocumentTasksService {
   static statusSpecialFormatter(el) {
     // Если это от Михеевой поручение, то она должна подтвердить выполнение поручения
     if (
-      !el.is_second_page_agreement_from_custom_fields_confirmed &&
+      !el.is_confirmed &&
       el.document_task_status_id === 2 &&
       el.document_task_type_id === 2
     ) {
