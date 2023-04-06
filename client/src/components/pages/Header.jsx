@@ -1,18 +1,14 @@
-import { Layout as ALayout } from "antd";
+import { Layout as ALayout, Col, Row } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { isAccessGranted } from "../../services/userAccessService";
 import { logoutAsync } from "../../core/redux/reducers/AuthReducer";
-import { userNameMask } from "../../services/CommonFunctions";
 import {
-  AMenu,
-  ARow,
-  ACol,
-  ASpan,
-  AArrowLeftOutlined,
-  APageHeader,
-} from "../adapter";
+  getHeaderAlertByEnv,
+  userNameMask,
+} from "../../services/CommonFunctions";
+import { AMenu, ASpan, AArrowLeftOutlined, APageHeader } from "../adapter";
 
 /**
  * Главный хедер, отображается на всех страницах, кроме авторизации
@@ -112,8 +108,8 @@ function Header() {
 
   return (
     <AHeaderLayout>
-      <ARow justify="space-between" align="middle">
-        <ACol>
+      <Row justify="space-between" align="middle">
+        <Col>
           <APageHeader
             onBack={() => {
               navigate("/");
@@ -123,16 +119,17 @@ function Header() {
               <ASpan style={{ color: "white" }}>Согласование договоров</ASpan>
             }
           />
-        </ACol>
-        <ACol style={{ width: "200px" }}>
+        </Col>
+        {getHeaderAlertByEnv()}
+        <Col style={{ width: "200px" }}>
           <AMenu
             onClick={onClick}
             theme="dark"
             mode="horizontal"
             items={menuItems}
           />
-        </ACol>
-      </ARow>
+        </Col>
+      </Row>
     </AHeaderLayout>
   );
 }
