@@ -1,4 +1,5 @@
-import { Button, Modal } from "antd";
+import { Button, Form, Modal } from "antd";
+import { useEffect } from "react";
 import { useGetDocumentTaskQueryHook } from "../../../../../../core/redux/api/DocumentControl/DocumentTaskApi";
 import {
   useTableModalDispatch,
@@ -27,6 +28,16 @@ export default function ShowButtonModel() {
     dispatch({ type: "closeAllModal" });
   };
 
+  const [form] = Form.useForm();
+
+  useEffect(() => {
+    if (isOpen && !isLoading && !isError) {
+      if (data?.custom_fields) {
+        form.setFieldsValue(data.custom_fields);
+      }
+    }
+  }, [isOpen, isLoading, isError, data.custom_fields, form]);
+
   return (
     <Modal
       width={700}
@@ -39,7 +50,9 @@ export default function ShowButtonModel() {
       {!isLoading && !isError && isOpen ? (
         <DocumentTasksShowBlock
           rawData={data}
+          form={form}
           isAddPushToDocumentButton={false}
+          isDisabled
         />
       ) : (
         ""

@@ -10,13 +10,15 @@ function calculateWithNDS(sumNoNDS, NDS) {
 }
 
 export default function DocumentTaskSecondListZakupTRU(props) {
-  const { form } = props;
+  const { form, isDisabled = false } = props;
   const budgetSumNoNDS = Form.useWatch("budgetSumNoNDS", form);
   const contractSumNoNDS = Form.useWatch("contractSumNoNDS", form);
   const currentNDS = Form.useWatch("currentNDS", form);
+
   return (
     <>
       <TextInputFormItem
+        disabled={isDisabled}
         title="Полное наименование статьи в бюджете"
         name="fullNameOfTheItemInBudget"
         rules={[
@@ -29,6 +31,7 @@ export default function DocumentTaskSecondListZakupTRU(props) {
       <Row gutter={2}>
         <Col span={10}>
           <NumberInputFormItem
+            disabled={isDisabled}
             title="Сумма по бюджету, тыс. тенге (Без НДС)"
             name="budgetSumNoNDS"
             onBlur={() => {
@@ -49,6 +52,7 @@ export default function DocumentTaskSecondListZakupTRU(props) {
         </Col>
         <Col span={10}>
           <NumberInputFormItem
+            disabled={isDisabled}
             title="Сумма по бюджету, тыс. тенге (C НДС)"
             name="budgetSumWithNDS"
             value={0}
@@ -65,6 +69,7 @@ export default function DocumentTaskSecondListZakupTRU(props) {
       <Row gutter={2}>
         <Col span={10}>
           <NumberInputFormItem
+            disabled={isDisabled}
             title="Сумма по договору, тыс. тенге (Без НДС)"
             name="contractSumNoNDS"
             value={0}
@@ -85,6 +90,7 @@ export default function DocumentTaskSecondListZakupTRU(props) {
         </Col>
         <Col span={10}>
           <NumberInputFormItem
+            disabled={isDisabled}
             title="Сумма по договору, тыс. тенге (C НДС)"
             name="contractSumWithNDS"
             value={0}
@@ -99,6 +105,7 @@ export default function DocumentTaskSecondListZakupTRU(props) {
         </Col>
       </Row>
       <NumberInputFormItem
+        disabled={isDisabled}
         title="Текущий НДС"
         name="currentNDS"
         addonAfter="%"
@@ -122,6 +129,7 @@ export default function DocumentTaskSecondListZakupTRU(props) {
         ]}
       />
       <NumberInputFormItem
+        disabled={isDisabled}
         title="Курсы валюты на дату(тенге/рубли РФ, доллары США и тд.)"
         value={0}
         formatter={(value) => value.replace(",", ".")}
@@ -129,6 +137,7 @@ export default function DocumentTaskSecondListZakupTRU(props) {
         rules={[]}
       />
       <LargeTextInputFormItem
+        disabled={isDisabled}
         title="Примечание"
         name="remark"
         value=""

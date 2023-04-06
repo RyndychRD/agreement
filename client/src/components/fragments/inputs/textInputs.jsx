@@ -5,10 +5,11 @@ export default function TextInputFormItem({
   name = "formItemName",
   rules = {},
   value = "",
+  disabled = false,
 }) {
   return (
     <Form.Item label={title} name={name} rules={rules} labelCol={{ span: 24 }}>
-      <Input placeholder={title} value={value} />
+      <Input placeholder={title} value={value} disabled={disabled} />
     </Form.Item>
   );
 }
@@ -23,6 +24,7 @@ export function NumberInputFormItem({
   max = {},
   min = {},
   onBlur = () => {},
+  disabled = false,
 }) {
   return (
     <Form.Item label={title} name={name} rules={rules} labelCol={{ span: 24 }}>
@@ -38,6 +40,7 @@ export function NumberInputFormItem({
         defaultValue={value}
         value={value}
         stringMode
+        disabled={disabled}
       />
     </Form.Item>
   );
@@ -48,10 +51,11 @@ export function LargeTextInputFormItem({
   name = "formItemName",
   rules = {},
   value = "",
+  disabled = false,
 }) {
   return (
     <Form.Item label={title} name={name} rules={rules} labelCol={{ span: 24 }}>
-      <Input.TextArea placeholder={title} value={value} />
+      <Input.TextArea placeholder={title} value={value} disabled={disabled} />
     </Form.Item>
   );
 }

@@ -40,7 +40,7 @@ export default function DocumentTasksTable(props) {
   // И только для типа документа Закуп ТРУ
   const isShowSpecialTask =
     useSelector((state) => state.session.current_user.position_id === 14) &&
-    documentTypeId === 10;
+    (documentTypeId === 24 || documentTypeId === 27);
   if (isShowSpecialTask) {
     buttons.unshift("createSpecialTask");
   }

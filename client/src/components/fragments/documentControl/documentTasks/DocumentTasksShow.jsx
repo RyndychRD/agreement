@@ -16,6 +16,7 @@ export default function DocumentTasksShowBlock(props) {
     rawData: task,
     form: passedForm,
     isAddPushToDocumentButton = true,
+    isDisabled = false,
   } = props;
   const { data: documentFiles = [] } = useGetDocumentFilesQueryHook({
     documentId: task.document_id,
@@ -79,7 +80,10 @@ export default function DocumentTasksShowBlock(props) {
           {task?.result ? <SimpleTextOutput text={task?.result} /> : ""}
           {task?.document_task_type_id === 2 ? (
             <Form form={form}>
-              <DocumentTaskSecondListZakupTRU form={form} />
+              <DocumentTaskSecondListZakupTRU
+                isDisabled={isDisabled}
+                form={form}
+              />
             </Form>
           ) : (
             ""
