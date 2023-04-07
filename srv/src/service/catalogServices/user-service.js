@@ -11,6 +11,18 @@ class UserService {
     return await DevTools.addDelay(func);
   }
 
+  async getUserOfRight(rightId) {
+    const rightFilter = function () {
+      this.where("departments-rights.right_id", "=", rightId);
+      this.orWhere("positions-rights.right_id", "=", rightId);
+      this.orWhere("users-rights.right_id", "=", rightId);
+    };
+    return await UserModels.find({
+      filter: rightFilter,
+      isAddRights: "true",
+    });
+  }
+
   async getOneUser(query, customFilter = {}) {
     let filter = { ...customFilter };
     if (query?.id && query.id !== -1) {
