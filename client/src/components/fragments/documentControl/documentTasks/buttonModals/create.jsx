@@ -10,7 +10,10 @@ import {
 /**
  * @return Модальное окно для создания нового департамента
  */
-export default function CreateButtonModel({ documentId }) {
+export default function CreateButtonModel({
+  documentId,
+  afterFinishFunc = () => {},
+}) {
   /** Служит для отслеживания формы из модального окна для обработки по кнопке */
   const [form] = Form.useForm();
   const state = useDocumentTasksInnerTableState();
@@ -47,6 +50,7 @@ export default function CreateButtonModel({ documentId }) {
       customDispatch={useDocumentTasksInnerTableDispatch}
       CreateUpdateFormProps={{ documentId }}
       confirmOnOkContent={confirmOnOkContent}
+      afterFinishFunc={afterFinishFunc}
     />
   );
 }

@@ -1,7 +1,11 @@
 import { Button, Form } from "antd";
 
 import moment from "moment";
-import { usePutDocumentRegistrationAndChangeStatusMutationHook } from "../../../../core/redux/api/DocumentControl/DocumentApi";
+import { useSelector } from "react-redux";
+import {
+  useGetDocumentsQueryHook,
+  usePutDocumentRegistrationAndChangeStatusMutationHook,
+} from "../../../../core/redux/api/DocumentControl/DocumentApi";
 import SimpleSpinner from "../../messages/Spinner";
 import SimpleError from "../../messages/Error";
 import ModalConfirm from "../../modals/ModalConfirm";
@@ -24,6 +28,14 @@ export default function DocumentRegistrationSet(props) {
     useGetDocumentTasksByDocumentQueryHook({
       documentId,
     });
+
+  const currentUser = useSelector((state) => state.session.current_user);
+  const { refetch } = useGetDocumentsQueryHook({
+    isAddForeignTables: true,
+    userId: currentUser?.id ? currentUser.id : "-1",
+    status: "8",
+    addDocumentTasksByType: 3,
+  });
 
   const [updateFunc, { isLoading, isError }] =
     usePutDocumentRegistrationAndChangeStatusMutationHook();
@@ -52,13 +64,18 @@ export default function DocumentRegistrationSet(props) {
   );
   if (documentTask) {
     form.setFieldsValue({
-      ...documentTask.custom_fields,
+      registrationNumber: documentTask.custom_fields.registrationNumber,
       registrationDate: moment(documentTask.custom_fields.registrationDate),
     });
   }
 
   const onClickCreateTask = () => {
     dispatchDocumentTask({ type: "openCreateModal", modalTypeId: 3 });
+  };
+
+  const afterTaskCreationFunc = () => {
+    form.setFieldsValue({ registrationDate: null, registrationNumber: null });
+    refetch();
   };
 
   return (
@@ -70,7 +87,10 @@ export default function DocumentRegistrationSet(props) {
       >
         Создать поручение для заполнения данных о регистрации
       </Button>
-      <CreateButtonModel documentId={documentId} />
+      <CreateButtonModel
+        documentId={documentId}
+        afterFinishFunc={afterTaskCreationFunc}
+      />
       <Form
         form={form}
         name="registrationInputForm"
