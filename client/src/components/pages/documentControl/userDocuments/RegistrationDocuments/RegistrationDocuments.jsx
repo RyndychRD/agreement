@@ -1,4 +1,3 @@
-import { useSelector } from "react-redux";
 import { useGetDocumentsQueryHook } from "../../../../../core/redux/api/DocumentControl/DocumentApi";
 import DocumentControlTableViewer from "../../../../fragments/tables/DocumentControl/DocumentControlTableViewer";
 import { TableModalProvider } from "../../../../fragments/tables/TableModalProvider";
@@ -9,7 +8,6 @@ import DocumentService from "../../../../../services/DocumentControlServices/Doc
 
 /** Список документов, созданных пользователем */
 export default function RegistrationDocument() {
-  const currentUser = useSelector((state) => state.session.current_user);
   const columns = {
     data: [
       "document_id",
@@ -30,7 +28,7 @@ export default function RegistrationDocument() {
     isError,
   } = useGetDocumentsQueryHook({
     isAddForeignTables: true,
-    userId: currentUser?.id ? currentUser.id : "-1",
+    isShowAllDocs: true,
     status: "8",
     addDocumentTasksByType: 3,
   });
@@ -45,6 +43,7 @@ export default function RegistrationDocument() {
         dataSource={data ? DocumentService.prepareForTable(data) : null}
         title="Документы на регистрации"
         buttons={["update"]}
+        notificationType="OnRegistration"
       />
       <UpdateButtonModel />
     </TableModalProvider>

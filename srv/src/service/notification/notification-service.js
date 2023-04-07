@@ -34,8 +34,14 @@ class NotificationService {
     if (newDocumentStatusId == 5) {
       this.notifyDocumentSigning(documentId);
     } else {
+      // Либо мы посылаем нотификацию на конкретного пользователя, либо на группу лиц
+      // const StatusToNotificationType = {
+      //   7: { name: "ReworkDocument", userIds: [document.creator_id] },
+      //   8: { name: "OnRegistration", userIds:  },
+      // };
       const StatusToNotificationType = {
         7: "ReworkDocument",
+        8: "OnRegistration",
       };
 
       const document = await DocumentModel.findOne({

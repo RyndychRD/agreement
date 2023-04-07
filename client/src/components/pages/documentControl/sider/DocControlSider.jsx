@@ -69,7 +69,7 @@ export default function Sider() {
     getAdminBlock(),
   ];
   return (
-    <LayoutSider theme="dark">
+    <LayoutSider theme="dark" width="fit-content">
       <Menu
         defaultSelectedKeys={window.location.pathname}
         className="siderMenu"
