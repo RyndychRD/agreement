@@ -186,6 +186,19 @@ export default function getColumns({ dataSource, columns }) {
       dataIndex: "document_assigned_document_tasks_complete_rate",
       align: "center",
     },
+    document_tasks_type_3_status: {
+      title: "Поручение",
+      dataIndex: "document_tasks_type_3_status",
+      align: "center",
+      sorter: (a, b) =>
+        sorterStringAlphabet(
+          a?.document_task_executor,
+          b?.document_task_executor
+        ),
+      filters: filterDataStringSorted(dataSource, "document_task_executor"),
+      onFilter: (value, record) =>
+        record?.document_task_executor?.indexOf(value) === 0,
+    },
     document_task_created_at: {
       title: "Дата и время создания",
       dataIndex: "document_task_created_at",

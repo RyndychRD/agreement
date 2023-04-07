@@ -19,7 +19,6 @@ const {
 const NotificationIsReadModel = require("../../models/notification/notification-is-read-model");
 
 class DocumentTasksService {
-
   static async getDocumentTasks(filter, isAddForeignTables = false) {
     const func = DocumentTaskModel.getDocumentTasks({
       filter: filter,
@@ -144,9 +143,12 @@ class DocumentTasksService {
 
   static async createDocumentTask(currentUserId, body) {
     if (body.typeId === 3) {
-      DocumentTaskModel.delete({
+      const tasksToDelete = await DocumentTasksService.getDocumentTasks({
         document_id: body.documentId,
         document_task_type_id: body.typeId,
+      });
+      tasksToDelete.forEach((task) => {
+        DocumentTasksService.deleteDocumentTaskById(task.id);
       });
     }
     const func = DocumentTaskModel.create({
@@ -182,13 +184,13 @@ class DocumentTasksService {
     return documentTask;
   }
 
-  static async deleteDocumentTask(query) {
+  static async deleteDocumentTaskById(id) {
     const func = DocumentTaskModel.delete({
-      id: query.id,
+      id: id,
     });
     const readNotification = NotificationIsReadModel.readeNotifications({
       filter: {
-        element_id: query.id,
+        element_id: id,
         notification_type: "IncomeTask",
       },
     });

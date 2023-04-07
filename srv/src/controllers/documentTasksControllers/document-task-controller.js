@@ -62,7 +62,9 @@ class DocumentTasksController {
   }
   async deleteDocumentTask(req, res, next) {
     try {
-      const data = await DocumentTasksService.deleteDocumentTask(req?.query);
+      const data = await DocumentTasksService.deleteDocumentTaskById(
+        req?.query.id
+      );
       return res.json(data);
     } catch (e) {
       next(e);

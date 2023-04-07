@@ -6,22 +6,23 @@ export default function DateInputFormItem({
   title = "Поле ввода",
   name = "formItemName",
   rules = {},
+  disabled = false,
   form,
 }) {
   const setValueInDatePickerOnForm = (value) => {
-    form.setFieldValue(name, value.format("YYYY-MM-DD"));
+    form.setFieldValue(name, value);
   };
   return (
     <Form.Item
-      labelCol={{ span: 12 }}
-      wrapperCol={{ span: 12 }}
+      labelCol={{ span: 24 }}
       label={title}
       labelAlign="left"
       name={name}
       rules={rules}
-      valuePropName="checked"
     >
       <DatePicker
+        style={{ width: "250px" }}
+        disabled={disabled}
         type="text"
         locale={locale}
         onChange={setValueInDatePickerOnForm}

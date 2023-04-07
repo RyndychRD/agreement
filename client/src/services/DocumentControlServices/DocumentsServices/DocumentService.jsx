@@ -32,11 +32,29 @@ export default class DocumentService {
         document_archive_type_name: el?.document_archive_type_name,
         document_archive_pass_by: el?.document_archive_pass_by,
         document_assigned_document_tasks_complete_rate: `${el.document_tasks_completed_count}/${el.document_tasks_assigned_count}`,
+        document_tasks_type_3_status: el?.document_tasks_by_type?.tasks
+          ? DocumentService.parseDocumentTasksType3Status(
+              el?.document_tasks_by_type.tasks
+            )
+          : undefined,
       }));
     } catch (e) {
       console.log("Ошибка пред-обработки данных:", e);
       return e;
     }
+  }
+
+  static parseDocumentTasksType3Status(tasks) {
+    if (tasks === undefined) {
+      return "Не определено";
+    }
+    if (tasks.length === 0) {
+      return "Не поручено";
+    }
+    if (tasks.find((task) => task.document_task_status_id === 2)) {
+      return "Выполнено";
+    }
+    return "Поручено";
   }
 
   static async create(values) {
@@ -113,6 +131,7 @@ export default class DocumentService {
     isShowAllDocs,
     isOnlyForSigningDocuments,
     isOnlyMySignedDocuments,
+    addDocumentTasksByType,
   }) {
     console.log("вызов в DocumentService -> Взять все записи");
     const response = await api.get(
@@ -120,7 +139,8 @@ export default class DocumentService {
       &status=${status}
       &isShowAllDocs=${isShowAllDocs}
       &isOnlyForSigningDocuments=${isOnlyForSigningDocuments}
-      &isOnlyMySignedDocuments=${isOnlyMySignedDocuments}`
+      &isOnlyMySignedDocuments=${isOnlyMySignedDocuments}
+      &addDocumentTasksByType=${addDocumentTasksByType}`
     );
     console.log(
       "вызов в DocumentService -> Взять все записи -> результат",

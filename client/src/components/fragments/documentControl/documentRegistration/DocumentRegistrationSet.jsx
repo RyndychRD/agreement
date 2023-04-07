@@ -1,10 +1,14 @@
 import { Button, Form } from "antd";
-import DateInputFormItem from "../../inputs/dateInput";
-import TextInputFormItem from "../../inputs/textInputs";
+
+import moment from "moment";
 import { usePutDocumentRegistrationAndChangeStatusMutationHook } from "../../../../core/redux/api/DocumentControl/DocumentApi";
 import SimpleSpinner from "../../messages/Spinner";
 import SimpleError from "../../messages/Error";
 import ModalConfirm from "../../modals/ModalConfirm";
+import CreateButtonModel from "../documentTasks/buttonModals/create";
+import { useDocumentTasksInnerTableDispatch } from "../../tables/DocumentTasksInnerTableProvider";
+import DocumentRegistrationFields from "./DocumentRegistrationFields";
+import { useGetDocumentTasksByDocumentQueryHook } from "../../../../core/redux/api/DocumentControl/DocumentTaskApi";
 
 /**
  *
@@ -14,8 +18,12 @@ import ModalConfirm from "../../modals/ModalConfirm";
  */
 export default function DocumentRegistrationSet(props) {
   const { documentId, closeModalFunc } = props;
-
+  const dispatchDocumentTask = useDocumentTasksInnerTableDispatch();
   const [form] = Form.useForm();
+  const { data: documentTasks = {}, isLoading: isLoadingDocumentTasks } =
+    useGetDocumentTasksByDocumentQueryHook({
+      documentId,
+    });
 
   const [updateFunc, { isLoading, isError }] =
     usePutDocumentRegistrationAndChangeStatusMutationHook();
@@ -37,49 +45,53 @@ export default function DocumentRegistrationSet(props) {
       });
   };
 
+  if (isLoadingDocumentTasks) return <SimpleSpinner />;
+  const documentTask = documentTasks.find(
+    (task) =>
+      task.document_task_type_id === 3 && task.document_task_status_id === 2
+  );
+  if (documentTask) {
+    form.setFieldsValue({
+      ...documentTask.custom_fields,
+      registrationDate: moment(documentTask.custom_fields.registrationDate),
+    });
+  }
+
+  const onClickCreateTask = () => {
+    dispatchDocumentTask({ type: "openCreateModal", modalTypeId: 3 });
+  };
+
   return (
-    <Form
-      form={form}
-      name="registrationInputForm"
-      onFinish={() => {
-        ModalConfirm({
-          onOk: onFinish,
-          content: "Вы точно хотите подписать документ?",
-          okText: "Да, я хочу подписать документ",
-        });
-      }}
-    >
-      <DateInputFormItem
+    <>
+      <Button
+        className="warning-button"
+        onClick={onClickCreateTask}
+        style={{ marginBottom: "15px" }}
+      >
+        Создать поручение для заполнения данных о регистрации
+      </Button>
+      <CreateButtonModel documentId={documentId} />
+      <Form
         form={form}
-        key="registrationDate"
-        name="registrationDate"
-        title="Дата регистрации"
-        rules={[
-          {
-            required: true,
-            message: "Укажите дату регистрации",
-          },
-        ]}
-      />
-      <TextInputFormItem
-        form={form}
-        key="registrationNumber"
-        name="registrationNumber"
-        title="Номер документа"
-        rules={[
-          {
-            required: true,
-            message: "Укажите номер документа",
-          },
-        ]}
-      />
-      <Form.Item wrapperCol={{ push: 7 }}>
-        <Button type="primary" htmlType="submit">
-          Документ подписан в ООПЗ
-        </Button>
-      </Form.Item>
-      {isLoading ? <SimpleSpinner /> : ""}
-      {isError ? <SimpleError /> : ""}
-    </Form>
+        name="registrationInputForm"
+        onFinish={() => {
+          ModalConfirm({
+            onOk: onFinish,
+            content: "Вы точно хотите подписать документ?",
+            okText: "Да, я хочу подписать документ",
+          });
+        }}
+      >
+        <DocumentRegistrationFields form={form} />
+
+        <Form.Item wrapperCol={{ push: 7 }}>
+          <Button type="primary" htmlType="submit">
+            Документ подписан в ООПЗ
+          </Button>
+        </Form.Item>
+        {isLoading ? <SimpleSpinner /> : ""}
+        {isError ? <SimpleError /> : ""}
+      </Form>
+    </>
   );
 }
