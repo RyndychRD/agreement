@@ -1,5 +1,4 @@
-import { useSelector } from "react-redux";
-import { useGetDocumentsQuery } from "../../../../../core/redux/api/DocumentControl/DocumentApi";
+import { useGetDocumentsQueryHook } from "../../../../../core/redux/api/DocumentControl/DocumentApi";
 import DocumentControlTableViewer from "../../../../fragments/tables/DocumentControl/DocumentControlTableViewer";
 import { TableModalProvider } from "../../../../fragments/tables/TableModalProvider";
 import { isAccessGranted } from "../../../../../services/userAccessService";
@@ -9,7 +8,6 @@ import DocumentService from "../../../../../services/DocumentControlServices/Doc
 
 /** Список документов, созданных пользователем */
 export default function RegistrationDocument() {
-  const currentUser = useSelector((state) => state.session.current_user);
   const columns = {
     data: [
       "document_id",
@@ -18,6 +16,7 @@ export default function RegistrationDocument() {
       "document_status",
       "document_created_at",
       "document_updated_at",
+      "document_tasks_type_3_status",
     ],
   };
   /**
@@ -27,10 +26,11 @@ export default function RegistrationDocument() {
     data = [],
     isLoading,
     isError,
-  } = useGetDocumentsQuery({
+  } = useGetDocumentsQueryHook({
     isAddForeignTables: true,
-    userId: currentUser?.id ? currentUser.id : "-1",
+    isShowAllDocs: true,
     status: "8",
+    addDocumentTasksByType: 3,
   });
 
   if (!isAccessGranted("OnRegistrationDocuments")) return <Error403 />;
@@ -43,6 +43,7 @@ export default function RegistrationDocument() {
         dataSource={data ? DocumentService.prepareForTable(data) : null}
         title="Документы на регистрации"
         buttons={["update"]}
+        notificationType="OnRegistration"
       />
       <UpdateButtonModel />
     </TableModalProvider>

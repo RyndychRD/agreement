@@ -159,7 +159,9 @@ export default function DocumentControlTableViewer({
     <Table
       scroll={{ x: "1000" }}
       onChange={(pagination, filters, sorter, extra) => {
-        setCurrentDataSourceForExcel(extra.currentDataSource);
+        if (buttons.find((button) => button === "excel")) {
+          setCurrentDataSourceForExcel(extra.currentDataSource);
+        }
       }}
       key="keyDocumentControlTableViewer"
       columns={columnsNamed}

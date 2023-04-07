@@ -1,5 +1,6 @@
 import { Button, Form, Modal } from "antd";
 import { useEffect } from "react";
+import moment from "moment";
 import { useGetDocumentTaskQueryHook } from "../../../../../../core/redux/api/DocumentControl/DocumentTaskApi";
 import {
   useTableModalDispatch,
@@ -33,7 +34,10 @@ export default function ShowButtonModel() {
   useEffect(() => {
     if (isOpen && !isLoading && !isError) {
       if (data?.custom_fields) {
-        form.setFieldsValue(data.custom_fields);
+        form.setFieldsValue({
+          ...data.custom_fields,
+          registrationDate: moment(data.custom_fields.registrationDate),
+        });
       }
     }
   }, [isOpen, isLoading, isError, data.custom_fields, form]);

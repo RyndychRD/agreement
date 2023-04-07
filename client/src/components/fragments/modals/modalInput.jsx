@@ -1,11 +1,12 @@
 import { Modal } from "antd";
 import SimpleError from "../messages/Error";
 import SimpleSpinner from "../messages/Spinner";
-import { onCancelConfirm, onOkConfirm } from "../tables/CommonFunctions";
+import { onCancelConfirm } from "../tables/CommonFunctions";
 import {
   useTableModalsState,
   useTableModalDispatch,
 } from "../tables/TableModalProvider";
+import ModalConfirm from "./ModalConfirm";
 
 /**
  * Общее окно для отображения модального окна добавления чего либо.
@@ -24,6 +25,8 @@ export default function ModalInput({
   CreateUpdateFormProps = {},
   isAddConfirmOnCancel = true,
   isAddConfirmOnOk = true,
+  confirmOnOkContent = "Вы точно хотите продолжить?",
+  afterFinishFunc = () => {},
 }) {
   const standardState = useTableModalsState();
   const standardDispatch = useTableModalDispatch();
@@ -48,6 +51,7 @@ export default function ModalInput({
         form.resetFields();
         if (!isError) {
           dispatch({ type: "closeAllModal" });
+          afterFinishFunc();
         }
       })
       .catch((info) => {
@@ -69,7 +73,14 @@ export default function ModalInput({
       onOk={
         isAddConfirmOnOk
           ? () => {
-              onOkConfirm(onFinish);
+              ModalConfirm({
+                content: confirmOnOkContent,
+                onOk: () => {
+                  onFinish();
+                },
+                okText: "Да",
+                cancelText: "Нет",
+              });
             }
           : onFinish
       }

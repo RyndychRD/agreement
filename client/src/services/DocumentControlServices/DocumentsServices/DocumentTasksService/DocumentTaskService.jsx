@@ -72,7 +72,7 @@ export default class DocumentTasksService {
     documentId,
   }) {
     console.log(
-      `вызов в DocumentTasksService -> Взять  поручения по документу с ID=${documentId}`
+      `вызов в DocumentTasksService -> Взять  поручения по документу с ID=${documentId} isAddForeignTables=${isAddForeignTables}&isConfirmedForSecondPageOnly=${isConfirmedForSecondPageOnly}`
     );
     const response = await api.get(
       `${this.API_ROUTE}/?isAddForeignTables=${isAddForeignTables}&documentId=${documentId}&isConfirmedForSecondPageOnly=${isConfirmedForSecondPageOnly}`

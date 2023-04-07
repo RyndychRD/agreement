@@ -27,6 +27,7 @@ export const documentsApi = createApi({
         isShowAllDocs = false,
         isOnlyForSigningDocuments = false,
         isOnlyMySignedDocuments = false,
+        addDocumentTasksByType = -1,
       }) => {
         try {
           const response = await DocumentService.getAll({
@@ -35,6 +36,8 @@ export const documentsApi = createApi({
             isShowAllDocs,
             isOnlyForSigningDocuments,
             isOnlyMySignedDocuments,
+            // Если передан тип - то только его. Если не передано или передано -1 - ничего. Если передан all - все
+            addDocumentTasksByType,
           });
           return { data: response };
         } catch (e) {

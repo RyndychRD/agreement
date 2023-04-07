@@ -13,7 +13,8 @@ import {
   useTableModalDispatch,
   useTableModalsState,
 } from "../tables/TableModalProvider";
-import { onCancelConfirm, onOkConfirm } from "../tables/CommonFunctions";
+import { onCancelConfirm } from "../tables/CommonFunctions";
+import ModalConfirm from "./ModalConfirm";
 
 /**
  * Общее окно для отображения модального окна изменения чего либо.
@@ -34,6 +35,7 @@ export default function ModalUpdate({
   CreateUpdateForm,
   formDefaultValues,
   preFinishFunc = null,
+  afterFinishFunc = () => {},
   isAddForeignTables = false,
   additionalGetQueryProps = {},
   notificationType,
@@ -42,6 +44,7 @@ export default function ModalUpdate({
   customState,
   customDispatch,
   okButtonText = "Сохранить",
+  confirmOnOkContent = "Вы точно хотите продолжить?",
 }) {
   const standardState = useTableModalsState();
   const standardDispatch = useTableModalDispatch();
@@ -84,6 +87,7 @@ export default function ModalUpdate({
           // (сабмит перезагружает страницу с изначальным url)
           navigate(clearUrlQueryParams());
           dispatch({ type: "closeAllModal" });
+          afterFinishFunc();
         }
       })
       .catch((info) => {
@@ -131,7 +135,14 @@ export default function ModalUpdate({
       onOk={
         isAddConfirmOnOk
           ? () => {
-              onOkConfirm(onFinish);
+              ModalConfirm({
+                content: confirmOnOkContent,
+                onOk: () => {
+                  onFinish();
+                },
+                okText: "Да",
+                cancelText: "Нет",
+              });
             }
           : onFinish
       }

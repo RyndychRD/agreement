@@ -133,6 +133,7 @@ export const documentTasksApi = createApi({
     completeDocumentTask: build.mutation({
       queryFn: async (body) => {
         try {
+          console.log(body);
           const bodyPrepared = (bodyValues) => ({
             result: bodyValues.result,
             documentTaskId: bodyValues?.id
@@ -144,15 +145,24 @@ export const documentTasksApi = createApi({
             ),
             isSecondPageAgreementFromCustomFieldsConfirmed:
               body.isSecondPageAgreementFromCustomFieldsConfirmed,
+            // В это поле кладутся вообще все дополнительные значения, в итоге получается грязно, но рабоче. Если передан undefined, то поле пропускается
             customFields: {
-              budgetSumNoNDS: parseInt(bodyValues.budgetSumNoNDS, 10),
+              budgetSumNoNDS: bodyValues.budgetSumNoNDS
+                ? parseInt(bodyValues.budgetSumNoNDS, 10)
+                : undefined,
               budgetSumWithNDS: bodyValues.budgetSumWithNDS,
-              contractSumNoNDS: parseInt(bodyValues.contractSumNoNDS, 10),
+              contractSumNoNDS: bodyValues.contractSumNoNDS
+                ? parseInt(bodyValues.contractSumNoNDS, 10)
+                : undefined,
               contractSumWithNDS: bodyValues.contractSumWithNDS,
-              currentNDS: parseInt(bodyValues.currentNDS, 10),
+              currentNDS: bodyValues.currentNDS
+                ? parseInt(bodyValues.currentNDS, 10)
+                : undefined,
               exchangeRates: bodyValues.exchangeRates,
               fullNameOfTheItemInBudget: bodyValues.fullNameOfTheItemInBudget,
               remark: bodyValues.remark,
+              registrationDate: bodyValues.registrationDate,
+              registrationNumber: bodyValues.registrationNumber,
             },
           });
           const response = await DocumentTasksService.update(

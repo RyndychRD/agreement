@@ -46,6 +46,7 @@ const dict = {
   registration_doc: getItem(
     <NavLink to="/document-control/user-documents/registration-documents">
       Регистрация документов
+      <NotificationCount type="OnRegistration" />
     </NavLink>,
     "/document-control/user-documents/registration-documents"
   ),

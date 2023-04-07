@@ -5,6 +5,7 @@ import { useGetDocumentQueryHook } from "../../../../core/redux/api/DocumentCont
 import SimpleSpinner from "../../messages/Spinner";
 import DocumentRegistrationSet from "./DocumentRegistrationSet";
 import DocumentRegistrationShow from "./DocumentRegistrationShow";
+import { DocumentTasksInnerTableProvider } from "../../tables/DocumentTasksInnerTableProvider";
 
 export default function DocumentRegistrationFragment(props) {
   const { documentId, closeModalFunc } = props;
@@ -29,10 +30,12 @@ export default function DocumentRegistrationFragment(props) {
     /* Если документ находится в статусе Регистрация документа - показать форму для заполнения данных по регистрации документа */
     case 8:
       content = (
-        <DocumentRegistrationSet
-          documentId={documentId}
-          closeModalFunc={closeModalFunc}
-        />
+        <DocumentTasksInnerTableProvider>
+          <DocumentRegistrationSet
+            documentId={documentId}
+            closeModalFunc={closeModalFunc}
+          />
+        </DocumentTasksInnerTableProvider>
       );
       break;
     /* Если документ находится в статусе Документы, подписанные в ООПЗ - показать заполненые данные по регистрации документа и дать перевести в Исполненные */

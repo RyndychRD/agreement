@@ -103,6 +103,27 @@ class DocumentService {
         })
       );
     }
+    // Если передан тип интересующих поручений, то вытаскиваем их
+    if (query?.addDocumentTasksByType.trim() != -1) {
+      let typeId = query?.addDocumentTasksByType.trim();
+      typeId = typeId === "all" ? undefined : typeId;
+      documents = await Promise.all(
+        documents.map(async (document) => {
+          let documentTasksForDocument =
+            await DocumentTasksService.getDocumentTasks({
+              document_task_type_id: typeId,
+              document_id: document.id,
+            });
+          return {
+            ...document,
+            document_tasks_by_type: {
+              type: typeId,
+              tasks: documentTasksForDocument,
+            },
+          };
+        })
+      );
+    }
     return await documents;
   }
   async getAllDocumentArchives(props) {

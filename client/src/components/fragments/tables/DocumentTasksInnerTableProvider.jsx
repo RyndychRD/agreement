@@ -6,7 +6,7 @@ const CustomDispatchContext = React.createContext();
 
 // Описание редукторов
 // (каких либо действий если мы не хотим светиться в редаксе)
-function InnerTableModalReducer(state, action) {
+function DocumentTasksInnerTableReducer(state, action) {
   switch (action.type) {
     case "selectRow": {
       return { ...state, currentRow: action.currentRow };
@@ -64,7 +64,7 @@ function createInitialState() {
   };
 }
 
-export function useInnerTableState() {
+export function useDocumentTasksInnerTableState() {
   const context = React.useContext(CustomStateContext);
   if (context === undefined) {
     throw new Error(
@@ -74,7 +74,7 @@ export function useInnerTableState() {
   return context;
 }
 
-export function useInnerTableDispatch() {
+export function useDocumentTasksInnerTableDispatch() {
   const context = React.useContext(CustomDispatchContext);
   if (context === undefined) {
     throw new Error(
@@ -84,9 +84,9 @@ export function useInnerTableDispatch() {
   return context;
 }
 
-export function InnerTableModalProvider({ children }) {
+export function DocumentTasksInnerTableProvider({ children }) {
   const [state, dispatch] = React.useReducer(
-    InnerTableModalReducer,
+    DocumentTasksInnerTableReducer,
     {},
     createInitialState
   );

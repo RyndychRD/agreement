@@ -8,6 +8,7 @@ const {
 } = require("./email-notification-service");
 const { addNotification } = require("./notification-is-read-service");
 const DocumentTaskModel = require("../../models/documentTaskModels/document-task-model");
+const userModels = require("../../models/catalogModels/user-models");
 
 class NotificationService {
   static async notifyDocumentSigning(documentId) {
@@ -34,44 +35,96 @@ class NotificationService {
     if (newDocumentStatusId == 5) {
       this.notifyDocumentSigning(documentId);
     } else {
-      const StatusToNotificationType = {
-        7: "ReworkDocument",
-      };
-
       const document = await DocumentModel.findOne({
         filter: { "documents.id": documentId },
       });
+
+      const onRegistrationFilter = function () {
+        this.where("departments-rights.right_id", "=", 8);
+        this.orWhere("positions-rights.right_id", "=", 8);
+        this.orWhere("users-rights.right_id", "=", 8);
+      };
+      // Либо мы посылаем нотификацию на конкретного пользователя, либо на группу лиц
+      const StatusToNotificationType = {
+        7: { name: "ReworkDocument", userIds: [document.creator_id] },
+        8: {
+          name: "OnRegistration",
+          userIds: await userModels
+            .find({
+              filter: onRegistrationFilter,
+              isAddRights: "true",
+            })
+            .then((result) => result.map((user) => user.id)),
+        },
+      };
+
       const status = await getOneStatus({ id: newDocumentStatusId });
       notifyDocumentStatusChangedEmail(document, status);
       if (StatusToNotificationType[newDocumentStatusId]) {
-        addNotification(
-          document.id,
-          document.creator_id,
-          StatusToNotificationType[newDocumentStatusId]
+        StatusToNotificationType[newDocumentStatusId].userIds.forEach(
+          (userId) => {
+            addNotification(
+              document.id,
+              userId,
+              StatusToNotificationType[newDocumentStatusId].name
+            );
+          }
         );
       }
     }
   }
   static async notifyDocumentTaskChanged(documentTaskId, newDocumentStatusId) {
-    // Если таска только создана - то говорим о ее создании исполнителю.
-    // Если таска закрыта(статус 2) - то говорим об этом создателю таски. Добавлю позже, если будет бизнес необходимость
-    const StatusToNotificationType = {
-      1: "IncomeTask",
-    };
-
     const documentTask = await DocumentTaskModel.getDocumentTask({
       filter: { id: documentTaskId },
     });
     const document = await DocumentModel.findOne({
       filter: { id: documentTask.document_id },
     });
+    // Если таска только создана - то говорим о ее создании исполнителю.
+    const StatusToNotificationType = {
+      1: {
+        name: "IncomeTask",
+        userIds: [documentTask.executor_id],
+        elementId: documentTask.id,
+      },
+    };
+    // Для поручений, которые создаются и выполняются при регистрации договора
+    if (documentTask.document_task_type_id === 3) {
+      const onRegistrationFilter = function () {
+        this.where("departments-rights.right_id", "=", 8);
+        this.orWhere("positions-rights.right_id", "=", 8);
+        this.orWhere("users-rights.right_id", "=", 8);
+      };
+      StatusToNotificationType[2] = {
+        name: "OnRegistration",
+        userIds: await userModels
+          .find({
+            filter: onRegistrationFilter,
+            isAddRights: "true",
+          })
+          .then((result) => result.map((user) => user.id)),
+        elementId: documentTask.document_id,
+      };
+    }
+    // Для поручений, которые создаются и выполняются по требованию Михеевой
+    if (documentTask.document_task_type_id === 2) {
+      StatusToNotificationType[2] = {
+        name: "Signing",
+        userIds: documentTask.creator_id,
+        elementId: documentTask.document_id,
+      };
+    }
 
     notifyDocumentTaskChangedEmail(documentTask, document, newDocumentStatusId);
     if (StatusToNotificationType[newDocumentStatusId]) {
-      addNotification(
-        documentTask.id,
-        documentTask.executor_id,
-        StatusToNotificationType[newDocumentStatusId]
+      StatusToNotificationType[newDocumentStatusId].userIds.forEach(
+        (userId) => {
+          addNotification(
+            StatusToNotificationType[newDocumentStatusId].elementId,
+            userId,
+            StatusToNotificationType[newDocumentStatusId].name
+          );
+        }
       );
     }
   }
