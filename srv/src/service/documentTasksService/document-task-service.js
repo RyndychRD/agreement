@@ -19,11 +19,6 @@ const {
 const NotificationIsReadModel = require("../../models/notification/notification-is-read-model");
 
 class DocumentTasksService {
-  static async getIncomeDocumentTasks(currentUserId, query) {
-    const filter = { executor_id: currentUserId, document_task_status_id: 1 };
-    const isAddForeignTables = query.isAddForeignTables === "true";
-    return DocumentTasksService.getDocumentTasks(filter, isAddForeignTables);
-  }
 
   static async getDocumentTasks(filter, isAddForeignTables = false) {
     const func = DocumentTaskModel.getDocumentTasks({
