@@ -90,22 +90,22 @@ class NotificationService {
         userIds: [documentTask.executor_id],
         elementId: documentTask.id,
       },
+      2: {
+        name: "Signing",
+        userIds: [documentTask.creator_id],
+        elementId: documentTask.document_id,
+      },
     };
     // Для поручений, которые создаются и выполняются при регистрации договора
-    if (documentTask.document_task_type_id === 3) {
+    if (
+      documentTask.document_task_type_id === 3 &&
+      documentTask.document_task_status_id === 2
+    ) {
       StatusToNotificationType[2] = {
         name: "OnRegistration",
         userIds: await userService
           .getUserOfRight(8)
           .then((result) => result.map((user) => user.id)),
-        elementId: documentTask.document_id,
-      };
-    }
-    // Для поручений, которые создаются и выполняются по требованию Михеевой
-    if (documentTask.document_task_type_id === 2) {
-      StatusToNotificationType[2] = {
-        name: "Signing",
-        userIds: documentTask.creator_id,
         elementId: documentTask.document_id,
       };
     }
