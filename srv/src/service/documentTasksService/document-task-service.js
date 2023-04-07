@@ -20,12 +20,18 @@ const NotificationIsReadModel = require("../../models/notification/notification-
 
 class DocumentTasksService {
   static async getIncomeDocumentTasks(currentUserId, query) {
+    const filter = { executor_id: currentUserId, document_task_status_id: 1 };
+    const isAddForeignTables = query.isAddForeignTables === "true";
+    return DocumentTasksService.getDocumentTasks(filter, isAddForeignTables);
+  }
+
+  static async getDocumentTasks(filter, isAddForeignTables = false) {
     const func = DocumentTaskModel.getDocumentTasks({
-      filter: { executor_id: currentUserId, document_task_status_id: 1 },
-      isAddForeignTables: query.isAddForeignTables === "true",
+      filter: filter,
+      isAddForeignTables: isAddForeignTables,
     });
     let documentTasks = await DevTools.addDelay(func);
-    if (query?.isAddForeignTables === "true") {
+    if (isAddForeignTables) {
       documentTasks = await Promise.all(
         documentTasks.map(async (documentTask) => {
           return {
@@ -39,18 +45,14 @@ class DocumentTasksService {
     }
     return documentTasks;
   }
+
   static async getCompletedDocumentTasks(query, currentUserId = null) {
     const filter = { document_task_status_id: 2 };
     if (query.isOnlyMyTasks === "true") {
       filter["executor_id"] = currentUserId ? currentUserId : -1;
     }
-    const func = DocumentTaskModel.getDocumentTasks({
-      filter: filter,
-      isAddForeignTables: query.isAddForeignTables === "true",
-    });
-    let documentTasks = await DevTools.addDelay(func);
-
-    return documentTasks;
+    const isAddForeignTables = query.isAddForeignTables === "true";
+    return DocumentTasksService.getDocumentTasks(filter, isAddForeignTables);
   }
 
   static async getDocumentTasksByDocument(query, currentUser) {
@@ -146,6 +148,12 @@ class DocumentTasksService {
   }
 
   static async createDocumentTask(currentUserId, body) {
+    if (body.typeId === 3) {
+      DocumentTaskModel.delete({
+        document_id: body.documentId,
+        document_task_type_id: body.typeId,
+      });
+    }
     const func = DocumentTaskModel.create({
       creator_id: currentUserId,
       executor_id: body.executorId,
