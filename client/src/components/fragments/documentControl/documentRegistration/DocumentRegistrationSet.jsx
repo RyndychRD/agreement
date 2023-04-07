@@ -1,7 +1,6 @@
-import { Button, Form } from "antd";
+import { Alert, Button, Form } from "antd";
 
 import moment from "moment";
-import { useSelector } from "react-redux";
 import {
   useGetDocumentsQueryHook,
   usePutDocumentRegistrationAndChangeStatusMutationHook,
@@ -13,6 +12,7 @@ import CreateButtonModel from "../documentTasks/buttonModals/create";
 import { useDocumentTasksInnerTableDispatch } from "../../tables/DocumentTasksInnerTableProvider";
 import DocumentRegistrationFields from "./DocumentRegistrationFields";
 import { useGetDocumentTasksByDocumentQueryHook } from "../../../../core/redux/api/DocumentControl/DocumentTaskApi";
+import { useTableModalsState } from "../../tables/TableModalProvider";
 
 /**
  *
@@ -23,16 +23,16 @@ import { useGetDocumentTasksByDocumentQueryHook } from "../../../../core/redux/a
 export default function DocumentRegistrationSet(props) {
   const { documentId, closeModalFunc } = props;
   const dispatchDocumentTask = useDocumentTasksInnerTableDispatch();
+  const mainTableState = useTableModalsState();
   const [form] = Form.useForm();
   const { data: documentTasks = {}, isLoading: isLoadingDocumentTasks } =
     useGetDocumentTasksByDocumentQueryHook({
       documentId,
     });
 
-  const currentUser = useSelector((state) => state.session.current_user);
   const { refetch } = useGetDocumentsQueryHook({
     isAddForeignTables: true,
-    userId: currentUser?.id ? currentUser.id : "-1",
+    isShowAllDocs: true,
     status: "8",
     addDocumentTasksByType: 3,
   });
@@ -74,14 +74,24 @@ export default function DocumentRegistrationSet(props) {
   };
 
   const afterTaskCreationFunc = () => {
-    form.setFieldsValue({ registrationDate: null, registrationNumber: null });
     refetch();
+    closeModalFunc();
   };
+
+  const confirmOnOkContent = mainTableState.currentRow
+    .document_tasks_type_3_is_any
+    ? "Вы точно хотите создать новое поручение? Старые данные по регистрации поручения будут удалены"
+    : undefined;
 
   return (
     <>
+      <Alert
+        style={{ width: "fit-content", marginBottom: "10px" }}
+        type="warning"
+        message={`Текущий статус поручения: ${mainTableState.currentRow.document_tasks_type_3_status}`}
+      />
       <Button
-        className="warning-button"
+        type="primary"
         onClick={onClickCreateTask}
         style={{ marginBottom: "15px" }}
       >
@@ -90,6 +100,7 @@ export default function DocumentRegistrationSet(props) {
       <CreateButtonModel
         documentId={documentId}
         afterFinishFunc={afterTaskCreationFunc}
+        confirmOnOkContent={confirmOnOkContent}
       />
       <Form
         form={form}

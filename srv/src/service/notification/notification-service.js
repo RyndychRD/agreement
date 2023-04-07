@@ -38,6 +38,12 @@ class NotificationService {
       const document = await DocumentModel.findOne({
         filter: { "documents.id": documentId },
       });
+
+      const onRegistrationFilter = function () {
+        this.where("departments-rights.right_id", "=", 8);
+        this.orWhere("positions-rights.right_id", "=", 8);
+        this.orWhere("users-rights.right_id", "=", 8);
+      };
       // Либо мы посылаем нотификацию на конкретного пользователя, либо на группу лиц
       const StatusToNotificationType = {
         7: { name: "ReworkDocument", userIds: [document.creator_id] },
@@ -45,9 +51,7 @@ class NotificationService {
           name: "OnRegistration",
           userIds: await userModels
             .find({
-              filter: {
-                "departments-rights.right_id": 8,
-              },
+              filter: onRegistrationFilter,
               isAddRights: "true",
             })
             .then((result) => result.map((user) => user.id)),
@@ -86,16 +90,27 @@ class NotificationService {
     };
     // Для поручений, которые создаются и выполняются при регистрации договора
     if (documentTask.document_task_type_id === 3) {
+      const onRegistrationFilter = function () {
+        this.where("departments-rights.right_id", "=", 8);
+        this.orWhere("positions-rights.right_id", "=", 8);
+        this.orWhere("users-rights.right_id", "=", 8);
+      };
       StatusToNotificationType[2] = {
         name: "OnRegistration",
         userIds: await userModels
           .find({
-            filter: {
-              "departments-rights.right_id": 8,
-            },
+            filter: onRegistrationFilter,
             isAddRights: "true",
           })
           .then((result) => result.map((user) => user.id)),
+        elementId: documentTask.document_id,
+      };
+    }
+    // Для поручений, которые создаются и выполняются по требованию Михеевой
+    if (documentTask.document_task_type_id === 2) {
+      StatusToNotificationType[2] = {
+        name: "Signing",
+        userIds: documentTask.creator_id,
         elementId: documentTask.document_id,
       };
     }

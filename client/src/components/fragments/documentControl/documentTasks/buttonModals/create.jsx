@@ -13,11 +13,11 @@ import {
 export default function CreateButtonModel({
   documentId,
   afterFinishFunc = () => {},
+  confirmOnOkContent,
 }) {
   /** Служит для отслеживания формы из модального окна для обработки по кнопке */
   const [form] = Form.useForm();
   const state = useDocumentTasksInnerTableState();
-  let confirmOnOkContent;
   switch (state.modalTypeId) {
     case 2:
       form.setFieldValue(
@@ -30,8 +30,6 @@ export default function CreateButtonModel({
         "problem",
         "Собрать информацию для регистрации договора"
       );
-      confirmOnOkContent =
-        "Вы точно хотите создать новое поручение? Данные по старому поручению будут удалены";
       break;
     default:
       form.setFieldValue("problem", "");
