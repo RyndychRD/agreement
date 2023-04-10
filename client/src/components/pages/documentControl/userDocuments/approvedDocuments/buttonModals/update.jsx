@@ -7,6 +7,7 @@ export default function UpdateButtonModel() {
       isShowRegistrationInOOPZ
       isShowRoute
       isAbleToUploadFiles
+      notificationType="Approved"
     />
   );
 }

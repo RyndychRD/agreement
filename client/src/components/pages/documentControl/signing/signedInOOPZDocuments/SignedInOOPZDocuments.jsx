@@ -41,6 +41,7 @@ export default function SignedInOOPZDocuments() {
         dataSource={data ? DocumentService.prepareForTable(data) : null}
         title="Документы, подписанные в ООПЗ"
         buttons={["update"]}
+        notificationType="SignedOOPZ"
       />
       <UpdateButtonModel />
     </TableModalProvider>

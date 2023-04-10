@@ -42,6 +42,7 @@ export default function RejectedDocument() {
         dataSource={data ? DocumentService.prepareForTable(data) : null}
         title="Отклоненные документы"
         buttons={["update"]}
+        notificationType="Rejected"
       />
       <UpdateButtonModel />
     </TableModalProvider>

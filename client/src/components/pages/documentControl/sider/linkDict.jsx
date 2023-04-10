@@ -28,18 +28,21 @@ const dict = {
   approved_doc: getItem(
     <NavLink to="/document-control/user-documents/approved-documents">
       Согласованные
+      <NotificationCount type="Approved" />
     </NavLink>,
     "/document-control/user-documents/approved-documents"
   ),
   completed_doc: getItem(
     <NavLink to="/document-control/user-documents/completed-documents">
       Исполненные
+      <NotificationCount type="Completed" />
     </NavLink>,
     "/document-control/user-documents/completed-documents"
   ),
   rejected_doc: getItem(
     <NavLink to="/document-control/user-documents/rejected-documents">
       Отклоненные
+      <NotificationCount type="Rejected" />
     </NavLink>,
     "/document-control/user-documents/rejected-documents"
   ),
@@ -85,6 +88,7 @@ const dict = {
   signed_in_oopz: getItem(
     <NavLink to="/document-control/signing/signed-in-oopz">
       Документы, подписанные в ООПЗ
+      <NotificationCount type="SignedOOPZ" />
     </NavLink>,
     "/document-control/signing/signed-in-oopz"
   ),

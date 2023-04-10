@@ -44,6 +44,7 @@ export default function CompletedDocuments() {
         dataSource={data ? DocumentService.prepareForTable(data) : null}
         title="Исполненные документы"
         buttons={["update"]}
+        notificationType="Completed"
       />
       <UpdateButtonModel />
     </TableModalProvider>
