@@ -18,6 +18,7 @@ const NotificationIsReadModel = require("../../models/notification/notification-
 const DocumentArchiveModel = require("../../models/document/document-archive-model");
 const moment = require("moment/moment");
 const DocumentTasksService = require("../documentTasksService/document-task-service");
+const notificationIsReadModel = require("../../models/notification/notification-is-read-model");
 
 function getCurrentSigner(document) {
   //Изначально никто не текущий подписант
@@ -435,6 +436,19 @@ class DocumentService {
       }
     );
     NotificationService.notifyDocumentStatusChanged(documentId, newStatusId);
+    const filter = function () {
+      this.whereIn("notification_type", [
+        "ReworkDocument",
+        "Signing",
+        "OnRegistration",
+        "Approved",
+        "Completed",
+        "Rejected",
+        "SignedOOPZ",
+      ]);
+      this.where("element_id", "=", documentId);
+    };
+    notificationIsReadModel.readeNotifications({ filter });
     return await DevTools.addDelay(func);
   }
   async changeDocumentStatusObj(documentId, newStatusId) {

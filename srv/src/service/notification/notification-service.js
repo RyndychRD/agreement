@@ -85,16 +85,20 @@ class NotificationService {
     });
     // Если таска только создана - то говорим о ее создании исполнителю.
     const StatusToNotificationType = {
-      1: {
-        name: "IncomeTask",
-        userIds: [documentTask.executor_id],
-        elementId: documentTask.id,
-      },
-      2: {
-        name: "Signing",
-        userIds: [documentTask.creator_id],
-        elementId: documentTask.document_id,
-      },
+      1: [
+        {
+          name: "IncomeTask",
+          userIds: [documentTask.executor_id],
+          elementId: documentTask.id,
+        },
+      ],
+      2: [
+        {
+          name: "Signing",
+          userIds: [documentTask.creator_id],
+          elementId: documentTask.document_id,
+        },
+      ],
     };
     // Для поручений, которые создаются и выполняются при регистрации договора
     if (
@@ -112,13 +116,15 @@ class NotificationService {
 
     notifyDocumentTaskChangedEmail(documentTask, document, newDocumentStatusId);
     if (StatusToNotificationType[newDocumentStatusId]) {
-      StatusToNotificationType[newDocumentStatusId].userIds.forEach(
-        (userId) => {
-          addNotification(
-            StatusToNotificationType[newDocumentStatusId].elementId,
-            userId,
-            StatusToNotificationType[newDocumentStatusId].name
-          );
+      StatusToNotificationType[newDocumentStatusId].forEach(
+        (taskNotification) => {
+          taskNotification.userIds.forEach((userId) => {
+            addNotification(
+              taskNotification.elementId,
+              userId,
+              taskNotification.name
+            );
+          });
         }
       );
     }
