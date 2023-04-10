@@ -58,6 +58,7 @@ export default function DocumentTasksTable(props) {
         customState={useDocumentTasksInnerTableState}
         // Не работает, служит просто как заглушка
         queryIdNameForOpen="taskId"
+        notificationType="CompleteTask"
       />
 
       <CreateButtonModel documentId={documentId} />

@@ -98,6 +98,11 @@ class NotificationService {
           userIds: [documentTask.creator_id],
           elementId: documentTask.document_id,
         },
+        {
+          name: "CompleteTask",
+          userIds: [documentTask.creator_id],
+          elementId: documentTask.id,
+        },
       ],
     };
     // Для поручений, которые создаются и выполняются при регистрации договора
@@ -105,13 +110,15 @@ class NotificationService {
       documentTask.document_task_type_id === 3 &&
       documentTask.document_task_status_id === 2
     ) {
-      StatusToNotificationType[2] = {
-        name: "OnRegistration",
-        userIds: await userService
-          .getUserOfRight(8)
-          .then((result) => result.map((user) => user.id)),
-        elementId: documentTask.document_id,
-      };
+      StatusToNotificationType[2] = [
+        {
+          name: "OnRegistration",
+          userIds: await userService
+            .getUserOfRight(8)
+            .then((result) => result.map((user) => user.id)),
+          elementId: documentTask.document_id,
+        },
+      ];
     }
 
     notifyDocumentTaskChangedEmail(documentTask, document, newDocumentStatusId);

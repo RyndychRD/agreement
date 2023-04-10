@@ -12,6 +12,7 @@ import {
   useDocumentTasksInnerTableDispatch,
 } from "../../../tables/DocumentTasksInnerTableProvider";
 import ModalUpdate from "../../../modals/modalUpdate";
+import NotificationService from "../../../../../services/DocumentControlServices/NotificationService";
 
 export default function ShowButtonModel() {
   const state = useDocumentTasksInnerTableState();
@@ -29,6 +30,14 @@ export default function ShowButtonModel() {
     isAddDocumentValues: true,
     isAddDocumentFiles: true,
   });
+
+  if (isOpen) {
+    NotificationService.readNotifications({
+      elementId: data.id,
+      notificationType: "CompleteTask",
+    });
+  }
+
   const onCancel = () => {
     dispatch({ type: "closeAllModal" });
   };
