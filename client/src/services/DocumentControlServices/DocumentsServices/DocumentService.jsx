@@ -20,10 +20,7 @@ export default class DocumentService {
           el.updated_at !== el.created_at ? el.updated_at : "",
         document_finished_at: el.finished_at,
         document_creator: userNameMask(el?.creator),
-        document_stage:
-          el.document_status_id === 5 || el.document_status_id === 7
-            ? `${el.last_signed_step + 1}/${el.route_steps_count}`
-            : "",
+        document_stage: DocumentService.getDocumentStage(el),
         is_document_able_to_delete:
           el.document_status_id === 5 && el.last_signed_step === 0,
         document_current_signer: userNameMask(el?.current_signer),
@@ -56,6 +53,19 @@ export default class DocumentService {
       return "Выполнено";
     }
     return "Поручено";
+  }
+
+  static getDocumentStage(el) {
+    if (
+      (el.document_status_id === 5 || el.document_status_id === 7) &&
+      el.route_steps_count === 0
+    ) {
+      return "Маршрут отсутствует!";
+    }
+    if (el.document_status_id === 5 || el.document_status_id === 7) {
+      return `${el.last_signed_step + 1}/${el.route_steps_count}`;
+    }
+    return "";
   }
 
   static async create(values) {

@@ -3,7 +3,10 @@ import { useState } from "react";
 import RouteFormList from "../../../inputs/routeInput";
 import RouteStepShow from "../RouteStepsShow/RouteStepShow";
 import { HeaderTextOutput } from "../../../outputs/textOutputs";
-import { useUpdateDocumentRouteMutationHook } from "../../../../../core/redux/api/DocumentControl/DocumentApi";
+import {
+  useUpdateDocumentMutationHook,
+  useUpdateDocumentRouteMutationHook,
+} from "../../../../../core/redux/api/DocumentControl/DocumentApi";
 import ModalConfirm from "../../../modals/ModalConfirm";
 
 export function DocumentRoutesEditModal(props) {
@@ -11,6 +14,7 @@ export function DocumentRoutesEditModal(props) {
   const [form] = Form.useForm();
 
   const [updateRoute] = useUpdateDocumentRouteMutationHook();
+  const [updateDocument] = useUpdateDocumentMutationHook();
 
   const unsignedRouteSteps = routeSteps
     .map((routeStep) =>
@@ -65,8 +69,16 @@ export function DocumentRoutesEditModal(props) {
           }
           return result;
         });
-        if (preparedValues.length > 0) {
-          updateRoute({ documentId, routeSteps: preparedValues });
+
+        updateRoute({ documentId, routeSteps: preparedValues });
+        if (
+          (!preparedValues || preparedValues.length === 0) &&
+          startStepNumber > 0
+        ) {
+          updateDocument({
+            document_id: documentId,
+            newDocumentStatusId: 4,
+          });
         }
         form.resetFields();
         setOpen(false);
@@ -83,7 +95,12 @@ export function DocumentRoutesEditModal(props) {
         ModalConfirm({ onOk: onFinish, content: "Сохранить маршрут?" });
       }}
       onCancel={() => {
-        setOpen(false);
+        ModalConfirm({
+          onOk: () => {
+            setOpen(false);
+          },
+          content: "Выйти из редактирования маршрута?",
+        });
       }}
       cancelText="Закрыть"
       okText="Сохранить"

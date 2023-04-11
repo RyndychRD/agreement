@@ -32,6 +32,9 @@ class NotificationIsReadService {
       element_id: query.elementId,
       notification_type: query.notificationType,
     };
+    if (!userId) {
+      delete filter.reader_id;
+    }
     const func = NotificationIsReadModel.readeNotifications({ filter });
     return await DevTools.addDelay(func);
   }
