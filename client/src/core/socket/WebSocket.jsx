@@ -1,6 +1,6 @@
-import { getApiUrlByEnv } from "../../services/CommonFunctions";
+import { getWebSocketUrlByEnv } from "../../services/CommonFunctions";
 
-const url = getApiUrlByEnv();
+const url = getWebSocketUrlByEnv();
 const options = { reconnectInterval: 5000 };
 
 export default class WebSocketSingleton {

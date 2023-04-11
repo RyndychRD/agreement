@@ -15,7 +15,7 @@ const mainRouter = require("./src/router/router");
 const errorMiddleware = require("./src/middlewares/error-middleware");
 const { scheduler } = require("./src/schedule/schedule");
 // Функция инициализации вебсокет сервера
-const { startWebSocketServer } = require("./src/sockets/sockets");
+const WSServer = require("./src/sockets/sockets");
 
 //Инициализация сервера
 const app = express();
@@ -38,6 +38,7 @@ app.use(
 );
 //Инициализация роутинга
 app.use("/api", mainRouter);
+
 //Обработка ошибок
 app.use(errorMiddleware);
 
@@ -55,7 +56,7 @@ scheduler();
 const start = async () => {
   try {
     // Создаем инстанс webSocket сервера
-    startWebSocketServer(app);
+    const wss = new WSServer();
     //Прослушиваем ${port}
     app.listen(port, () => {
       console.log(
