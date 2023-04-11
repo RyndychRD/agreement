@@ -13,7 +13,7 @@ const startWebSocketServer = (server) => {
     const userId = uuid();
     console.log(`Recieved a new connection.`);
 
-    // Store the new connection and handle messages
+    // Store the new connection and handle message s
     clients[userId] = connection;
     console.log(`${userId} connected.`);
   });
