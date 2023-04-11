@@ -21,14 +21,14 @@ export default function FAQ() {
         <ul className="category-list">
           {data.map((faq) => {
             let content = `Ошибка распознавания ${faq.url}`;
-            if (faq.url.indexOf(".pdf")) {
+            if (faq.url.indexOf(".pdf") !== -1) {
               content = (
                 <a href={faq.url} target="_blank" rel="noreferrer">
                   {faq.name}
                 </a>
               );
             }
-            if (faq.url.indexOf("/videos/")) {
+            if (faq.url.indexOf("/videos/") !== -1) {
               content = (
                 // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/anchor-is-valid, jsx-a11y/no-static-element-interactions
                 <a
