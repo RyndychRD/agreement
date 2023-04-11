@@ -76,7 +76,7 @@ class RouteService {
     const func = await RouteModels.create({
       document_type_id: body.typeId,
       route: {
-        routeSteps: body.routeSteps.map((step) => {
+        routeSteps: body.routeSteps?.map((step) => {
           return {
             position_id: step.position.id,
             specified_signer_id: step.specified_signer_id
