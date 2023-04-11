@@ -74,7 +74,13 @@ export default function DocumentCreationPipelineRouteConstruct({
     form.setFieldsValue({
       routeSteps: routeByType.route?.map((el) => {
         if (el.specified_signer_id !== -1) return el;
-        return { ...el, specified_signer_id: el.default_signer.id };
+
+        return {
+          ...el,
+          specified_signer_id: el.default_signer?.id
+            ? el.default_signer.id
+            : -1,
+        };
       }),
     });
   }
