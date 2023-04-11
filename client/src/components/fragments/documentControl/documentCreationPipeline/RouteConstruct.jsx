@@ -49,16 +49,18 @@ export default function DocumentCreationPipelineRouteConstruct({
     !isLoadingPositions &&
     !type.is_route_construct_available
   ) {
-    const clearedValues = routeByType?.route?.map((routeStep, index) => ({
-      signer_id: routeStep.default_signer.id,
-      signer: {
-        ...routeStep.default_signer,
-        position_name: positions.find(
-          (el) => el.id === routeStep.default_signer.position_id
-        ).name,
-      },
-      step: index + 1,
-    }));
+    const clearedValues = routeByType?.route
+      ?.filter((el) => el.specified_signer_id !== -1 || el.default_signer?.id)
+      .map((routeStep, index) => ({
+        signer_id: routeStep.default_signer.id,
+        signer: {
+          ...routeStep.default_signer,
+          position_name: positions.find(
+            (el) => el.id === routeStep.default_signer.position_id
+          ).name,
+        },
+        step: index + 1,
+      }));
 
     pipelineDispatch(saveCurrentStepJson(clearedValues));
     pipelineDispatch(nextStep());
@@ -72,16 +74,18 @@ export default function DocumentCreationPipelineRouteConstruct({
   // Но так как у нас здесь не может быть значения по умолчанию, мы вместо него передаем id разымновыванного подписанта, поддерживая таким образом 2 реализации
   if (!isErrorRoutes && !isLoadingRoutes && !isLoadingType) {
     form.setFieldsValue({
-      routeSteps: routeByType.route?.map((el) => {
-        if (el.specified_signer_id !== -1) return el;
+      routeSteps: routeByType.route
+        ?.filter((el) => el.specified_signer_id !== -1 || el.default_signer?.id)
+        .map((el) => {
+          if (el.specified_signer_id !== -1) return el;
 
-        return {
-          ...el,
-          specified_signer_id: el.default_signer?.id
-            ? el.default_signer.id
-            : -1,
-        };
-      }),
+          return {
+            ...el,
+            specified_signer_id: el.default_signer?.id
+              ? el.default_signer.id
+              : -1,
+          };
+        }),
     });
   }
 
