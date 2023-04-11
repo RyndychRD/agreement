@@ -14,7 +14,8 @@ const cookieParser = require("cookie-parser");
 const mainRouter = require("./src/router/router");
 const errorMiddleware = require("./src/middlewares/error-middleware");
 const { scheduler } = require("./src/schedule/schedule");
-//Для создания папок подгрузки файлов при старте
+// Функция инициализации вебсокет сервера
+const { startWebSocketServer } = require("./src/sockets/sockets");
 
 //Инициализация сервера
 const app = express();
@@ -53,6 +54,8 @@ scheduler();
 //Точка входа в приложение (Тут же будем отлавливать ошибки)
 const start = async () => {
   try {
+    // Создаем инстанс webSocket сервера
+    startWebSocketServer(app);
     //Прослушиваем ${port}
     app.listen(port, () => {
       console.log(

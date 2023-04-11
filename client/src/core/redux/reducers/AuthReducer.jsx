@@ -5,6 +5,7 @@ import axios from "axios";
 import AuthService from "../../../services/AuthService";
 import { API_URL } from "../../../http";
 import { saveUserRights } from "../../../services/userAccessService";
+import WebSocketSingleton from "../../socket/WebSocket";
 
 // Создаем преобразователя
 export const loginAsync = createAsyncThunk(
@@ -70,6 +71,8 @@ export const AuthSlice = createSlice({
           state.current_user = action.payload.user;
           state.session = action.payload.accessToken;
           state.isAuth = true;
+          const ws = new WebSocketSingleton();
+          ws.send("Hello world, login");
         } else {
           state.isAuth = false;
         }
@@ -93,6 +96,8 @@ export const AuthSlice = createSlice({
           state.current_user = action.payload.user;
           state.session = action.payload.accessToken;
           state.isAuth = true;
+          const ws = new WebSocketSingleton();
+          ws.send("Hello world, refresh");
         } else {
           state.isAuth = false;
         }
