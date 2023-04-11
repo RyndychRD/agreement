@@ -3,20 +3,21 @@ const http = require("http");
 const express = require("express");
 
 class WSServer {
-  wss = null;
+  static wss = undefined;
   // Все активные подключения
-  clients = {};
+  // Мы определяем для каждого пользователя множество точек подключения, то есть массив. Это мы сделаем для того, чтобы с нескольких вкладок нормально работало
+  static clients = {};
 
   constructor() {
-    if (this.wss) {
-      return this.wss;
+    if (WSServer.wss) {
+      return { wss: WSServer.wss, clients: WSServer.clients };
     }
     const app = express();
     const port = process.env.WEBSOCKET_PORT || 5001;
     const server = http.createServer(app);
-    this.wss = new WebSocket.Server({ server });
+    WSServer.wss = new WebSocket.Server({ server });
     // A new client connection request received
-    this.wss.on("connection", (ws) => {
+    WSServer.wss.on("connection", (ws) => {
       ws.on("message", (message) => {
         console.log(`Received message: ${message}`);
         ws.send(`You sent: ${message}`);
@@ -26,7 +27,7 @@ class WSServer {
     });
 
     server.listen(port, () => {
-      console.log(`WebSocket слушает порт ${process.env.WEBSOCKET_PORT}`);
+      console.log(`WebSocketServer слушает порт ${process.env.WEBSOCKET_PORT}`);
     });
   }
 }

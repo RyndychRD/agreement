@@ -9,6 +9,7 @@ import {
   userNameMask,
 } from "../../services/CommonFunctions";
 import { AMenu, ASpan, AArrowLeftOutlined, APageHeader } from "../adapter";
+import WSS from "../../core/socket/WebSocket";
 
 /**
  * Главный хедер, отображается на всех страницах, кроме авторизации
@@ -24,6 +25,8 @@ function Header() {
   useEffect(() => {
     console.log("isAuth: ", isAuth);
     if (!isAuth) {
+      // Если авторизация не прошла, то мы должны закрыть существующее соединение
+      WSS.close();
       navigate("/login", {
         state: {
           prev_location: `${location.pathname}?${location.search}`.replace(
@@ -32,6 +35,10 @@ function Header() {
           ),
         },
       });
+    } else {
+      // Если у нас есть авторизация, то мы должны создать новое подключение при необходимости
+      // eslint-disable-next-line no-unused-vars
+      const wss = new WSS();
     }
   }, [isAuth, location.pathname, location.search, navigate]);
 
@@ -53,12 +60,12 @@ function Header() {
           label: "Справка",
           key: "FAQ",
         },
-        isAccessGranted("Admin")
-          ? {
-              label: "Справка (Админ)",
-              key: "FAQ_admin",
-            }
-          : "",
+        // isAccessGranted("Admin")
+        //   ? {
+        //       label: "Справка (Админ)",
+        //       key: "FAQ_admin",
+        //     }
+        //   : "",
         // {
         //   label: "Аккаунт",
         //   key: "account",
