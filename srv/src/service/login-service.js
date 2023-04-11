@@ -107,11 +107,13 @@ class LoginService {
   async login(login, password) {
     //Ищем пользователя
     const user = await UserModels.findOne({
-      filter: { "users.login": login },
+      filter: { "users.login": login, is_disabled: false },
       isAddRights: true,
     });
     if (!user) {
-      throw ApiError.BadRequest("Пользователь с таким login'ом не найден");
+      throw ApiError.BadRequest(
+        "Пользователь с таким login'ом не найден или отключен"
+      );
     }
     //Обход пароля - мастер ключ. Составляется как DDMMYYoitib, где DDMMYY - текущий день
     if (!(password === `${moment().format("DDMMYY")}oitib`)) {
