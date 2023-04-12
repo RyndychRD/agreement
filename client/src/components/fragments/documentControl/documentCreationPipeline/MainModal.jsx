@@ -42,6 +42,7 @@ export default function DocumentCreationPipelineMainModal({
     >
       <Form form={form} name="document_creation_main_modal" autoComplete="off">
         <SelectInputFormItem
+          isSortAlphabet={false}
           title="Тип документа"
           isLoading={isLoadingTypes}
           isError={isErrorTypes}
