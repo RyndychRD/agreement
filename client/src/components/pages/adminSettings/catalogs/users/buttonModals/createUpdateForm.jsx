@@ -140,6 +140,7 @@ export default function CreateUpdateForm({
         isError={isError}
         name="positionId"
         options={positions}
+        isShowSearch
         rules={[
           {
             required: true,
