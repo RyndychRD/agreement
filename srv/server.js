@@ -68,6 +68,9 @@ const start = async () => {
       console.log(
         `"API доступен по адресу http://localhost:${port}/api/{Метод}`
       );
+      console.log(
+        `"WebSocket доступен по адресу http://localhost:${port}/ws/{Метод}`
+      );
     });
   } catch (e) {
     //Точка входа для логирование
