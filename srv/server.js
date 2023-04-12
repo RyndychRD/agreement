@@ -12,10 +12,11 @@ const bodyParser = require("body-parser");
 //Пользуемся для парсинга cookie без него (req.cookies) недоступен
 const cookieParser = require("cookie-parser");
 const mainRouter = require("./src/router/router");
+const wsRouter = require("./src/router/socket-router");
 const errorMiddleware = require("./src/middlewares/error-middleware");
 const { scheduler } = require("./src/schedule/schedule");
 // Функция инициализации вебсокет сервера
-const WSServer = require("./src/sockets/sockets");
+const enableWs = require("express-ws");
 
 //Инициализация сервера
 const app = express();
@@ -38,6 +39,7 @@ app.use(
 );
 //Инициализация роутинга
 app.use("/api", mainRouter);
+app.use("/ws", wsRouter);
 
 //Обработка ошибок
 app.use(errorMiddleware);
@@ -56,7 +58,7 @@ scheduler();
 const start = async () => {
   try {
     // Создаем инстанс webSocket сервера
-    const wss = new WSServer();
+    enableWs(app);
     //Прослушиваем ${port}
     app.listen(port, () => {
       console.log(

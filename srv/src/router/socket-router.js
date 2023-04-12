@@ -1,23 +1,17 @@
-const SocketController = require("../controllers/socketController/socket-controller");
+const Router = require("express").Router;
+const router = new Router();
+const expressWs = require("express-ws");
+expressWs(router);
 
-class SocketRouter {
-  static getControllerByMessageAction(message) {
-    const messageJson = JSON.parse(message);
-    switch (messageJson.action) {
-      case "addNewConnection":
-        SocketController.addNewConnection(message);
-        break;
-      case "deleteExistingConnection":
-        SocketController.deleteExistingConnection(message);
-        break;
-      default:
-        console.log(
-          "ОШИБКА: Не известный тип действия для контроллера:",
-          message
-        );
-        break;
-    }
-  }
-}
+router.ws("/echo", (ws, req) => {
+  ws.on("message", (msg) => {
+    console.log("Receive message " + msg);
+    ws.send(msg);
+  });
 
-module.exports = SocketRouter;
+  ws.on("close", () => {
+    console.log("WebSocket was closed");
+  });
+});
+
+module.exports = router;
