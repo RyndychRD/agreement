@@ -1,7 +1,6 @@
 import { Layout as ALayout, Col, Row } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useEffect } from "react";
 import { isAccessGranted } from "../../services/userAccessService";
 import { logoutAsync } from "../../core/redux/reducers/AuthReducer";
 import {
@@ -17,22 +16,8 @@ function Header() {
   const currentUser = useSelector((state) => state.session.current_user);
   const { Header: AHeaderLayout } = ALayout;
   const dispatch = useDispatch();
-  const isAuth = useSelector((state) => state.session.isAuth);
   const navigate = useNavigate();
   const location = useLocation();
-  useEffect(() => {
-    console.log("isAuth: ", isAuth);
-    if (!isAuth) {
-      navigate("/login", {
-        state: {
-          prev_location: `${location.pathname}?${location.search}`.replace(
-            /([?&])+/g,
-            "$1"
-          ),
-        },
-      });
-    }
-  }, [isAuth, location.pathname, location.search, navigate]);
 
   /**
    * Полный список элементов, доступных из хедера
