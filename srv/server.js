@@ -12,7 +12,7 @@ const bodyParser = require("body-parser");
 //Пользуемся для парсинга cookie без него (req.cookies) недоступен
 const cookieParser = require("cookie-parser");
 const mainRouter = require("./src/router/router");
-const wsRouter = require("./src/router/socket-router");
+const { router: wsRouter } = require("./src/router/socket-router");
 const errorMiddleware = require("./src/middlewares/error-middleware");
 const { scheduler } = require("./src/schedule/schedule");
 // Функция инициализации вебсокет сервера

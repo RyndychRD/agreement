@@ -39,22 +39,14 @@ class NotificationIsReadService {
     return await DevTools.addDelay(func);
   }
 
-  static async getNotificationCount(userId, query) {
+  static async getNotificationCount(userId) {
     const filter = {
       reader_id: userId,
       is_read: false,
     };
-    if (query.isGetNotificationCount === "true") {
-      const func = NotificationIsReadModel.getNotificationsCount({
-        filter,
-      });
-      const result = await DevTools.addDelay(func);
-      return result;
-    } else {
-      const func = NotificationIsReadModel.getNotifications({ filter });
-      const result = await DevTools.addDelay(func);
-      return result;
-    }
+    const func = NotificationIsReadModel.getNotifications({ filter });
+    const result = await DevTools.addDelay(func);
+    return result;
   }
 }
 

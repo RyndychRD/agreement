@@ -1,7 +1,7 @@
 const DocumentNotificationService = require("../../service/notification/notification-is-read-service");
 
 class DocumentNotificationController {
-  async getNotificationCount(req, res, next) {
+  async getNotificationCount(req, res) {
     try {
       const data = await DocumentNotificationService.getNotificationCount(
         req.user.id,
@@ -9,7 +9,7 @@ class DocumentNotificationController {
       );
       return res.json(data);
     } catch (e) {
-      next(e);
+      console.log("getNotificationCount error", e);
     }
   }
 

@@ -1,23 +1,19 @@
 const Router = require("express").Router;
 const router = new Router();
 const expressWs = require("express-ws");
-const tokenService = require("../service/token-service");
+const socketAuthFunction = require("../middlewares/socket-middleware");
+const {
+  NotificationSocketRouter,
+} = require("./socket/notification-socket-router");
+
 expressWs(router);
 
-router.ws("/notification", (ws, req) => {
-  const accessToken = req?.query?.accessToken;
-  const userData = tokenService.validateAccessToken(accessToken);
-  ws.on("message", (msg) => {
-    console.log("Receive " + msg);
-    msg = JSON.parse(msg);
-    ws.send(JSON.stringify({ ...msg, userId: userData.id }));
-  });
+const wsConnections = { notification: {} };
 
-  ws.on("close", () => {
-    console.log("WebSocket was closed");
-  });
+router.ws("/notification", socketAuthFunction, (ws, req) => {
+  wsConnections.notification[req.user.id] = ws;
 
-  ws.on("error", console.log);
+  NotificationSocketRouter(ws, req.user);
 });
 
-module.exports = router;
+module.exports = { router, wsConnections };

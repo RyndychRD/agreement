@@ -12,6 +12,7 @@ export const notificationsApi = createApi({
     getUnreadNotifications: build.query({
       queryFn: async (props) => {
         const { isGetNotificationCount = true } = props;
+        return { data: [] };
         try {
           const response = await NotificationService.getUnreadNotifications(
             isGetNotificationCount
