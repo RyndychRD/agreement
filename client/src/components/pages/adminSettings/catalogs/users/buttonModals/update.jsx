@@ -1,8 +1,8 @@
+import { Form } from "antd";
 import {
   useGetUserQueryHook,
   useUpdateUserMutationHook,
 } from "../../../../../../core/redux/api/Globals/Catalogs/UserApi";
-import { AUseForm } from "../../../../../adapter";
 import ModalUpdate from "../../../../../fragments/modals/modalUpdate";
 import CreateUpdateForm from "./createUpdateForm";
 import getUniqNotNullIds from "../../../../../../services/CommonFunctions";
@@ -26,7 +26,7 @@ const preFinishFunction = (values) => {
 
 export default function UpdateButtonModel() {
   // Служит для отслеживания формы из модального окна для обработки по кнопке
-  const [form] = AUseForm();
+  const [form] = Form.useForm();
   // Предзаполнение формы данными, полученными из БД
   const formDefaultValues = (data) => ({
     newLogin: data?.login,

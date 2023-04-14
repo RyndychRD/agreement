@@ -1,5 +1,4 @@
-import { AUseForm } from "../../../../../adapter";
-
+import { Form } from "antd";
 import { useAddTypeMutationHook } from "../../../../../../core/redux/api/Globals/Catalogs/TypeApi";
 import CreateUpdateForm from "./createUpdateForm";
 import ModalInput from "../../../../../fragments/modals/modalInput";
@@ -8,7 +7,7 @@ import ModalInput from "../../../../../fragments/modals/modalInput";
  */
 export default function CreateButtonModel() {
   /** Служит для отслеживания формы из модального окна для обработки по кнопке */
-  const [form] = AUseForm();
+  const [form] = Form.useForm();
   return (
     <ModalInput
       addMutation={useAddTypeMutationHook}

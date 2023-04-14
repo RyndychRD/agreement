@@ -1,5 +1,4 @@
 import { Alert, Modal } from "antd";
-import { ASpan } from "../../adapter";
 import SimpleError from "../messages/Error";
 import SimpleSpinner from "../messages/Spinner";
 import {
@@ -15,9 +14,7 @@ function defaultDeleteMessage(deleteText) {
     <>
       Вы уверены что хотите удалить элемент?
       <br />
-      <ASpan style={{ fontWeight: "bold", marginTop: "5px" }}>
-        {deleteText}
-      </ASpan>
+      <span style={{ fontWeight: "bold", marginTop: "5px" }}>{deleteText}</span>
     </>
   );
 }

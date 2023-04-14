@@ -7,14 +7,15 @@ import { useGetArchiveLogQueryHook } from "../../../../../../core/redux/api/Admi
 export default function UpdateButtonModel() {
   // Служит для отслеживания формы из модального окна для обработки по кнопке
   const [form] = Form.useForm();
-  const formDefaultValues = () => ({});
   return (
     <ModalUpdate
       getQuery={useGetArchiveLogQueryHook}
       updateMutation={useUpdateArchiveTypeMutationHook}
       form={form}
       CreateUpdateForm={CreateUpdateForm}
-      formDefaultValues={formDefaultValues}
+      isAddConfirmOnOk={false}
+      isAddConfirmOnCancel={false}
+      footer={[]}
     />
   );
 }

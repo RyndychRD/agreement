@@ -3,23 +3,12 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
+import { Alert, Button, Col, Input, Row, Form } from "antd";
+import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import {
   refreshAsync,
   loginAsync,
 } from "../../core/redux/reducers/AuthReducer";
-import {
-  AAlert,
-  AButton,
-  ACol,
-  AEyeInvisibleOutlined,
-  AEyeTwoTone,
-  AForm,
-  AFormItem,
-  AInput,
-  AInputPassword,
-  ARow,
-  ASpan,
-} from "../adapter";
 import "./style.css";
 
 function Auth() {
@@ -51,10 +40,10 @@ function Auth() {
   }, []);
 
   return (
-    <ARow justify="center" align="middle" style={{ height: "95vh" }}>
-      <ACol>
+    <Row justify="center" align="middle" style={{ height: "95vh" }}>
+      <Col>
         {isAuth && showAlert && (
-          <AAlert
+          <Alert
             showIcon
             type="success"
             message="Сообщение"
@@ -62,24 +51,24 @@ function Auth() {
           />
         )}
         {!isAuth && showAlert && (
-          <AAlert
+          <Alert
             showIcon
             type="error"
             message="Ошибка"
             description="Неверный логин или пароль."
           />
         )}
-        <AForm
+        <Form
           name="basic"
           onFinish={(value) => {
             setShowAlert(true);
             dispatch(loginAsync(value));
           }}
         >
-          <ARow gutter={16}>
-            <ACol>
-              <ASpan className="authorizationHeader">АВТОРИЗАЦИЯ</ASpan>
-              <AFormItem
+          <Row gutter={16}>
+            <Col>
+              <span className="authorizationHeader">АВТОРИЗАЦИЯ</span>
+              <Form.Item
                 name="login"
                 rules={[
                   {
@@ -88,12 +77,12 @@ function Auth() {
                   },
                 ]}
               >
-                <AInput
+                <Input
                   className="loginFormName"
                   placeholder="Имя пользователя"
                 />
-              </AFormItem>
-              <AFormItem
+              </Form.Item>
+              <Form.Item
                 name="password"
                 rules={[
                   {
@@ -102,40 +91,40 @@ function Auth() {
                   },
                 ]}
               >
-                <AInputPassword
+                <Input.Password
                   className="loginFormPassword"
                   placeholder="Пароль"
                   // eslint-disable-next-line react/no-unstable-nested-components
                   iconRender={(isVisible) =>
                     isVisible ? (
-                      <AEyeTwoTone
+                      <EyeTwoTone
                         style={{ color: "#fff" }}
                         className="loginIcons"
                       />
                     ) : (
-                      <AEyeInvisibleOutlined
+                      <EyeInvisibleOutlined
                         style={{ color: "#fff" }}
                         className="loginIcons"
                       />
                     )
                   }
                 />
-              </AFormItem>
-              <AFormItem className="loginFormItem">
-                <AButton
+              </Form.Item>
+              <Form.Item className="loginFormItem">
+                <Button
                   className="login_btn"
                   htmlType="submit"
                   type="primary"
                   style={{ width: "100%" }}
                 >
                   Войти
-                </AButton>
-              </AFormItem>
-            </ACol>
-          </ARow>
-        </AForm>
-      </ACol>
-    </ARow>
+                </Button>
+              </Form.Item>
+            </Col>
+          </Row>
+        </Form>
+      </Col>
+    </Row>
   );
 }
 

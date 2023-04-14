@@ -1,15 +1,15 @@
+import { Form } from "antd";
 import {
   useGetPositionQueryHook,
   useUpdatePositionMutationHook,
 } from "../../../../../../core/redux/api/Globals/Catalogs/PositionsApi";
-import { AUseForm } from "../../../../../adapter";
 import ModalUpdate from "../../../../../fragments/modals/modalUpdate";
 import CreateUpdateForm from "./createUpdateForm";
 import getUniqNotNullIds from "../../../../../../services/CommonFunctions";
 
 export default function UpdateButtonModel() {
   // Служит для отслеживания формы из модального окна для обработки по кнопке
-  const [form] = AUseForm();
+  const [form] = Form.useForm();
 
   const formDefaultValues = (data) => ({
     newPositionName: data?.name,

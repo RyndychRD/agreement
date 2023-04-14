@@ -1,8 +1,7 @@
 /** @format */
 import _ from "lodash";
 import moment from "moment";
-import { Col, Row, Button } from "antd";
-import { AAlert, ATag } from "../../adapter";
+import { Col, Row, Button, Tag, Alert } from "antd";
 import ModalConfirm from "../modals/ModalConfirm";
 
 /**
@@ -83,9 +82,9 @@ export const renderRights = (items) => {
     if (item.id === 1) color = "red";
     if (item.id === 13) color = "orange";
     return (
-      <ATag style={{ margin: "5px" }} key={item.id} color={color}>
+      <Tag style={{ margin: "5px" }} key={item.id} color={color}>
         {item.name}
-      </ATag>
+      </Tag>
     );
   });
 };
@@ -124,9 +123,9 @@ export function sorterInt(a, b) {
 
 export function booleanRender(value) {
   return value ? (
-    <AAlert className="boolean-render" type="success" message="Да" />
+    <Alert className="boolean-render" type="success" message="Да" />
   ) : (
-    <AAlert className="boolean-render" type="error" message="Нет" />
+    <Alert className="boolean-render" type="error" message="Нет" />
   );
 }
 

@@ -1,13 +1,16 @@
-import { Layout as ALayout, Col, Row } from "antd";
+import { Layout as ALayout, Col, Menu, Row } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
+
+import { PageHeader } from "@ant-design/pro-layout";
+import { ArrowLeftOutlined } from "@ant-design/icons";
 import { isAccessGranted } from "../../services/userAccessService";
 import { logoutAsync } from "../../core/redux/reducers/AuthReducer";
 import {
   getHeaderAlertByEnv,
   userNameMask,
 } from "../../services/CommonFunctions";
-import { AMenu, ASpan, AArrowLeftOutlined, APageHeader } from "../adapter";
+
 /**
  * Главный хедер, отображается на всех страницах, кроме авторизации
  * К хедеру привязана логика проверки авторизован ли пользователь
@@ -84,7 +87,7 @@ function Header() {
    */
   function isShowIcon() {
     return location.pathname !== "/" ? (
-      <AArrowLeftOutlined style={{ color: "white" }} />
+      <ArrowLeftOutlined style={{ color: "white" }} />
     ) : (
       ""
     );
@@ -94,19 +97,19 @@ function Header() {
     <AHeaderLayout>
       <Row justify="space-between" align="middle">
         <Col>
-          <APageHeader
+          <PageHeader
             onBack={() => {
               navigate("/");
             }}
             backIcon={isShowIcon()}
             title={
-              <ASpan style={{ color: "white" }}>Согласование договоров</ASpan>
+              <span style={{ color: "white" }}>Согласование договоров</span>
             }
           />
         </Col>
         {getHeaderAlertByEnv()}
         <Col style={{ width: "200px" }}>
-          <AMenu
+          <Menu
             onClick={onClick}
             theme="dark"
             mode="horizontal"

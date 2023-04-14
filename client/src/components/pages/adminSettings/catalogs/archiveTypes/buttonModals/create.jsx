@@ -1,4 +1,4 @@
-import { AUseForm } from "../../../../../adapter";
+import { Form } from "antd";
 import ModalInput from "../../../../../fragments/modals/modalInput";
 
 import { useAddArchiveTypeMutationHook } from "../../../../../../core/redux/api/Globals/Catalogs/ArchiveTypeApi";
@@ -8,7 +8,7 @@ import CreateUpdateForm from "./createUpdateForm";
  */
 export default function CreateButtonModel() {
   /** Служит для отслеживания формы из модального окна для обработки по кнопке */
-  const [form] = AUseForm();
+  const [form] = Form.useForm();
   return (
     <ModalInput
       addMutation={useAddArchiveTypeMutationHook}

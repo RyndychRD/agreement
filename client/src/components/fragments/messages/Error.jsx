@@ -1,15 +1,15 @@
 /** @format */
 
-import { AAlert } from "../../adapter";
+import { Alert } from "antd";
 import "./style.css";
 
 export default function SimpleError() {
-  return <AAlert message="Что-то пошло не так" type="error" />;
+  return <Alert message="Что-то пошло не так" type="error" />;
 }
 
 export function Error404() {
-  return <AAlert message="Страница не найдена" type="error" />;
+  return <Alert message="Страница не найдена" type="error" />;
 }
 export function Error403() {
-  return <AAlert message="Не хватает прав" type="error" />;
+  return <Alert message="Не хватает прав" type="error" />;
 }

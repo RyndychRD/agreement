@@ -33,7 +33,7 @@ export default function ModalUpdate({
   updateMutation,
   form,
   CreateUpdateForm,
-  formDefaultValues,
+  formDefaultValues = () => {},
   preFinishFunc = null,
   afterFinishFunc = () => {},
   isAddForeignTables = false,
@@ -42,6 +42,7 @@ export default function ModalUpdate({
   isAddConfirmOnCancel = true,
   isAddConfirmOnOk = true,
   customState,
+  footer = undefined,
   customDispatch,
   okButtonText = "Сохранить",
   confirmOnOkContent = "Вы точно хотите продолжить?",
@@ -132,6 +133,7 @@ export default function ModalUpdate({
     <Modal
       okText={okButtonText}
       cancelText="Отмена"
+      footer={footer}
       onOk={
         isAddConfirmOnOk
           ? () => {
