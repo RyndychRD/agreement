@@ -1,3 +1,7 @@
+const {
+  DOCUMENT_TASK_STATUS_ASSIGNED,
+  DOCUMENT_TASK_STATUS_COMPLETE,
+} = require("../../consts");
 const { getOneUser } = require("../catalogServices/user-service");
 const mailService = require("../mail-service");
 
@@ -18,14 +22,14 @@ class EmailNotificationService {
   }
 
   static async notifyDocumentTaskChangedEmail(documentTask, document, status) {
-    if (status === 1) {
+    if (status === DOCUMENT_TASK_STATUS_ASSIGNED) {
       const title = "Поручение";
       const text = `На вас создано новое поручение по документу ${document.name}. Задача по поручению: ${documentTask.problem}`;
       const toId = documentTask.executor_id;
       const toUser = await getOneUser({ id: toId });
       mailService.sendMail(toUser.email, title, text);
     }
-    if (status === 2) {
+    if (status === DOCUMENT_TASK_STATUS_COMPLETE) {
       const title = "Поручение";
       const text = `Поручение по документу ${document.name} выполнено. Задача по выполненному поручению: ${documentTask.problem}. Результат выполненного поручения: ${documentTask.result}`;
       const toId = document.creator_id;

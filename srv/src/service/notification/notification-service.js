@@ -11,6 +11,10 @@ const DocumentTaskModel = require("../../models/documentTaskModels/document-task
 const userModels = require("../../models/catalogModels/user-models");
 const DevTools = require("../DevTools");
 const userService = require("../catalogServices/user-service");
+const {
+  DOCUMENT_STATUS_ON_WORK,
+  DOCUMENT_TASK_STATUS_COMPLETE,
+} = require("../../consts");
 
 class NotificationService {
   static async notifyDocumentSigning(documentId) {
@@ -34,7 +38,7 @@ class NotificationService {
 
   static async notifyDocumentStatusChanged(documentId, newDocumentStatusId) {
     //Если документ в работе, то значит он вернулся из На доработку и надо отправить сообщение о подписании
-    if (newDocumentStatusId == 5) {
+    if (newDocumentStatusId == DOCUMENT_STATUS_ON_WORK) {
       this.notifyDocumentSigning(documentId);
     } else {
       const document = await DocumentModel.findOne({
@@ -76,6 +80,7 @@ class NotificationService {
       }
     }
   }
+
   static async notifyDocumentTaskChanged(documentTaskId, newDocumentStatusId) {
     const documentTask = await DocumentTaskModel.getDocumentTask({
       filter: { id: documentTaskId },
@@ -108,7 +113,7 @@ class NotificationService {
     // Для поручений, которые создаются и выполняются при регистрации договора
     if (
       documentTask.document_task_type_id === 3 &&
-      documentTask.document_task_status_id === 2
+      documentTask.document_task_status_id === DOCUMENT_TASK_STATUS_COMPLETE
     ) {
       StatusToNotificationType[2] = [
         {
