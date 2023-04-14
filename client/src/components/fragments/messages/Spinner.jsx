@@ -1,12 +1,12 @@
 /** @format */
 
-import { ADiv, ASpin } from "../../adapter";
+import { Spin } from "antd";
 import "./style.css";
 
 export default function SimpleSpinner() {
   return (
-    <ADiv className="spinner-div">
-      <ASpin />
-    </ADiv>
+    <div className="spinner-div">
+      <Spin />
+    </div>
   );
 }

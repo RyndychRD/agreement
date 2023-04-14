@@ -1,12 +1,12 @@
+import { Form } from "antd";
 import { useGetRightsQueryHook } from "../../../../../../core/redux/api/Globals/Catalogs/RightApi";
-import { AForm } from "../../../../../adapter";
 import SelectInputFormItem from "../../../../../fragments/inputs/selectInputs";
 import TextInputFormItem from "../../../../../fragments/inputs/textInputs";
 
 export default function CreateUpdateForm({ form }) {
   const { data: rights = {}, isError, isLoading } = useGetRightsQueryHook();
   return (
-    <AForm form={form}>
+    <Form form={form}>
       <TextInputFormItem
         title="Наименование департамента"
         name="newDepartmentName"
@@ -26,6 +26,6 @@ export default function CreateUpdateForm({ form }) {
         options={rights}
         rules={[]}
       />
-    </AForm>
+    </Form>
   );
 }

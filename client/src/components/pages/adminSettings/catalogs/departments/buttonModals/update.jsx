@@ -1,4 +1,4 @@
-import { AUseForm } from "../../../../../adapter";
+import { Form } from "antd";
 import ModalUpdate from "../../../../../fragments/modals/modalUpdate";
 import CreateUpdateForm from "./createUpdateForm";
 import getUniqNotNullIds from "../../../../../../services/CommonFunctions";
@@ -9,7 +9,7 @@ import {
 
 export default function UpdateButtonModel() {
   // Служит для отслеживания формы из модального окна для обработки по кнопке
-  const [form] = AUseForm();
+  const [form] = Form.useForm();
   const formDefaultValues = (data) => ({
     newDepartmentName: data?.name,
     rightIds: getUniqNotNullIds(data?.rights),

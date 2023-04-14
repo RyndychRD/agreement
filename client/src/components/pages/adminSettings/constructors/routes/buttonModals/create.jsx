@@ -1,4 +1,4 @@
-import { AUseForm } from "../../../../../adapter";
+import { Form } from "antd";
 import CreateUpdateForm from "./createUpdateForm";
 import { useAddRouteMutationHook } from "../../../../../../core/redux/api/AdminSettings/Constructor/RouteConstructorApi";
 import ModalInput from "../../../../../fragments/modals/modalInput";
@@ -7,7 +7,7 @@ import ModalInput from "../../../../../fragments/modals/modalInput";
  */
 export default function CreateButtonModel() {
   /** Служит для отслеживания формы из модального окна для обработки по кнопке */
-  const [form] = AUseForm();
+  const [form] = Form.useForm();
   return (
     <ModalInput
       addMutation={useAddRouteMutationHook}

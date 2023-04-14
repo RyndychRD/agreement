@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { AForm } from "../../../../../adapter";
+import { Form } from "antd";
 import SelectInputFormItem from "../../../../../fragments/inputs/selectInputs";
 import TextInputFormItem from "../../../../../fragments/inputs/textInputs";
 import {
@@ -77,7 +77,7 @@ export default function CreateUpdateForm({
   );
 
   return (
-    <AForm form={form}>
+    <Form form={form}>
       <TextInputFormItem
         title="Логин пользователя"
         name="newLogin"
@@ -184,6 +184,6 @@ export default function CreateUpdateForm({
         options={rights}
         rules={[]}
       />
-    </AForm>
+    </Form>
   );
 }

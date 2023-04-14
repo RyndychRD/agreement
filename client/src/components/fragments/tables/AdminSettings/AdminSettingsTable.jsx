@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { Table } from "antd";
 import {
   useTableModalDispatch,
   useTableModalsState,
 } from "../TableModalProvider";
-import { ATable } from "../../../adapter";
 import getTitle from "../CommonFunctions";
 import "../style.css";
 import SimpleSpinner from "../../messages/Spinner";
@@ -65,7 +65,7 @@ export default function AdminSettingsTable({
   if (isError) return <SimpleError />;
 
   return (
-    <ATable
+    <Table
       scroll={{ x: "1000" }}
       key="keyAdminSettingsTable"
       columns={getColumns({ dataSource, columns })}

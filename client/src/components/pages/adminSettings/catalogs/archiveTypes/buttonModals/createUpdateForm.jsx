@@ -1,9 +1,9 @@
-import { AForm } from "../../../../../adapter";
+import { Form } from "antd";
 import TextInputFormItem from "../../../../../fragments/inputs/textInputs";
 
 export default function CreateUpdateForm({ form }) {
   return (
-    <AForm form={form}>
+    <Form form={form}>
       <TextInputFormItem
         title="Наименование типа архива"
         name="newArchiveTypeName"
@@ -14,6 +14,6 @@ export default function CreateUpdateForm({ form }) {
           },
         ]}
       />
-    </AForm>
+    </Form>
   );
 }
