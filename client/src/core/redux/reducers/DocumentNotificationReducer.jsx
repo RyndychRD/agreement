@@ -10,9 +10,7 @@ export const notificationSlice = createSlice({
   initialState,
   reducers: {
     setNotifications: (state, action) => {
-      console.log(action.payload);
       state.notifications = action.payload;
-      console.log(state.notifications);
     },
     readNotification: (state, action) => {
       state.notifications = state.notifications.filter(
@@ -24,9 +22,7 @@ export const notificationSlice = createSlice({
       );
     },
     appendNotification: (state, action) => {
-      console.log(action.payload);
       state.notifications.push(action.payload);
-      console.log(state.notifications);
     },
   },
 });

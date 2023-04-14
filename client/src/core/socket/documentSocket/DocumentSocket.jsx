@@ -18,7 +18,7 @@ export default function DocumentSocket() {
     },
     onMessage: (msg) => {
       const msgJson = JSON.parse(msg.data);
-      console.log("По сокету принята посылка: ", msgJson);
+      // console.log("По сокету принята посылка: ", msgJson);
       switch (msgJson.type) {
         case "setNotifications":
           dispatch(setNotifications(msgJson.notifications));
