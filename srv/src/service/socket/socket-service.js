@@ -11,7 +11,7 @@ class SocketService {
 
   static deleteSocketConnection(ws) {
     wsConnections.documents = wsConnections.documents.filter(
-      (el) => el.ws !== ws
+      (el) => el.ws._socket?._peername?.port !== ws._socket?._peername?.port
     );
   }
 }

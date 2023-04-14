@@ -24,7 +24,6 @@ const socketAuthFunction = function (ws, req, next) {
     }
     // Стандартное поведение на закрытие
     ws.on("close", () => {
-      console.log("WebSocket was closed");
       SocketService.deleteSocketConnection(ws);
     });
 
