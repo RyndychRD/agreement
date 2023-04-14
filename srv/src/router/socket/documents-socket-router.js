@@ -1,6 +1,4 @@
 const DocumentsSocketController = require("../../controllers/socketControllers/document-socket-controller");
-const NotificationIsReadService = require("../../service/notification/notification-is-read-service");
-const { SocketService } = require("../../service/socket/socket-service");
 
 const DocumentsSocketRouter = (ws, user) => {
   // При первом подключении отсылаем всю инфу по нотификации

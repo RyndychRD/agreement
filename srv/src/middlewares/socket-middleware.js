@@ -1,3 +1,4 @@
+const { SocketService } = require("../service/socket/socket-service");
 const tokenService = require("../service/token-service");
 
 /**
@@ -24,6 +25,7 @@ const socketAuthFunction = function (ws, req, next) {
     // Стандартное поведение на закрытие
     ws.on("close", () => {
       console.log("WebSocket was closed");
+      SocketService.deleteSocketConnection(ws);
     });
 
     // Стандартное поведение на ошибку

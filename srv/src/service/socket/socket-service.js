@@ -8,6 +8,12 @@ class SocketService {
         userWs.ws.send(JSON.stringify(msg));
       });
   }
+
+  static deleteSocketConnection(ws) {
+    wsConnections.documents = wsConnections.documents.filter(
+      (el) => el.ws !== ws
+    );
+  }
 }
 
 module.exports = { SocketService, wsConnections };
