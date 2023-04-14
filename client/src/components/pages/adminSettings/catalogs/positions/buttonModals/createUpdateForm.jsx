@@ -55,6 +55,7 @@ export default function CreateUpdateForm({ form }) {
       />
       <SelectInputFormItem
         title="Департамент"
+        isShowSearch
         isLoading={isLoadingDepartments}
         isError={isErrorDepartments}
         name="departmentId"

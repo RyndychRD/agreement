@@ -124,6 +124,8 @@ export default function ModalDocumentView(props) {
             isAbleToSign={isAbleToSign}
             isAbleToEdit={
               isAbleToEdit && state.currentRow?.document_status_id === 5
+              // ||
+              // state.currentRow?.document_status_id === 7)
             }
           />
         ) : (
