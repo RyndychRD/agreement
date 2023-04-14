@@ -2,6 +2,7 @@ import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Table } from "antd";
 import { Excel } from "antd-table-saveas-excel";
+import { useSelector } from "react-redux";
 import {
   useTableModalDispatch,
   useTableModalsState,
@@ -11,7 +12,6 @@ import "../style.css";
 import SimpleSpinner from "../../messages/Spinner";
 import SimpleError from "../../messages/Error";
 import getColumns from "./getColumns";
-import { useGetUnreadNotificationsQueryHook } from "../../../../core/redux/api/DocumentControl/NotificationApi";
 import { useUpdateDocumentMutation } from "../../../../core/redux/api/DocumentControl/DocumentApi";
 import ModalConfirm from "../../modals/ModalConfirm";
 
@@ -44,23 +44,21 @@ export default function DocumentControlTableViewer({
 
   const columnsNamed = getColumns({ dataSource, columns });
 
-  // FIXME: Костыль для отмены запросов нотификации, если таблица этого не требует. Убрать
-  const pollingInterval = notificationType
-    ? {
-        pollingInterval: 1000,
-      }
-    : {};
-
-  const { data: notificationIds, isLoading: isLoadingNotifications } =
-    useGetUnreadNotificationsQueryHook(
-      { isGetNotificationCount: false },
-      pollingInterval
-    );
-
+  // Подсветка нотификации. Выбираем только те, которые по типу относятся к текущей таблице
+  const notifications = useSelector(
+    (stateNotifications) =>
+      stateNotifications.notification.notifications.length > 0
+        ? stateNotifications.notification.notifications.filter(
+            (notification) =>
+              notification.notification_type === notificationType
+          )
+        : [],
+    (oldValue, newValue) => oldValue === newValue
+  );
   let documentForNotifying = [];
-  if (!isLoadingNotifications && notificationIds) {
-    documentForNotifying = notificationIds
-      ?.filter((el) => el.notification_type === notificationType)
+  if (notifications) {
+    documentForNotifying = notifications
+      .filter((el) => el.notification_type === notificationType)
       .map((el) => el.element_id);
   }
 

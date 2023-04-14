@@ -2,18 +2,23 @@ const Router = require("express").Router;
 const router = new Router();
 const expressWs = require("express-ws");
 const socketAuthFunction = require("../middlewares/socket-middleware");
-const {
-  NotificationSocketRouter,
-} = require("./socket/notification-socket-router");
+const { DocumentsSocketRouter } = require("./socket/documents-socket-router");
+const { wsConnections } = require("../service/socket/socket-service");
 
 expressWs(router);
 
-const wsConnections = { notification: {} };
-
-router.ws("/notification", socketAuthFunction, (ws, req) => {
-  wsConnections.notification[req.user.id] = ws;
-
-  NotificationSocketRouter(ws, req.user);
+router.ws("/documents", socketAuthFunction, (ws, req) => {
+  // На рассылку подписываем только авторизованных
+  if (req.user?.id) {
+    const newConnection = {
+      ws,
+      wskey: req.headers["sec-websocket-key"],
+      ip: req.ip,
+      userId: req.user.id,
+    };
+    wsConnections.documents.push(newConnection);
+  }
+  DocumentsSocketRouter(ws, req.user);
 });
 
 module.exports = { router, wsConnections };

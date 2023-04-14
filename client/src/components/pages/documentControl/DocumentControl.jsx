@@ -8,12 +8,14 @@ import Signing from "./signing/Signing";
 import Tasks from "./tasks/Tasks";
 import AdminDocs from "./adminDocs/AdminDocs";
 import { isAccessGranted } from "../../../services/userAccessService";
+import DocumentSocket from "../../../core/socket/documentSocket/DocumentSocket";
 
 export default function DocumentControl() {
   const { Content } = Layout;
   if (!isAccessGranted("ContractAgreement")) {
     return <Error403 />;
   }
+  DocumentSocket();
   return (
     <Layout>
       <Sider />
