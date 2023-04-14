@@ -17,10 +17,18 @@ export default function CreateUpdateForm({
   isAddUpdateOnlyFields,
 }) {
   const {
-    data: positions = {},
+    data: positions = [],
     isLoading,
     isError,
-  } = useGetPositionsQueryHook({});
+  } = useGetPositionsQueryHook({ isAddForeignTables: true });
+
+  let positionsWithDepartments = [];
+  if (positions.length > 0) {
+    positionsWithDepartments = positions.map((position) => ({
+      ...position,
+      name: `${position.name}, ${position.department_name}`,
+    }));
+  }
 
   const {
     data: users = {},
@@ -139,7 +147,7 @@ export default function CreateUpdateForm({
         isLoading={isLoading}
         isError={isError}
         name="positionId"
-        options={positions}
+        options={positionsWithDepartments}
         isShowSearch
         rules={[
           {
