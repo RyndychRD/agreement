@@ -29,6 +29,8 @@ export default function SelectInputFormItem({
   onChange,
   defaultValue,
   isShowRewrite,
+  isSortAlphabet = true,
+  isShowSearch = false,
 }) {
   if (isShowRewrite) console.log(`Селект ${title} перерисовался`);
   // Предобработка данных для отображения в селекте
@@ -38,7 +40,12 @@ export default function SelectInputFormItem({
   }
 
   const mode = isModeMultiple ? { mode: "multiple" } : {};
-
+  const filterSort = isSortAlphabet
+    ? (optionA, optionB) =>
+        (optionA?.label ?? "")
+          .toLowerCase()
+          .localeCompare((optionB?.label ?? "").toLowerCase())
+    : () => {};
   let result = "";
   if (isError) {
     result = <SimpleError />;
@@ -48,11 +55,16 @@ export default function SelectInputFormItem({
     result = (
       <Select
         {...mode}
+        showSearch={isShowSearch}
         options={formatOptions}
         placeholder={title}
         disabled={disabled}
         defaultValue={defaultValue}
         onChange={onChange}
+        filterSort={filterSort}
+        filterOption={(input, option) =>
+          (option?.label.toLowerCase() ?? "").includes(input.toLowerCase())
+        }
       />
     );
   }

@@ -8,14 +8,15 @@ import {
   useGetDocumentTaskQueryHook,
 } from "../../../../../core/redux/api/DocumentControl/DocumentTaskApi";
 import {
-  useInnerTableState,
-  useInnerTableDispatch,
-} from "../../../tables/InnerTableProvider";
+  useDocumentTasksInnerTableState,
+  useDocumentTasksInnerTableDispatch,
+} from "../../../tables/DocumentTasksInnerTableProvider";
 import ModalUpdate from "../../../modals/modalUpdate";
+import NotificationService from "../../../../../services/DocumentControlServices/NotificationService";
 
 export default function ShowButtonModel() {
-  const state = useInnerTableState();
-  const dispatch = useInnerTableDispatch();
+  const state = useDocumentTasksInnerTableState();
+  const dispatch = useDocumentTasksInnerTableDispatch();
   const isOpen = state.isShowUpdateModal && state?.currentRow;
   const [form] = Form.useForm();
   const {
@@ -29,6 +30,14 @@ export default function ShowButtonModel() {
     isAddDocumentValues: true,
     isAddDocumentFiles: true,
   });
+
+  if (isOpen) {
+    NotificationService.readNotifications({
+      elementId: data.id,
+      notificationType: "CompleteTask",
+    });
+  }
+
   const onCancel = () => {
     dispatch({ type: "closeAllModal" });
   };
@@ -58,8 +67,8 @@ export default function ShowButtonModel() {
         preFinishFunc={preFinishFunc}
         CreateUpdateForm={DocumentTasksShowBlock}
         formDefaultValues={formDefaultValues}
-        customState={useInnerTableState}
-        customDispatch={useInnerTableDispatch}
+        customState={useDocumentTasksInnerTableState}
+        customDispatch={useDocumentTasksInnerTableDispatch}
         okButtonText="Подтвердить"
         additionalGetQueryProps={{
           currentRow: state?.currentRow,

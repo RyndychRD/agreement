@@ -19,13 +19,13 @@ const {
 const NotificationIsReadModel = require("../../models/notification/notification-is-read-model");
 
 class DocumentTasksService {
-  static async getIncomeDocumentTasks(currentUserId, query) {
+  static async getDocumentTasks(filter, isAddForeignTables = false) {
     const func = DocumentTaskModel.getDocumentTasks({
-      filter: { executor_id: currentUserId, document_task_status_id: 1 },
-      isAddForeignTables: query.isAddForeignTables === "true",
+      filter: filter,
+      isAddForeignTables: isAddForeignTables,
     });
     let documentTasks = await DevTools.addDelay(func);
-    if (query?.isAddForeignTables === "true") {
+    if (isAddForeignTables) {
       documentTasks = await Promise.all(
         documentTasks.map(async (documentTask) => {
           return {
@@ -39,18 +39,14 @@ class DocumentTasksService {
     }
     return documentTasks;
   }
+
   static async getCompletedDocumentTasks(query, currentUserId = null) {
     const filter = { document_task_status_id: 2 };
     if (query.isOnlyMyTasks === "true") {
       filter["executor_id"] = currentUserId ? currentUserId : -1;
     }
-    const func = DocumentTaskModel.getDocumentTasks({
-      filter: filter,
-      isAddForeignTables: query.isAddForeignTables === "true",
-    });
-    let documentTasks = await DevTools.addDelay(func);
-
-    return documentTasks;
+    const isAddForeignTables = query.isAddForeignTables === "true";
+    return DocumentTasksService.getDocumentTasks(filter, isAddForeignTables);
   }
 
   static async getDocumentTasksByDocument(query, currentUser) {
@@ -146,6 +142,15 @@ class DocumentTasksService {
   }
 
   static async createDocumentTask(currentUserId, body) {
+    if (body.typeId === 3) {
+      const tasksToDelete = await DocumentTasksService.getDocumentTasks({
+        document_id: body.documentId,
+        document_task_type_id: body.typeId,
+      });
+      tasksToDelete.forEach((task) => {
+        DocumentTasksService.deleteDocumentTaskById(task.id);
+      });
+    }
     const func = DocumentTaskModel.create({
       creator_id: currentUserId,
       executor_id: body.executorId,
@@ -179,13 +184,13 @@ class DocumentTasksService {
     return documentTask;
   }
 
-  static async deleteDocumentTask(query) {
+  static async deleteDocumentTaskById(id) {
     const func = DocumentTaskModel.delete({
-      id: query.id,
+      id: id,
     });
     const readNotification = NotificationIsReadModel.readeNotifications({
       filter: {
-        element_id: query.id,
+        element_id: id,
         notification_type: "IncomeTask",
       },
     });
@@ -201,7 +206,7 @@ class DocumentTasksService {
       {
         result: body.result,
         custom_fields: body.customFields,
-        is_second_page_agreement_from_custom_fields_confirmed:
+        is_confirmed:
           body.isSecondPageAgreementFromCustomFieldsConfirmed || false,
         document_task_status_id: body.documentTaskStatusId,
         finished_at: "now",

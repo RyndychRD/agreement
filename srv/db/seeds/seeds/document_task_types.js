@@ -10,6 +10,10 @@ exports.documentTaskTypesSeed = async function (knex) {
       id: 2,
       name: "Поручение для 2 листа согласования Закупа ТРУ",
     },
+    {
+      id: 3,
+      name: "Поручение для сбора данных на Регистрацию документов",
+    },
   ];
 
   const table = "document_task_types";

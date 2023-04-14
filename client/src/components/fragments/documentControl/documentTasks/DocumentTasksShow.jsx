@@ -10,6 +10,7 @@ import UploadList, { UploadListItem } from "../../file/fileOutputs";
 import DocumentInformationShow from "../documentInformation/DocumentInformationShow";
 import { useGetDocumentFilesQueryHook } from "../../../../core/redux/api/DocumentControl/DocumentApi";
 import DocumentTaskSecondListZakupTRU from "./buttonModals/documentTaskExtraFields/DocumentTaskSecondListZakupTRU";
+import DocumentTaskDocumentRegistration from "./buttonModals/documentTaskExtraFields/DocumentTaskDocumentRegistration";
 
 export default function DocumentTasksShowBlock(props) {
   const {
@@ -25,6 +26,30 @@ export default function DocumentTasksShowBlock(props) {
   let [form] = Form.useForm();
   if (passedForm) {
     form = passedForm;
+  }
+
+  let resultContent = "";
+  switch (task?.document_task_type_id) {
+    case 2:
+      resultContent = (
+        <Form form={form}>
+          <DocumentTaskSecondListZakupTRU isDisabled={isDisabled} form={form} />
+        </Form>
+      );
+      break;
+    case 3:
+      resultContent = (
+        <Form form={form}>
+          <DocumentTaskDocumentRegistration
+            isDisabled={isDisabled}
+            form={form}
+          />
+        </Form>
+      );
+      break;
+    default:
+      resultContent = <SimpleTextOutput text={task?.result} />;
+      break;
   }
 
   return (
@@ -76,18 +101,7 @@ export default function DocumentTasksShowBlock(props) {
       {task?.document_task_status_id === 2 ? (
         <>
           <HeaderTextOutput text="Результат" />
-
-          {task?.result ? <SimpleTextOutput text={task?.result} /> : ""}
-          {task?.document_task_type_id === 2 ? (
-            <Form form={form}>
-              <DocumentTaskSecondListZakupTRU
-                isDisabled={isDisabled}
-                form={form}
-              />
-            </Form>
-          ) : (
-            ""
-          )}
+          {resultContent}
         </>
       ) : (
         ""

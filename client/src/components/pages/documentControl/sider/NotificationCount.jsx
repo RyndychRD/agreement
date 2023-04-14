@@ -10,7 +10,6 @@ export default function NotificationCount(props) {
       pollingInterval: 1000,
     }
   );
-
   if (isLoading) return <SimpleSpinner />;
   return (
     <sup>

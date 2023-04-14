@@ -17,7 +17,13 @@ import { userNameMask } from "../../../../../services/CommonFunctions";
  * CurrentElementSelectValue:{[{value:string,label:string}]}
  */
 function FBSelect(props) {
-  const { elemNameForForm, form, CurrentElementSelectValue } = props;
+  const {
+    elemNameForForm,
+    form,
+    CurrentElementSelectValue,
+    filterOption = (input, option) =>
+      (option?.label.toLowerCase() ?? "").includes(input.toLowerCase()),
+  } = props;
   const {
     setValueInSelectOnForm = (value) => {
       form.setFieldValue(elemNameForForm, value);
@@ -37,9 +43,7 @@ function FBSelect(props) {
       onDrop={handlePaste}
       optionFilterProp="children"
       onChange={setValueInSelectOnForm}
-      filterOption={(input, option) =>
-        (option?.label.toLowerCase() ?? "").includes(input.toLowerCase())
-      }
+      filterOption={filterOption}
       id={elemNameForForm}
       options={CurrentElementSelectValue}
     />
@@ -90,6 +94,9 @@ function SelectTableUsers(props) {
   return (
     <FBSelect
       CurrentElementSelectValue={CurrentElementSelectValue}
+      filterOption={(input, option) =>
+        (option?.label.toLowerCase() ?? "").startsWith(input.toLowerCase())
+      }
       {...props}
     />
   );

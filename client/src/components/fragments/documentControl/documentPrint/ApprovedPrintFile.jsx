@@ -99,6 +99,7 @@ export default function ApprovedPrintFile(props) {
       documentId,
       isStart,
     });
+
   const {
     data: confirmedForSecondPageDocumentTask = [],
     isLoadingDocumentTasks,

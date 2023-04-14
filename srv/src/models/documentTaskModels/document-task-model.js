@@ -34,7 +34,7 @@ class DocumentTaskSchema {
   }) {
     let query = this.knexProvider("document_tasks").select("document_tasks.*");
     if (isConfirmedForSecondPageOnly) {
-      filter["is_second_page_agreement_from_custom_fields_confirmed"] = true;
+      filter["is_confirmed"] = true;
     }
     if (filter) query = query.where(filter);
     if (isAddForeignTables) query = this.addForeignTablesInformation(query);

@@ -18,6 +18,7 @@ const NotificationIsReadModel = require("../../models/notification/notification-
 const DocumentArchiveModel = require("../../models/document/document-archive-model");
 const moment = require("moment/moment");
 const DocumentTasksService = require("../documentTasksService/document-task-service");
+const notificationIsReadModel = require("../../models/notification/notification-is-read-model");
 
 function getCurrentSigner(document) {
   //Изначально никто не текущий подписант
@@ -99,6 +100,27 @@ class DocumentService {
             document_tasks_completed_count: documentTasksForDocument.filter(
               (task) => task.document_task_status_id === 2
             ).length,
+          };
+        })
+      );
+    }
+    // Если передан тип интересующих поручений, то вытаскиваем их
+    if (query?.addDocumentTasksByType.trim() != -1) {
+      let typeId = query?.addDocumentTasksByType.trim();
+      typeId = typeId === "all" ? undefined : typeId;
+      documents = await Promise.all(
+        documents.map(async (document) => {
+          let documentTasksForDocument =
+            await DocumentTasksService.getDocumentTasks({
+              document_task_type_id: typeId,
+              document_id: document.id,
+            });
+          return {
+            ...document,
+            document_tasks_by_type: {
+              type: typeId,
+              tasks: documentTasksForDocument,
+            },
           };
         })
       );
@@ -414,6 +436,19 @@ class DocumentService {
       }
     );
     NotificationService.notifyDocumentStatusChanged(documentId, newStatusId);
+    const filter = function () {
+      this.whereIn("notification_type", [
+        "ReworkDocument",
+        "Signing",
+        "OnRegistration",
+        "Approved",
+        "Completed",
+        "Rejected",
+        "SignedOOPZ",
+      ]);
+      this.where("element_id", "=", documentId);
+    };
+    notificationIsReadModel.readeNotifications({ filter });
     return await DevTools.addDelay(func);
   }
   async changeDocumentStatusObj(documentId, newStatusId) {

@@ -1,4 +1,5 @@
 import _ from "lodash";
+import { Alert, Col } from "antd";
 
 export default function getUniqNotNullIds(array) {
   return _.uniq(_.reject(array, ["id", null])?.map((el) => el.id));
@@ -64,4 +65,28 @@ export function getApiUrlByEnv() {
       break;
   }
   return API_URL_TEMP;
+}
+
+export function getHeaderAlertByEnv() {
+  let text = "";
+  switch (process.env.REACT_APP_NODE_ENV.trim().toLowerCase()) {
+    case "production":
+      break;
+    case "testing":
+      text = (
+        <Col>
+          <Alert type="warning" description="ЭТО ОКРУЖЕНИЕ ТЕСТА" />
+        </Col>
+      );
+      break;
+    case "development":
+    default:
+      text = (
+        <Col>
+          <Alert type="warning" description="ЭТО ОКРУЖЕНИЕ РАЗРАБОТКИ" />
+        </Col>
+      );
+      break;
+  }
+  return text;
 }

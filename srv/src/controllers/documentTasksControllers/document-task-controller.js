@@ -3,9 +3,11 @@ const DocumentTasksService = require("../../service/documentTasksService/documen
 class DocumentTasksController {
   async getIncomeDocumentTasks(req, res, next) {
     try {
-      const data = await DocumentTasksService.getIncomeDocumentTasks(
-        req.user.id,
-        req?.query
+      const filter = { executor_id: req.user.id, document_task_status_id: 1 };
+      const isAddForeignTables = req?.query.isAddForeignTables === "true";
+      const data = await DocumentTasksService.getDocumentTasks(
+        filter,
+        isAddForeignTables
       );
       return res.json(data);
     } catch (e) {
@@ -14,9 +16,14 @@ class DocumentTasksController {
   }
   async getCompletedDocumentTasks(req, res, next) {
     try {
-      const data = await DocumentTasksService.getCompletedDocumentTasks(
-        req?.query,
-        req.user.id
+      const filter = { document_task_status_id: 2 };
+      if (req.query.isOnlyMyTasks === "true") {
+        filter["executor_id"] = req.user.id ? req.user.id : -1;
+      }
+      const isAddForeignTables = req.query.isAddForeignTables === "true";
+      const data = await DocumentTasksService.getDocumentTasks(
+        filter,
+        isAddForeignTables
       );
       return res.json(data);
     } catch (e) {
@@ -55,7 +62,9 @@ class DocumentTasksController {
   }
   async deleteDocumentTask(req, res, next) {
     try {
-      const data = await DocumentTasksService.deleteDocumentTask(req?.query);
+      const data = await DocumentTasksService.deleteDocumentTaskById(
+        req?.query.id
+      );
       return res.json(data);
     } catch (e) {
       next(e);

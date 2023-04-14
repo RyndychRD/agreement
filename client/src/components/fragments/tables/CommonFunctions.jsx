@@ -231,14 +231,3 @@ export function onCancelConfirm(onCancel) {
     cancelText: "Нет",
   });
 }
-
-export function onOkConfirm(onCancel) {
-  ModalConfirm({
-    content: "Вы точно хотите продолжить?",
-    onOk: () => {
-      onCancel();
-    },
-    okText: "Да",
-    cancelText: "Нет",
-  });
-}

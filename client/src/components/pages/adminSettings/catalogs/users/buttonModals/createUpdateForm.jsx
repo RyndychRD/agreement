@@ -9,18 +9,43 @@ import {
 import CheckboxInputFormItem from "../../../../../fragments/inputs/checkboxInputs";
 import { useGetRightsQueryHook } from "../../../../../../core/redux/api/Globals/Catalogs/RightApi";
 import getUniqNotNullIds from "../../../../../../services/CommonFunctions";
+import { useGetUsersQueryHook } from "../../../../../../core/redux/api/Globals/Catalogs/UserApi";
 
-export default function CreateUpdateForm({ form, isAddUpdateOnlyFields }) {
+export default function CreateUpdateForm({
+  form,
+  rawData,
+  isAddUpdateOnlyFields,
+}) {
   const {
-    data: positions = {},
+    data: positions = [],
     isLoading,
     isError,
-  } = useGetPositionsQueryHook({});
+  } = useGetPositionsQueryHook({ isAddForeignTables: true });
+
+  let positionsWithDepartments = [];
+  if (positions.length > 0) {
+    positionsWithDepartments = positions.map((position) => ({
+      ...position,
+      name: `${position.name}, ${position.department_name}`,
+    }));
+  }
+
+  const {
+    data: users = {},
+    isLoadingUsers,
+    isErrorUsers,
+  } = useGetUsersQueryHook({});
+
   const {
     data: rights = {},
     isError: isErrorRights,
     isLoading: isLoadingRights,
   } = useGetRightsQueryHook();
+
+  let userLogins = [];
+  if (!isLoadingUsers && !isErrorUsers && users.length > 0) {
+    userLogins = users.map((user) => user.login);
+  }
 
   const checkbox = isAddUpdateOnlyFields ? (
     <CheckboxInputFormItem title="Заблокирован?" name="isDisabled" />
@@ -61,6 +86,19 @@ export default function CreateUpdateForm({ form, isAddUpdateOnlyFields }) {
             required: true,
             message: "Введите логин пользователя",
           },
+          () => ({
+            validator(_, value) {
+              const trimValue = value.trim();
+              // Если это не тот логин, который уже был и он встречается среди других логинов, выводим ошибку
+              if (
+                trimValue !== rawData?.login &&
+                userLogins.find((login) => login === trimValue)
+              ) {
+                return Promise.reject(new Error("Такой логин занят"));
+              }
+              return Promise.resolve();
+            },
+          }),
         ]}
       />
       <TextInputFormItem
@@ -109,7 +147,8 @@ export default function CreateUpdateForm({ form, isAddUpdateOnlyFields }) {
         isLoading={isLoading}
         isError={isError}
         name="positionId"
-        options={positions}
+        options={positionsWithDepartments}
+        isShowSearch
         rules={[
           {
             required: true,

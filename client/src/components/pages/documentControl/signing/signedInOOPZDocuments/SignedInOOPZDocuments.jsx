@@ -1,4 +1,3 @@
-import { useSelector } from "react-redux";
 import { useGetDocumentsQuery } from "../../../../../core/redux/api/DocumentControl/DocumentApi";
 import DocumentControlTableViewer from "../../../../fragments/tables/DocumentControl/DocumentControlTableViewer";
 import { TableModalProvider } from "../../../../fragments/tables/TableModalProvider";
@@ -9,7 +8,6 @@ import DocumentService from "../../../../../services/DocumentControlServices/Doc
 
 /** Список документов, созданных пользователем */
 export default function SignedInOOPZDocuments() {
-  const currentUser = useSelector((state) => state.session.current_user);
   const columns = {
     data: [
       "document_id",
@@ -29,7 +27,7 @@ export default function SignedInOOPZDocuments() {
     isError,
   } = useGetDocumentsQuery({
     isAddForeignTables: true,
-    userId: currentUser?.id ? currentUser.id : "-1",
+    isShowAllDocs: true,
     status: "9",
   });
 
@@ -43,6 +41,7 @@ export default function SignedInOOPZDocuments() {
         dataSource={data ? DocumentService.prepareForTable(data) : null}
         title="Документы, подписанные в ООПЗ"
         buttons={["update"]}
+        notificationType="SignedOOPZ"
       />
       <UpdateButtonModel />
     </TableModalProvider>

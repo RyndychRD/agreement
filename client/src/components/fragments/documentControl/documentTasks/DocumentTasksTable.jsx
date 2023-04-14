@@ -3,10 +3,10 @@ import { useGetDocumentTasksByDocumentQueryHook } from "../../../../core/redux/a
 import DocumentControlTableViewer from "../../tables/DocumentControl/DocumentControlTableViewer";
 import DocumentTasksService from "../../../../services/DocumentControlServices/DocumentsServices/DocumentTasksService/DocumentTaskService";
 import {
-  InnerTableModalProvider,
-  useInnerTableDispatch,
-  useInnerTableState,
-} from "../../tables/InnerTableProvider";
+  DocumentTasksInnerTableProvider,
+  useDocumentTasksInnerTableDispatch,
+  useDocumentTasksInnerTableState,
+} from "../../tables/DocumentTasksInnerTableProvider";
 
 import CreateButtonModel from "./buttonModals/create";
 import DeleteButtonAction from "./buttonModals/delete";
@@ -46,7 +46,7 @@ export default function DocumentTasksTable(props) {
   }
 
   return (
-    <InnerTableModalProvider>
+    <DocumentTasksInnerTableProvider>
       <DocumentControlTableViewer
         isLoading={isLoading}
         isError={isError}
@@ -54,15 +54,16 @@ export default function DocumentTasksTable(props) {
         buttons={buttons}
         dataSource={data ? DocumentTasksService.prepareForTable(data) : null}
         title="Поручения по документу"
-        customDispatch={useInnerTableDispatch}
-        customState={useInnerTableState}
+        customDispatch={useDocumentTasksInnerTableDispatch}
+        customState={useDocumentTasksInnerTableState}
         // Не работает, служит просто как заглушка
         queryIdNameForOpen="taskId"
+        notificationType="CompleteTask"
       />
 
       <CreateButtonModel documentId={documentId} />
       <ShowButtonModel />
       <DeleteButtonAction />
-    </InnerTableModalProvider>
+    </DocumentTasksInnerTableProvider>
   );
 }

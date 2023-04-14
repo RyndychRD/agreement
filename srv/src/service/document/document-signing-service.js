@@ -6,6 +6,7 @@ const {
 const DevTools = require("../DevTools");
 const { changeDocumentLastSignedStep } = require("./document-service");
 const NotificationService = require("../notification/notification-service");
+const NotificationIsReadService = require("../notification/notification-is-read-service");
 
 class SigningService {
   static async getOneDocumentRoute(query) {
@@ -85,12 +86,21 @@ class SigningService {
   }
 
   static async update({ documentId, routeSteps }) {
+    // Удаляем предыдущие шаги и очищаем нотификацию по ним
     const deletePreviousSteps =
       SigningModel.deleteReplacedRouteSteps(documentId);
     await DevTools.addDelay(deletePreviousSteps);
-    const putNewSteps = SigningModel.create(routeSteps);
-    const result = await DevTools.addDelay(putNewSteps);
-    NotificationService.notifyDocumentSigning(documentId);
+    NotificationIsReadService.readNotifications(undefined, {
+      elementId: documentId,
+      notificationType: "Signing",
+    });
+
+    let result = [];
+    if (routeSteps.length > 0) {
+      const putNewSteps = SigningModel.create(routeSteps);
+      result = await DevTools.addDelay(putNewSteps);
+      NotificationService.notifyDocumentSigning(documentId);
+    }
     return result;
   }
 }

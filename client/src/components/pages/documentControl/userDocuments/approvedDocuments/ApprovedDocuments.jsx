@@ -43,6 +43,7 @@ export default function ApprovedDocuments() {
         dataSource={data ? DocumentService.prepareForTable(data) : null}
         title="Согласованные документы"
         buttons={["update"]}
+        notificationType="Approved"
       />
       <UpdateButtonModel />
     </TableModalProvider>

@@ -2,18 +2,18 @@
 import { useDeleteDocumentTaskMutationHook } from "../../../../../core/redux/api/DocumentControl/DocumentTaskApi";
 import ModalDelete from "../../../modals/modalDelete";
 import {
-  useInnerTableDispatch,
-  useInnerTableState,
-} from "../../../tables/InnerTableProvider";
+  useDocumentTasksInnerTableDispatch,
+  useDocumentTasksInnerTableState,
+} from "../../../tables/DocumentTasksInnerTableProvider";
 
 export default function DeleteButtonAction() {
-  const state = useInnerTableState();
+  const state = useDocumentTasksInnerTableState();
   return (
     <ModalDelete
       deleteMutation={useDeleteDocumentTaskMutationHook}
       deleteText={state.currentRow?.document_task_problem}
-      customState={useInnerTableState}
-      customDispatch={useInnerTableDispatch}
+      customState={useDocumentTasksInnerTableState}
+      customDispatch={useDocumentTasksInnerTableDispatch}
     />
   );
 }

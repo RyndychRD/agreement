@@ -17,6 +17,14 @@ class NotificationIsReadService {
     });
     return await DevTools.addDelay(func);
   }
+  static async addNotificationByRight(elementId, toId, notificationType) {
+    const func = NotificationIsReadModel.create({
+      element_id: elementId,
+      reader_id: toId,
+      notification_type: notificationType,
+    });
+    return await DevTools.addDelay(func);
+  }
 
   static async readNotifications(userId, query) {
     const filter = {
@@ -24,6 +32,9 @@ class NotificationIsReadService {
       element_id: query.elementId,
       notification_type: query.notificationType,
     };
+    if (!userId) {
+      delete filter.reader_id;
+    }
     const func = NotificationIsReadModel.readeNotifications({ filter });
     return await DevTools.addDelay(func);
   }
