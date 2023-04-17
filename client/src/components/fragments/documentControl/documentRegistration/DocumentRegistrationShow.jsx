@@ -28,8 +28,7 @@ export default function DocumentRegistrationShow(props) {
 
   const [updateDocumentMutation, { isError: isErrorUpdateStatus }] =
     useUpdateDocumentMutationHook();
-  if (isLoading) return <SimpleSpinner />;
-  if (isError) return <SimpleError />;
+
   const changeStatus = async () => {
     const valuesToSend = {
       document_id: document.id,
@@ -41,6 +40,9 @@ export default function DocumentRegistrationShow(props) {
       closeModalFunc();
     }
   };
+
+  if (isLoading) return <SimpleSpinner />;
+  if (isError) return <SimpleError />;
 
   return (
     <>
