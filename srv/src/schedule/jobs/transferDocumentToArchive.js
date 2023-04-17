@@ -4,6 +4,8 @@ const DocumentService = require("../../service/document/document-service");
 const { DOCUMENT_STATUS_ARCHIVE } = require("../../consts");
 
 async function transferDocumentToArchive() {
+  console.log("Перевод документов с Исполнен в Архив отключен");
+  return;
   console.log("Запущен перевод документов с Исполнен в Архив");
   const filter = function () {
     const currentDate = moment().format("YYYY-MM-DD 23:59:59");
