@@ -1,6 +1,8 @@
 import { Layout as ALayout } from "antd";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 import Header from "./Header";
 import MainPage from "./mainPage/MainPage";
 
@@ -13,6 +15,24 @@ import Archive from "./archive/Archive";
 import Pashalka from "./FAQ/Pashalka";
 
 function Layout() {
+  const isAuth = useSelector((state) => state.session.isAuth);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    console.log("isAuth: ", isAuth);
+    if (!isAuth) {
+      navigate("/login", {
+        state: {
+          prev_location: `${location.pathname}?${location.search}`.replace(
+            /([?&])+/g,
+            "$1"
+          ),
+        },
+      });
+    }
+  }, [isAuth, location.pathname, location.search, navigate]);
+
   return (
     <ALayout className="layout">
       <Header />

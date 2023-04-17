@@ -1,7 +1,7 @@
 import { Layout as ALayout, Col, Menu, Row } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useEffect } from "react";
+
 import { PageHeader } from "@ant-design/pro-layout";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import { isAccessGranted } from "../../services/userAccessService";
@@ -19,22 +19,8 @@ function Header() {
   const currentUser = useSelector((state) => state.session.current_user);
   const { Header: AHeaderLayout } = ALayout;
   const dispatch = useDispatch();
-  const isAuth = useSelector((state) => state.session.isAuth);
   const navigate = useNavigate();
   const location = useLocation();
-  useEffect(() => {
-    console.log("isAuth: ", isAuth);
-    if (!isAuth) {
-      navigate("/login", {
-        state: {
-          prev_location: `${location.pathname}?${location.search}`.replace(
-            /([?&])+/g,
-            "$1"
-          ),
-        },
-      });
-    }
-  }, [isAuth, location.pathname, location.search, navigate]);
 
   /**
    * Полный список элементов, доступных из хедера

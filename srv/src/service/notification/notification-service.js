@@ -125,6 +125,7 @@ class NotificationService {
     }
 
     notifyDocumentTaskChangedEmail(documentTask, document, newDocumentStatusId);
+
     if (StatusToNotificationType[newDocumentStatusId]) {
       StatusToNotificationType[newDocumentStatusId].forEach(
         (taskNotification) => {

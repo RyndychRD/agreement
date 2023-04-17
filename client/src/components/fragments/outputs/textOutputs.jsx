@@ -52,26 +52,25 @@ export function MainDocumentInformation({
       <HeaderTextOutput text="Главная информация" />
       <p>
         {documentName ? (
-          <div>
+          <span style={{ display: "block" }}>
             <b>Наименование договора:</b> {documentName}
-            <br />
-          </div>
+          </span>
         ) : (
           ""
         )}
 
         {typeName ? (
-          <div>
+          <span style={{ display: "block" }}>
             <b>Тип документа:</b> {typeName}
-          </div>
+          </span>
         ) : (
           ""
         )}
 
         {documentCreator ? (
-          <div>
+          <span style={{ display: "block" }}>
             <b>Исполнитель по договору:</b> {documentCreator}
-          </div>
+          </span>
         ) : (
           ""
         )}
