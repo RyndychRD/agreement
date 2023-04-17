@@ -8,8 +8,6 @@ const {
 } = require("./email-notification-service");
 const { addNotification } = require("./notification-is-read-service");
 const DocumentTaskModel = require("../../models/documentTaskModels/document-task-model");
-const userModels = require("../../models/catalogModels/user-models");
-const DevTools = require("../DevTools");
 const userService = require("../catalogServices/user-service");
 const {
   DOCUMENT_STATUS_ON_WORK,
