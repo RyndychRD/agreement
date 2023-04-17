@@ -8,6 +8,7 @@ import SimpleSpinner from "../../messages/Spinner";
 import SimpleError from "../../messages/Error";
 import { TextOutputWithLabel } from "../../outputs/textOutputs";
 import { renderDate } from "../../tables/CommonFunctions";
+import ModalConfirm from "../../modals/ModalConfirm";
 // import DocumentSetCompleteModal from "./buttons/documentSetComplete";
 
 /**
@@ -61,8 +62,14 @@ export default function DocumentRegistrationShow(props) {
               <Button
                 type="primary"
                 onClick={() => {
+                  ModalConfirm({
+                    content:
+                      "Вы действительно хотите сменить статус документа на Исполнен?",
+                    onOk: () => {
+                      changeStatus();
+                    },
+                  });
                   // setIsModalOpen(true);
-                  changeStatus();
                 }}
               >
                 Документ исполнен
