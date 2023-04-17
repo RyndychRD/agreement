@@ -2,7 +2,6 @@ import { Button, Col, Row } from "antd";
 // import { useState } from "react";
 import {
   useGetDocumentQueryHook,
-  // useUpdateDocumentMutation,
   useUpdateDocumentMutationHook,
 } from "../../../../core/redux/api/DocumentControl/DocumentApi";
 import SimpleSpinner from "../../messages/Spinner";
@@ -60,6 +59,7 @@ export default function DocumentRegistrationShow(props) {
               <Button
                 type="primary"
                 onClick={() => {
+                  // setIsModalOpen(true);
                   changeStatus();
                 }}
               >
@@ -67,6 +67,8 @@ export default function DocumentRegistrationShow(props) {
               </Button>
             </Col>
           </Row>
+
+          {/* TODO: При разблокировке также верни отображение срока перемещения в DocumentToArchiveShow */}
           {/* <DocumentSetCompleteModal
             document={document}
             isOpen={isModalOpen}
