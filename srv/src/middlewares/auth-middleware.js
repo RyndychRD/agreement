@@ -34,6 +34,7 @@ const authFunction = function (req, res, next) {
     req.user = userData;
     next();
   } catch (e) {
+    console.log(e);
     ApiError.UnauthorizedError();
     //Пользователь не авторизован
     return res.status(401).end();

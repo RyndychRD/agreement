@@ -1,26 +1,22 @@
 import { Badge } from "antd";
-import { useGetUnreadNotificationsQueryHook } from "../../../../core/redux/api/DocumentControl/NotificationApi";
-import SimpleSpinner from "../../../fragments/messages/Spinner";
+import { useSelector } from "react-redux";
 
 export default function NotificationCount(props) {
   const { type: notificationType } = props;
-  const { data, isLoading, isError } = useGetUnreadNotificationsQueryHook(
-    { isGetNotificationCount: true },
-    {
-      pollingInterval: 1000,
-    }
+  const notifications = useSelector(
+    (state) =>
+      state.notification.notifications.length > 0
+        ? state.notification.notifications.filter(
+            (notification) =>
+              notification.notification_type === notificationType
+          )
+        : [],
+    (oldValue, newValue) => oldValue === newValue
   );
-  if (isLoading) return <SimpleSpinner />;
+  const count = notifications.length;
   return (
     <sup>
-      <Badge
-        count={
-          isError
-            ? 0
-            : data.find((el) => el.notification_type === notificationType)
-                ?.count
-        }
-      />
+      <Badge count={count} />
     </sup>
   );
 }

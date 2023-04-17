@@ -10,7 +10,6 @@ import DocumentInformationFragment from "../documentControl/documentInformation/
 import RouteStepsFragment from "../documentControl/documentRoute/RouteStepsFragment";
 import DocumentFilesFragment from "../documentControl/documentFiles/DocumentFilesFragment";
 import DocumentRemark from "../documentControl/documentRemark/DocumentRemark";
-import NotificationService from "../../../services/DocumentControlServices/NotificationService";
 import DocumentTasksFragment from "../documentControl/documentTasks/DocumentTasksFragment";
 import DocumentPrintFragment from "../documentControl/documentPrint/DocumentPrintFragment";
 import DocumentRegistrationFragment from "../documentControl/documentRegistration/DocumentRegistrationFragment";
@@ -20,6 +19,7 @@ import {
   clearUrlQueryParams,
 } from "../../../services/CommonFunctions";
 import { useLogState } from "../../log/LogProvider";
+import NotificationService from "../../../services/DocumentControlServices/NotificationService";
 
 export default function ModalDocumentView(props) {
   const {
@@ -35,7 +35,7 @@ export default function ModalDocumentView(props) {
   } = props;
   const state = useTableModalsState();
   const dispatch = useTableModalDispatch();
-  const isOpen = state.isShowUpdateModal && state.currentRow;
+  const isOpen = state.isShowUpdateModal && state.currentRow !== undefined;
 
   const stateLog = useLogState();
   if (
@@ -52,13 +52,14 @@ export default function ModalDocumentView(props) {
     navigate(clearUrlQueryParams());
   };
   useEffect(() => {
-    if (notificationType && isOpen) {
-      // Читаем все нотификации по этому документу если передан идентификатор по которому читать
+    // Читаем все нотификации по этому документу если передан идентификатор по которому читать
+    if (isOpen) {
       NotificationService.readNotifications({
         elementId: state.currentRow.document_id,
         notificationType,
       });
     }
+    // Запоминаем открытый документ в query параметрах
     if (isOpen) {
       replaceUrlQueryWithId(state.currentRow?.key);
     }
