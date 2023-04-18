@@ -9,7 +9,7 @@ export default function AdminActions() {
         style={{ textAlign: "center" }}
         text="Список действий админа с сайтом"
       />
-      <Row>
+      <Row style={{ margin: "20px" }} gutter={[16, 16]}>
         <Col>
           <Button
             onClick={() => {
