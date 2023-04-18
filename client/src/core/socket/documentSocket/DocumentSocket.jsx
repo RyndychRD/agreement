@@ -1,6 +1,7 @@
 import { useWebSocket } from "react-use-websocket/dist/lib/use-websocket";
 import { useDispatch } from "react-redux";
 import { WsUrlAuthed } from "../../../socket/socket";
+import openNotification from "../../../components/fragments/messages/Notification";
 import {
   appendNotification,
   readNotification,
@@ -28,6 +29,9 @@ export default function DocumentSocket() {
           break;
         case "appendNotification":
           dispatch(appendNotification(msgJson.notification));
+          break;
+        case "notifySiteClose":
+          openNotification("Через 15 минут сайт закроется на полчаса");
           break;
         default:
           console.log(

@@ -49,6 +49,10 @@ const dict = {
     <NavLink to="/admin-settings/log/archive">Лог архива</NavLink>,
     "/admin-settings/log/archive"
   ),
+  adminActions: getItem(
+    <NavLink to="/admin-settings/admin-actions">Действия админа</NavLink>,
+    "/admin-settings/admin-actions"
+  ),
 };
 
 function getLink(LinkKey) {

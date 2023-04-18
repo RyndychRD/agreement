@@ -14,6 +14,7 @@ module.exports = function rightMiddleware(requiredRights = []) {
       //Добавляем права админа, чтобы всегда иметь доступ ко всему
       requiredRights.push("Admin");
       //Выбираем права пользователя по кодовому имени
+      // TODO: Не работает, мы больше не передаем права в токене. Надо сделать запрос в БД
       const userRights = req.user.rights.map((el) => el.code_name);
       //Должно быть хотя бы одно пересечение прав пользователя и переданных сюда прав
       const isRightsIntersect =

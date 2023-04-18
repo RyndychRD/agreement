@@ -21,6 +21,7 @@ export default function AdminSider() {
       getLink("forms"),
     ]),
     getItem("Логи", "Logs", null, [getLink("logArchive")]),
+    getItem("Действия", "Actions", null, [getLink("adminActions")]),
   ];
   return (
     <LayoutSider theme="dark" collapsible>
@@ -28,7 +29,7 @@ export default function AdminSider() {
         defaultSelectedKeys={window.location.pathname}
         className="siderMenu"
         mode="inline"
-        defaultOpenKeys={["MyCatalogs", "Constructors", "Logs"]}
+        defaultOpenKeys={["MyCatalogs", "Constructors", "Logs", "Actions"]}
         items={items}
       />
     </LayoutSider>

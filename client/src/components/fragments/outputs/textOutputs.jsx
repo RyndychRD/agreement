@@ -31,11 +31,16 @@ export function TextOutputWithLabel({
 export function HeaderTextOutput({
   isLoading,
   isError,
+  style,
   text = "Текст не передан",
 }) {
   if (isLoading) return <SimpleSpinner />;
   if (isError) return <SimpleError />;
-  return <h3 className="mt-5">{text}</h3>;
+  return (
+    <h3 style={style} className="mt-5">
+      {text}
+    </h3>
+  );
 }
 
 export function MainDocumentInformation({

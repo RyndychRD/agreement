@@ -20,6 +20,7 @@ const documentTasksRouter = require("./documentTasks/document-tasks-router");
 const logRouter = require("./log/log-router");
 const fileRouter = require("./file-router");
 const faqRouter = require("./catalog/faq-router");
+const adminActionsRouter = require("./catalog/admin-actions-router");
 
 //Авторизация
 router.use("/", authRouter);
@@ -68,5 +69,7 @@ router.use("/files", fileRouter);
 router.use("/FAQ", faqRouter);
 /** Логи */
 router.use("/log", logRouter);
+/** Действия админа */
+router.use("/admin-actions", adminActionsRouter);
 
 module.exports = router;

@@ -6,6 +6,7 @@ import { isAccessGranted } from "../../../services/userAccessService";
 import { Error404, Error403 } from "../../fragments/messages/Error";
 import Constructors from "./constructors/Constructors";
 import Log from "./logs/Log";
+import AdminActions from "./adminActions/AdminActions";
 
 /**
  * Главный компонент, который хранит все элементы админки
@@ -23,6 +24,7 @@ export default function AdminSettings() {
           <Route path="/catalogs/*" element={<Catalogs />} />
           <Route path="/constructor/*" element={<Constructors />} />
           <Route path="/log/*" element={<Log />} />
+          <Route path="/admin-actions" element={<AdminActions />} />
           <Route path="*" element={<Error404 />} />
         </Routes>
       </Content>
