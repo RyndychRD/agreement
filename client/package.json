@@ -35,9 +35,9 @@
   "scripts": {
     "eslint": "node_modules/.bin/eslint --quiet src/**/*.jsx",
     "prettier": "prettier --write src/**/*.jsx",
-    "start": "set REACT_APP_NODE_ENV=development && react-scripts start",
-    "buildTest": "set REACT_APP_NODE_ENV=testing && react-scripts build",
-    "buildProd": "set REACT_APP_NODE_ENV=production && react-scripts build",
+    "start": "set REACT_APP_NODE_ENV=development && set HTTPS=true&& react-scripts start",
+    "buildTest": "set REACT_APP_NODE_ENV=testing && set HTTPS=true&& react-scripts build",
+    "buildProd": "set REACT_APP_NODE_ENV=production && set HTTPS=true&& react-scripts build",
     "prodStart": "serve -s build",
     "eject": "react-scripts eject",
     "precommit": "lint-staged",
