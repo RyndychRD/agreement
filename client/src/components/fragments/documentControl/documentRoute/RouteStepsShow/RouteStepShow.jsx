@@ -132,6 +132,8 @@ export default function RouteStepShow({
   routeStep,
   showSignedSteps,
   showUnsignedSteps,
+  title,
+  cardDataPassed = null,
 }) {
   const {
     step: stepNumber,
@@ -141,8 +143,8 @@ export default function RouteStepShow({
     document_signature_type: documentSignatureType,
   } = routeStep;
 
-  // Наполняем карточку данными
   let cardData = null;
+  // Наполняем карточку данными
   if (actualSignerId) {
     cardData = getSignedCard(routeStep);
   } else if (deputySignerId) {
@@ -159,9 +161,9 @@ export default function RouteStepShow({
       )} routeCard `}
       key={`card ${stepNumber}`}
       size="small"
-      title={getTitle(stepNumber, documentSignatureType)}
+      title={title || getTitle(stepNumber, documentSignatureType)}
     >
-      {cardData}
+      {cardDataPassed || cardData}
     </Card>
   );
 }

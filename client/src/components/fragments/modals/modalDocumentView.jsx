@@ -133,6 +133,8 @@ export default function ModalDocumentView(props) {
         )}
         {/* Если статус документа Отклонен или На доработке, то мы должны показать замечание, по которому этот документ попал в такой статус */}
         <DocumentRemark
+          isStart={state.isShowUpdateModal}
+          documentId={state.currentRow?.document_id}
           documentStatusId={state.currentRow?.document_status_id}
           documentRemark={state.currentRow?.document_remark}
         />
