@@ -38,7 +38,7 @@ app.use(cookieParser());
 // Определяем на каком урле будет клиент
 const CLIENT_URL = DevTools.getClientURL();
 // Устанавливаем политики клиента, чтобы использовать CORS защиту
-let whitelist = [CLIENT_URL, "http://192.168.0.129"];
+let whitelist = [CLIENT_URL];
 app.use(
   cors({
     credentials: true,
