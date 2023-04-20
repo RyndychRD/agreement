@@ -368,7 +368,7 @@ class DocumentService {
 
   async updateDocument(query, body) {
     let result = null;
-    if (body?.newRemark) {
+    if (body?.newRemark !== undefined) {
       const func = DocumentModels.update(
         {
           id: query.id,

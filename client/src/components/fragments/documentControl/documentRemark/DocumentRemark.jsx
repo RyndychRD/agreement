@@ -12,7 +12,12 @@ import { userNameWithPositionMask } from "../../../../services/CommonFunctions";
 function DocumentRemarkText(props) {
   const { text, documentStatusId } = props;
   return (
-    <Alert message={text} type={documentStatusId === 7 ? "warning" : "error"} />
+    <Alert
+      message={text}
+      type={
+        documentStatusId === 7 || documentStatusId === 5 ? "warning" : "error"
+      }
+    />
   );
 }
 
@@ -29,7 +34,17 @@ export default function DocumentRemark(props) {
   });
   if (isLoading) return <SimpleSpinner />;
   if (isError) return <SimpleError />;
-
+  if (documentStatusId === 5 && documentRemark?.length > 0) {
+    return (
+      <>
+        <HeaderTextOutput text="Последнее замечание:" />
+        <DocumentRemarkText
+          text={documentRemark}
+          documentStatusId={documentStatusId}
+        />
+      </>
+    );
+  }
   const currentSignStep = routeSteps?.filter((el) => !el.actual_signer_id)[0];
   if (documentStatusId === 2 || documentStatusId === 7) {
     result.push(
