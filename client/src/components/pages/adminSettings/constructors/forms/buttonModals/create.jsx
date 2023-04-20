@@ -1,4 +1,4 @@
-import { AUseForm } from "../../../../../adapter";
+import { Form } from "antd";
 import CreateUpdateForm from "./createUpdateForm";
 import ModalInput from "../../../../../fragments/modals/modalInput";
 import { useAddDocumentTypeViewHook } from "../../../../../../core/redux/api/AdminSettings/Constructor/formConstructor/DocumentTypesViewsApi";
@@ -7,7 +7,7 @@ import { useAddDocumentTypeViewHook } from "../../../../../../core/redux/api/Adm
  */
 export default function CreateButtonModel() {
   /** Служит для отслеживания формы из модального окна для обработки по кнопке */
-  const [form] = AUseForm();
+  const [form] = Form.useForm();
   return (
     <ModalInput
       addMutation={useAddDocumentTypeViewHook}

@@ -33,7 +33,7 @@ export default function ModalUpdate({
   updateMutation,
   form,
   CreateUpdateForm,
-  formDefaultValues,
+  formDefaultValues = () => {},
   preFinishFunc = null,
   afterFinishFunc = () => {},
   isAddForeignTables = false,
@@ -42,6 +42,7 @@ export default function ModalUpdate({
   isAddConfirmOnCancel = true,
   isAddConfirmOnOk = true,
   customState,
+  footer = undefined,
   customDispatch,
   okButtonText = "Сохранить",
   confirmOnOkContent = "Вы точно хотите продолжить?",
@@ -51,7 +52,7 @@ export default function ModalUpdate({
   const state = customState ? customState() : standardState;
   const dispatch = customDispatch ? customDispatch() : standardDispatch;
   const navigate = useNavigate();
-  const isOpen = state.isShowUpdateModal && state.currentRow;
+  const isOpen = state.isShowUpdateModal && state.currentRow !== undefined;
 
   const [
     updateFunc,
@@ -105,21 +106,21 @@ export default function ModalUpdate({
    */
   useEffect(
     () => {
-      if (notificationType && state.isShowUpdateModal) {
+      if (isOpen) {
         // Читаем все нотификации по этому документу если передан идентификатор по которому читать
         NotificationService.readNotifications({
           elementId: state.currentRow.key,
           notificationType,
         });
       }
-      if (!isError && !isLoading && state.isShowUpdateModal) {
+      if (!isError && !isLoading && isOpen) {
         form.resetFields();
         form.setFieldsValue(formDefaultValues(data));
         replaceUrlQueryWithId(state.currentRow?.key);
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [state.isShowUpdateModal, data, isOpen]
+    [data, isOpen]
   );
 
   const onCancel = () => {
@@ -132,6 +133,7 @@ export default function ModalUpdate({
     <Modal
       okText={okButtonText}
       cancelText="Отмена"
+      footer={footer}
       onOk={
         isAddConfirmOnOk
           ? () => {

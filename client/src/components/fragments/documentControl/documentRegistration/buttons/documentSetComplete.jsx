@@ -25,7 +25,7 @@ export default function DocumentSetCompleteModal(props) {
   const changeStatus = async () => {
     const valuesToSend = {
       document_id: document.id,
-      newDocumentStatusId: 10,
+      newDocumentStatusId: 11,
       finishedAt: "now",
     };
     await updateDocumentMutation(valuesToSend).unwrap();

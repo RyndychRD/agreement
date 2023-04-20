@@ -1,11 +1,15 @@
 import { Button, Col, Row } from "antd";
-import { useState } from "react";
-import { useGetDocumentQueryHook } from "../../../../core/redux/api/DocumentControl/DocumentApi";
+// import { useState } from "react";
+import {
+  useGetDocumentQueryHook,
+  useUpdateDocumentMutationHook,
+} from "../../../../core/redux/api/DocumentControl/DocumentApi";
 import SimpleSpinner from "../../messages/Spinner";
 import SimpleError from "../../messages/Error";
 import { TextOutputWithLabel } from "../../outputs/textOutputs";
 import { renderDate } from "../../tables/CommonFunctions";
-import DocumentSetCompleteModal from "./buttons/documentSetComplete";
+import ModalConfirm from "../../modals/ModalConfirm";
+// import DocumentSetCompleteModal from "./buttons/documentSetComplete";
 
 /**
  *
@@ -15,13 +19,29 @@ import DocumentSetCompleteModal from "./buttons/documentSetComplete";
  */
 export default function DocumentRegistrationShow(props) {
   const { documentId, closeModalFunc, isAddButton = false } = props;
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [isModalOpen, setIsModalOpen] = useState(false);
   // prettier-ignore
   const {data: document = {},isLoading: isLoadingDocument,isError: isErrorDocument} = 
     useGetDocumentQueryHook({id: documentId,isAddForeignTables: true,});
 
   const isLoading = isLoadingDocument;
   const isError = isErrorDocument;
+
+  const [updateDocumentMutation, { isError: isErrorUpdateStatus }] =
+    useUpdateDocumentMutationHook();
+
+  const changeStatus = async () => {
+    const valuesToSend = {
+      document_id: document.id,
+      newDocumentStatusId: 10,
+      finishedAt: "now",
+    };
+    await updateDocumentMutation(valuesToSend).unwrap();
+    if (!isErrorUpdateStatus) {
+      closeModalFunc();
+    }
+  };
+
   if (isLoading) return <SimpleSpinner />;
   if (isError) return <SimpleError />;
 
@@ -42,19 +62,28 @@ export default function DocumentRegistrationShow(props) {
               <Button
                 type="primary"
                 onClick={() => {
-                  setIsModalOpen(true);
+                  ModalConfirm({
+                    content:
+                      "Вы действительно хотите сменить статус документа на Исполнен?",
+                    onOk: () => {
+                      changeStatus();
+                    },
+                  });
+                  // setIsModalOpen(true);
                 }}
               >
                 Документ исполнен
               </Button>
             </Col>
           </Row>
-          <DocumentSetCompleteModal
+
+          {/* TODO: При разблокировке также верни отображение срока перемещения в DocumentToArchiveShow */}
+          {/* <DocumentSetCompleteModal
             document={document}
             isOpen={isModalOpen}
             setIsOpen={setIsModalOpen}
             closeParentModalFunc={closeModalFunc}
-          />
+          /> */}
         </>
       ) : (
         ""

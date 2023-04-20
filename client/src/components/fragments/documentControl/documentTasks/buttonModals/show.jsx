@@ -1,4 +1,5 @@
 import { Button, Form, Modal } from "antd";
+import { useEffect } from "react";
 import SimpleSpinner from "../../../messages/Spinner";
 import SimpleError from "../../../messages/Error";
 
@@ -17,7 +18,7 @@ import NotificationService from "../../../../../services/DocumentControlServices
 export default function ShowButtonModel() {
   const state = useDocumentTasksInnerTableState();
   const dispatch = useDocumentTasksInnerTableDispatch();
-  const isOpen = state.isShowUpdateModal && state?.currentRow;
+  const isOpen = state.isShowUpdateModal && state.currentRow !== undefined;
   const [form] = Form.useForm();
   const {
     data = {},
@@ -31,12 +32,15 @@ export default function ShowButtonModel() {
     isAddDocumentFiles: true,
   });
 
-  if (isOpen) {
-    NotificationService.readNotifications({
-      elementId: data.id,
-      notificationType: "CompleteTask",
-    });
-  }
+  useEffect(() => {
+    if (isOpen) {
+      NotificationService.readNotifications({
+        elementId: state.currentRow.key,
+        notificationType: "CompleteTask",
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen]);
 
   const onCancel = () => {
     dispatch({ type: "closeAllModal" });

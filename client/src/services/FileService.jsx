@@ -7,35 +7,35 @@ export default class FileService {
     const { fileName, fileId, isForPreview = false } = props;
     console.log("вызов в FileService -> getFile c параметрами", props);
 
-    const response = await api.get(
-      `/files?fileId=${fileId}&isForPreview=${isForPreview}`,
-      {
+    api
+      .get(`/files?fileId=${fileId}&isForPreview=${isForPreview}`, {
         responseType: "blob",
-      }
-    );
+      })
+      .then((response) => {
+        console.log("вызов в FileService ->getFile-> результат", response);
+        // Если мы конвертируем в PDF, то ожидаем что вернется чистый блоб для отображения в предпросмотре
+        if (isForPreview) {
+          const file = new Blob([response.data], { type: "application/pdf" });
+          const fileURL = URL.createObjectURL(file);
+          window.open(
+            fileURL,
+            "Название вкладки",
+            "width=1280,height=1024,top=100,left=100"
+          );
 
-    console.log("вызов в FileService ->getFile-> результат", response);
-    // Если мы конвертируем в PDF, то ожидаем что вернется чистый блоб для отображения в предпросмотре
-    if (isForPreview) {
-      const file1 = new Blob([response.data], { type: "application/pdf" });
-      const fileURL = URL.createObjectURL(file1);
-      window.open(
-        fileURL,
-        "Название вкладки",
-        "width=1280,height=1024,top=100,left=100"
-      );
-      return null;
-    }
-    // иначе просто посылаем готовый файл на скачку
-    const url = window.URL.createObjectURL(new Blob([response.data]));
-    const link = document.createElement("a");
-    link.href = url;
-    link.setAttribute("download", `${fileName}`);
-    document.body.appendChild(link);
-    link.click();
-    // Clean up and remove the link
-    link.parentNode.removeChild(link);
-    return null;
+          return null;
+        }
+        // иначе просто посылаем готовый файл на скачку
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", `${fileName}`);
+        document.body.appendChild(link);
+        link.click();
+        // Clean up and remove the link
+        link.parentNode.removeChild(link);
+        return null;
+      });
   }
 
   static prepareFileListFromFormToSend(values) {

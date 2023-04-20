@@ -7,6 +7,7 @@ const DevTools = require("../DevTools");
 const { changeDocumentLastSignedStep } = require("./document-service");
 const NotificationService = require("../notification/notification-service");
 const NotificationIsReadService = require("../notification/notification-is-read-service");
+const DocumentService = require("./document-service");
 
 class SigningService {
   static async getOneDocumentRoute(query) {
@@ -58,12 +59,14 @@ class SigningService {
     const document = await func;
     const documentId = document[0].document_id;
     NotificationService.notifyDocumentSigning(documentId);
+    await DocumentService.updateDocument({ id: documentId }, { newRemark: "" });
     const increaseDocumentLastSignedStep = changeDocumentLastSignedStep({
       documentId,
       isIncrement: true,
     });
     return await DevTools.addDelay(increaseDocumentLastSignedStep);
   }
+
   static async unsignCurrentDocumentStep({ body }) {
     const func = SigningModel.unsignLastStep({
       filter: {

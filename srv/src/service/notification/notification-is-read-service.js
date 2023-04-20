@@ -1,5 +1,6 @@
 const NotificationIsReadModel = require("../../models/notification/notification-is-read-model");
 const DevTools = require("../DevTools");
+const { SocketService } = require("../socket/socket-service");
 
 class NotificationIsReadService {
   /**
@@ -14,14 +15,14 @@ class NotificationIsReadService {
       element_id: elementId,
       reader_id: toId,
       notification_type: notificationType,
-    });
-    return await DevTools.addDelay(func);
-  }
-  static async addNotificationByRight(elementId, toId, notificationType) {
-    const func = NotificationIsReadModel.create({
-      element_id: elementId,
-      reader_id: toId,
-      notification_type: notificationType,
+    }).then(() => {
+      SocketService.sendSocketMsgByUserId(toId, {
+        type: "appendNotification",
+        notification: {
+          element_id: elementId,
+          notification_type: notificationType,
+        },
+      });
     });
     return await DevTools.addDelay(func);
   }
@@ -39,22 +40,14 @@ class NotificationIsReadService {
     return await DevTools.addDelay(func);
   }
 
-  static async getNotificationCount(userId, query) {
+  static async getNotificationCount(userId) {
     const filter = {
       reader_id: userId,
       is_read: false,
     };
-    if (query.isGetNotificationCount === "true") {
-      const func = NotificationIsReadModel.getNotificationsCount({
-        filter,
-      });
-      const result = await DevTools.addDelay(func);
-      return result;
-    } else {
-      const func = NotificationIsReadModel.getNotifications({ filter });
-      const result = await DevTools.addDelay(func);
-      return result;
-    }
+    const func = NotificationIsReadModel.getNotifications({ filter });
+    const result = await DevTools.addDelay(func);
+    return result;
   }
 }
 

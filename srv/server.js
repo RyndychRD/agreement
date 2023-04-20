@@ -12,9 +12,11 @@ const bodyParser = require("body-parser");
 //Пользуемся для парсинга cookie без него (req.cookies) недоступен
 const cookieParser = require("cookie-parser");
 const mainRouter = require("./src/router/router");
+const { router: wsRouter } = require("./src/router/socket-router");
 const errorMiddleware = require("./src/middlewares/error-middleware");
 const { scheduler } = require("./src/schedule/schedule");
-//Для создания папок подгрузки файлов при старте
+// Функция инициализации вебсокет сервера
+const enableWs = require("express-ws");
 
 //Инициализация сервера
 const app = express();
@@ -37,6 +39,8 @@ app.use(
 );
 //Инициализация роутинга
 app.use("/api", mainRouter);
+app.use("/ws", wsRouter);
+
 //Обработка ошибок
 app.use(errorMiddleware);
 
@@ -53,6 +57,8 @@ scheduler();
 //Точка входа в приложение (Тут же будем отлавливать ошибки)
 const start = async () => {
   try {
+    // Создаем инстанс webSocket сервера
+    enableWs(app);
     //Прослушиваем ${port}
     app.listen(port, () => {
       console.log(
@@ -61,6 +67,9 @@ const start = async () => {
       console.log(`Ожидаю клиента по адресу ${CLIENT_URL}`);
       console.log(
         `"API доступен по адресу http://localhost:${port}/api/{Метод}`
+      );
+      console.log(
+        `"WebSocket доступен по адресу http://localhost:${port}/ws/{Метод}`
       );
     });
   } catch (e) {

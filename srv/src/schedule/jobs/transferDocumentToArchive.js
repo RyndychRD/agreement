@@ -1,8 +1,11 @@
 const DocumentArchiveModel = require("../../models/document/document-archive-model");
 const moment = require("moment");
 const DocumentService = require("../../service/document/document-service");
+const { DOCUMENT_STATUS_ARCHIVE } = require("../../consts");
 
 async function transferDocumentToArchive() {
+  console.log("Перевод документов с Исполнен в Архив отключен");
+  return;
   console.log("Запущен перевод документов с Исполнен в Архив");
   const filter = function () {
     const currentDate = moment().format("YYYY-MM-DD 23:59:59");
@@ -12,7 +15,10 @@ async function transferDocumentToArchive() {
     .then((result) => {
       result.forEach((document) => {
         console.log(`Переводим документ с ID=${document.document_id} в Архив`);
-        DocumentService.changeDocumentStatusObj(document.document_id, 11);
+        DocumentService.changeDocumentStatusObj(
+          document.document_id,
+          DOCUMENT_STATUS_ARCHIVE
+        );
         DocumentArchiveModel.update({
           archive: { passed_at: moment(), pass_by: null },
           filter: { document_id: document.document_id },

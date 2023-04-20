@@ -19,6 +19,10 @@ const DocumentArchiveModel = require("../../models/document/document-archive-mod
 const moment = require("moment/moment");
 const DocumentTasksService = require("../documentTasksService/document-task-service");
 const notificationIsReadModel = require("../../models/notification/notification-is-read-model");
+const {
+  DOCUMENT_STATUS_ARCHIVE,
+  DOCUMENT_STATUS_APPROVED,
+} = require("../../consts");
 
 function getCurrentSigner(document) {
   //Изначально никто не текущий подписант
@@ -148,7 +152,7 @@ class DocumentService {
           dateCreationRange.end
         );
       }
-      this.where("documents.document_status_id", "=", 11);
+      this.where("documents.document_status_id", "=", DOCUMENT_STATUS_ARCHIVE);
       this.whereIn("document_archives.archive_type_id", archiveTypes);
     };
 
@@ -364,7 +368,7 @@ class DocumentService {
 
   async updateDocument(query, body) {
     let result = null;
-    if (body?.newRemark) {
+    if (body?.newRemark !== undefined) {
       const func = DocumentModels.update(
         {
           id: query.id,
@@ -420,7 +424,10 @@ class DocumentService {
         );
       if (documentRouteStepsCount === documentAfterSigning.last_signed_step) {
         //Поменять статус на Согласовано
-        await DocumentService.changeDocumentStatus(documentAfterSigning.id, 4);
+        await DocumentService.changeDocumentStatus(
+          documentAfterSigning.id,
+          DOCUMENT_STATUS_APPROVED
+        );
       }
     }
     return documentAfterSigning;

@@ -17,6 +17,7 @@ const {
   notifyDocumentTaskChanged,
 } = require("../notification/notification-service");
 const NotificationIsReadModel = require("../../models/notification/notification-is-read-model");
+const { DOCUMENT_TASK_STATUS_ASSIGNED } = require("../../consts");
 
 class DocumentTasksService {
   static async getDocumentTasks(filter, isAddForeignTables = false) {
@@ -180,7 +181,10 @@ class DocumentTasksService {
     }
 
     // Создание поручение всегда создает с статусом 1 - Поручено
-    notifyDocumentTaskChanged(documentTask[0].id, 1);
+    notifyDocumentTaskChanged(
+      documentTask[0].id,
+      DOCUMENT_TASK_STATUS_ASSIGNED
+    );
     return documentTask;
   }
 

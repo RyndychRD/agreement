@@ -1,4 +1,4 @@
-import { Button, Checkbox, Col, Form, Modal, Row } from "antd";
+import { Button, Checkbox, Col, Form, Row } from "antd";
 import { useState } from "react";
 import ArchiveLogService from "../../../../services/LogService/ArchiveLogService";
 import { SelectArchiveTypesFormItem } from "../../../fragments/inputs/byClass/archive";
