@@ -18,7 +18,10 @@ import NotificationService from "../../../../../services/DocumentControlServices
 export default function ShowButtonModel() {
   const state = useDocumentTasksInnerTableState();
   const dispatch = useDocumentTasksInnerTableDispatch();
-  const isOpen = state.isShowUpdateModal && state.currentRow !== undefined;
+  const isOpen =
+    state.isShowUpdateModal &&
+    state.currentRow !== undefined &&
+    state.currentRow !== null;
   const [form] = Form.useForm();
   const {
     data = {},
@@ -26,7 +29,7 @@ export default function ShowButtonModel() {
     isError,
   } = useGetDocumentTaskQueryHook({
     currentRow: state?.currentRow,
-    isStart: state.isShowUpdateModal,
+    isStart: isOpen,
     isAddForeignTables: true,
     isAddDocumentValues: true,
     isAddDocumentFiles: true,
