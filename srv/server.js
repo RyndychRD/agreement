@@ -26,6 +26,7 @@ const options = {
 
 //Инициализация сервера
 const https = require("https");
+// const https = require("http");
 const app = express();
 const port = process.env.PORT;
 
@@ -38,7 +39,7 @@ app.use(cookieParser());
 // Определяем на каком урле будет клиент
 const CLIENT_URL = DevTools.getClientURL();
 // Устанавливаем политики клиента, чтобы использовать CORS защиту
-let whitelist = [CLIENT_URL];
+let whitelist = [CLIENT_URL, "https://test1.zik.kz:3001"];
 app.use(
   cors({
     credentials: true,
@@ -69,6 +70,7 @@ DevTools.createFolderIfNotExist(process.env.FILE_STORAGE_PATH);
 scheduler();
 
 const server = https.createServer(options, app);
+// const server = https.createServer(app);
 
 //Точка входа в приложение (Тут же будем отлавливать ошибки)
 const start = async () => {
