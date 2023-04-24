@@ -36,6 +36,7 @@ function getSigningBlock() {
       "ForSigningDocuments",
       "MySignedDocuments",
       "OnRegistrationDocuments",
+      "SignedInOOPZDocuments",
     ])
   )
     return null;
