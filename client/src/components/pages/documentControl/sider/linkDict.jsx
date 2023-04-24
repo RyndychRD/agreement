@@ -32,6 +32,13 @@ const dict = {
     </NavLink>,
     "/document-control/user-documents/approved-documents"
   ),
+  processing_doc: getItem(
+    <NavLink to="/document-control/user-documents/processing-documents">
+      Действующие
+      <NotificationCount type="ProcessingDocument" />
+    </NavLink>,
+    "/document-control/user-documents/processing-documents"
+  ),
   completed_doc: getItem(
     <NavLink to="/document-control/user-documents/completed-documents">
       Исполненные
@@ -47,11 +54,11 @@ const dict = {
     "/document-control/user-documents/rejected-documents"
   ),
   registration_doc: getItem(
-    <NavLink to="/document-control/user-documents/registration-documents">
+    <NavLink to="/document-control/signing/registration-documents">
       Регистрация документов
       <NotificationCount type="OnRegistration" />
     </NavLink>,
-    "/document-control/user-documents/registration-documents"
+    "/document-control/signing/registration-documents"
   ),
   admin_all_doc: getItem(
     <NavLink to="/document-control/admin-docs/all-documents">

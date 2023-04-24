@@ -48,6 +48,7 @@ class NotificationService {
         7: { name: "ReworkDocument", userIds: [document.creator_id] },
         4: { name: "Approved", userIds: [document.creator_id] },
         10: { name: "Completed", userIds: [document.creator_id] },
+        12: { name: "ProcessingDocument", userIds: [document.creator_id] },
         2: { name: "Rejected", userIds: [document.creator_id] },
         9: {
           name: "SignedOOPZ",

@@ -1,5 +1,4 @@
 import { Button, Col, Row } from "antd";
-// import { useState } from "react";
 import {
   useGetDocumentQueryHook,
   useUpdateDocumentMutationHook,
@@ -9,7 +8,6 @@ import SimpleError from "../../messages/Error";
 import { TextOutputWithLabel } from "../../outputs/textOutputs";
 import { renderDate } from "../../tables/CommonFunctions";
 import ModalConfirm from "../../modals/ModalConfirm";
-// import DocumentSetCompleteModal from "./buttons/documentSetComplete";
 
 /**
  *
@@ -19,10 +17,11 @@ import ModalConfirm from "../../modals/ModalConfirm";
  */
 export default function DocumentRegistrationShow(props) {
   const { documentId, closeModalFunc, isAddButton = false } = props;
-  // const [isModalOpen, setIsModalOpen] = useState(false);
-  // prettier-ignore
-  const {data: document = {},isLoading: isLoadingDocument,isError: isErrorDocument} = 
-    useGetDocumentQueryHook({id: documentId,isAddForeignTables: true,});
+  const {
+    data: document = {},
+    isLoading: isLoadingDocument,
+    isError: isErrorDocument,
+  } = useGetDocumentQueryHook({ id: documentId, isAddForeignTables: true });
 
   const isLoading = isLoadingDocument;
   const isError = isErrorDocument;
@@ -33,8 +32,7 @@ export default function DocumentRegistrationShow(props) {
   const changeStatus = async () => {
     const valuesToSend = {
       document_id: document.id,
-      newDocumentStatusId: 10,
-      finishedAt: "now",
+      newDocumentStatusId: 12,
     };
     await updateDocumentMutation(valuesToSend).unwrap();
     if (!isErrorUpdateStatus) {
@@ -56,35 +54,25 @@ export default function DocumentRegistrationShow(props) {
         text={document.document_registration_number}
       />
       {isAddButton ? (
-        <>
-          <Row className="mt-5">
-            <Col push={7}>
-              <Button
-                type="primary"
-                onClick={() => {
-                  ModalConfirm({
-                    content:
-                      "Вы действительно хотите сменить статус документа на Исполнен?",
-                    onOk: () => {
-                      changeStatus();
-                    },
-                  });
-                  // setIsModalOpen(true);
-                }}
-              >
-                Документ исполнен
-              </Button>
-            </Col>
-          </Row>
-
-          {/* TODO: При разблокировке также верни отображение срока перемещения в DocumentToArchiveShow */}
-          {/* <DocumentSetCompleteModal
-            document={document}
-            isOpen={isModalOpen}
-            setIsOpen={setIsModalOpen}
-            closeParentModalFunc={closeModalFunc}
-          /> */}
-        </>
+        <Row className="mt-5">
+          <Col push={5}>
+            <Button
+              type="primary"
+              onClick={() => {
+                ModalConfirm({
+                  content:
+                    "Вы действительно хотите сменить статус документа на Действующий?",
+                  onOk: () => {
+                    changeStatus();
+                  },
+                });
+                // setIsModalOpen(true);
+              }}
+            >
+              Перевести в действующие документы
+            </Button>
+          </Col>
+        </Row>
       ) : (
         ""
       )}

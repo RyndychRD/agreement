@@ -20,6 +20,7 @@ import {
 } from "../../../services/CommonFunctions";
 import { useLogState } from "../../log/LogProvider";
 import NotificationService from "../../../services/DocumentControlServices/NotificationService";
+import DocumentComplete from "../documentControl/documentComplete/DocumentComplete";
 
 export default function ModalDocumentView(props) {
   const {
@@ -31,6 +32,7 @@ export default function ModalDocumentView(props) {
     isShowDocumentTasks = false,
     isShowRegistrationInOOPZ = false,
     isShowRoute = false,
+    isShowComplete = false,
     isShowToArchive = false,
   } = props;
   const state = useTableModalsState();
@@ -111,6 +113,15 @@ export default function ModalDocumentView(props) {
         {/* Отображать ли регистрацию в ООПЗ */}
         {isShowRegistrationInOOPZ ? (
           <DocumentRegistrationFragment
+            documentId={state.currentRow?.document_id}
+            closeModalFunc={onCancel}
+          />
+        ) : (
+          ""
+        )}
+        {/* Отображать ли переведение документа в Исполненные */}
+        {isShowComplete ? (
+          <DocumentComplete
             documentId={state.currentRow?.document_id}
             closeModalFunc={onCancel}
           />
