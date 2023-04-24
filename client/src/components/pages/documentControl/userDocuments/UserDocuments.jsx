@@ -5,7 +5,6 @@ import ReworkDocument from "./reworkDocuments/ReworkDocuments";
 import ApprovedDocuments from "./approvedDocuments/ApprovedDocuments";
 import CompletedDocuments from "./completedDocuments/CompletedDocuments";
 import RejectedDocument from "./rejectedDocuments/RejectedDocuments";
-import RegistrationDocument from "./RegistrationDocuments/RegistrationDocuments";
 import ProcessingDocuments from "./processingDocuments/ProcessingDocuments";
 
 /**
@@ -20,9 +19,7 @@ export default function UserDocuments() {
       <Route path="/processing-documents" element={<ProcessingDocuments />} />
       <Route path="/completed-documents" element={<CompletedDocuments />} />
       <Route path="/rejected-documents" element={<RejectedDocument />} />
-      {/*  prettier-ignore */}
-      <Route path="/registration-documents" element={<RegistrationDocument />}
-      />
+
       <Route path="*" element={<Error404 />} />
     </Routes>
   );
