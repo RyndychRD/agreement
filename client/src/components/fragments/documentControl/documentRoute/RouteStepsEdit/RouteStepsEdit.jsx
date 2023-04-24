@@ -20,13 +20,7 @@ export function DocumentRoutesEditModal(props) {
     .map((routeStep) =>
       !routeStep.actual_signer_id
         ? {
-            specified_signer_id: routeStep?.deputy_signer_id
-              ? routeStep?.deputy_signer_id
-              : routeStep?.signer_id,
-            // Запоминаем самого изначального подписанта
-            firstSignerId: routeStep?.signer_id,
-            // Существует для проверки что был замещающий и вернули на первоначального подписанта
-            firstDeputySignerId: routeStep?.deputy_signer_id,
+            specified_signer_id: routeStep?.signer_id,
           }
         : false
     )
@@ -50,23 +44,8 @@ export function DocumentRoutesEditModal(props) {
           const result = {
             step: index + 1 + startStepNumber,
             document_id: documentId,
+            signer_id: routeStep.specified_signer_id,
           };
-          // Если это старый шаг и у нас поменялся подписант, то он становится заместителем. Предыдущего подписанта запоминаем
-          if (
-            unsignedRouteSteps[index]?.firstSignerId &&
-            routeStep.specified_signer_id !==
-              unsignedRouteSteps[index]?.firstSignerId
-          ) {
-            result.signer_id = unsignedRouteSteps[index].firstSignerId;
-            // Также мы проверяем, вдруг мы вернули на изначально подписанта. В таком случае замещающим он быть не должен
-            result.deputy_signer_id =
-              routeStep.specified_signer_id !== result.signer_id
-                ? routeStep.specified_signer_id
-                : null;
-          } else {
-            // В противном случае мы просто все равно перепишем оригинального подписанта
-            result.signer_id = routeStep.specified_signer_id;
-          }
           return result;
         });
 
@@ -115,7 +94,7 @@ export function DocumentRoutesEditModal(props) {
           />
         ))}
       </div>
-      <Form form={form} name="">
+      <Form form={form}>
         <RouteFormList
           isIncludePositionSelect={false}
           startStepNumber={startStepNumber}
