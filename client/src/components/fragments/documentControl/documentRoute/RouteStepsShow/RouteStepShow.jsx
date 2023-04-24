@@ -1,5 +1,8 @@
 import { Alert, Card } from "antd";
-import { userNameMask } from "../../../../../services/CommonFunctions";
+import {
+  userNameMask,
+  userNameWithPositionMask,
+} from "../../../../../services/CommonFunctions";
 import { renderDate } from "../../../tables/CommonFunctions";
 
 function getNotSignedNoDeputyCard(step) {
@@ -24,63 +27,6 @@ function getNotSignedDeputyCard(step) {
   );
 }
 
-function getSignedCard(step) {
-  if (step.actual_signer_id === step.signer_id) {
-    return (
-      <div>
-        <p>Должность подписанта: {step.actual_signer.position_name}</p>
-        <p>Имя подписанта: {userNameMask(step.actual_signer)}</p>
-        <p>Дата подписания: {renderDate(step.sign_date)}</p>
-        {step?.remark ? <p>Замечание: {step.remark}</p> : ""}
-      </div>
-    );
-  }
-  if (step.actual_signer_id === step.deputy_signer_id) {
-    return (
-      <div>
-        <p>
-          Должность замещающего подписанта: {step.actual_signer.position_name}
-        </p>
-        <p>Имя замещающего подписанта: {userNameMask(step.actual_signer)}</p>
-        <p>Дата подписания: {renderDate(step.sign_date)}</p>
-        {step?.remark ? <p>Замечание: {step.remark}</p> : ""}
-      </div>
-    );
-  }
-  if (step.deputy_signer_id) {
-    return (
-      <div>
-        <p>
-          Должность предполагаемого замещающего подписанта:
-          {step.deputy_signer.position_name}
-        </p>
-        <p>
-          Имя предполагаемого замещающего подписанта:
-          {userNameMask(step.deputy_signer)}
-        </p>
-        <p>
-          Должность фактического подписанта: {step.actual_signer.position_name}
-        </p>
-        <p>Имя фактического подписанта: {userNameMask(step.actual_signer)}</p>
-        <p>Дата подписания: {renderDate(step.sign_date)}</p>
-        {step?.remark ? <p>Замечание: {step.remark}</p> : ""}
-      </div>
-    );
-  }
-  return (
-    <div>
-      <p>Должность предполагаемого подписанта: {step.signer.position_name}</p>
-      <p>Имя предполагаемого подписанта: {userNameMask(step.signer)}</p>
-      <p>
-        Должность фактического подписанта: {step.actual_signer.position_name}
-      </p>
-      <p>Имя фактического подписанта: {userNameMask(step.actual_signer)}</p>
-      <p>Дата подписания: {renderDate(step.sign_date)}</p>
-      {step?.remark ? <p>Замечание: {step.remark}</p> : ""}
-    </div>
-  );
-}
-
 function getSignTypeMessage(documentSignatureType) {
   let type = "";
   const message = documentSignatureType?.name
@@ -100,7 +46,13 @@ function getSignTypeMessage(documentSignatureType) {
       type = "info";
       break;
   }
-  return <Alert type={type} style={{ padding: "2px" }} message={message} />;
+  return (
+    <Alert
+      type={type}
+      style={{ padding: "2px", width: "fit-content" }}
+      message={message}
+    />
+  );
 }
 
 function getTitle(stepNumber, documentSignatureType) {
@@ -108,6 +60,24 @@ function getTitle(stepNumber, documentSignatureType) {
     <div style={{ display: "flex", justifyContent: "space-between" }}>
       <div>{`Шаг №${stepNumber}`}</div>
       {getSignTypeMessage(documentSignatureType)}
+    </div>
+  );
+}
+
+function getSignedCard(step) {
+  return (
+    <div>
+      <p>
+        {userNameWithPositionMask(step.actual_signer)} -{" "}
+        {renderDate(step.sign_date)}
+      </p>
+      {step?.remark ? (
+        <p>
+          <i>{step.remark}</i>
+        </p>
+      ) : (
+        ""
+      )}
     </div>
   );
 }
