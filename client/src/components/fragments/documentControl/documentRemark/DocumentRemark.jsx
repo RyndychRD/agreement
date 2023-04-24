@@ -1,5 +1,4 @@
 import { Alert } from "antd";
-import DocumentReworkButtons from "./buttons/DocumentRework";
 import {
   HeaderTextOutput,
   TextOutputWithLabel,
@@ -10,15 +9,8 @@ import SimpleError from "../../messages/Error";
 import { userNameWithPositionMask } from "../../../../services/CommonFunctions";
 
 function DocumentRemarkText(props) {
-  const { text, documentStatusId } = props;
-  return (
-    <Alert
-      message={text}
-      type={
-        documentStatusId === 7 || documentStatusId === 5 ? "warning" : "error"
-      }
-    />
-  );
+  const { text } = props;
+  return <Alert message={text} type="error" />;
 }
 
 export default function DocumentRemark(props) {
@@ -34,24 +26,10 @@ export default function DocumentRemark(props) {
   });
   if (isLoading) return <SimpleSpinner />;
   if (isError) return <SimpleError />;
-  if (documentStatusId === 5 && documentRemark?.length > 0) {
-    return (
-      <>
-        <HeaderTextOutput text="Последнее замечание:" />
-        <DocumentRemarkText
-          text={documentRemark}
-          documentStatusId={documentStatusId}
-        />
-      </>
-    );
-  }
   const currentSignStep = routeSteps?.filter((el) => !el.actual_signer_id)[0];
-  if (documentStatusId === 2 || documentStatusId === 7) {
+  if (documentStatusId === 2) {
     result.push(
-      <HeaderTextOutput
-        text="Замечание по документу"
-        key="documentRemarkHeader"
-      />
+      <HeaderTextOutput text="Причина отклонения" key="documentRemarkHeader" />
     );
 
     // Текст замечания
@@ -61,33 +39,16 @@ export default function DocumentRemark(props) {
         userNameWithPositionMask(currentSignStep.signer);
 
       result.push(
-        <DocumentRemarkText
-          key="documentRemarkText"
-          documentStatusId={documentStatusId}
-          text={documentRemark}
-        />
+        <DocumentRemarkText key="documentRemarkText" text={documentRemark} />
       );
       result.push(
-        <TextOutputWithLabel
-          label="Создатель замечания"
-          text={cardDataPassed}
-        />
+        <TextOutputWithLabel label="Отклонивший" text={cardDataPassed} />
       );
     } else {
       result.push(
         <DocumentRemarkText
           key="documentRemarkText"
-          documentStatusId={documentStatusId}
           text="Замечание по документу не найдено"
-        />
-      );
-    }
-    // Добавление кнопки Замечание исправлено
-    if (documentStatusId === 7 && documentRemark?.length > 0) {
-      result.push(
-        <DocumentReworkButtons
-          key="documentRemarkButton"
-          text={documentRemark}
         />
       );
     }

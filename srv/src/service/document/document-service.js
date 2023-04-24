@@ -445,7 +445,6 @@ class DocumentService {
     NotificationService.notifyDocumentStatusChanged(documentId, newStatusId);
     const filter = function () {
       this.whereIn("notification_type", [
-        "ReworkDocument",
         "Signing",
         "OnRegistration",
         "Approved",
