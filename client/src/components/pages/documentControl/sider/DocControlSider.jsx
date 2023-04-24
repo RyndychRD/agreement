@@ -27,13 +27,17 @@ function getUserDocumentsBlock() {
     isAccessGranted("ProcessingDocuments") ? getLink("processing_doc") : null,
     isAccessGranted("CompletedDocuments") ? getLink("completed_doc") : null,
     isAccessGranted("RejectedDocuments") ? getLink("rejected_doc") : null,
-    // prettier-ignore
-    isAccessGranted("OnRegistrationDocuments") ? getLink("registration_doc") : null,
   ]);
 }
 
 function getSigningBlock() {
-  if (!isAnyAccessGranted(["ForSigningDocuments", "MySignedDocuments"]))
+  if (
+    !isAnyAccessGranted([
+      "ForSigningDocuments",
+      "MySignedDocuments",
+      "OnRegistrationDocuments",
+    ])
+  )
     return null;
   return getItem("Подписание", "Signing", null, [
     isAccessGranted("ForSigningDocuments")
@@ -42,6 +46,9 @@ function getSigningBlock() {
     isAccessGranted("MySignedDocuments")
       ? getLink("my_signed_documents")
       : null,
+
+    // prettier-ignore
+    isAccessGranted("OnRegistrationDocuments") ? getLink("registration_doc") : null,
     isAccessGranted("SignedInOOPZDocuments") ? getLink("signed_in_oopz") : null,
   ]);
 }
