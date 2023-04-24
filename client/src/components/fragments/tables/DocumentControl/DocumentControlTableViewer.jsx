@@ -122,10 +122,7 @@ export default function DocumentControlTableViewer({
     },
     // TODO: Вынести в отдельную функцию
     reject: () => {
-      if (
-        state?.currentRow.document_status_id === 5 ||
-        state?.currentRow.document_status_id === 7
-      ) {
+      if (state?.currentRow.document_status_id === 5) {
         ModalConfirm({
           content:
             "Вы точно хотите отклонить документ? Вы не сможете вернуть документ на маршрут согласования после отклонения, придется создавать документ заново",
@@ -142,8 +139,7 @@ export default function DocumentControlTableViewer({
       } else {
         ModalConfirm({
           title: "Ошибка",
-          content:
-            "Только документы в статусе 'В работе' и 'На доработке' можно отклонить",
+          content: "Только документы в статусе 'В работе'  можно отклонить",
           okText: "Хорошо",
           cancelText: "Закрыть",
         });

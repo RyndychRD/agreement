@@ -61,14 +61,6 @@ function RouteStepFragmentReducer(state, action) {
         modalType: "returnStepBack",
       };
     }
-    case "openConfirmModal_ReturnToRework": {
-      return {
-        ...state,
-        isOpenChangeStatusModal: true,
-        modalType: "returnToRework",
-        documentStatusId: 7,
-      };
-    }
     default: {
       throw new Error(`Unhandled action type: ${action.type}`);
     }

@@ -12,8 +12,6 @@ import { useTableModalDispatch } from "../../../../tables/TableModalProvider";
 
 function getMessage(type) {
   switch (type) {
-    case "returnToRework":
-      return `Вы действительно хотите вернуть документ на доработку?`;
     case "reject":
       return `Вы действительно хотите отклонить документ?`;
     default:
@@ -21,7 +19,7 @@ function getMessage(type) {
   }
 }
 
-export default function ReturnRejectDocumentModal({ documentId }) {
+export default function RejectDocumentModal({ documentId }) {
   const state = useRouteStepFragmentState();
   const dispatchConfirm = useRouteStepFragmentDispatch();
   const dispatchTable = useTableModalDispatch();
@@ -70,12 +68,12 @@ export default function ReturnRejectDocumentModal({ documentId }) {
 
       <Form form={form}>
         <TextInputFormItem
-          title="Замечание"
+          title="Причина отклонения"
           name="remark"
           rules={[
             {
               required: true,
-              message: "Введите замечание",
+              message: "Введите причину отклонения",
             },
           ]}
         />
