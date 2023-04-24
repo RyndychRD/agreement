@@ -5,24 +5,11 @@ import {
 } from "../../../../../services/CommonFunctions";
 import { renderDate } from "../../../tables/CommonFunctions";
 
-function getNotSignedNoDeputyCard(step) {
+function getNotSignedCard(step) {
   return (
     <div>
       <p>Должность подписанта: {step.signer.position_name}</p>
       <p>Имя подписанта: {userNameMask(step.signer)}</p>
-    </div>
-  );
-}
-
-function getNotSignedDeputyCard(step) {
-  return (
-    <div>
-      <p>Должность предполагаемого подписанта: {step.signer.position_name}</p>
-      <p>Имя предполагаемого подписанта: {userNameMask(step.signer)}</p>
-      <p>
-        Должность замещающего подписанта: {step.deputy_signer.position_name}
-      </p>
-      <p>Имя замещающего подписанта: {userNameMask(step.deputy_signer)}</p>
     </div>
   );
 }
@@ -108,8 +95,6 @@ export default function RouteStepShow({
   const {
     step: stepNumber,
     actual_signer_id: actualSignerId,
-    deputy_signer_id: deputySignerId,
-    signer_id: signerId,
     document_signature_type: documentSignatureType,
   } = routeStep;
 
@@ -117,10 +102,8 @@ export default function RouteStepShow({
   // Наполняем карточку данными
   if (actualSignerId) {
     cardData = getSignedCard(routeStep);
-  } else if (deputySignerId) {
-    cardData = getNotSignedDeputyCard(routeStep);
-  } else if (signerId) {
-    cardData = getNotSignedNoDeputyCard(routeStep);
+  } else {
+    cardData = getNotSignedCard(routeStep);
   }
   return (
     <Card
