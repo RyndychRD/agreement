@@ -50,6 +50,7 @@ export const filterDataBoolean = (dataSource, columnName) => {
 };
 
 export const renderDate = (date, isAddTime = true) => {
+  if (!date) return "";
   if (isAddTime) return date ? moment(date).format("DD.MM.YYYY HH:mm") : "";
   return date ? moment(date).format("DD.MM.YYYY") : "";
 };

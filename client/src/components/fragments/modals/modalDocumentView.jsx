@@ -71,7 +71,7 @@ export default function ModalDocumentView(props) {
   if (isOpen)
     return (
       <Modal
-        width={isShowDocumentTasks ? 1000 : 500}
+        width={isShowDocumentTasks ? 1000 : 700}
         open={isOpen}
         onCancel={onCancel}
         footer={[
