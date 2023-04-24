@@ -32,6 +32,13 @@ const dict = {
     </NavLink>,
     "/document-control/user-documents/approved-documents"
   ),
+  processing_doc: getItem(
+    <NavLink to="/document-control/user-documents/processing-documents">
+      Действующие
+      <NotificationCount type="ProcessingDocument" />
+    </NavLink>,
+    "/document-control/user-documents/processing-documents"
+  ),
   completed_doc: getItem(
     <NavLink to="/document-control/user-documents/completed-documents">
       Исполненные

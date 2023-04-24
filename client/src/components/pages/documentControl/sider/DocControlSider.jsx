@@ -16,6 +16,7 @@ function getUserDocumentsBlock() {
       "ApprovedDocuments",
       "CompletedDocuments",
       "RejectedDocuments",
+      "ProcessingDocuments",
     ])
   )
     return null;
@@ -23,6 +24,7 @@ function getUserDocumentsBlock() {
     isAccessGranted("CreatedDocuments") ? getLink("created_doc") : null,
     isAccessGranted("ReworkDocuments") ? getLink("rework_doc") : null,
     isAccessGranted("ApprovedDocuments") ? getLink("approved_doc") : null,
+    isAccessGranted("ProcessingDocuments") ? getLink("processing_doc") : null,
     isAccessGranted("CompletedDocuments") ? getLink("completed_doc") : null,
     isAccessGranted("RejectedDocuments") ? getLink("rejected_doc") : null,
     // prettier-ignore
