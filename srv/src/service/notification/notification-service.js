@@ -26,9 +26,7 @@ class NotificationService {
           id: documentId,
         },
       });
-      const toId = currentSigningStep?.deputy_signer_id
-        ? currentSigningStep.deputy_signer_id
-        : currentSigningStep.signer_id;
+      const toId = currentSigningStep.signer_id;
       notifyDocumentSigningEmail(document, toId);
       addNotification(document.id, toId, "Signing");
     }

@@ -32,7 +32,6 @@ class DocumentSchema {
     //подтягиваем текущего подписанта/подписантов
     query = query
       .select("currentSigner.signer_id as current_signer_id")
-      .select("currentSigner.deputy_signer_id as current_deputy_signer_id")
       .leftJoin(
         this.knexProvider.raw(
           '"documents-signers_route" AS "currentSigner" ON "documents"."id"' +
@@ -108,8 +107,6 @@ class DocumentSchema {
       .where(function () {
         this.where({
           "documents-signers_route.signer_id": currentUser,
-        }).orWhere({
-          "documents-signers_route.deputy_signer_id": currentUser,
         });
       });
     return query;

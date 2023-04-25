@@ -192,16 +192,6 @@ export default function getTitle(name, buttons, buttonsActions) {
         Скачать в Excel
       </Button>
     ),
-    reject: (
-      <Button
-        key="keyRejectDocumentAdminTableSettings"
-        onClick={buttonsActions.reject}
-        danger
-        className="space-right "
-      >
-        Отклонить документ
-      </Button>
-    ),
   };
 
   /** Выбираем только запрошенные кнопки */

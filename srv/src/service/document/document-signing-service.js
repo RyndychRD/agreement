@@ -8,6 +8,9 @@ const { changeDocumentLastSignedStep } = require("./document-service");
 const NotificationService = require("../notification/notification-service");
 const NotificationIsReadService = require("../notification/notification-is-read-service");
 const DocumentService = require("./document-service");
+const documentSigningHistoryModel = require("../../models/document/document-signing-history-model");
+const { findHistoryByStepId } = require("./document-signing-history-service");
+const SigningHistoryService = require("./document-signing-history-service");
 
 class SigningService {
   static async getOneDocumentRoute(query) {
@@ -26,10 +29,6 @@ class SigningService {
             id: step.signer_id ? step.signer_id : "-1",
             isAddForeignTables: "true",
           }),
-          deputy_signer: await getOneUser({
-            id: step.deputy_signer_id ? step.deputy_signer_id : "-1",
-            isAddForeignTables: "true",
-          }),
           actual_signer: await getOneUser({
             id: step.actual_signer_id ? step.actual_signer_id : "-1",
             isAddForeignTables: "true",
@@ -39,6 +38,7 @@ class SigningService {
               ? step.document_signature_type_id
               : "-1",
           }),
+          document_signature_history: await findHistoryByStepId(step.id),
         };
       })
     );
@@ -89,10 +89,7 @@ class SigningService {
   }
 
   static async update({ documentId, routeSteps }) {
-    // Удаляем предыдущие шаги и очищаем нотификацию по ним
-    const deletePreviousSteps =
-      SigningModel.deleteReplacedRouteSteps(documentId);
-    await DevTools.addDelay(deletePreviousSteps);
+    // Очищаем нотификацию по неподписанным шагам
     NotificationIsReadService.readNotifications(undefined, {
       elementId: documentId,
       notificationType: "Signing",
@@ -100,8 +97,30 @@ class SigningService {
 
     let result = [];
     if (routeSteps.length > 0) {
-      const putNewSteps = SigningModel.create(routeSteps);
-      result = await DevTools.addDelay(putNewSteps);
+      await routeSteps.forEach(async (step) => {
+        if (!step.previous_signer_id) {
+          SigningModel.create(step);
+        }
+        if (
+          step.previous_signer_id &&
+          step.previous_signer_id !== step.signer_id
+        ) {
+          const filter = {
+            document_id: documentId,
+            step: step.step,
+          };
+          const signingStepId = (
+            await SigningModel.update(filter, {
+              signer_id: step.signer_id,
+            })
+          )[0].id;
+
+          SigningHistoryService.create({
+            stepId: signingStepId,
+            signerId: step.previous_signer_id,
+          });
+        }
+      });
       NotificationService.notifyDocumentSigning(documentId);
     }
     return result;

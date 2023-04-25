@@ -34,9 +34,7 @@ export default function DocumentRemark(props) {
 
     // Текст замечания
     if (documentRemark?.length > 0) {
-      const cardDataPassed =
-        userNameWithPositionMask(currentSignStep.deputy_signer) ||
-        userNameWithPositionMask(currentSignStep.signer);
+      const cardDataPassed = userNameWithPositionMask(currentSignStep.signer);
 
       result.push(
         <DocumentRemarkText key="documentRemarkText" text={documentRemark} />
