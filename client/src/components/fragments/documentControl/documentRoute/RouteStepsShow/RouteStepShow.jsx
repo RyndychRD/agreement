@@ -1,4 +1,4 @@
-import { Alert, Card } from "antd";
+import { Alert, Card, Steps } from "antd";
 import { userNameWithPositionMask } from "../../../../../services/CommonFunctions";
 import { renderDate } from "../../../tables/CommonFunctions";
 import { useGetUsersQueryHook } from "../../../../../core/redux/api/Globals/Catalogs/UserApi";
@@ -6,30 +6,25 @@ import SimpleSpinner from "../../../messages/Spinner";
 import SimpleError from "../../../messages/Error";
 
 function getNotSignedCard(step, users) {
-  const result = [];
-  result.push(
-    <div>
-      <p>
-        Подписант по настоящее время: {userNameWithPositionMask(step.signer)}
-      </p>
-    </div>
-  );
+  const items = [];
+  items.push({
+    title: userNameWithPositionMask(step.signer),
+    description: "Текущий подписант",
+  });
   if (users && users.length > 0 && step.document_signature_history.length > 0) {
     step.document_signature_history.forEach((history) => {
       const previousSigner = users.find(
         (user) => user.id === history.signer_id
       );
-      result.push(
-        <div>
-          <p>
-            Подписант до {renderDate(history.created_at)}:{" "}
-            {userNameWithPositionMask(previousSigner)}
-          </p>
-        </div>
-      );
+      items.push({
+        title: userNameWithPositionMask(previousSigner),
+        status: "wait",
+        description: `Был изменен ${renderDate(history.created_at)}`,
+      });
     });
   }
-  return result.concat();
+
+  return <Steps size="small" progressDot direction="vertical" items={items} />;
 }
 
 function getSignTypeMessage(documentSignatureType) {
