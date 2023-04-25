@@ -9,6 +9,8 @@ const NotificationService = require("../notification/notification-service");
 const NotificationIsReadService = require("../notification/notification-is-read-service");
 const DocumentService = require("./document-service");
 const documentSigningHistoryModel = require("../../models/document/document-signing-history-model");
+const { findHistoryByStepId } = require("./document-signing-history-service");
+const SigningHistoryService = require("./document-signing-history-service");
 
 class SigningService {
   static async getOneDocumentRoute(query) {
@@ -36,6 +38,7 @@ class SigningService {
               ? step.document_signature_type_id
               : "-1",
           }),
+          document_signature_history: await findHistoryByStepId(step.id),
         };
       })
     );
@@ -111,12 +114,11 @@ class SigningService {
               signer_id: step.signer_id,
             })
           )[0].id;
-          const history = {
-            "documents-signers_route_id": signingStepId,
-            signer_id: step.previous_signer_id,
-            created_at: "now",
-          };
-          documentSigningHistoryModel.create(history);
+
+          SigningHistoryService.create({
+            stepId: signingStepId,
+            signerId: step.previous_signer_id,
+          });
         }
       });
       NotificationService.notifyDocumentSigning(documentId);

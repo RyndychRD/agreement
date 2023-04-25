@@ -1,17 +1,35 @@
 import { Alert, Card } from "antd";
-import {
-  userNameMask,
-  userNameWithPositionMask,
-} from "../../../../../services/CommonFunctions";
+import { userNameWithPositionMask } from "../../../../../services/CommonFunctions";
 import { renderDate } from "../../../tables/CommonFunctions";
+import { useGetUsersQueryHook } from "../../../../../core/redux/api/Globals/Catalogs/UserApi";
+import SimpleSpinner from "../../../messages/Spinner";
+import SimpleError from "../../../messages/Error";
 
-function getNotSignedCard(step) {
-  return (
+function getNotSignedCard(step, users) {
+  const result = [];
+  result.push(
     <div>
-      <p>Должность подписанта: {step.signer.position_name}</p>
-      <p>Имя подписанта: {userNameMask(step.signer)}</p>
+      <p>
+        Подписант по настоящее время: {userNameWithPositionMask(step.signer)}
+      </p>
     </div>
   );
+  if (users && users.length > 0 && step.document_signature_history.length > 0) {
+    step.document_signature_history.forEach((history) => {
+      const previousSigner = users.find(
+        (user) => user.id === history.signer_id
+      );
+      result.push(
+        <div>
+          <p>
+            Подписант до {renderDate(history.created_at)}:{" "}
+            {userNameWithPositionMask(previousSigner)}
+          </p>
+        </div>
+      );
+    });
+  }
+  return result.concat();
 }
 
 function getSignTypeMessage(documentSignatureType) {
@@ -98,13 +116,17 @@ export default function RouteStepShow({
     document_signature_type: documentSignatureType,
   } = routeStep;
 
+  // prettier-ignore
+  const {data: users = {},isLoading:isLoadingUsers,isError:isErrorUsers} = useGetUsersQueryHook({isAddForeignTables:true});
   let cardData = null;
   // Наполняем карточку данными
   if (actualSignerId) {
     cardData = getSignedCard(routeStep);
   } else {
-    cardData = getNotSignedCard(routeStep);
+    cardData = getNotSignedCard(routeStep, users);
   }
+  if (isLoadingUsers) return <SimpleSpinner />;
+  if (isErrorUsers) return <SimpleError />;
   return (
     <Card
       className={` ${getClassBySign(

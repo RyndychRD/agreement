@@ -10,10 +10,11 @@ class DocumentSigningHistorySchema {
    *
    * @param {json} filter
    */
-  async find({ filter }) {
+  async find(filter) {
     let query = this.knexProvider("documents-signers_route_history")
       .select("documents-signers_route_history.*")
-      .where(filter);
+      .where(filter)
+      .orderBy("created_at", "DESC");
     return await query;
   }
 
