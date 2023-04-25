@@ -12,10 +12,6 @@ import "../style.css";
 import SimpleSpinner from "../../messages/Spinner";
 import SimpleError from "../../messages/Error";
 import getColumns from "./getColumns";
-import { useUpdateDocumentMutation } from "../../../../core/redux/api/DocumentControl/DocumentApi";
-import ModalConfirm from "../../modals/ModalConfirm";
-
-const REJECT_STATUS_ID = 2;
 
 /**
  * Конструктор таблиц для предварительного просмотра перечиня документов.
@@ -61,8 +57,6 @@ export default function DocumentControlTableViewer({
       .filter((el) => el.notification_type === notificationType)
       .map((el) => el.element_id);
   }
-
-  const [updateFunc] = useUpdateDocumentMutation();
 
   // Этот блок отвечает за открытие элемента по id
   const query = useLocation().search;
@@ -119,31 +113,6 @@ export default function DocumentControlTableViewer({
     },
     excel: () => {
       handleExport();
-    },
-    // TODO: Вынести в отдельную функцию
-    reject: () => {
-      if (state?.currentRow.document_status_id === 5) {
-        ModalConfirm({
-          content:
-            "Вы точно хотите отклонить документ? Вы не сможете вернуть документ на маршрут согласования после отклонения, придется создавать документ заново",
-          onOk: () => {
-            updateFunc({
-              document_id: state?.currentRow.document_id,
-              newDocumentStatusId: REJECT_STATUS_ID,
-              newRemark: "Отклонен создателем документа",
-            });
-          },
-          okText: "Да, я хочу отклонить документ",
-          cancelText: "Нет",
-        });
-      } else {
-        ModalConfirm({
-          title: "Ошибка",
-          content: "Только документы в статусе 'В работе'  можно отклонить",
-          okText: "Хорошо",
-          cancelText: "Закрыть",
-        });
-      }
     },
   };
 
