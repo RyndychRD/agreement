@@ -56,19 +56,18 @@ class SigningSchema {
     return await this.knexProvider("documents-signers_route").insert(routes);
   }
 
+  async update(filter, route) {
+    return await this.knexProvider("documents-signers_route")
+      .where(filter)
+      .update(route)
+      .returning("id");
+  }
+
   async getCurrentDocumentSigningStep(documentId) {
     let query = this.knexProvider("documents-signers_route")
       .first("*")
       .whereRaw(`document_id=${documentId} AND actual_signer_id IS NULL`)
       .orderBy("step", "asc");
-
-    return await query;
-  }
-
-  async deleteReplacedRouteSteps(documentId) {
-    let query = this.knexProvider("documents-signers_route")
-      .whereRaw(`document_id=${documentId} AND actual_signer_id IS NULL`)
-      .delete();
 
     return await query;
   }

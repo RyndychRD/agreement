@@ -8,6 +8,7 @@ const { changeDocumentLastSignedStep } = require("./document-service");
 const NotificationService = require("../notification/notification-service");
 const NotificationIsReadService = require("../notification/notification-is-read-service");
 const DocumentService = require("./document-service");
+const documentSigningHistoryModel = require("../../models/document/document-signing-history-model");
 
 class SigningService {
   static async getOneDocumentRoute(query) {
@@ -85,10 +86,7 @@ class SigningService {
   }
 
   static async update({ documentId, routeSteps }) {
-    // Удаляем предыдущие шаги и очищаем нотификацию по ним
-    const deletePreviousSteps =
-      SigningModel.deleteReplacedRouteSteps(documentId);
-    await DevTools.addDelay(deletePreviousSteps);
+    // Очищаем нотификацию по неподписанным шагам
     NotificationIsReadService.readNotifications(undefined, {
       elementId: documentId,
       notificationType: "Signing",
@@ -96,8 +94,31 @@ class SigningService {
 
     let result = [];
     if (routeSteps.length > 0) {
-      const putNewSteps = SigningModel.create(routeSteps);
-      result = await DevTools.addDelay(putNewSteps);
+      await routeSteps.forEach(async (step) => {
+        if (!step.previous_signer_id) {
+          SigningModel.create(step);
+        }
+        if (
+          step.previous_signer_id &&
+          step.previous_signer_id !== step.signer_id
+        ) {
+          const filter = {
+            document_id: documentId,
+            step: step.step,
+          };
+          const signingStepId = (
+            await SigningModel.update(filter, {
+              signer_id: step.signer_id,
+            })
+          )[0].id;
+          const history = {
+            "documents-signers_route_id": signingStepId,
+            signer_id: step.previous_signer_id,
+            created_at: "now",
+          };
+          documentSigningHistoryModel.create(history);
+        }
+      });
       NotificationService.notifyDocumentSigning(documentId);
     }
     return result;

@@ -21,6 +21,7 @@ export function DocumentRoutesEditModal(props) {
       !routeStep.actual_signer_id
         ? {
             specified_signer_id: routeStep?.signer_id,
+            previous_signer_id: routeStep?.signer_id,
           }
         : false
     )
@@ -39,12 +40,12 @@ export function DocumentRoutesEditModal(props) {
     form
       .validateFields()
       .then(async (values) => {
-        // Чтобы не тащить в редакс много лишнего. Здесь же подгружаем пользователя
         const preparedValues = values.routeSteps.map((routeStep, index) => {
           const result = {
             step: index + 1 + startStepNumber,
             document_id: documentId,
             signer_id: routeStep.specified_signer_id,
+            previous_signer_id: routeStep.previous_signer_id,
           };
           return result;
         });
