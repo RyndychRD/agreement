@@ -11,7 +11,12 @@ function getNotSignedCard(step, users) {
     title: userNameWithPositionMask(step.signer),
     description: "Текущий подписант",
   });
-  if (users && users.length > 0 && step.document_signature_history.length > 0) {
+  if (
+    users &&
+    users.length > 0 &&
+    step.document_signature_history &&
+    step.document_signature_history.length > 0
+  ) {
     step.document_signature_history.forEach((history) => {
       const previousSigner = users.find(
         (user) => user.id === history.signer_id

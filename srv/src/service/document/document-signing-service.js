@@ -11,6 +11,8 @@ const DocumentService = require("./document-service");
 const documentSigningHistoryModel = require("../../models/document/document-signing-history-model");
 const { findHistoryByStepId } = require("./document-signing-history-service");
 const SigningHistoryService = require("./document-signing-history-service");
+const documentSigningModel = require("../../models/document/document-signing-model");
+const { SocketService } = require("../socket/socket-service");
 
 class SigningService {
   static async getOneDocumentRoute(query) {
@@ -96,32 +98,42 @@ class SigningService {
     });
 
     let result = [];
+    // Если маршрут сократили, то удаляем все сокращенные шаги
+    documentSigningModel.deleteRouteSteps(
+      documentId,
+      routeSteps &&
+        routeSteps.length > 0 &&
+        routeSteps[routeSteps.length - 1]?.step
+        ? routeSteps[routeSteps.length - 1].step
+        : 0
+    );
     if (routeSteps.length > 0) {
-      await routeSteps.forEach(async (step) => {
-        if (!step.previous_signer_id) {
-          SigningModel.create(step);
-        }
-        if (
-          step.previous_signer_id &&
-          step.previous_signer_id !== step.signer_id
-        ) {
-          const filter = {
-            document_id: documentId,
-            step: step.step,
-          };
-          const signingStepId = (
-            await SigningModel.update(filter, {
+      Promise.all(
+        routeSteps.map(async (step) => {
+          if (!step.previous_signer_id) {
+            return SigningModel.create(step);
+          }
+          if (
+            step.previous_signer_id &&
+            step.previous_signer_id !== step.signer_id
+          ) {
+            const filter = {
+              document_id: documentId,
+              step: step.step,
+            };
+            return SigningModel.update(filter, {
               signer_id: step.signer_id,
-            })
-          )[0].id;
-
-          SigningHistoryService.create({
-            stepId: signingStepId,
-            signerId: step.previous_signer_id,
-          });
-        }
+            }).then((signingStepId) => {
+              SigningHistoryService.create({
+                stepId: signingStepId[0].id,
+                signerId: step.previous_signer_id,
+              });
+            });
+          }
+        })
+      ).then(() => {
+        NotificationService.notifyDocumentSigning(documentId);
       });
-      NotificationService.notifyDocumentSigning(documentId);
     }
     return result;
   }

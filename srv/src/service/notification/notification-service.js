@@ -9,10 +9,7 @@ const {
 const { addNotification } = require("./notification-is-read-service");
 const DocumentTaskModel = require("../../models/documentTaskModels/document-task-model");
 const userService = require("../catalogServices/user-service");
-const {
-  DOCUMENT_STATUS_ON_WORK,
-  DOCUMENT_TASK_STATUS_COMPLETE,
-} = require("../../consts");
+const { DOCUMENT_TASK_STATUS_COMPLETE } = require("../../consts");
 
 class NotificationService {
   static async notifyDocumentSigning(documentId) {

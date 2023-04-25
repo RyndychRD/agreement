@@ -45,7 +45,7 @@ export function DocumentRoutesEditModal(props) {
             step: index + 1 + startStepNumber,
             document_id: documentId,
             signer_id: routeStep.specified_signer_id,
-            previous_signer_id: routeStep.previous_signer_id,
+            previous_signer_id: unsignedRouteSteps[index]?.previous_signer_id,
           };
           return result;
         });

@@ -28,6 +28,11 @@ class DocumentSigningHistorySchema {
       history
     );
   }
+  async delete(filter) {
+    return await this.knexProvider("documents-signers_route_history")
+      .where(filter)
+      .delete();
+  }
 }
 
 module.exports = new DocumentSigningHistorySchema();
