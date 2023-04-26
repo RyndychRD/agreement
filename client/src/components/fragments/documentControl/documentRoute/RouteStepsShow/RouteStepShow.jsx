@@ -63,8 +63,8 @@ function getSignTypeMessage(documentSignatureType) {
 function getTitle(stepNumber, documentSignatureType) {
   return (
     <div style={{ display: "flex", justifyContent: "space-between" }}>
-      <div>{`Шаг №${stepNumber}`}</div>
       {getSignTypeMessage(documentSignatureType)}
+      <div>{`Шаг №${stepNumber}`}</div>
     </div>
   );
 }

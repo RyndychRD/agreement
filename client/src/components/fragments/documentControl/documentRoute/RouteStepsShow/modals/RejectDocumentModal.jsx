@@ -13,7 +13,7 @@ import { useTableModalDispatch } from "../../../../tables/TableModalProvider";
 function getMessage(type) {
   switch (type) {
     case "reject":
-      return `Вы действительно хотите отклонить документ?`;
+      return `Вы действительно хотите отклонить документ? Весь прогресс будет остановлен и процесс согласования будет необходимо начать заново.`;
     default:
       return `Сообщение для типа ${type} не найдено`;
   }
