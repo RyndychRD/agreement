@@ -12,6 +12,7 @@ function getUserDocumentsBlock() {
   if (
     !isAnyAccessGranted([
       "CreatedDocuments",
+      "ReworkDocuments",
       "ApprovedDocuments",
       "CompletedDocuments",
       "RejectedDocuments",
@@ -21,6 +22,7 @@ function getUserDocumentsBlock() {
     return null;
   return getItem("Мои документы", "UserDocuments", null, [
     isAccessGranted("CreatedDocuments") ? getLink("created_doc") : null,
+    isAccessGranted("ReworkDocuments") ? getLink("rework_doc") : null,
     isAccessGranted("ApprovedDocuments") ? getLink("approved_doc") : null,
     isAccessGranted("ProcessingDocuments") ? getLink("processing_doc") : null,
     isAccessGranted("CompletedDocuments") ? getLink("completed_doc") : null,

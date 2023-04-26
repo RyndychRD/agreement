@@ -1,4 +1,5 @@
 import { Form, Modal } from "antd";
+import { useSelector } from "react-redux";
 import { useUpdateDocumentMutation } from "../../../../../../core/redux/api/DocumentControl/DocumentApi";
 // import { useTableModalDispatch } from "../../../../tables/TableModalProvider";
 import SimpleSpinner from "../../../../messages/Spinner";
@@ -9,9 +10,12 @@ import {
   useRouteStepFragmentDispatch,
 } from "../../RouteStepFragmentProvider";
 import { useTableModalDispatch } from "../../../../tables/TableModalProvider";
+import { userNameMask } from "../../../../../../services/CommonFunctions";
 
 function getMessage(type) {
   switch (type) {
+    case "returnToRework":
+      return `Вы действительно хотите вернуть документ на доработку?`;
     case "reject":
       return `Вы действительно хотите отклонить документ? Весь прогресс будет остановлен и процесс согласования будет необходимо начать заново.`;
     default:
@@ -19,7 +23,7 @@ function getMessage(type) {
   }
 }
 
-export default function RejectDocumentModal({ documentId }) {
+export default function ReturnRejectDocumentModal({ documentId }) {
   const state = useRouteStepFragmentState();
   const dispatchConfirm = useRouteStepFragmentDispatch();
   const dispatchTable = useTableModalDispatch();
@@ -30,6 +34,9 @@ export default function RejectDocumentModal({ documentId }) {
   ] = useUpdateDocumentMutation();
   // const dispatchTable = useTableModalDispatch();
   const [form] = Form.useForm();
+  const remarkCreator = userNameMask(
+    useSelector((userState) => userState.session.current_user)
+  );
   const onFinish = () => {
     form
       .validateFields()
@@ -37,7 +44,7 @@ export default function RejectDocumentModal({ documentId }) {
         const valuesToSend = {
           document_id: documentId,
           newDocumentStatusId: state.documentStatusId,
-          newRemark: values.remark,
+          newRemark: `${remarkCreator}: ${values.remark}`,
         };
 
         await updateFunc(valuesToSend).unwrap();
@@ -68,12 +75,12 @@ export default function RejectDocumentModal({ documentId }) {
 
       <Form form={form}>
         <TextInputFormItem
-          title="Причина отклонения"
+          title="Замечание"
           name="remark"
           rules={[
             {
               required: true,
-              message: "Введите причину отклонения",
+              message: "Введите замечание",
             },
           ]}
         />

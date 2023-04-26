@@ -7,7 +7,7 @@ class NotificationIsReadService {
    * Добавляет нотификацию согласно типу
    * @param {*} elementId
    * @param {*} toId
-   * @param  {(Signing|IncomeTask)} notificationType
+   * @param  {(ReworkDocument|Signing|IncomeTask)} notificationType
    * @returns
    */
   static async addNotification(elementId, toId, notificationType) {

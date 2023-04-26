@@ -55,6 +55,16 @@ export default function SigningButtons(props) {
         </Col>
       </Row>
       <Row className="mt-5">
+        <Col>
+          <Button
+            onClick={() => {
+              dispatch({ type: "openConfirmModal_ReturnToRework" });
+            }}
+            className="buttonRow warning-button"
+          >
+            Вернуть на доработку
+          </Button>
+        </Col>
         {isShowReturnBackOneStepButton ? (
           <Col>
             <Button
