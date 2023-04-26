@@ -39,7 +39,7 @@ app.use(cookieParser());
 // Определяем на каком урле будет клиент
 const CLIENT_URL = DevTools.getClientURL();
 // Устанавливаем политики клиента, чтобы использовать CORS защиту
-let whitelist = [CLIENT_URL, "https://test1.zik.kz:3001"];
+let whitelist = [CLIENT_URL, "https://dogovory.zik.kz:3001"];
 app.use(
   cors({
     credentials: true,
