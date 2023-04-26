@@ -1,7 +1,6 @@
 // Просто отображает список файлов
 import { Alert } from "antd";
 import UploadList from "../../file/fileOutputs";
-import { sorterStringAlphabet } from "../../tables/CommonFunctions";
 
 export default function DocumentFilesShow(props) {
   const { fileList, isTempFile = true } = props;
@@ -13,12 +12,10 @@ export default function DocumentFilesShow(props) {
         key="uploadedFilesListHeader"
       />
     );
-  const sortedFileList = [...fileList].sort((a, b) =>
-    sorterStringAlphabet(a.name, b.name)
-  );
+
   return (
     <UploadList
-      fileList={sortedFileList}
+      fileList={fileList}
       isTempFile={isTempFile}
       key="uploadedFilesList"
     />
