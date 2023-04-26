@@ -28,7 +28,8 @@ class DocumentNotificationIsReadSchema {
   async readeNotifications({ filter }) {
     let query = this.knexProvider("notification_is_read")
       .update({ is_read: true })
-      .where(filter);
+      .where(filter)
+      .returning(["reader_id", "notification_type", "element_id"]);
     return await query;
   }
 

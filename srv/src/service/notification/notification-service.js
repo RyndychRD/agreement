@@ -9,10 +9,7 @@ const {
 const { addNotification } = require("./notification-is-read-service");
 const DocumentTaskModel = require("../../models/documentTaskModels/document-task-model");
 const userService = require("../catalogServices/user-service");
-const {
-  DOCUMENT_STATUS_ON_WORK,
-  DOCUMENT_TASK_STATUS_COMPLETE,
-} = require("../../consts");
+const { DOCUMENT_TASK_STATUS_COMPLETE } = require("../../consts");
 
 class NotificationService {
   static async notifyDocumentSigning(documentId) {
@@ -26,56 +23,49 @@ class NotificationService {
           id: documentId,
         },
       });
-      const toId = currentSigningStep?.deputy_signer_id
-        ? currentSigningStep.deputy_signer_id
-        : currentSigningStep.signer_id;
+      const toId = currentSigningStep.signer_id;
       notifyDocumentSigningEmail(document, toId);
       addNotification(document.id, toId, "Signing");
     }
   }
 
   static async notifyDocumentStatusChanged(documentId, newDocumentStatusId) {
-    //Если документ в работе, то значит он вернулся из На доработку и надо отправить сообщение о подписании
-    if (newDocumentStatusId == DOCUMENT_STATUS_ON_WORK) {
-      this.notifyDocumentSigning(documentId);
-    } else {
-      const document = await DocumentModel.findOne({
-        filter: { "documents.id": documentId },
-      });
+    const document = await DocumentModel.findOne({
+      filter: { "documents.id": documentId },
+    });
 
-      // Либо мы посылаем нотификацию на конкретного пользователя, либо на группу лиц
-      const StatusToNotificationType = {
-        7: { name: "ReworkDocument", userIds: [document.creator_id] },
-        4: { name: "Approved", userIds: [document.creator_id] },
-        10: { name: "Completed", userIds: [document.creator_id] },
-        2: { name: "Rejected", userIds: [document.creator_id] },
-        9: {
-          name: "SignedOOPZ",
-          userIds: await userService
-            .getUserOfRight(11)
-            .then((result) => result.map((user) => user.id)),
-        },
-        8: {
-          name: "OnRegistration",
-          userIds: await userService
-            .getUserOfRight(8)
-            .then((result) => result.map((user) => user.id)),
-        },
-      };
+    // Либо мы посылаем нотификацию на конкретного пользователя, либо на группу лиц
+    const StatusToNotificationType = {
+      4: { name: "Approved", userIds: [document.creator_id] },
+      10: { name: "Completed", userIds: [document.creator_id] },
+      12: { name: "ProcessingDocument", userIds: [document.creator_id] },
+      2: { name: "Rejected", userIds: [document.creator_id] },
+      9: {
+        name: "SignedOOPZ",
+        userIds: await userService
+          .getUserOfRight(11)
+          .then((result) => result.map((user) => user.id)),
+      },
+      8: {
+        name: "OnRegistration",
+        userIds: await userService
+          .getUserOfRight(8)
+          .then((result) => result.map((user) => user.id)),
+      },
+    };
 
-      const status = await getOneStatus({ id: newDocumentStatusId });
-      notifyDocumentStatusChangedEmail(document, status);
-      if (StatusToNotificationType[newDocumentStatusId]) {
-        StatusToNotificationType[newDocumentStatusId].userIds.forEach(
-          (userId) => {
-            addNotification(
-              document.id,
-              userId,
-              StatusToNotificationType[newDocumentStatusId].name
-            );
-          }
-        );
-      }
+    const status = await getOneStatus({ id: newDocumentStatusId });
+    notifyDocumentStatusChangedEmail(document, status);
+    if (StatusToNotificationType[newDocumentStatusId]) {
+      StatusToNotificationType[newDocumentStatusId].userIds.forEach(
+        (userId) => {
+          addNotification(
+            document.id,
+            userId,
+            StatusToNotificationType[newDocumentStatusId].name
+          );
+        }
+      );
     }
   }
 

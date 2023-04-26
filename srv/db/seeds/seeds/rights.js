@@ -10,7 +10,6 @@ exports.rightsSeed = async function (knex) {
     { id: 1, name: "Администратор",  code_name: "Admin" },
     { id: 2, name: "Просмотр согласования договоров", code_name: "ContractAgreement",},
     { id: 3, name: "Просмотр Мои документы->Созданных мною", code_name: "CreatedDocuments",},
-    { id: 4, name: "Просмотр Мои документы->На доработку", code_name: "ReworkDocuments",},
     { id: 5, name: "Просмотр Мои документы->Согласованные", code_name: "ApprovedDocuments",},
     { id: 6, name: "Просмотр Мои документы->Исполненные", code_name: "CompletedDocuments",},
     { id: 7, name: "Просмотр Мои документы->Отклоненные", code_name: "RejectedDocuments",},
@@ -19,9 +18,10 @@ exports.rightsSeed = async function (knex) {
     { id: 10, name: "Просмотр Подписание->Подписанные мною", code_name: "MySignedDocuments",},
     { id: 11, name: "Просмотр Подписание->Документы, подписанные в ООПЗ", code_name: "SignedInOOPZDocuments",},
     { id: 12, name: "Просмотр Задачи->Входящие",  code_name: "IncomeTasks" },
-    { id: 15, name: "Просмотр Задачи->Выполненные",  code_name: "CompletedTasks" },
     { id: 13, name: "Может подписывать документы", code_name: "CanSignDocuments",},
-    { id: 14, name: "Может смотреть документы в архиве", code_name: "DocumentArchive",}
+    { id: 14, name: "Может смотреть документы в архиве", code_name: "DocumentArchive",},
+    { id: 15, name: "Просмотр Задачи->Выполненные",  code_name: "CompletedTasks" },
+    { id: 16, name: "Просмотр Мои документы->Действующие", code_name: "ProcessingDocuments",}
   ]
 
   const table = "rights";

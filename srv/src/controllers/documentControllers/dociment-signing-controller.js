@@ -16,6 +16,7 @@ class SigningController {
         body: req.body,
         userId: req.user.id,
       });
+
       return res.json(data);
     } catch (e) {
       next(e);

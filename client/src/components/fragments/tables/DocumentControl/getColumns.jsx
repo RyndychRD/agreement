@@ -115,7 +115,7 @@ export default function getColumns({ dataSource, columns }) {
       align: "center",
     },
     document_remark: {
-      title: "Замечание",
+      title: "Причина отклонения",
       dataIndex: "document_remark",
       align: "center",
     },

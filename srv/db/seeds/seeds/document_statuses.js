@@ -8,12 +8,12 @@ exports.documentStatusesSeed = async function (knex) {
   const arr = [
     { id: 5, name: "В работе" },
     { id: 2, name: "Отклонен" },
-    { id: 7, name: "На доработке" },
     { id: 8, name: "На регистрации" },
     { id: 4, name: "Согласован" },
     { id: 9, name: "Документ в ООПЗ" },
     { id: 10, name: "Исполнен" },
     { id: 11, name: "Архивный" },
+    { id: 12, name: "Действующий" },
   ];
 
   const table = "document_statuses";

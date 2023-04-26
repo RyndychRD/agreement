@@ -7,7 +7,7 @@ class NotificationIsReadService {
    * Добавляет нотификацию согласно типу
    * @param {*} elementId
    * @param {*} toId
-   * @param  {(ReworkDocument|Signing|IncomeTask)} notificationType
+   * @param  {(Signing|IncomeTask)} notificationType
    * @returns
    */
   static async addNotification(elementId, toId, notificationType) {
@@ -32,11 +32,27 @@ class NotificationIsReadService {
       reader_id: userId,
       element_id: query.elementId,
       notification_type: query.notificationType,
+      is_read: false,
     };
     if (!userId) {
       delete filter.reader_id;
     }
-    const func = NotificationIsReadModel.readeNotifications({ filter });
+    const func = NotificationIsReadModel.readeNotifications({ filter }).then(
+      (readNotifications) => {
+        if (readNotifications && readNotifications.length > 0) {
+          readNotifications.forEach((notification) => {
+            const msg = {
+              notificationType: notification.notification_type,
+              elementId: notification.element_id,
+            };
+            SocketService.sendSocketMsgByUserId(notification.reader_id, {
+              ...msg,
+              type: "successReadNotification",
+            });
+          });
+        }
+      }
+    );
     return await DevTools.addDelay(func);
   }
 

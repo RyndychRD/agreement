@@ -50,6 +50,7 @@ export const filterDataBoolean = (dataSource, columnName) => {
 };
 
 export const renderDate = (date, isAddTime = true) => {
+  if (!date) return "";
   if (isAddTime) return date ? moment(date).format("DD.MM.YYYY HH:mm") : "";
   return date ? moment(date).format("DD.MM.YYYY") : "";
 };
@@ -189,16 +190,6 @@ export default function getTitle(name, buttons, buttonsActions) {
         className="space-right "
       >
         Скачать в Excel
-      </Button>
-    ),
-    reject: (
-      <Button
-        key="keyRejectDocumentAdminTableSettings"
-        onClick={buttonsActions.reject}
-        danger
-        className="space-right "
-      >
-        Отклонить документ
       </Button>
     ),
   };

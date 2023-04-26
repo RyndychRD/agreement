@@ -12,7 +12,6 @@ const {
 } = require("../file-service");
 const NotificationService = require("../notification/notification-service");
 const FilesModel = require("../../models/catalogModels/files-model");
-const DocumentValuesService = require("./document-values-service");
 const DocumentRegistrationModel = require("../../models/document/document-registration-model");
 const NotificationIsReadModel = require("../../models/notification/notification-is-read-model");
 const DocumentArchiveModel = require("../../models/document/document-archive-model");
@@ -25,16 +24,9 @@ const {
 } = require("../../consts");
 
 function getCurrentSigner(document) {
-  //Изначально никто не текущий подписант
-  let currentSignerId = "-1";
-  //Если у нас нет замещающего, то останется просто текущий подписант
-  currentSignerId = document.current_signer_id
+  const currentSignerId = document.current_signer_id
     ? document.current_signer_id
-    : currentSignerId;
-  //Если у нас есть замещающий, то он встанет на место текущего подписанта
-  currentSignerId = document.current_deputy_signer_id
-    ? document.current_deputy_signer_id
-    : currentSignerId;
+    : -1;
   return currentSignerId;
 }
 
@@ -368,7 +360,7 @@ class DocumentService {
 
   async updateDocument(query, body) {
     let result = null;
-    if (body?.newRemark) {
+    if (body?.newRemark !== undefined) {
       const func = DocumentModels.update(
         {
           id: query.id,
@@ -445,7 +437,6 @@ class DocumentService {
     NotificationService.notifyDocumentStatusChanged(documentId, newStatusId);
     const filter = function () {
       this.whereIn("notification_type", [
-        "ReworkDocument",
         "Signing",
         "OnRegistration",
         "Approved",

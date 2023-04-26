@@ -7,8 +7,8 @@ import { isAccessGranted } from "../../../../../services/userAccessService";
 import { Error403 } from "../../../../fragments/messages/Error";
 import UpdateButtonModel from "./buttonModals/update";
 
-/** Список документов, созданных пользователем */
-export default function ReworkDocument() {
+/** Список документов, находящихся в статусе выполнения */
+export default function ProcessingDocuments() {
   const currentUser = useSelector((state) => state.session.current_user);
   const columns = {
     data: [
@@ -16,7 +16,8 @@ export default function ReworkDocument() {
       "document_name",
       "document_type",
       "document_status",
-      "document_remark",
+      "document_created_at",
+      "document_updated_at",
     ],
   };
   /**
@@ -29,10 +30,10 @@ export default function ReworkDocument() {
   } = useGetDocumentsQuery({
     isAddForeignTables: true,
     userId: currentUser?.id ? currentUser.id : "-1",
-    status: "7",
+    status: "12",
   });
 
-  if (!isAccessGranted("ReworkDocuments")) return <Error403 />;
+  if (!isAccessGranted("ProcessingDocuments")) return <Error403 />;
   return (
     <TableModalProvider>
       <DocumentControlTableViewer
@@ -40,9 +41,9 @@ export default function ReworkDocument() {
         isError={isError}
         columns={columns}
         dataSource={data ? DocumentService.prepareForTable(data) : null}
-        title="Документы на доработку"
+        title="Действующие документы"
         buttons={["update"]}
-        notificationType="ReworkDocument"
+        notificationType="ProcessingDocument"
       />
       <UpdateButtonModel />
     </TableModalProvider>

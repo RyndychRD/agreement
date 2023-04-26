@@ -12,6 +12,7 @@ export default function DocumentFilesShow(props) {
         key="uploadedFilesListHeader"
       />
     );
+
   return (
     <UploadList
       fileList={fileList}

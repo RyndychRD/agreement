@@ -6,6 +6,7 @@ import { usePushDocumentTaskFileToDocumentMutationHook } from "../../../core/red
 import { useLogState } from "../../log/LogProvider";
 import { handlePreview, handleDownload, handlePushToDocument } from "./File";
 import "./fileStyle.css";
+import { renderDate, sorterStringAlphabet } from "../tables/CommonFunctions";
 
 export function UploadListItem(props) {
   const {
@@ -14,7 +15,11 @@ export function UploadListItem(props) {
     isAddPushToDocumentButton = false,
     documentId,
   } = props;
-  const { uniq: savedFileName, name: originalName } = file;
+  const {
+    uniq: savedFileName,
+    name: originalName,
+    created_at: uploadedDateTime,
+  } = file;
 
   const [addFileIdToDocument] = usePushDocumentTaskFileToDocumentMutationHook();
 
@@ -73,6 +78,7 @@ export function UploadListItem(props) {
         ) : (
           ""
         )}
+        <span> {renderDate(uploadedDateTime)}</span>
       </div>
     </li>
   );
@@ -86,10 +92,13 @@ export function UploadListItem(props) {
  */
 export default function UploadList(props) {
   const { fileList, isTempFile = true, children } = props;
+  const sortedFileList = [...fileList].sort((a, b) =>
+    sorterStringAlphabet(a.name, b.name)
+  );
   return (
     <ul className="category-list">
       {children ||
-        fileList.map((file) => (
+        sortedFileList.map((file) => (
           <UploadListItem key={file.id} file={file} isTempFile={isTempFile} />
         ))}
     </ul>
