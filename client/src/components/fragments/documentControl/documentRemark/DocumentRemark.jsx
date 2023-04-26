@@ -45,23 +45,9 @@ export default function DocumentRemark(props) {
       </>
     );
   }
-  if (documentStatusId === 5 && documentRemark?.length > 0) {
-    return (
-      <>
-        <HeaderTextOutput text="Последнее замечание:" />
-        <DocumentRemarkText
-          text={documentRemark}
-          documentStatusId={documentStatusId}
-        />
-      </>
-    );
-  }
+
   // const currentSignStep = routeSteps?.filter((el) => !el.actual_signer_id)[0];
-  if (
-    documentStatusId === 2 ||
-    documentStatusId === 7 ||
-    documentStatusId === 7
-  ) {
+  if (documentStatusId === 2 || documentStatusId === 7) {
     result.push(
       <HeaderTextOutput
         text="Замечание по документу"
