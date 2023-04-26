@@ -18,6 +18,13 @@ const dict = {
     </NavLink>,
     "/document-control/user-documents/created-documents"
   ),
+  rework_doc: getItem(
+    <NavLink to="/document-control/user-documents/rework-documents">
+      На доработку
+      <NotificationCount type="ReworkDocument" />
+    </NavLink>,
+    "/document-control/user-documents/rework-documents"
+  ),
   approved_doc: getItem(
     <NavLink to="/document-control/user-documents/approved-documents">
       Согласованные

@@ -10,6 +10,7 @@ exports.rightsSeed = async function (knex) {
     { id: 1, name: "Администратор",  code_name: "Admin" },
     { id: 2, name: "Просмотр согласования договоров", code_name: "ContractAgreement",},
     { id: 3, name: "Просмотр Мои документы->Созданных мною", code_name: "CreatedDocuments",},
+    { id: 4, name: "Просмотр Мои документы->На доработку", code_name: "ReworkDocuments",},
     { id: 5, name: "Просмотр Мои документы->Согласованные", code_name: "ApprovedDocuments",},
     { id: 6, name: "Просмотр Мои документы->Исполненные", code_name: "CompletedDocuments",},
     { id: 7, name: "Просмотр Мои документы->Отклоненные", code_name: "RejectedDocuments",},

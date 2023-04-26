@@ -114,6 +114,35 @@ export default function DocumentControlTableViewer({
     excel: () => {
       handleExport();
     },
+    // TODO: Вынести в отдельную функцию
+    reject: () => {
+      if (
+        state?.currentRow.document_status_id === 5 ||
+        state?.currentRow.document_status_id === 7
+      ) {
+        ModalConfirm({
+          content:
+            "Вы точно хотите отклонить документ? Вы не сможете вернуть документ на маршрут согласования после отклонения, придется создавать документ заново",
+          onOk: () => {
+            updateFunc({
+              document_id: state?.currentRow.document_id,
+              newDocumentStatusId: REJECT_STATUS_ID,
+              newRemark: "Отклонен создателем документа",
+            });
+          },
+          okText: "Да, я хочу отклонить документ",
+          cancelText: "Нет",
+        });
+      } else {
+        ModalConfirm({
+          title: "Ошибка",
+          content:
+            "Только документы в статусе 'В работе' и 'На доработке' можно отклонить",
+          okText: "Хорошо",
+          cancelText: "Закрыть",
+        });
+      }
+    },
   };
 
   if (isLoading) return <SimpleSpinner />;
