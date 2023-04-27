@@ -44,7 +44,7 @@ export default function CreatedDocument() {
         isLoading={isLoading}
         isError={isError}
         columns={columns}
-        buttons={["create", "update", "delete"]}
+        buttons={["create", "update", "delete", "reject"]}
         dataSource={data ? DocumentService.prepareForTable(data) : null}
         title="Созданные мною документы"
       />
