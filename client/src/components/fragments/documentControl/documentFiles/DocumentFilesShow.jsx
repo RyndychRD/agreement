@@ -4,7 +4,7 @@ import UploadList from "../../file/fileOutputs";
 
 export default function DocumentFilesShow(props) {
   const { fileList, isTempFile = true } = props;
-  if (fileList.length === 0)
+  if (!fileList || fileList.length === 0)
     return (
       <Alert
         type="error"
