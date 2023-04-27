@@ -35,8 +35,8 @@ class DocumentSchema {
       .leftJoin(
         this.knexProvider.raw(
           '"documents-signers_route" AS "currentSigner" ON "documents"."id"' +
-            ' = "currentSigner"."document_id" AND "documents"."last_signed_step"+1' +
-            ' = "currentSigner"."step"'
+            ' = "currentSigner"."document_id" ' +
+            'AND "documents"."last_signed_step"+1 = "currentSigner"."step"'
         )
       );
     //подтягиваем данные по регистрации документа
