@@ -2,12 +2,12 @@ import { Alert } from "antd";
 import DocumentReworkButtons from "./buttons/DocumentRework";
 import {
   HeaderTextOutput,
-  TextOutputWithLabel,
+  // TextOutputWithLabel,
 } from "../../outputs/textOutputs";
 import { useGetDocumentRouteQueryHook } from "../../../../core/redux/api/DocumentControl/DocumentApi";
 import SimpleSpinner from "../../messages/Spinner";
 import SimpleError from "../../messages/Error";
-import { userNameWithPositionMask } from "../../../../services/CommonFunctions";
+// import { userNameWithPositionMask } from "../../../../services/CommonFunctions";
 
 function DocumentRemarkText(props) {
   const { text, documentStatusId } = props;
@@ -25,7 +25,7 @@ export default function DocumentRemark(props) {
   const { documentStatusId, documentRemark, documentId, isStart } = props;
   const result = [];
   const {
-    data: routeSteps = {},
+    // data: routeSteps = {},
     isLoading,
     isError,
   } = useGetDocumentRouteQueryHook({
@@ -45,7 +45,8 @@ export default function DocumentRemark(props) {
       </>
     );
   }
-  const currentSignStep = routeSteps?.filter((el) => !el.actual_signer_id)[0];
+
+  // const currentSignStep = routeSteps?.filter((el) => !el.actual_signer_id)[0];
   if (documentStatusId === 2 || documentStatusId === 7) {
     result.push(
       <HeaderTextOutput
@@ -56,9 +57,7 @@ export default function DocumentRemark(props) {
 
     // Текст замечания
     if (documentRemark?.length > 0) {
-      const cardDataPassed =
-        userNameWithPositionMask(currentSignStep.deputy_signer) ||
-        userNameWithPositionMask(currentSignStep.signer);
+      // const cardDataPassed = userNameWithPositionMask(currentSignStep.signer);
 
       result.push(
         <DocumentRemarkText
@@ -67,12 +66,12 @@ export default function DocumentRemark(props) {
           text={documentRemark}
         />
       );
-      result.push(
-        <TextOutputWithLabel
-          label="Создатель замечания"
-          text={cardDataPassed}
-        />
-      );
+      // result.push(
+      //   <TextOutputWithLabel
+      //     label="Создатель замечания"
+      //     text={cardDataPassed}
+      //   />
+      // );
     } else {
       result.push(
         <DocumentRemarkText

@@ -35,7 +35,7 @@ export function userNameWithPositionMask(user) {
   if (!user) return null;
   return `${user?.last_name} ${user?.first_name.slice(0, 1)}. ${
     user?.middle_name ? `${user?.middle_name.slice(0, 1)}.` : ""
-  }, ${user.position_name}`;
+  }${user.position_name ? `, ${user.position_name}` : ""}`;
 }
 
 export function getUserNameAndPositionOptionsForSelect(
@@ -52,7 +52,7 @@ export function getUserNameAndPositionOptionsForSelect(
     usersTemp?.map((user) => ({
       id: user.id,
       // prettier-ignore
-      name: `${userNameMask(user)} ${isUserPositionRequired ? `, ${user?.position_name}` : ""}`,
+      name: `${userNameWithPositionMask(user)}`,
     }))
   );
 }

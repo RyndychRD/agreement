@@ -57,6 +57,7 @@ const fileUpload = (req, res) => {
       uploader_id: currentUser,
       hash: getFileHash(getFileTempPath(req.file.filename)),
       size: req.file.size,
+      created_at: "now",
     };
     const newFileId = (await FilesModel.createOneFile({ file }))[0].id;
 

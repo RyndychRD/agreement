@@ -21,7 +21,7 @@ export default function DocumentInformationShow(props) {
         <TextOutputWithLabel
           key={keyIn}
           text={text}
-          label={information.label}
+          label={<b>{information.label}</b>}
           className={information?.className}
         />
       );

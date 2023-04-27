@@ -3,12 +3,7 @@ const { SocketService } = require("../../service/socket/socket-service");
 
 class DocumentsSocketController {
   static readNotification(user, msg) {
-    NotificationIsReadService.readNotifications(user.id, msg).then(() => {
-      SocketService.sendSocketMsgByUserId(user.id, {
-        ...msg,
-        type: "successReadNotification",
-      });
-    });
+    NotificationIsReadService.readNotifications(user.id, msg);
   }
 
   static sendAllNotifications(user, ws) {

@@ -20,6 +20,7 @@ import {
 } from "../../../services/CommonFunctions";
 import { useLogState } from "../../log/LogProvider";
 import NotificationService from "../../../services/DocumentControlServices/NotificationService";
+import DocumentComplete from "../documentControl/documentComplete/DocumentComplete";
 
 export default function ModalDocumentView(props) {
   const {
@@ -31,6 +32,7 @@ export default function ModalDocumentView(props) {
     isShowDocumentTasks = false,
     isShowRegistrationInOOPZ = false,
     isShowRoute = false,
+    isShowComplete = false,
     isShowToArchive = false,
   } = props;
   const state = useTableModalsState();
@@ -69,7 +71,7 @@ export default function ModalDocumentView(props) {
   if (isOpen)
     return (
       <Modal
-        width={isShowDocumentTasks ? 1000 : 500}
+        width={isShowDocumentTasks ? 1000 : 700}
         open={isOpen}
         onCancel={onCancel}
         footer={[
@@ -117,15 +119,24 @@ export default function ModalDocumentView(props) {
         ) : (
           ""
         )}
+        {/* Отображать ли переведение документа в Исполненные */}
+        {isShowComplete ? (
+          <DocumentComplete
+            documentId={state.currentRow?.document_id}
+            closeModalFunc={onCancel}
+          />
+        ) : (
+          ""
+        )}
         {isShowRoute ? (
           <RouteStepsFragment
             isStart={state.isShowUpdateModal}
             documentId={state.currentRow?.document_id}
             isAbleToSign={isAbleToSign}
             isAbleToEdit={
-              isAbleToEdit && state.currentRow?.document_status_id === 5
-              // ||
-              // state.currentRow?.document_status_id === 7)
+              isAbleToEdit &&
+              (state.currentRow?.document_status_id === 5 ||
+                state.currentRow?.document_status_id === 7)
             }
           />
         ) : (
