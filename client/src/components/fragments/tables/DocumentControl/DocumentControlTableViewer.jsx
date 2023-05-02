@@ -12,6 +12,10 @@ import "../style.css";
 import SimpleSpinner from "../../messages/Spinner";
 import SimpleError from "../../messages/Error";
 import getColumns from "./getColumns";
+import { useUpdateDocumentMutation } from "../../../../core/redux/api/DocumentControl/DocumentApi";
+import ModalConfirm from "../../modals/ModalConfirm";
+
+const REJECT_STATUS_ID = 2;
 
 /**
  * Конструктор таблиц для предварительного просмотра перечиня документов.
@@ -57,6 +61,8 @@ export default function DocumentControlTableViewer({
       .filter((el) => el.notification_type === notificationType)
       .map((el) => el.element_id);
   }
+
+  const [updateFunc] = useUpdateDocumentMutation();
 
   // Этот блок отвечает за открытие элемента по id
   const query = useLocation().search;
