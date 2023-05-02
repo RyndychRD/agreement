@@ -21,6 +21,8 @@ export default class DocumentService {
         document_finished_at: el.finished_at,
         document_creator: userNameMask(el?.creator),
         document_stage: DocumentService.getDocumentStage(el),
+        is_document_able_to_delete:
+          el.document_status_id === 5 && el.last_signed_step === 0,
         document_current_signer: userNameMask(el?.current_signer),
         document_remark: el?.remark,
         document_passed_to_archive_at: el?.document_passed_to_archive_at,

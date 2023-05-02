@@ -10,7 +10,7 @@ export default function DeleteButtonAction() {
     <ModalDelete
       deleteMutation={useDeleteDocumentMutationHook}
       deleteText={state.currentRow?.document_name}
-      isAbleToDelete
+      isAbleToDelete={state.currentRow?.is_document_able_to_delete}
     />
   );
 }

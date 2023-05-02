@@ -15,7 +15,6 @@ exports.documentStatusesSeed = async function (knex) {
     { id: 10, name: "Исполнен" },
     { id: 11, name: "Архивный" },
     { id: 12, name: "Действующий" },
-    { id: 13, name: "Удален" },
   ];
 
   const table = "document_statuses";
