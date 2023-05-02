@@ -25,6 +25,7 @@ class UserService {
 
   async getOneUser(query, customFilter = {}) {
     let filter = { ...customFilter };
+    if (query.id === -1) return null;
     if (query?.id && query.id !== -1) {
       filter["users.id"] = query.id;
     }
