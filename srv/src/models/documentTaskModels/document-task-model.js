@@ -33,9 +33,10 @@ class DocumentTaskSchema {
     isAddForeignTables,
     isConfirmedForSecondPageOnly,
   }) {
-    let query = this.knexProvider("document_tasks").select("document_tasks.*");
-    // .leftJoin("documents", "documents.id", "document_tasks.document_id")
-    // .where("documents.document_status_id", "!=", DOCUMENT_STATUS_DELETE);
+    let query = this.knexProvider("document_tasks")
+      .select("document_tasks.*")
+      .leftJoin("documents", "documents.id", "document_tasks.document_id")
+      .where("documents.document_status_id", "!=", DOCUMENT_STATUS_DELETE);
     if (isConfirmedForSecondPageOnly) {
       filter["is_confirmed"] = true;
     }

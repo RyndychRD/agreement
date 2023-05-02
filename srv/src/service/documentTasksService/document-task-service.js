@@ -197,7 +197,7 @@ class DocumentTasksService {
         "notification_type",
         NotificationIsReadService.documentTaskNotificationTypes
       );
-      this.where("document_task_id", "=", query.id);
+      this.where("document_task_id", "=", id);
       this.where("is_read", "=", "false");
     };
     const readNotification = NotificationIsReadService.readNotifications(
