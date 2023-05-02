@@ -66,6 +66,7 @@ function getAdminBlock() {
   if (!isAnyAccessGranted(["Admin"])) return null;
   return getItem("Список (Админ)", "AdminDocs", null, [
     isAccessGranted("Admin") ? getLink("admin_all_doc") : null,
+    isAccessGranted("Admin") ? getLink("admin_deleted_doc") : null,
   ]);
 }
 

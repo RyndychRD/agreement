@@ -101,6 +101,7 @@ export default function DocumentControlTableViewer({
   /**
    * Логика для кнопок
    */
+  // TODO: Вынести в отдельную функцию
   const buttonsActions = {
     create: () => {
       dispatch({ type: "openCreateModal" });
@@ -120,7 +121,20 @@ export default function DocumentControlTableViewer({
     excel: () => {
       handleExport();
     },
-    // TODO: Вынести в отдельную функцию
+    restore: () => {
+      ModalConfirm({
+        content: "Вы точно хотите восстановить документ?",
+        onOk: () => {
+          updateFunc({
+            document_id: state?.currentRow.document_id,
+            newDocumentStatusId:
+              state?.currentRow.document_status_before_soft_delete,
+          });
+        },
+        okText: "Да, я хочу восстановить документ",
+        cancelText: "Нет",
+      });
+    },
     reject: () => {
       if (
         state?.currentRow.document_status_id === 5 ||

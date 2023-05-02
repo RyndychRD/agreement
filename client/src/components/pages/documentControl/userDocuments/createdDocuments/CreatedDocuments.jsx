@@ -25,6 +25,7 @@ export default function CreatedDocument() {
       "document_finished_at",
     ],
   };
+
   /**
    * При открытии форму подгружаем новые необходимые данные
    */

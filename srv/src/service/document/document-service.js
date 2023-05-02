@@ -55,6 +55,7 @@ class DocumentService {
       isOnlyMySignedDocuments: query?.isOnlyMySignedDocuments.trim() === "true",
       filter,
       currentUser: userId,
+      isShowDeletedDocs: query?.isShowDeletedDocs.trim() === "true",
     });
     //подтягиваем общее количество шагов для подписания
     //разыменовываем текущего подписанта
@@ -307,6 +308,7 @@ class DocumentService {
     return await DevTools.addDelay(func);
   }
 
+  // TODO: Добавить очистку загруженных документов и поручений по документу
   async deleteDocument(query) {
     const func = await DocumentModels.deleteOne({
       id: query.id,
@@ -382,11 +384,24 @@ class DocumentService {
       );
       result = await DevTools.addDelay(func);
     }
-    if (body?.newDocumentStatusId) {
+    // Если мы удаляем документ и запоминаем предыдущий статус, то нотификация нам не нужна
+    if (body?.newDocumentStatusId && !body?.previousDocumentStatusId) {
       result = DocumentService.changeDocumentStatus(
         query.id,
         body.newDocumentStatusId
       );
+    }
+    if (body?.newDocumentStatusId && body?.previousDocumentStatusId) {
+      const func = DocumentModels.update(
+        {
+          id: query.id,
+        },
+        {
+          document_status_id: body.newDocumentStatusId,
+          document_status_before_soft_delete: body.previousDocumentStatusId,
+        }
+      );
+      result = await DevTools.addDelay(func);
     }
     return result;
   }
@@ -444,12 +459,15 @@ class DocumentService {
         "Completed",
         "Rejected",
         "SignedOOPZ",
+        "ProcessingDocument",
       ]);
       this.where("element_id", "=", documentId);
     };
     notificationIsReadModel.readeNotifications({ filter });
     return await DevTools.addDelay(func);
   }
+
+  // Создано из-за проблем с циркулярными зависимостями. Используется в schedule
   async changeDocumentStatusObj(documentId, newStatusId) {
     return DocumentService.changeDocumentStatus(documentId, newStatusId);
   }
