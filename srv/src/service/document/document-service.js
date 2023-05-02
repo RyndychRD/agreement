@@ -13,15 +13,15 @@ const {
 const NotificationService = require("../notification/notification-service");
 const FilesModel = require("../../models/catalogModels/files-model");
 const DocumentRegistrationModel = require("../../models/document/document-registration-model");
-const NotificationIsReadModel = require("../../models/notification/notification-is-read-model");
 const DocumentArchiveModel = require("../../models/document/document-archive-model");
 const moment = require("moment/moment");
 const DocumentTasksService = require("../documentTasksService/document-task-service");
-const notificationIsReadModel = require("../../models/notification/notification-is-read-model");
 const {
   DOCUMENT_STATUS_ARCHIVE,
   DOCUMENT_STATUS_APPROVED,
 } = require("../../consts");
+const NotificationIsReadService = require("../notification/notification-is-read-service");
+const documentFilesService = require("./document-files-service");
 
 function getCurrentSigner(document) {
   const currentSignerId = document.current_signer_id
@@ -308,19 +308,19 @@ class DocumentService {
     return await DevTools.addDelay(func);
   }
 
-  // TODO: Добавить очистку загруженных документов и поручений по документу
   async deleteDocument(query) {
+    const documentFiles = await documentFilesService.getFiles({
+      query: { documentId: query.id },
+    });
+
+    // Удаляем все файлы, привязанные к этому документу
+    if (documentFiles && documentFiles.length > 0) {
+      DevTools.deleteFileFolder(documentFiles[0].path);
+    }
+
     const func = await DocumentModels.deleteOne({
       id: query.id,
     });
-
-    const readNotification = NotificationIsReadModel.readeNotifications({
-      filter: {
-        element_id: query.id,
-        notification_type: "Signing",
-      },
-    });
-    DevTools.addDelay(readNotification);
     return await DevTools.addDelay(func);
   }
 
@@ -392,6 +392,17 @@ class DocumentService {
       );
     }
     if (body?.newDocumentStatusId && body?.previousDocumentStatusId) {
+      const filter = function () {
+        this.whereIn(
+          "notification_type",
+          NotificationIsReadService.documentNotificationTypes.concat(
+            NotificationIsReadService.documentTaskNotificationTypes
+          )
+        );
+        this.where("document_id", "=", query.id);
+        this.where("is_read", "=", "false");
+      };
+      NotificationIsReadService.readNotifications(null, null, filter);
       const func = DocumentModels.update(
         {
           id: query.id,
@@ -449,21 +460,19 @@ class DocumentService {
         document_status_id: newStatusId,
       }
     );
-    NotificationService.notifyDocumentStatusChanged(documentId, newStatusId);
+
     const filter = function () {
-      this.whereIn("notification_type", [
-        "ReworkDocument",
-        "Signing",
-        "OnRegistration",
-        "Approved",
-        "Completed",
-        "Rejected",
-        "SignedOOPZ",
-        "ProcessingDocument",
-      ]);
+      this.whereIn(
+        "notification_type",
+        NotificationIsReadService.documentNotificationTypes.concat(
+          NotificationIsReadService.documentTaskNotificationTypes
+        )
+      );
       this.where("element_id", "=", documentId);
+      this.where("is_read", "=", "false");
     };
-    notificationIsReadModel.readeNotifications({ filter });
+    await NotificationIsReadService.readNotifications(null, null, filter);
+    NotificationService.notifyDocumentStatusChanged(documentId, newStatusId);
     return await DevTools.addDelay(func);
   }
 

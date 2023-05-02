@@ -1,5 +1,6 @@
 //Доступ в БД
 const knexConfig = require("../../../db/knexfile");
+const { DOCUMENT_STATUS_DELETE } = require("../../consts");
 
 class DocumentTaskSchema {
   constructor() {
@@ -33,6 +34,8 @@ class DocumentTaskSchema {
     isConfirmedForSecondPageOnly,
   }) {
     let query = this.knexProvider("document_tasks").select("document_tasks.*");
+    // .leftJoin("documents", "documents.id", "document_tasks.document_id")
+    // .where("documents.document_status_id", "!=", DOCUMENT_STATUS_DELETE);
     if (isConfirmedForSecondPageOnly) {
       filter["is_confirmed"] = true;
     }

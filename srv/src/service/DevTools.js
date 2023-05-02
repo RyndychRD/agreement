@@ -1,4 +1,5 @@
 const fs = require("fs");
+const path = require("path");
 
 class DevTools {
   /**
@@ -23,6 +24,30 @@ class DevTools {
   static createFolderIfNotExist(path) {
     if (!fs.existsSync(path)) {
       fs.mkdirSync(path, { recursive: true });
+    }
+  }
+
+  static async deleteFileFolder(filePath) {
+    const folderPath = path.dirname(
+      path.join(process.env.FILE_STORAGE_PATH, filePath)
+    );
+    DevTools.deleteFolderRecursive(folderPath);
+  }
+
+  // Функция рекурсивно удаляет все файлы и папки в папке, а затем удаляет саму папку
+  static deleteFolderRecursive(folderPath) {
+    if (fs.existsSync(folderPath)) {
+      fs.readdirSync(folderPath).forEach((file, index) => {
+        const curPath = path.join(folderPath, file);
+        if (fs.lstatSync(curPath).isDirectory()) {
+          // Рекурсивный вызов, если файл - папка
+          deleteFolderRecursive(curPath);
+        } else {
+          // Удаление файла
+          fs.unlinkSync(curPath);
+        }
+      });
+      fs.rmdirSync(folderPath); // Удаление пустой папки
     }
   }
 

@@ -133,8 +133,8 @@ const getDocumentFileDirectoryPath = async (
 ) => {
   const document = await DocumentModels.findOne({ filter: { id: documentId } });
   const result = `${moment(document.created_at).format(
-    "YYYY-DD-MM"
-  )}_${documentId}_d`;
+    "YYYY-MM-DD"
+  )}_correctDate_${documentId}_d`;
 
   return isWithStoragePath
     ? path.join(process.env.FILE_STORAGE_PATH, result)
