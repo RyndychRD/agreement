@@ -9,6 +9,7 @@ const {
   createDocumentFilePath,
   getDocumentFileDirectoryPath,
   getFileTempPath,
+  deleteFile,
 } = require("../file-service");
 const NotificationService = require("../notification/notification-service");
 const FilesModel = require("../../models/catalogModels/files-model");
@@ -315,6 +316,9 @@ class DocumentService {
 
     // Удаляем все файлы, привязанные к этому документу
     if (documentFiles && documentFiles.length > 0) {
+      documentFiles.forEach((file) => {
+        deleteFile(file);
+      });
       DevTools.deleteFileFolder(documentFiles[0].path);
     }
 

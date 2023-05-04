@@ -123,6 +123,13 @@ const getFileHash = (path) => {
   return hex;
 };
 
+const deleteFile = (file) => {
+  FilesModel.delete({ id: file.file_id });
+  if (fs.existsSync(file.path)) {
+    fs.unlinkSync(file.path);
+  }
+};
+
 const isFileHashChanged = ({ path, hash }) => {
   return getFileHash(path) !== hash;
 };
@@ -181,6 +188,7 @@ const getFilePath = (fileUuid) => {
 };
 
 module.exports = {
+  deleteFile,
   singleUpload,
   getFile,
   convertAnyFileToPdf,
