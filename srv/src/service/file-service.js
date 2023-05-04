@@ -146,7 +146,14 @@ const createDocumentFilePath = async (
   isWithStoragePath = true
 ) => {
   //Иначе конструируем его самостоятельно
-  const fileNameSplit = fileName.split(".");
+  // Подразумеваем что у нас всегда есть последняя точка перед расширением (12.3.pdf)
+  let lastDotIndex = fileName.lastIndexOf(".");
+  lastDotIndex = lastDotIndex ? lastDotIndex : -1;
+  const fileNameSplit = fileName
+    .replace(/\./g, function (match, index) {
+      return index === lastDotIndex ? "." : "";
+    })
+    .split(".");
   const result = `${fileNameSplit[0]}_${fileUuid}.${fileNameSplit[1]}`;
   return path.join(
     await getDocumentFileDirectoryPath({ documentId }, isWithStoragePath),
