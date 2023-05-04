@@ -21,9 +21,11 @@ function FBSelect(props) {
     elemNameForForm,
     form,
     CurrentElementSelectValue,
+    defaultValue,
     filterOption = (input, option) =>
       (option?.label.toLowerCase() ?? "").includes(input.toLowerCase()),
   } = props;
+
   const {
     setValueInSelectOnForm = (value) => {
       form.setFieldValue(elemNameForForm, value);
@@ -33,6 +35,11 @@ function FBSelect(props) {
       );
     },
   } = props;
+
+  if (defaultValue && CurrentElementSelectValue.length > 0) {
+    setValueInSelectOnForm(defaultValue.id);
+  }
+  // Запрещаем им вставку элементов в селект боксы
   const handlePaste = (e) => {
     e.preventDefault();
   };
@@ -44,6 +51,7 @@ function FBSelect(props) {
       optionFilterProp="children"
       onChange={setValueInSelectOnForm}
       filterOption={filterOption}
+      defaultValue={defaultValue.id}
       id={elemNameForForm}
       options={CurrentElementSelectValue}
     />
@@ -106,7 +114,6 @@ export default function RenderSelectTable(props) {
   const { CurrentElement } = props;
 
   const CurrentElementSelectValueTable = CurrentElement?.select_value?.table;
-
   if (CurrentElementSelectValueTable) {
     switch (CurrentElementSelectValueTable) {
       case "position": {

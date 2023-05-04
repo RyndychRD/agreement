@@ -10,7 +10,7 @@ import SimpleError from "../../fragments/messages/Error";
 import RenderNumberInput from "./renderElements/FBRenderTextInput/FBRenderNumberInput";
 
 export default function ReturnElement(props) {
-  const { ComponentNameForForm, ComponentKey, form } = props;
+  const { ComponentNameForForm, ComponentKey, ComponentValue, form } = props;
   const {
     data: DocumentIODictionaryElements = [],
     isLoading: isLoadingDictionary,
@@ -26,27 +26,50 @@ export default function ReturnElement(props) {
   switch (CurrentDictElement.data_type) {
     case "text":
       return (
-        <RenderTextInput elemNameForForm={ComponentNameForForm} form={form} />
+        <RenderTextInput
+          elemNameForForm={ComponentNameForForm}
+          defaultValue={ComponentValue}
+          form={form}
+        />
       );
     case "number":
       return (
-        <RenderNumberInput elemNameForForm={ComponentNameForForm} form={form} />
+        <RenderNumberInput
+          elemNameForForm={ComponentNameForForm}
+          defaultValue={ComponentValue}
+          form={form}
+        />
       );
     case "email":
       return (
-        <RenderEmailInput elemNameForForm={ComponentNameForForm} form={form} />
+        <RenderEmailInput
+          elemNameForForm={ComponentNameForForm}
+          defaultValue={ComponentValue}
+          form={form}
+        />
       );
     case "datePicker":
       return (
-        <RenderDataPicker elemNameForForm={ComponentNameForForm} form={form} />
+        <RenderDataPicker
+          elemNameForForm={ComponentNameForForm}
+          defaultValue={ComponentValue}
+          form={form}
+        />
       );
     case "phone":
-      return <RenderPhone elemNameForForm={ComponentNameForForm} form={form} />;
+      return (
+        <RenderPhone
+          elemNameForForm={ComponentNameForForm}
+          defaultValue={ComponentValue}
+          form={form}
+        />
+      );
     case "select_id":
       return (
         <RenderSelectID
           CurrentElement={CurrentDictElement}
           elemNameForForm={ComponentNameForForm}
+          defaultValue={ComponentValue}
           form={form}
         />
       );
@@ -56,13 +79,15 @@ export default function ReturnElement(props) {
         <RenderSelectTable
           CurrentElement={CurrentDictElement}
           elemNameForForm={ComponentNameForForm}
+          defaultValue={ComponentValue}
+          form={form}
           {...props}
         />
       );
 
     default: {
       console.error(
-        "Попытались найти элемент но такого не существует в списке элементов =>",
+        "Попытались найти элемент, но такого не существует в списке элементов =>",
         CurrentDictElement.data_type
       );
       return <span>Не найден data_type={CurrentDictElement.data_type} !</span>;

@@ -1,8 +1,8 @@
-import { Select, Input } from "antd";
+import { Input } from "antd";
 import { useRef } from "react";
 
 export default function RenderPhone(props) {
-  const { elemNameForForm, form } = props;
+  const { elemNameForForm, defaultValue, form } = props;
 
   const PhoneBodyRef = useRef("");
   const CustomPhoneCodeCountryRef = useRef("");
@@ -19,10 +19,10 @@ export default function RenderPhone(props) {
     }`;
     form.setFieldValue(elemNameForForm, PhoneBodyRef.current);
   }
-  const setValueInCustomPhoneCodeCountryOnForm = (value) => {
-    CustomPhoneCodeCountryRef.current = value;
-    setPhoneBodyRef(value);
-  };
+  // const setValueInCustomPhoneCodeCountryOnForm = (value) => {
+  //   CustomPhoneCodeCountryRef.current = value;
+  //   setPhoneBodyRef(value);
+  // };
   const setValueInCustomPhoneBodyOnForm = (e) => {
     e.stopPropagation();
     const { value } = e.target;
@@ -36,10 +36,19 @@ export default function RenderPhone(props) {
     setPhoneBodyRef(value);
   };
 
-  const { Option } = Select;
+  if (defaultValue) {
+    form.setFieldValue(elemNameForForm, defaultValue);
+  }
+
+  const regex = /(.*?)Добавочный номер (\d+)/;
+  const matches = defaultValue.match(regex);
+  const mainNumber = matches ? matches[1].trim() : defaultValue;
+  const extensionNumber = matches ? matches[2].trim() : "";
+
+  // const { Option } = Select;
   return (
     <Input.Group compact>
-      <Select
+      {/* <Select
         onChange={setValueInCustomPhoneCodeCountryOnForm}
         style={{
           width: "35%",
@@ -51,14 +60,15 @@ export default function RenderPhone(props) {
         <Option value="+86">+86 Китай</Option>
         <Option value="+375">+375 Беларусь</Option>
         <Option value="+380">+380 Украина</Option>
-      </Select>
+      </Select> */}
       <Input
         onChange={setValueInCustomPhoneBodyOnForm}
         style={{
-          width: "35%",
+          // width: "35%",
+          width: "70%",
         }}
         placeholder="(###)#######"
-        defaultValue=""
+        defaultValue={mainNumber}
       />
       <Input
         onChange={setValueInCustomPhoneAdditionalOnForm}
@@ -66,7 +76,7 @@ export default function RenderPhone(props) {
           width: "30%",
         }}
         placeholder="Добавочный номер"
-        defaultValue=""
+        defaultValue={extensionNumber}
       />
     </Input.Group>
   );

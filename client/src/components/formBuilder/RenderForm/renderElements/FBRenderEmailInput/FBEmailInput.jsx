@@ -4,7 +4,7 @@ import { MailTwoTone } from "@ant-design/icons";
 import "./FBEmailInput.css";
 
 export default function RenderEmailInput(props) {
-  const { elemNameForForm, form } = props;
+  const { elemNameForForm, defaultValue, form } = props;
 
   const [statusWarningEmail, setWarning] = useState("empty-email");
   const valueEmail = useRef();
@@ -20,10 +20,14 @@ export default function RenderEmailInput(props) {
       } else setWarning("warning-email");
     }
   };
+  if (defaultValue) {
+    form.setFieldValue(elemNameForForm, defaultValue);
+  }
   return (
     <div className={statusWarningEmail}>
       <Input
         ref={valueEmail}
+        value={defaultValue}
         prefix={<MailTwoTone />}
         id={elemNameForForm}
         placeholder="Электронная почта"

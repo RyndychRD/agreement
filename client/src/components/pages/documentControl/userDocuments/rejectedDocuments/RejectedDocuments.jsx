@@ -7,6 +7,7 @@ import { isAccessGranted } from "../../../../../services/userAccessService";
 import { Error403 } from "../../../../fragments/messages/Error";
 import UpdateButtonModel from "./buttonModals/update";
 import DeleteButtonModal from "./buttonModals/delete";
+import DocumentCreationPipeline from "../../../../fragments/documentControl/documentCreationPipeline/Pipeline";
 
 /** Список документов, созданных пользователем */
 export default function RejectedDocument() {
@@ -45,6 +46,8 @@ export default function RejectedDocument() {
         buttons={["update", "delete"]}
         notificationType="Rejected"
       />
+
+      <DocumentCreationPipeline />
       <UpdateButtonModel />
       <DeleteButtonModal />
     </TableModalProvider>

@@ -27,6 +27,8 @@ export default function FormBuilderDataComponent({ FormBuilderData, form }) {
           <ReturnElement
             ComponentNameForForm={elemNameForForm}
             ComponentKey={ComponentItem.key}
+            // Используется только в шаблонизаторе
+            ComponentValue={ComponentItem?.value}
             title={ComponentItem.label}
             form={form}
           />

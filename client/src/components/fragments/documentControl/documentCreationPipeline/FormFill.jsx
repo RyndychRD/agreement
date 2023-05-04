@@ -9,6 +9,7 @@ import {
   nextStep,
   saveCurrentStepJson,
   getPreviousStepJson,
+  getCurrentStepJson,
 } from "../../../../core/redux/reducers/documentCreationPipelineReducer";
 import { useGetDocumentIODictionaryElementsHook } from "../../../../core/redux/api/AdminSettings/Constructor/formConstructor/DocumentIODictionaryElementApi";
 import FormBuilderDataComponent from "../../../formBuilder/RenderForm/FBRenderFormItem";
@@ -25,15 +26,24 @@ export default function DocumentCreationPipelineFormFill({
   pipelineDispatch,
   documentMainValues,
 }) {
+  const currentModalJson = useSelector(getCurrentStepJson);
   const [form] = Form.useForm();
   // Подразумевается, что предыдущий шаг всегда конструтор форм
-  const elementsOrder = useSelector(getPreviousStepJson);
+  let elementsOrder = useSelector(getPreviousStepJson);
   // prettier-ignore
   const {data: type = "",isError: isErrorType,isLoading: isLoadingType} = useGetTypeQueryHook({ isStart: true, id: documentMainValues.typeId });
   // prettier-ignore
   const {data: DocumentIODictionaryElements = "",isError: isErrorDocumentIODictionary,isLoading: isLoadingDocumentIODictionary} = useGetDocumentIODictionaryElementsHook({  typeId: documentMainValues.typeId });
 
-  if (
+  // Если у нас уже есть сохраненные данные в pipeline, то выводим их. Иначе - стандартный вывод, если он нормально загрузился
+  if (currentModalJson && Object.keys(currentModalJson).length > 0) {
+    elementsOrder = currentModalJson?.formValues;
+    form.setFieldsValue({
+      documentName: currentModalJson?.documentName,
+      // Значения в hidden input показывают к какому конкретно элементу конструктора относится value.
+      elementsOrder: currentModalJson?.formValues,
+    });
+  } else if (
     !isErrorDocumentIODictionary &&
     !isLoadingDocumentIODictionary &&
     !isLoadingType
