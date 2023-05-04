@@ -1,9 +1,10 @@
 import { InboxOutlined } from "@ant-design/icons";
 import { Form, Upload } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { API_URL } from "../../../http";
 import openNotification from "../messages/Notification";
 import { handlePreview, handleDownload } from "./File";
+import FileService from "../../../services/FileService";
 
 const { Dragger } = Upload;
 
@@ -21,7 +22,37 @@ const FILE_ACCEPTED_EXT = [
 ];
 
 export default function FragmentFileUploader(props) {
-  const { isRequired = true } = props;
+  const { isRequired = true, fileList } = props;
+
+  const [preloadedFileList, setPreloadedFileList] = useState([]);
+  useEffect(() => {
+    if (fileList && fileList.length > 0) {
+      Promise.all(
+        fileList.map(async (file) =>
+          FileService.getFile({
+            fileId: file.file_id,
+            isReturnRawData: true,
+          }).then((blobRaw) => {
+            const blob = new Blob([blobRaw], { type: file.type });
+            return {
+              uid: file.uniq,
+              name: file.name,
+              status: "done",
+              percent: 100,
+              file_id: file.file_id,
+              url: URL.createObjectURL(blob),
+            };
+          })
+        )
+      )
+        .then(
+          (result) => setPreloadedFileList(result)
+          // console.log("result", result);
+        )
+        .catch((e) => console.log(e));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const rules = isRequired
     ? [
@@ -58,6 +89,7 @@ export default function FragmentFileUploader(props) {
             file,
           })
         }
+        fileList={preloadedFileList}
         name="uploadedFile"
         // prettier-ignore
         action={`${API_URL}/files?token=${localStorage.getItem("token")}`}
