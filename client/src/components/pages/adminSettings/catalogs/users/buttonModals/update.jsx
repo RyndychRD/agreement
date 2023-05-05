@@ -35,6 +35,7 @@ export default function UpdateButtonModel() {
     newFirstName: data?.first_name,
     newLastName: data?.last_name,
     newMiddleName: data?.middle_name,
+    isAvailableFromGlobal: data?.is_available_from_global,
     positionId: data?.position_id,
     isDisabled: data?.is_disabled,
     rightIds: getUniqNotNullIds(data?.rights),

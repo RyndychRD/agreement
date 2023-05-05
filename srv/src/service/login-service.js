@@ -63,6 +63,7 @@ class LoginService {
     activation_link,
     position_id,
     rightIds,
+    is_available_from_global,
   }) {
     const hashPassword = await this.createPass(password);
     const user = await UserModels.create({
@@ -76,6 +77,7 @@ class LoginService {
         password: hashPassword,
         activation_link: activation_link,
         position_id: position_id,
+        is_available_from_global: is_available_from_global,
       },
       userRights: rightIds,
     });

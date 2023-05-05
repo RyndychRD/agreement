@@ -165,6 +165,10 @@ export default function CreateUpdateForm({
         }}
       />
       {checkbox}
+      <CheckboxInputFormItem
+        title="Есть доступ из глобального интернета?"
+        name="isAvailableFromGlobal"
+      />
       <SelectInputFormItem
         title="Наследуемые права"
         isLoading={isLoadingRights || isLoadingPositionRights}
