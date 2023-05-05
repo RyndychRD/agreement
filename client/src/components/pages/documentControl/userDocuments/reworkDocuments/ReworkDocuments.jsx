@@ -1,16 +1,14 @@
 import { useSelector } from "react-redux";
 import { useGetDocumentsQuery } from "../../../../../core/redux/api/DocumentControl/DocumentApi";
+import DocumentService from "../../../../../services/DocumentControlServices/DocumentsServices/DocumentService";
 import DocumentControlTableViewer from "../../../../fragments/tables/DocumentControl/DocumentControlTableViewer";
 import { TableModalProvider } from "../../../../fragments/tables/TableModalProvider";
-import CreateButtonModel from "./buttonModals/create";
-import UpdateButtonModel from "./buttonModals/update";
-import DeleteButtonAction from "./buttonModals/delete";
 import { isAccessGranted } from "../../../../../services/userAccessService";
 import { Error403 } from "../../../../fragments/messages/Error";
-import DocumentService from "../../../../../services/DocumentControlServices/DocumentsServices/DocumentService";
+import UpdateButtonModel from "./buttonModals/update";
 
 /** Список документов, созданных пользователем */
-export default function CreatedDocument() {
+export default function ReworkDocument() {
   const currentUser = useSelector((state) => state.session.current_user);
   const columns = {
     data: [
@@ -18,14 +16,9 @@ export default function CreatedDocument() {
       "document_name",
       "document_type",
       "document_status",
-      "document_current_signer",
-      "document_stage",
-      "document_created_at",
-      "document_updated_at",
-      "document_finished_at",
+      "document_remark",
     ],
   };
-
   /**
    * При открытии форму подгружаем новые необходимые данные
    */
@@ -36,22 +29,22 @@ export default function CreatedDocument() {
   } = useGetDocumentsQuery({
     isAddForeignTables: true,
     userId: currentUser?.id ? currentUser.id : "-1",
+    status: "7",
   });
 
-  if (!isAccessGranted("CreatedDocuments")) return <Error403 />;
+  if (!isAccessGranted("ReworkDocuments")) return <Error403 />;
   return (
     <TableModalProvider>
       <DocumentControlTableViewer
         isLoading={isLoading}
         isError={isError}
         columns={columns}
-        buttons={["create", "update", "delete", "reject"]}
         dataSource={data ? DocumentService.prepareForTable(data) : null}
-        title="Созданные мною документы"
+        title="Документы на доработку"
+        buttons={["update"]}
+        notificationType="ReworkDocument"
       />
-      <CreateButtonModel />
       <UpdateButtonModel />
-      <DeleteButtonAction />
     </TableModalProvider>
   );
 }

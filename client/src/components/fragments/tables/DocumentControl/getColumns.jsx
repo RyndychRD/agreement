@@ -76,6 +76,22 @@ export default function getColumns({ dataSource, columns }) {
       onFilter: (value, record) =>
         record?.document_status?.indexOf(value) === 0,
     },
+    document_status_before_soft_delete_name: {
+      title: "Статус до удаления",
+      dataIndex: "document_status_before_soft_delete_name",
+      align: "center",
+      sorter: (a, b) =>
+        sorterStringAlphabet(
+          a?.document_status_before_soft_delete_name,
+          b?.document_status_before_soft_delete_name
+        ),
+      filters: filterDataStringSorted(
+        dataSource,
+        "document_status_before_soft_delete_name"
+      ),
+      onFilter: (value, record) =>
+        record?.document_status_before_soft_delete_name?.indexOf(value) === 0,
+    },
 
     document_type: {
       title: "Тип договора",
@@ -115,7 +131,7 @@ export default function getColumns({ dataSource, columns }) {
       align: "center",
     },
     document_remark: {
-      title: "Причина отклонения",
+      title: "Замечание",
       dataIndex: "document_remark",
       align: "center",
     },

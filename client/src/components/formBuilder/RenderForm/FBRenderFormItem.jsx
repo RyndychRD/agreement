@@ -15,22 +15,25 @@ export default function FormBuilderDataComponent({ FormBuilderData, form }) {
         required: true,
         message: "Данные не внесены",
       });
+
+    const formItemProps = {
+      key: keyIn,
+      name: elemNameForForm,
+      label: ComponentItem.label,
+      labelCol: { span: 24 },
+      rules,
+    };
     return (
       <>
-        <Form.Item
-          key={keyIn}
-          name={elemNameForForm}
-          label={ComponentItem.label}
-          labelCol={{ span: 24 }}
-          rules={rules}
-        >
-          <ReturnElement
-            ComponentNameForForm={elemNameForForm}
-            ComponentKey={ComponentItem.key}
-            title={ComponentItem.label}
-            form={form}
-          />
-        </Form.Item>
+        <ReturnElement
+          formItemProps={formItemProps}
+          ComponentNameForForm={elemNameForForm}
+          ComponentKey={ComponentItem.key}
+          // Используется только в шаблонизаторе
+          ComponentValue={ComponentItem?.value}
+          title={ComponentItem.label}
+          form={form}
+        />
         <Form.Item
           hidden
           name={[index, "label"]}

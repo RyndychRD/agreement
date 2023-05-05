@@ -9,7 +9,10 @@ const {
 const { addNotification } = require("./notification-is-read-service");
 const DocumentTaskModel = require("../../models/documentTaskModels/document-task-model");
 const userService = require("../catalogServices/user-service");
-const { DOCUMENT_TASK_STATUS_COMPLETE } = require("../../consts");
+const {
+  DOCUMENT_TASK_STATUS_COMPLETE,
+  DOCUMENT_STATUS_ON_WORK,
+} = require("../../consts");
 
 class NotificationService {
   static async notifyDocumentSigning(documentId) {
@@ -30,42 +33,48 @@ class NotificationService {
   }
 
   static async notifyDocumentStatusChanged(documentId, newDocumentStatusId) {
-    const document = await DocumentModel.findOne({
-      filter: { "documents.id": documentId },
-    });
+    //Если документ в работе, то значит он вернулся из На доработку и надо отправить сообщение о подписании
+    if (newDocumentStatusId == DOCUMENT_STATUS_ON_WORK) {
+      this.notifyDocumentSigning(documentId);
+    } else {
+      const document = await DocumentModel.findOne({
+        filter: { "documents.id": documentId },
+      });
 
-    // Либо мы посылаем нотификацию на конкретного пользователя, либо на группу лиц
-    const StatusToNotificationType = {
-      4: { name: "Approved", userIds: [document.creator_id] },
-      10: { name: "Completed", userIds: [document.creator_id] },
-      12: { name: "ProcessingDocument", userIds: [document.creator_id] },
-      2: { name: "Rejected", userIds: [document.creator_id] },
-      9: {
-        name: "SignedOOPZ",
-        userIds: await userService
-          .getUserOfRight(11)
-          .then((result) => result.map((user) => user.id)),
-      },
-      8: {
-        name: "OnRegistration",
-        userIds: await userService
-          .getUserOfRight(8)
-          .then((result) => result.map((user) => user.id)),
-      },
-    };
+      // Либо мы посылаем нотификацию на конкретного пользователя, либо на группу лиц
+      const StatusToNotificationType = {
+        7: { name: "ReworkDocument", userIds: [document.creator_id] },
+        4: { name: "Approved", userIds: [document.creator_id] },
+        10: { name: "Completed", userIds: [document.creator_id] },
+        12: { name: "ProcessingDocument", userIds: [document.creator_id] },
+        2: { name: "Rejected", userIds: [document.creator_id] },
+        9: {
+          name: "SignedOOPZ",
+          userIds: await userService
+            .getUserOfRight(11)
+            .then((result) => result.map((user) => user.id)),
+        },
+        8: {
+          name: "OnRegistration",
+          userIds: await userService
+            .getUserOfRight(8)
+            .then((result) => result.map((user) => user.id)),
+        },
+      };
 
-    const status = await getOneStatus({ id: newDocumentStatusId });
-    notifyDocumentStatusChangedEmail(document, status);
-    if (StatusToNotificationType[newDocumentStatusId]) {
-      StatusToNotificationType[newDocumentStatusId].userIds.forEach(
-        (userId) => {
-          addNotification(
-            document.id,
-            userId,
-            StatusToNotificationType[newDocumentStatusId].name
-          );
-        }
-      );
+      const status = await getOneStatus({ id: newDocumentStatusId });
+      notifyDocumentStatusChangedEmail(document, status);
+      if (StatusToNotificationType[newDocumentStatusId]) {
+        StatusToNotificationType[newDocumentStatusId].userIds.forEach(
+          (userId) => {
+            addNotification(
+              document.id,
+              userId,
+              StatusToNotificationType[newDocumentStatusId].name
+            );
+          }
+        );
+      }
     }
   }
 
@@ -83,6 +92,7 @@ class NotificationService {
           name: "IncomeTask",
           userIds: [documentTask.executor_id],
           elementId: documentTask.id,
+          documentId: documentTask.document_id,
         },
       ],
       2: [
@@ -90,11 +100,13 @@ class NotificationService {
           name: "Signing",
           userIds: [documentTask.creator_id],
           elementId: documentTask.document_id,
+          documentId: documentTask.document_id,
         },
         {
           name: "CompleteTask",
           userIds: [documentTask.creator_id],
           elementId: documentTask.id,
+          documentId: documentTask.document_id,
         },
       ],
     };
@@ -109,7 +121,8 @@ class NotificationService {
           userIds: await userService
             .getUserOfRight(8)
             .then((result) => result.map((user) => user.id)),
-          elementId: documentTask.document_id,
+          elementId: documentTask.id,
+          documentId: documentTask.document_id,
         },
       ];
     }
@@ -123,7 +136,8 @@ class NotificationService {
             addNotification(
               taskNotification.elementId,
               userId,
-              taskNotification.name
+              taskNotification.name,
+              taskNotification.documentId
             );
           });
         }

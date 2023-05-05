@@ -25,6 +25,7 @@ export const documentsApi = createApi({
         status = 0,
         isAddForeignTables = false,
         isShowAllDocs = false,
+        isShowDeletedDocs = false,
         isOnlyForSigningDocuments = false,
         isOnlyMySignedDocuments = false,
         addDocumentTasksByType = -1,
@@ -36,6 +37,7 @@ export const documentsApi = createApi({
             isShowAllDocs,
             isOnlyForSigningDocuments,
             isOnlyMySignedDocuments,
+            isShowDeletedDocs,
             // Если передан тип - то только его. Если не передано или передано -1 - ничего. Если передан all - все
             addDocumentTasksByType,
           });
@@ -100,6 +102,23 @@ export const documentsApi = createApi({
       queryFn: async (body) => {
         try {
           const response = await DocumentService.delete(body);
+          return { data: response };
+        } catch (e) {
+          return { error: e.message };
+        }
+      },
+      invalidatesTags: [{ type: TAG_TYPE_DOCUMENT, id: "LIST" }],
+    }),
+
+    deleteDocumentSoft: build.mutation({
+      queryFn: async (body) => {
+        try {
+          const bodyPrepared = (bodyValues) => ({
+            document_id: bodyValues.document_id,
+            newDocumentStatusId: 13,
+            previousDocumentStatusId: bodyValues.document_status_id,
+          });
+          const response = await DocumentService.update(bodyPrepared(body));
           return { data: response };
         } catch (e) {
           return { error: e.message };
@@ -302,6 +321,7 @@ export const {
   useAddDocumentMutation,
   useUpdateDocumentMutation,
   useDeleteDocumentMutation,
+  useDeleteDocumentSoftMutation,
 
   useSignCurrentDocumentStepMutation,
   useGetDocumentRouteQuery,
@@ -353,6 +373,10 @@ export const useUpdateDocumentMutationHook = useUpdateDocumentMutation;
  * `useDeleteDocumentMutationHook` Хук для удаления документа
  */
 export const useDeleteDocumentMutationHook = useDeleteDocumentMutation;
+/**
+ * `useDeleteDocumentMutationHook` Хук для логического удаления документа
+ */
+export const useDeleteDocumentSoftMutationHook = useDeleteDocumentSoftMutation;
 /**
  * Для текущего неподписанного шага устанавливает подписантом текущего пользователя и сохраняет мету по подписанию документа
  */

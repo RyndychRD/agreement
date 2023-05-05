@@ -1,3 +1,4 @@
+const _ = require("lodash");
 /**
  * Объект для передачи данных пользователя (Data-transfer-object)
  */

@@ -1,10 +1,12 @@
 import { Form, Modal } from "antd";
+import { useSelector } from "react-redux";
 import { useGetTypeQueryHook } from "../../../../core/redux/api/Globals/Catalogs/TypeApi";
 import {
   HeaderTextOutput,
   MainDocumentInformation,
 } from "../../outputs/textOutputs";
 import {
+  getCurrentStepJson,
   nextStep,
   saveCurrentStepJson,
 } from "../../../../core/redux/reducers/documentCreationPipelineReducer";
@@ -21,6 +23,7 @@ export default function DocumentCreationPipelineFormConstruct({
   pipelineDispatch,
   documentMainValues,
 }) {
+  const currentModalJson = useSelector(getCurrentStepJson);
   const [form] = Form.useForm();
   // prettier-ignore
   const {data: type = "",isError: isErrorType,isLoading: isLoadingType} = useGetTypeQueryHook({ isStart: true, id: documentMainValues.typeId });
@@ -41,7 +44,12 @@ export default function DocumentCreationPipelineFormConstruct({
     return "";
   }
 
-  if (
+  // Если у нас уже есть сохраненные данные в pipeline, то выводим их. Иначе - стандартный вывод, если он нормально загрузился
+  if (currentModalJson && Object.keys(currentModalJson).length > 0) {
+    form.setFieldsValue({
+      elementsOrder: currentModalJson,
+    });
+  } else if (
     !isErrorDocumentTypeView &&
     !isLoadingDocumentTypeView &&
     !isLoadingType

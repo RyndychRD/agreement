@@ -34,14 +34,15 @@ export function UploadListItem(props) {
     logDownload = (fileId) => stateLog.logFunctions.LogFileDownload(fileId);
     logPreview = (fileId) => stateLog.logFunctions.LogFilePreview(fileId);
   }
+  const countNameSymbolsToShow = isAddPushToDocumentButton ? 35 : 45;
   return (
     <li
       className="ant-upload-list-item ant-upload-list-item-done"
       key={savedFileName}
     >
       <span href="" className="ant-upload-list-item-name" title={originalName}>
-        {originalName.substring(0, 45)}
-        {originalName.length > 45 ? "..." : ""}
+        {originalName.substring(0, countNameSymbolsToShow)}
+        {originalName.length > countNameSymbolsToShow ? "..." : ""}
       </span>
       <div>
         <button
@@ -92,9 +93,10 @@ export function UploadListItem(props) {
  */
 export default function UploadList(props) {
   const { fileList, isTempFile = true, children } = props;
-  const sortedFileList = [...fileList].sort((a, b) =>
-    sorterStringAlphabet(a.name, b.name)
-  );
+  const sortedFileList =
+    fileList && fileList.length > 0
+      ? [...fileList].sort((a, b) => sorterStringAlphabet(a.name, b.name))
+      : [];
   return (
     <ul className="category-list">
       {children ||

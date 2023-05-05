@@ -36,7 +36,7 @@ export default function DocumentSocket() {
           );
       }
     },
-    shouldReconnect: () => true,
+    // shouldReconnect: () => true,
   });
   if (sendJsonMessage) {
     sendMsgSocketDocument.sendJsonMessage = sendJsonMessage;

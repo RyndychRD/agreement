@@ -1,4 +1,4 @@
-import { Select } from "antd";
+import { Form, Select } from "antd";
 import { useGetPositionsQueryHook } from "../../../../../core/redux/api/Globals/Catalogs/PositionsApi";
 import { useGetUsersQueryHook } from "../../../../../core/redux/api/Globals/Catalogs/UserApi";
 import { useGetDepartmentsQueryHook } from "../../../../../core/redux/api/Globals/Catalogs/DepartamentApi";
@@ -21,9 +21,12 @@ function FBSelect(props) {
     elemNameForForm,
     form,
     CurrentElementSelectValue,
+    defaultValue,
+    formItemProps,
     filterOption = (input, option) =>
       (option?.label.toLowerCase() ?? "").includes(input.toLowerCase()),
   } = props;
+
   const {
     setValueInSelectOnForm = (value) => {
       form.setFieldValue(elemNameForForm, value);
@@ -33,20 +36,27 @@ function FBSelect(props) {
       );
     },
   } = props;
+
+  if (defaultValue && CurrentElementSelectValue.length > 0) {
+    setValueInSelectOnForm(defaultValue.id);
+  }
+  // Запрещаем им вставку элементов в селект боксы
   const handlePaste = (e) => {
     e.preventDefault();
   };
   return (
-    <Select
-      showSearch
-      onPaste={handlePaste}
-      onDrop={handlePaste}
-      optionFilterProp="children"
-      onChange={setValueInSelectOnForm}
-      filterOption={filterOption}
-      id={elemNameForForm}
-      options={CurrentElementSelectValue}
-    />
+    <Form.Item {...formItemProps}>
+      <Select
+        showSearch
+        onPaste={handlePaste}
+        onDrop={handlePaste}
+        optionFilterProp="children"
+        onChange={setValueInSelectOnForm}
+        filterOption={filterOption}
+        id={elemNameForForm}
+        options={CurrentElementSelectValue}
+      />
+    </Form.Item>
   );
 }
 
@@ -106,7 +116,6 @@ export default function RenderSelectTable(props) {
   const { CurrentElement } = props;
 
   const CurrentElementSelectValueTable = CurrentElement?.select_value?.table;
-
   if (CurrentElementSelectValueTable) {
     switch (CurrentElementSelectValueTable) {
       case "position": {
