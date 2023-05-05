@@ -66,6 +66,12 @@ const dict = {
     </NavLink>,
     "/document-control/admin-docs/all-documents"
   ),
+  admin_deleted_doc: getItem(
+    <NavLink to="/document-control/admin-docs/deleted-documents">
+      Удаленные документы
+    </NavLink>,
+    "/document-control/admin-docs/deleted-documents"
+  ),
   documents_for_signing: getItem(
     <NavLink to="/document-control/signing/documents-for-signing">
       Входящие

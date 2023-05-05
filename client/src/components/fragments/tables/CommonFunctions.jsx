@@ -183,6 +183,16 @@ export default function getTitle(name, buttons, buttonsActions) {
         Просмотр
       </Button>
     ),
+    restore: (
+      <Button
+        key="keyRestoreAdminTableSettings"
+        type="primary"
+        onClick={buttonsActions.restore}
+        className="space-right "
+      >
+        Восстановить документ
+      </Button>
+    ),
     excel: (
       <Button
         key="keyDownloadExcelAdminTableSettings"

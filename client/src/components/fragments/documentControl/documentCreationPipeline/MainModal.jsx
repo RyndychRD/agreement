@@ -9,6 +9,7 @@ import {
 /**
  * @return Модальное окно для создания нового документа
  */
+
 export default function DocumentCreationPipelineMainModal({
   onCancel,
   pipelineDispatch,

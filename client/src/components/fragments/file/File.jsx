@@ -10,7 +10,7 @@ export async function handlePreview(props) {
     "Файл подготавливается к предпросмотру"
   );
   const fileId = file.response?.fileId ? file.response.fileId : file.file_id;
-  log(fileId);
+  if (log) log(fileId);
   FileService.getFile({
     fileId,
     isForPreview: true,
@@ -35,7 +35,7 @@ export function handleDownload(props) {
   // Если файл еще не полностью загрузился, не отображаем превью. Только для временных файлов. После сохранения в документ проверка не работает
   if (file.percent !== 100 && isTempFile) return;
   const fileId = file.response?.fileId ? file.response.fileId : file.file_id;
-  log(fileId);
+  if (log) log(fileId);
   FileService.getFile({
     fileName: file.name,
     fileId,

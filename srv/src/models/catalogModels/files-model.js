@@ -25,6 +25,10 @@ class FilesSchema {
       .update(file);
     return response;
   }
+  async delete(filter) {
+    const response = await this.knexProvider("files").where(filter).delete();
+    return response;
+  }
 }
 
 module.exports = new FilesSchema();

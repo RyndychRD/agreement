@@ -1,5 +1,5 @@
 import ModalDocumentView from "../../../../../fragments/modals/modalDocumentView";
 
-export default function UpdateButtonModel() {
+export default function UpdateButtonModal() {
   return <ModalDocumentView isAbleToEdit isShowRoute />;
 }

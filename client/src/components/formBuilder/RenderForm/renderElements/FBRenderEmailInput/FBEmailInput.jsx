@@ -1,16 +1,15 @@
 import { useState, useRef } from "react";
-import { Input } from "antd";
+import { Form, Input } from "antd";
 import { MailTwoTone } from "@ant-design/icons";
 import "./FBEmailInput.css";
 
 export default function RenderEmailInput(props) {
-  const { elemNameForForm, form } = props;
+  const { elemNameForForm, form, formItemProps } = props;
 
   const [statusWarningEmail, setWarning] = useState("empty-email");
   const valueEmail = useRef();
   const verifyEmail = (e) => {
     const { value } = e.target;
-    form.setFieldValue(elemNameForForm, value);
     if (value === "" || value === " ") {
       setWarning("empty-email");
     } else {
@@ -20,15 +19,18 @@ export default function RenderEmailInput(props) {
       } else setWarning("warning-email");
     }
   };
+
   return (
-    <div className={statusWarningEmail}>
+    <Form.Item {...formItemProps}>
       <Input
         ref={valueEmail}
+        className={statusWarningEmail}
         prefix={<MailTwoTone />}
         id={elemNameForForm}
         placeholder="Электронная почта"
         onChange={verifyEmail}
+        initialValue={form.getFieldValue(elemNameForForm)}
       />
-    </div>
+    </Form.Item>
   );
 }
