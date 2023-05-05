@@ -1,22 +1,21 @@
-import { InputNumber } from "antd";
+import { Form, InputNumber } from "antd";
 
 export default function RenderNumberInput(props) {
-  const { elemNameForForm, defaultValue, form } = props;
-  if (defaultValue) {
-    form.setFieldValue(elemNameForForm, defaultValue);
-  }
+  const { elemNameForForm, formItemProps, form } = props;
+
   return (
-    <InputNumber
-      id={elemNameForForm}
-      formatter={(value) => value.replace(",", ".")}
-      parser={(value) => value.replace(",", ".")}
-      stringMode
-      style={{ width: "175px" }}
-      precision={2}
-      value={defaultValue}
-      onChange={(e) => {
-        form.setFieldValue(elemNameForForm, e);
-      }}
-    />
+    <Form.Item {...formItemProps}>
+      <InputNumber
+        id={elemNameForForm}
+        formatter={(value) => value.replace(",", ".")}
+        parser={(value) => value.replace(",", ".")}
+        stringMode
+        style={{ width: "175px" }}
+        precision={2}
+        onChange={(e) => {
+          form.setFieldValue(elemNameForForm, e);
+        }}
+      />
+    </Form.Item>
   );
 }

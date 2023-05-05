@@ -42,6 +42,7 @@ export default function DocumentCreationPipelineFormFill({
       documentName: currentModalJson?.documentName,
       // Значения в hidden input показывают к какому конкретно элементу конструктора относится value.
       elementsOrder: currentModalJson?.formValues,
+      files: { fileList: currentModalJson?.fileList },
     });
   } else if (
     !isErrorDocumentIODictionary &&
@@ -57,6 +58,19 @@ export default function DocumentCreationPipelineFormFill({
     form
       .validateFields()
       .then(async (values) => {
+        console.log(values);
+        // eslint-disable-next-line no-param-reassign
+        values = Object.keys(values).reduce((acc, key) => {
+          if (values[key]?.key === "Data_Document") {
+            acc[key] = {
+              ...values[key],
+              value: values[key].value.format("YYYY-MM-DD"),
+            };
+          } else {
+            acc[key] = values[key];
+          }
+          return acc;
+        }, {});
         const { documentName } = values;
         // Передаем почти все значения файла, чтобы потом их использовать в предпросмотре. Удалил только не сериализуемые элементы
         const fileList = FileService.prepareFileListFromFormToSend(values);
@@ -116,7 +130,12 @@ export default function DocumentCreationPipelineFormFill({
         />
         <HeaderTextOutput text="Заполнение формы" />
         <FormBuilderDataComponent FormBuilderData={elementsOrder} form={form} />
-        <FragmentFileUploader isRequired={type.is_file_upload_required} />
+        <FragmentFileUploader
+          fileList={
+            currentModalJson?.fileList ? currentModalJson?.fileList : []
+          }
+          isRequired={type.is_file_upload_required}
+        />
       </Form>
     </Modal>
   );

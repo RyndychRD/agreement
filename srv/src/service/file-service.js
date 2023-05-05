@@ -167,6 +167,7 @@ const createDocumentFilePath = async (
     result
   );
 };
+
 const createDocumentTaskFilePath = async (
   { documentId = null, fileUuid, fileName = null },
   isWithStoragePath = true

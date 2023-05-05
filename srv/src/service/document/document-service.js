@@ -10,6 +10,7 @@ const {
   getDocumentFileDirectoryPath,
   getFileTempPath,
   deleteFile,
+  getFilePath,
 } = require("../file-service");
 const NotificationService = require("../notification/notification-service");
 const FilesModel = require("../../models/catalogModels/files-model");
@@ -269,32 +270,58 @@ class DocumentService {
     );
 
     const insertArray = await Promise.all(
-      body.documentFileIds.map(async (fileIdToSave) => {
-        const file = await FilesModel.findOne(fileIdToSave);
+      body.documentFileIds.map(async (fileToSave) => {
+        const file = await FilesModel.findOne(fileToSave.id);
         if (file) {
-          const tempFilePath = getFileTempPath(file.path);
           const storageFilePath = await createDocumentFilePath({
             documentId,
             fileUuid: file.uniq,
             fileName: file.name,
           });
-          // Передвигаем файл в место постоянного хранения. Функция ассинхронна, дожидаться завершения не будет
-          // TODO: Сделать нормальную обработку ошибки
-          fs.rename(tempFilePath, storageFilePath, function (err) {
-            if (err) {
-              console.log(err);
-            }
-          });
-          file.isTemp = false;
-          file.path = await createDocumentFilePath(
-            {
-              documentId,
-              fileUuid: file.uniq,
-              fileName: file.name,
-            },
-            false
-          );
-          FilesModel.update({ file });
+          if (fileToSave.isFromAnotherDocument) {
+            const anotherDocumentFilePath = getFilePath(file.path);
+            fs.copyFile(
+              anotherDocumentFilePath,
+              storageFilePath,
+              function (err) {
+                if (err) {
+                  console.log(err);
+                }
+              }
+            );
+            file.id = undefined;
+            file.isTemp = false;
+            file.path = await createDocumentFilePath(
+              {
+                documentId,
+                fileUuid: file.uniq,
+                fileName: file.name,
+              },
+              false
+            );
+            file.id = (await FilesModel.createOneFile({ file }))[0].id;
+          } else {
+            const tempFilePath = getFileTempPath(file.path);
+
+            // Передвигаем файл в место постоянного хранения. Функция ассинхронна, дожидаться завершения не будет
+            // TODO: Сделать нормальную обработку ошибки
+            fs.rename(tempFilePath, storageFilePath, function (err) {
+              if (err) {
+                console.log(err);
+              }
+            });
+
+            file.isTemp = false;
+            file.path = await createDocumentFilePath(
+              {
+                documentId,
+                fileUuid: file.uniq,
+                fileName: file.name,
+              },
+              false
+            );
+            FilesModel.update({ file });
+          }
 
           return {
             document_id: documentId,

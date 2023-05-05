@@ -1,4 +1,4 @@
-import { Select } from "antd";
+import { Form, Select } from "antd";
 import { useGetPositionsQueryHook } from "../../../../../core/redux/api/Globals/Catalogs/PositionsApi";
 import { useGetUsersQueryHook } from "../../../../../core/redux/api/Globals/Catalogs/UserApi";
 import { useGetDepartmentsQueryHook } from "../../../../../core/redux/api/Globals/Catalogs/DepartamentApi";
@@ -22,6 +22,7 @@ function FBSelect(props) {
     form,
     CurrentElementSelectValue,
     defaultValue,
+    formItemProps,
     filterOption = (input, option) =>
       (option?.label.toLowerCase() ?? "").includes(input.toLowerCase()),
   } = props;
@@ -44,17 +45,18 @@ function FBSelect(props) {
     e.preventDefault();
   };
   return (
-    <Select
-      showSearch
-      onPaste={handlePaste}
-      onDrop={handlePaste}
-      optionFilterProp="children"
-      onChange={setValueInSelectOnForm}
-      filterOption={filterOption}
-      defaultValue={defaultValue.id}
-      id={elemNameForForm}
-      options={CurrentElementSelectValue}
-    />
+    <Form.Item {...formItemProps}>
+      <Select
+        showSearch
+        onPaste={handlePaste}
+        onDrop={handlePaste}
+        optionFilterProp="children"
+        onChange={setValueInSelectOnForm}
+        filterOption={filterOption}
+        id={elemNameForForm}
+        options={CurrentElementSelectValue}
+      />
+    </Form.Item>
   );
 }
 
