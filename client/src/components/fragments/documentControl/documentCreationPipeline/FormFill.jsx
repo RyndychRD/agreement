@@ -11,6 +11,8 @@ import {
   saveCurrentStepJson,
   getPreviousStepJson,
   getCurrentStepJson,
+  setStep,
+  appendCurrentStepJson,
 } from "../../../../core/redux/reducers/documentCreationPipelineReducer";
 import { useGetDocumentIODictionaryElementsHook } from "../../../../core/redux/api/AdminSettings/Constructor/formConstructor/DocumentIODictionaryElementApi";
 import FormBuilderDataComponent from "../../../formBuilder/RenderForm/FBRenderFormItem";
@@ -82,11 +84,16 @@ export default function DocumentCreationPipelineFormFill({
         const preparedValues = {
           documentName,
           fileList,
-          formValues: {
-            ...findAndTransferAllDateToString(values),
-          },
+          formValues: findAndTransferAllDateToString(values),
         };
         form.resetFields();
+
+        // Спасибо новым хотелкам Небогина, нам нужно сначала вернуться на первый шаг, дополнить именем договора первый шаг и вернуться обратно
+        // Этот шаг служит только для отображения имени договора, его можно убрать и на логику это не повлияет
+        pipelineDispatch(setStep(0));
+        pipelineDispatch(appendCurrentStepJson({ documentName }));
+
+        pipelineDispatch(setStep(2));
         pipelineDispatch(saveCurrentStepJson(preparedValues));
         pipelineDispatch(nextStep());
       })

@@ -15,6 +15,7 @@ const initialState = {
   currentModal: 0,
 };
 
+export const getCurrentStepNum = (state) => state.documentCreation.currentModal;
 export const getCurrentStep = (state) =>
   state.documentCreation.pipelineModals[state.documentCreation.currentModal];
 export const getCurrentStepModal = (state) => getCurrentStep(state).modal;
@@ -39,6 +40,12 @@ export const documentCreationSlice = createSlice({
     saveCurrentStepJson: (state, action) => {
       state.pipelineModals[state.currentModal].json = action.payload;
     },
+    appendCurrentStepJson: (state, action) => {
+      state.pipelineModals[state.currentModal].json = {
+        ...action.payload,
+        ...state.pipelineModals[state.currentModal].json,
+      };
+    },
     clearDocumentCreation: (state) => {
       state.currentModal = initialState.currentModal;
       state.pipelineModals = initialState.pipelineModals;
@@ -48,7 +55,12 @@ export const documentCreationSlice = createSlice({
   },
 });
 
-export const { clearDocumentCreation, nextStep, setStep, saveCurrentStepJson } =
-  documentCreationSlice.actions;
+export const {
+  clearDocumentCreation,
+  nextStep,
+  setStep,
+  saveCurrentStepJson,
+  appendCurrentStepJson,
+} = documentCreationSlice.actions;
 
 export default documentCreationSlice.reducer;
