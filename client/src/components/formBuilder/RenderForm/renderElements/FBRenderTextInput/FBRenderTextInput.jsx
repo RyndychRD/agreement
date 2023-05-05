@@ -1,17 +1,11 @@
 import { Form, Input } from "antd";
 
 export default function RenderTextInput(props) {
-  const { elemNameForForm, formItemProps, form } = props;
+  const { elemNameForForm, formItemProps } = props;
 
   return (
     <Form.Item {...formItemProps}>
-      <Input
-        id={elemNameForForm}
-        type="text"
-        onChange={(e) => {
-          form.setFieldValue(elemNameForForm, e.target.value);
-        }}
-      />
+      <Input id={elemNameForForm} type="text" />
     </Form.Item>
   );
 }

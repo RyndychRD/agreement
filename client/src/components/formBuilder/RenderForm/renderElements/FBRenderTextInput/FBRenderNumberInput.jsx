@@ -1,7 +1,7 @@
 import { Form, InputNumber } from "antd";
 
 export default function RenderNumberInput(props) {
-  const { elemNameForForm, formItemProps, form } = props;
+  const { elemNameForForm, formItemProps } = props;
 
   return (
     <Form.Item {...formItemProps}>
@@ -12,9 +12,6 @@ export default function RenderNumberInput(props) {
         stringMode
         style={{ width: "175px" }}
         precision={2}
-        onChange={(e) => {
-          form.setFieldValue(elemNameForForm, e);
-        }}
       />
     </Form.Item>
   );

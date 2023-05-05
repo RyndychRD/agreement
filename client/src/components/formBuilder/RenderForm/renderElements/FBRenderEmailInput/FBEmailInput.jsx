@@ -10,7 +10,6 @@ export default function RenderEmailInput(props) {
   const valueEmail = useRef();
   const verifyEmail = (e) => {
     const { value } = e.target;
-    form.setFieldValue(elemNameForForm, value);
     if (value === "" || value === " ") {
       setWarning("empty-email");
     } else {
