@@ -47,7 +47,6 @@ export default class FileService {
   }
 
   static prepareFileListFromFormToSend(values) {
-    console.log(values);
     const tempFileList = values.files?.fileList.filter((file) => !file.error);
     return tempFileList
       ? tempFileList.map((file) => ({

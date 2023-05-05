@@ -1,5 +1,6 @@
 import { Form, Modal } from "antd";
 import { useSelector } from "react-redux";
+import dayjs from "dayjs";
 import { useGetTypeQueryHook } from "../../../../core/redux/api/Globals/Catalogs/TypeApi";
 import {
   HeaderTextOutput,
@@ -54,22 +55,23 @@ export default function DocumentCreationPipelineFormFill({
     });
   }
 
+  const findAndTransferAllDateToString = (values) =>
+    Object.keys(values).reduce((acc, key) => {
+      if (dayjs.isDayjs(values[key]?.value)) {
+        acc[key] = {
+          ...values[key],
+          value: values[key].value.format("YYYY-MM-DD"),
+        };
+      } else {
+        acc[key] = values[key];
+      }
+      return acc;
+    }, {});
+
   const onFinish = () => {
     form
       .validateFields()
       .then(async (values) => {
-        // eslint-disable-next-line no-param-reassign
-        values = Object.keys(values).reduce((acc, key) => {
-          if (values[key]?.key === "Data_Document") {
-            acc[key] = {
-              ...values[key],
-              value: values[key].value.format("YYYY-MM-DD"),
-            };
-          } else {
-            acc[key] = values[key];
-          }
-          return acc;
-        }, {});
         const { documentName } = values;
         // Передаем почти все значения файла, чтобы потом их использовать в предпросмотре. Удалил только не сериализуемые элементы
         const fileList = FileService.prepareFileListFromFormToSend(values);
@@ -80,7 +82,9 @@ export default function DocumentCreationPipelineFormFill({
         const preparedValues = {
           documentName,
           fileList,
-          formValues: { ...values },
+          formValues: {
+            ...findAndTransferAllDateToString(values),
+          },
         };
         form.resetFields();
         pipelineDispatch(saveCurrentStepJson(preparedValues));

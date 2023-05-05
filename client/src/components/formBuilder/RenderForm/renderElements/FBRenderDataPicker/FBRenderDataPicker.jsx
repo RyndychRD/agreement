@@ -3,13 +3,12 @@ import { DatePicker, Form } from "antd";
 import locale from "antd/es/date-picker/locale/ru_RU";
 
 export default function RenderDataPicker(props) {
-  const { elemNameForForm, formItemProps } = props;
+  const { elemNameForForm, formItemProps, form } = props;
 
   return (
     <Form.Item {...formItemProps}>
       <DatePicker
         id={elemNameForForm}
-        type="text"
         locale={locale}
         format={(value) => `Выбранная дата: ${value.format("DD.MM.YY")}`}
       />
