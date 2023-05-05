@@ -58,7 +58,6 @@ export default function DocumentCreationPipelineFormFill({
     form
       .validateFields()
       .then(async (values) => {
-        console.log(values);
         // eslint-disable-next-line no-param-reassign
         values = Object.keys(values).reduce((acc, key) => {
           if (values[key]?.key === "Data_Document") {
