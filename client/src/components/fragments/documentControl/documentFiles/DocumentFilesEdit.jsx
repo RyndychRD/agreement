@@ -14,9 +14,9 @@ export default function DocumentFilesEditModal(props) {
       .then(async (values) => {
         const preparedValues = {
           documentId,
-          documentFileIds: values.files.fileList.map(
-            (file) => file.response.fileId
-          ),
+          documentFileIds: values.files.fileList.map((file) => ({
+            id: file.response.fileId,
+          })),
         };
         addFiles(preparedValues);
         form.resetFields();
