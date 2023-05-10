@@ -21,6 +21,7 @@ import {
 import { useLogState } from "../../log/LogProvider";
 import NotificationService from "../../../services/DocumentControlServices/NotificationService";
 import DocumentComplete from "../documentControl/documentComplete/DocumentComplete";
+import CreateFromCurrent from "../documentControl/documentCreationPipeline/CreateFromCurrent";
 
 export default function ModalDocumentView(props) {
   const {
@@ -34,10 +35,15 @@ export default function ModalDocumentView(props) {
     isShowRoute = false,
     isShowComplete = false,
     isShowToArchive = false,
+    isCreateFromCurrent = false,
   } = props;
   const state = useTableModalsState();
   const dispatch = useTableModalDispatch();
-  const isOpen = state.isShowUpdateModal && state.currentRow !== undefined;
+  const isOpen =
+    state.isShowUpdateModal &&
+    state.currentRow !== undefined &&
+    state.currentRow !== null &&
+    state.currentRow.document_id;
 
   const stateLog = useLogState();
   if (
@@ -90,11 +96,13 @@ export default function ModalDocumentView(props) {
           isStart={state.isShowUpdateModal}
           documentId={state.currentRow?.document_id}
         />
+
         <DocumentFilesFragment
           key="FilesUploaded"
           documentId={state.currentRow?.document_id}
           isAbleToUploadFiles={isAbleToUploadFiles}
         />
+
         {/* Отображать ли кнопку перевода документа в Архив */}
         {isShowToArchive ? (
           <DocumentToArchiveFragment
@@ -128,6 +136,7 @@ export default function ModalDocumentView(props) {
         ) : (
           ""
         )}
+        {/* Отображать ли маршрут подписания */}
         {isShowRoute ? (
           <RouteStepsFragment
             isStart={state.isShowUpdateModal}
@@ -156,6 +165,11 @@ export default function ModalDocumentView(props) {
             documentId={state.currentRow?.document_id}
             documentTypeId={state.currentRow?.document_type_id}
           />
+        ) : (
+          ""
+        )}
+        {isCreateFromCurrent ? (
+          <CreateFromCurrent documentId={state.currentRow?.document_id} />
         ) : (
           ""
         )}

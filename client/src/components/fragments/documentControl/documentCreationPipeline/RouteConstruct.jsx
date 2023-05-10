@@ -1,4 +1,5 @@
 import { Form, Modal } from "antd";
+import { useSelector } from "react-redux";
 import { useGetTypeQueryHook } from "../../../../core/redux/api/Globals/Catalogs/TypeApi";
 import RouteFormList from "../../inputs/routeInput";
 import {
@@ -7,6 +8,7 @@ import {
 } from "../../outputs/textOutputs";
 import { useGetRouteByDocumentTypeQueryHook } from "../../../../core/redux/api/AdminSettings/Constructor/RouteConstructorApi";
 import {
+  getCurrentStepJson,
   nextStep,
   saveCurrentStepJson,
 } from "../../../../core/redux/reducers/documentCreationPipelineReducer";
@@ -23,6 +25,8 @@ export default function DocumentCreationPipelineRouteConstruct({
   pipelineDispatch,
   documentMainValues,
 }) {
+  const currentModalJson = useSelector(getCurrentStepJson);
+
   const [form] = Form.useForm();
   // prettier-ignore
   const {data: type = "",isError: isErrorType,isLoading: isLoadingType} = useGetTypeQueryHook({ isStart: true, id: documentMainValues.typeId });
@@ -66,15 +70,10 @@ export default function DocumentCreationPipelineRouteConstruct({
     pipelineDispatch(nextStep());
   }
 
-  // После загрузки наполняем форму маршрутов данными.
-  // У нас приходят данные в виде массива, каждый элемент которого является одним шагом.
-  // В одном шаге у нас есть specified_signer_id - он показывает, установлен ли конкретный человек на подписанта. Если = -1 --- не установлен
-  // Также нам в любом случае приходит default_signer - человек, который является подписантом
-  // Так как мы переиспользуем фрагмент из каталога, то он ожидает принять значение по specified_signer_id. Если подписант не установлен, то он выводит значение По умолчанию
-  // Но так как у нас здесь не может быть значения по умолчанию, мы вместо него передаем id разымновыванного подписанта, поддерживая таким образом 2 реализации
-  if (!isErrorRoutes && !isLoadingRoutes && !isLoadingType) {
+  const setFormFieldsValue = (routeSteps) => {
     form.setFieldsValue({
-      routeSteps: routeByType.route
+      routeSteps: routeSteps
+        // Если у нас нет определенного человека, который должен подписать, и на выбранной позиции нет ни одного человека, то пропускаем этот шаг подписания
         ?.filter((el) => el.specified_signer_id !== -1 || el.default_signer?.id)
         .map((el) => {
           if (el.specified_signer_id !== -1) return el;
@@ -87,6 +86,20 @@ export default function DocumentCreationPipelineRouteConstruct({
           };
         }),
     });
+  };
+
+  // Если у нас уже есть сохраненные данные в pipeline, то выводим их. Иначе - стандартный вывод, если он нормально загрузился
+  if (currentModalJson && Object.keys(currentModalJson).length > 0) {
+    setFormFieldsValue(currentModalJson.route);
+  }
+  // После загрузки наполняем форму маршрутов данными.
+  // У нас приходят данные в виде массива, каждый элемент которого является одним шагом.
+  // В одном шаге у нас есть specified_signer_id - он показывает, установлен ли конкретный человек на подписанта. Если = -1 --- не установлен
+  // Также нам в любом случае приходит default_signer - человек, который является подписантом
+  // Так как мы переиспользуем фрагмент из каталога, то он ожидает принять значение по specified_signer_id. Если подписант не установлен, то он выводит значение По умолчанию
+  // Но так как у нас здесь не может быть значения по умолчанию, мы вместо него передаем id разымновыванного подписанта, поддерживая таким образом 2 реализации
+  else if (!isErrorRoutes && !isLoadingRoutes && !isLoadingType) {
+    setFormFieldsValue(routeByType.route);
   }
 
   const onFinish = () => {
@@ -101,7 +114,6 @@ export default function DocumentCreationPipelineRouteConstruct({
           ),
           step: index + 1,
         }));
-        console.log(clearedValues);
         form.resetFields();
         pipelineDispatch(saveCurrentStepJson(clearedValues));
         pipelineDispatch(nextStep());

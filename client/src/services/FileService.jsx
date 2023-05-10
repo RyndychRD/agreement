@@ -4,15 +4,23 @@ import { api } from "../http/index";
 
 export default class FileService {
   static async getFile(props) {
-    const { fileName, fileId, isForPreview = false } = props;
+    const {
+      fileName,
+      fileId,
+      isForPreview = false,
+      isReturnRawData = false,
+    } = props;
     console.log("вызов в FileService -> getFile c параметрами", props);
 
-    api
+    return api
       .get(`/files?fileId=${fileId}&isForPreview=${isForPreview}`, {
         responseType: "blob",
       })
       .then((response) => {
         console.log("вызов в FileService ->getFile-> результат", response);
+        if (isReturnRawData) {
+          return response.data;
+        }
         // Если мы конвертируем в PDF, то ожидаем что вернется чистый блоб для отображения в предпросмотре
         if (isForPreview) {
           const file = new Blob([response.data], { type: "application/pdf" });

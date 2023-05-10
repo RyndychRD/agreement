@@ -1,8 +1,8 @@
-import { Select, Input } from "antd";
+import { Form, Input } from "antd";
 import { useRef } from "react";
 
 export default function RenderPhone(props) {
-  const { elemNameForForm, form } = props;
+  const { elemNameForForm, defaultValue, form, formItemProps } = props;
 
   const PhoneBodyRef = useRef("");
   const CustomPhoneCodeCountryRef = useRef("");
@@ -19,10 +19,10 @@ export default function RenderPhone(props) {
     }`;
     form.setFieldValue(elemNameForForm, PhoneBodyRef.current);
   }
-  const setValueInCustomPhoneCodeCountryOnForm = (value) => {
-    CustomPhoneCodeCountryRef.current = value;
-    setPhoneBodyRef(value);
-  };
+  // const setValueInCustomPhoneCodeCountryOnForm = (value) => {
+  //   CustomPhoneCodeCountryRef.current = value;
+  //   setPhoneBodyRef(value);
+  // };
   const setValueInCustomPhoneBodyOnForm = (e) => {
     e.stopPropagation();
     const { value } = e.target;
@@ -36,10 +36,20 @@ export default function RenderPhone(props) {
     setPhoneBodyRef(value);
   };
 
-  const { Option } = Select;
+  let mainNumber = "";
+  let extensionNumber = "";
+  if (defaultValue) {
+    const regex = /(.*?)Добавочный номер (\d+)/;
+    const matches = defaultValue.match(regex);
+    extensionNumber = matches ? matches[2].trim() : "";
+    mainNumber = matches ? matches[1].trim() : defaultValue;
+  }
+
+  // const { Option } = Select;
   return (
-    <Input.Group compact>
-      <Select
+    <>
+      {/* <Input.Group compact> */}
+      {/* <Select
         onChange={setValueInCustomPhoneCodeCountryOnForm}
         style={{
           width: "35%",
@@ -51,23 +61,28 @@ export default function RenderPhone(props) {
         <Option value="+86">+86 Китай</Option>
         <Option value="+375">+375 Беларусь</Option>
         <Option value="+380">+380 Украина</Option>
-      </Select>
-      <Input
-        onChange={setValueInCustomPhoneBodyOnForm}
-        style={{
-          width: "35%",
-        }}
-        placeholder="(###)#######"
-        defaultValue=""
-      />
-      <Input
-        onChange={setValueInCustomPhoneAdditionalOnForm}
-        style={{
-          width: "30%",
-        }}
-        placeholder="Добавочный номер"
-        defaultValue=""
-      />
-    </Input.Group>
+      </Select> */}
+      <Form.Item {...formItemProps}>
+        <Input.Group compact>
+          <Input
+            onChange={setValueInCustomPhoneBodyOnForm}
+            style={{
+              // width: "35%",
+              width: "70%",
+            }}
+            placeholder="(###)#######"
+            defaultValue={mainNumber}
+          />
+          <Input
+            onChange={setValueInCustomPhoneAdditionalOnForm}
+            style={{
+              width: "30%",
+            }}
+            placeholder="Добавочный номер"
+            defaultValue={extensionNumber}
+          />
+        </Input.Group>
+      </Form.Item>
+    </>
   );
 }

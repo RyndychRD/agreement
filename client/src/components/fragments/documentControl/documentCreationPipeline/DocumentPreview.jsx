@@ -84,7 +84,10 @@ export default function DocumentPreview({ onCancel }) {
 
         preparedValuesToSave.documentName = element.json.documentName;
         preparedValuesToSave.documentFileIds = element.json.fileList.map(
-          (file) => file.response.fileId
+          (file) => ({
+            id: file.response.fileId,
+            isFromAnotherDocument: file?.isAlreadyExist,
+          })
         );
         preparedValuesToSave.documentFilledInformation = Object.values(
           element.json.formValues

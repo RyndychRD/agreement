@@ -123,6 +123,13 @@ const getFileHash = (path) => {
   return hex;
 };
 
+const deleteFile = (file) => {
+  FilesModel.delete({ id: file.file_id });
+  if (fs.existsSync(file.path)) {
+    fs.unlinkSync(file.path);
+  }
+};
+
 const isFileHashChanged = ({ path, hash }) => {
   return getFileHash(path) !== hash;
 };
@@ -133,8 +140,8 @@ const getDocumentFileDirectoryPath = async (
 ) => {
   const document = await DocumentModels.findOne({ filter: { id: documentId } });
   const result = `${moment(document.created_at).format(
-    "YYYY-DD-MM"
-  )}_${documentId}_d`;
+    "YYYY-MM-DD"
+  )}_correctDate_${documentId}_d`;
 
   return isWithStoragePath
     ? path.join(process.env.FILE_STORAGE_PATH, result)
@@ -146,13 +153,21 @@ const createDocumentFilePath = async (
   isWithStoragePath = true
 ) => {
   //Иначе конструируем его самостоятельно
-  const fileNameSplit = fileName.split(".");
+  // Подразумеваем что у нас всегда есть последняя точка перед расширением (12.3.pdf)
+  let lastDotIndex = fileName.lastIndexOf(".");
+  lastDotIndex = lastDotIndex ? lastDotIndex : -1;
+  const fileNameSplit = fileName
+    .replace(/\./g, function (match, index) {
+      return index === lastDotIndex ? "." : "";
+    })
+    .split(".");
   const result = `${fileNameSplit[0]}_${fileUuid}.${fileNameSplit[1]}`;
   return path.join(
     await getDocumentFileDirectoryPath({ documentId }, isWithStoragePath),
     result
   );
 };
+
 const createDocumentTaskFilePath = async (
   { documentId = null, fileUuid, fileName = null },
   isWithStoragePath = true
@@ -174,6 +189,7 @@ const getFilePath = (fileUuid) => {
 };
 
 module.exports = {
+  deleteFile,
   singleUpload,
   getFile,
   convertAnyFileToPdf,

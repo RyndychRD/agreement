@@ -1,5 +1,6 @@
 import { Form, Modal } from "antd";
 import { useSelector } from "react-redux";
+import dayjs from "dayjs";
 import { useGetTypeQueryHook } from "../../../../core/redux/api/Globals/Catalogs/TypeApi";
 import {
   HeaderTextOutput,
@@ -9,6 +10,9 @@ import {
   nextStep,
   saveCurrentStepJson,
   getPreviousStepJson,
+  getCurrentStepJson,
+  setStep,
+  appendCurrentStepJson,
 } from "../../../../core/redux/reducers/documentCreationPipelineReducer";
 import { useGetDocumentIODictionaryElementsHook } from "../../../../core/redux/api/AdminSettings/Constructor/formConstructor/DocumentIODictionaryElementApi";
 import FormBuilderDataComponent from "../../../formBuilder/RenderForm/FBRenderFormItem";
@@ -25,15 +29,25 @@ export default function DocumentCreationPipelineFormFill({
   pipelineDispatch,
   documentMainValues,
 }) {
+  const currentModalJson = useSelector(getCurrentStepJson);
   const [form] = Form.useForm();
   // Подразумевается, что предыдущий шаг всегда конструтор форм
-  const elementsOrder = useSelector(getPreviousStepJson);
+  let elementsOrder = useSelector(getPreviousStepJson);
   // prettier-ignore
   const {data: type = "",isError: isErrorType,isLoading: isLoadingType} = useGetTypeQueryHook({ isStart: true, id: documentMainValues.typeId });
   // prettier-ignore
   const {data: DocumentIODictionaryElements = "",isError: isErrorDocumentIODictionary,isLoading: isLoadingDocumentIODictionary} = useGetDocumentIODictionaryElementsHook({  typeId: documentMainValues.typeId });
 
-  if (
+  // Если у нас уже есть сохраненные данные в pipeline, то выводим их. Иначе - стандартный вывод, если он нормально загрузился
+  if (currentModalJson && Object.keys(currentModalJson).length > 0) {
+    elementsOrder = currentModalJson?.formValues;
+    form.setFieldsValue({
+      documentName: currentModalJson?.documentName,
+      // Значения в hidden input показывают к какому конкретно элементу конструктора относится value.
+      elementsOrder: currentModalJson?.formValues,
+      files: { fileList: currentModalJson?.fileList },
+    });
+  } else if (
     !isErrorDocumentIODictionary &&
     !isLoadingDocumentIODictionary &&
     !isLoadingType
@@ -42,6 +56,19 @@ export default function DocumentCreationPipelineFormFill({
       elementsOrder: DocumentIODictionaryElements?.view?.elements_order,
     });
   }
+
+  const findAndTransferAllDateToString = (values) =>
+    Object.keys(values).reduce((acc, key) => {
+      if (dayjs.isDayjs(values[key]?.value)) {
+        acc[key] = {
+          ...values[key],
+          value: values[key].value.format("YYYY-MM-DD"),
+        };
+      } else {
+        acc[key] = values[key];
+      }
+      return acc;
+    }, {});
 
   const onFinish = () => {
     form
@@ -57,9 +84,16 @@ export default function DocumentCreationPipelineFormFill({
         const preparedValues = {
           documentName,
           fileList,
-          formValues: { ...values },
+          formValues: findAndTransferAllDateToString(values),
         };
         form.resetFields();
+
+        // Спасибо новым хотелкам Небогина, нам нужно сначала вернуться на первый шаг, дополнить именем договора первый шаг и вернуться обратно
+        // Этот шаг служит только для отображения имени договора, его можно убрать и на логику это не повлияет
+        pipelineDispatch(setStep(0));
+        pipelineDispatch(appendCurrentStepJson({ documentName }));
+
+        pipelineDispatch(setStep(2));
         pipelineDispatch(saveCurrentStepJson(preparedValues));
         pipelineDispatch(nextStep());
       })
@@ -106,7 +140,12 @@ export default function DocumentCreationPipelineFormFill({
         />
         <HeaderTextOutput text="Заполнение формы" />
         <FormBuilderDataComponent FormBuilderData={elementsOrder} form={form} />
-        <FragmentFileUploader isRequired={type.is_file_upload_required} />
+        <FragmentFileUploader
+          fileList={
+            currentModalJson?.fileList ? currentModalJson?.fileList : []
+          }
+          isRequired={type.is_file_upload_required}
+        />
       </Form>
     </Modal>
   );

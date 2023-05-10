@@ -16,8 +16,8 @@ const DocumentFilesService = require("../document/document-files-service");
 const {
   notifyDocumentTaskChanged,
 } = require("../notification/notification-service");
-const NotificationIsReadModel = require("../../models/notification/notification-is-read-model");
 const { DOCUMENT_TASK_STATUS_ASSIGNED } = require("../../consts");
+const NotificationIsReadService = require("../notification/notification-is-read-service");
 
 class DocumentTasksService {
   static async getDocumentTasks(filter, isAddForeignTables = false) {
@@ -54,9 +54,9 @@ class DocumentTasksService {
     const filter = {
       document_id: query.documentId,
     };
-    //Для админа показываем все поручения
-    if (currentUser && currentUser.id !== 1) {
-      filter.creator_id = currentUser.id;
+    //Для админа показываем все поручения, иначе - только поручения пользователя
+    if (currentUser && !currentUser.rights.includes("Admin")) {
+      filter["document_tasks.creator_id"] = currentUser.id;
     }
     const func = DocumentTaskModel.getDocumentTasks({
       filter,
@@ -192,12 +192,19 @@ class DocumentTasksService {
     const func = DocumentTaskModel.delete({
       id: id,
     });
-    const readNotification = NotificationIsReadModel.readeNotifications({
-      filter: {
-        element_id: id,
-        notification_type: "IncomeTask",
-      },
-    });
+    const filter = function () {
+      this.whereIn(
+        "notification_type",
+        NotificationIsReadService.documentTaskNotificationTypes
+      );
+      this.where("document_task_id", "=", id);
+      this.where("is_read", "=", "false");
+    };
+    const readNotification = NotificationIsReadService.readNotifications(
+      null,
+      null,
+      filter
+    );
     DevTools.addDelay(readNotification);
     return await DevTools.addDelay(func);
   }

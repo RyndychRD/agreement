@@ -7,6 +7,7 @@ const uuid = require("uuid");
 const ApiError = require("../exceptions/api-error");
 const UserDto = require("../dtos/user-dtos");
 const moment = require("moment");
+const _ = require("lodash");
 // const ApiError = require("../exceptions/api-error");
 
 class LoginService {
@@ -125,7 +126,7 @@ class LoginService {
     const object_userDTO = new UserDto(user);
     const tokens = TokenService.generateTokens({
       ...object_userDTO,
-      rights: null,
+      rights: _.uniq(object_userDTO.rights.map((el) => el.code_name)),
     });
 
     await TokenService.saveToken(object_userDTO.id, tokens.refreshToken);
@@ -173,7 +174,7 @@ class LoginService {
     const object_userDTO = new UserDto(user);
     const tokens = TokenService.generateTokens({
       ...object_userDTO,
-      rights: null,
+      rights: _.uniq(object_userDTO.rights.map((el) => el.code_name)),
     });
 
     await TokenService.saveToken(object_userDTO.id, tokens.refreshToken);

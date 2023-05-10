@@ -92,6 +92,7 @@ class NotificationService {
           name: "IncomeTask",
           userIds: [documentTask.executor_id],
           elementId: documentTask.id,
+          documentId: documentTask.document_id,
         },
       ],
       2: [
@@ -99,11 +100,13 @@ class NotificationService {
           name: "Signing",
           userIds: [documentTask.creator_id],
           elementId: documentTask.document_id,
+          documentId: documentTask.document_id,
         },
         {
           name: "CompleteTask",
           userIds: [documentTask.creator_id],
           elementId: documentTask.id,
+          documentId: documentTask.document_id,
         },
       ],
     };
@@ -118,7 +121,8 @@ class NotificationService {
           userIds: await userService
             .getUserOfRight(8)
             .then((result) => result.map((user) => user.id)),
-          elementId: documentTask.document_id,
+          elementId: documentTask.id,
+          documentId: documentTask.document_id,
         },
       ];
     }
@@ -132,7 +136,8 @@ class NotificationService {
             addNotification(
               taskNotification.elementId,
               userId,
-              taskNotification.name
+              taskNotification.name,
+              taskNotification.documentId
             );
           });
         }

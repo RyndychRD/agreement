@@ -14,6 +14,10 @@ export default class DocumentService {
         document_type: el?.document_type_name,
         document_type_id: el?.document_type_id,
         document_status: el?.document_status_name,
+        document_status_before_soft_delete:
+          el?.document_status_before_soft_delete,
+        document_status_before_soft_delete_name:
+          el?.document_status_before_soft_delete_name,
         document_status_id: el?.document_status_id,
         document_created_at: el.created_at,
         document_updated_at:
@@ -21,8 +25,11 @@ export default class DocumentService {
         document_finished_at: el.finished_at,
         document_creator: userNameMask(el?.creator),
         document_stage: DocumentService.getDocumentStage(el),
+        // Можно удалить в статусах В работе и без подписей, Отклонен и На доработке(пока этот статус еще существует)
         is_document_able_to_delete:
-          el.document_status_id === 5 && el.last_signed_step === 0,
+          (el.document_status_id === 5 && el.last_signed_step === 0) ||
+          el.document_status_id === 2 ||
+          el.document_status_id === 7,
         document_current_signer: userNameMask(el?.current_signer),
         document_remark: el?.remark,
         document_passed_to_archive_at: el?.document_passed_to_archive_at,
@@ -143,6 +150,7 @@ export default class DocumentService {
     isOnlyForSigningDocuments,
     isOnlyMySignedDocuments,
     addDocumentTasksByType,
+    isShowDeletedDocs,
   }) {
     console.log("вызов в DocumentService -> Взять все записи");
     const response = await api.get(
@@ -151,7 +159,8 @@ export default class DocumentService {
       &isShowAllDocs=${isShowAllDocs}
       &isOnlyForSigningDocuments=${isOnlyForSigningDocuments}
       &isOnlyMySignedDocuments=${isOnlyMySignedDocuments}
-      &addDocumentTasksByType=${addDocumentTasksByType}`
+      &addDocumentTasksByType=${addDocumentTasksByType}
+      &isShowDeletedDocs=${isShowDeletedDocs}`
     );
     console.log(
       "вызов в DocumentService -> Взять все записи -> результат",

@@ -64,9 +64,13 @@ export default function DocumentControlTableViewer({
 
   const [updateFunc] = useUpdateDocumentMutation();
 
+  // TODO: Возможно, стоит заменить на useRef. Пока не понимаю импакта на производительность
+  const [currentDataSourceForExcel, setCurrentDataSourceForExcel] = useState();
+
   // Этот блок отвечает за открытие элемента по id
   const query = useLocation().search;
   useEffect(() => {
+    setCurrentDataSourceForExcel(dataSource);
     const id = new URLSearchParams(query).get(queryIdNameForOpen);
     if (id) {
       // eslint-disable-next-line eqeqeq
@@ -82,10 +86,6 @@ export default function DocumentControlTableViewer({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query, dataSource]);
 
-  // TODO: Возможно, стоит заменить на useRef. Пока не понимаю импакта на производительность
-  const [currentDataSourceForExcel, setCurrentDataSourceForExcel] =
-    useState(dataSource);
-
   // Функция, которая отвечает за экспорт в Excel
   const handleExport = () => {
     const excel = new Excel();
@@ -95,12 +95,13 @@ export default function DocumentControlTableViewer({
       .addDataSource(currentDataSourceForExcel, {
         str2Percent: true,
       })
-      .saveAs("Excel.xlsx");
+      .saveAs("Выгрузка.xlsx");
   };
 
   /**
    * Логика для кнопок
    */
+  // TODO: Вынести в отдельную функцию
   const buttonsActions = {
     create: () => {
       dispatch({ type: "openCreateModal" });
@@ -120,7 +121,20 @@ export default function DocumentControlTableViewer({
     excel: () => {
       handleExport();
     },
-    // TODO: Вынести в отдельную функцию
+    restore: () => {
+      ModalConfirm({
+        content: "Вы точно хотите восстановить документ?",
+        onOk: () => {
+          updateFunc({
+            document_id: state?.currentRow.document_id,
+            newDocumentStatusId:
+              state?.currentRow.document_status_before_soft_delete,
+          });
+        },
+        okText: "Да, я хочу восстановить документ",
+        cancelText: "Нет",
+      });
+    },
     reject: () => {
       if (
         state?.currentRow.document_status_id === 5 ||

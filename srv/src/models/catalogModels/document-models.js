@@ -21,6 +21,13 @@ class DocumentSchema {
         "documents.document_status_id",
         "document_statuses.id"
       );
+    query = query
+      .select("doc_status_2.name as document_status_before_soft_delete_name")
+      .leftJoin(
+        "document_statuses as doc_status_2",
+        "documents.document_status_before_soft_delete",
+        "doc_status_2.id"
+      );
     //подтягиваем тип документа
     query = query
       .select("document_types.name as document_type_name")
@@ -138,11 +145,15 @@ class DocumentSchema {
     isOnlyMySignedDocuments,
     isOnlyForSigningDocuments,
     currentUser,
+    isShowDeletedDocs,
   }) {
     let query = this.knexProvider("documents")
       .select("documents.*")
       .orderBy("documents.id", "asc");
     if (filter) query = query.where(filter);
+    if (!isShowDeletedDocs) {
+      query = query.whereNot({ document_status_id: "13" });
+    }
     if (isAddForeignTables) query = this.addForeignTablesInformation(query);
     if (isOnlyMySignedDocuments)
       query = this.addOnlyMySignedDocuments(query, currentUser);

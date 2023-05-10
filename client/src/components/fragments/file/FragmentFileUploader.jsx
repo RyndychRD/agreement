@@ -21,7 +21,7 @@ const FILE_ACCEPTED_EXT = [
 ];
 
 export default function FragmentFileUploader(props) {
-  const { isRequired = true } = props;
+  const { isRequired = true, fileList } = props;
 
   const rules = isRequired
     ? [
@@ -58,6 +58,7 @@ export default function FragmentFileUploader(props) {
             file,
           })
         }
+        defaultFileList={fileList}
         name="uploadedFile"
         // prettier-ignore
         action={`${API_URL}/files?token=${localStorage.getItem("token")}`}
