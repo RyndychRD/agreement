@@ -37,7 +37,6 @@ export function NumberInputFormItem({
         formatter={formatter}
         parser={parser}
         placeholder={title}
-        defaultValue={value}
         value={value}
         stringMode
         disabled={disabled}
