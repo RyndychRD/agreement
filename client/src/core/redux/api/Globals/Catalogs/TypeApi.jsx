@@ -6,6 +6,7 @@ const TAG_TYPE = "Types";
 export const typesApi = createApi({
   reducerPath: "typesApi",
   tagTypes: [TAG_TYPE],
+  keepUnusedDataFor: 1,
   endpoints: (build) => ({
     getTypes: build.query({
       queryFn: async (props) => {

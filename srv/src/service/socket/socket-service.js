@@ -8,7 +8,6 @@ class SocketService {
         userWs.ws.send(msgStr);
       });
     });
-    console.log("broadcst done");
   }
 
   static sendSocketMsgByUserId(userId, msg, type = "documents") {

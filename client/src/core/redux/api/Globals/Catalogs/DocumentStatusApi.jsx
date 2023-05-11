@@ -6,6 +6,7 @@ const TAG_TYPE = "documentStatus";
 export const documentStatusApi = createApi({
   reducerPath: "documentStatusApi",
   tagTypes: [TAG_TYPE],
+  keepUnusedDataFor: 1,
   endpoints: (build) => ({
     getStatuses: build.query({
       queryFn: async () => {

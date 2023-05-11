@@ -1,4 +1,4 @@
-import { sendMsgSocketDocument } from "../../core/socket/documentSocket/DocumentSocket";
+import { SocketDocument } from "../../core/socket/documentSocket/DocumentSocket";
 
 export default class NotificationService {
   static API_ROUTE = "/notifications";
@@ -6,8 +6,8 @@ export default class NotificationService {
   static async readNotifications(props) {
     const { elementId, notificationType } = props;
 
-    if (notificationType && elementId && sendMsgSocketDocument.sendJsonMessage)
-      sendMsgSocketDocument.sendJsonMessage({
+    if (notificationType && elementId && SocketDocument.sendJsonMessage)
+      SocketDocument.sendJsonMessage({
         type: "readNotification",
         elementId,
         notificationType,

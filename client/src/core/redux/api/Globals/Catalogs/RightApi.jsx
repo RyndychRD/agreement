@@ -6,6 +6,7 @@ const TAG_TYPE = "Rights";
 export const rightsApi = createApi({
   reducerPath: "rightsApi",
   tagTypes: [TAG_TYPE],
+  keepUnusedDataFor: 1,
   endpoints: (build) => ({
     getRights: build.query({
       queryFn: async () => {

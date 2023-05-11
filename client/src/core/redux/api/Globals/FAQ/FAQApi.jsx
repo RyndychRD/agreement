@@ -6,6 +6,7 @@ const TAG_TYPE = "FAQ";
 export const FAQsApi = createApi({
   reducerPath: "FAQApi",
   tagTypes: [TAG_TYPE],
+  keepUnusedDataFor: 1,
   endpoints: (build) => ({
     getFAQs: build.query({
       queryFn: async () => {

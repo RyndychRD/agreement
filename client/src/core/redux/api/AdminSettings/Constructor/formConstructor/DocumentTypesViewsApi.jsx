@@ -6,6 +6,7 @@ const TAG_TYPE = "documentTypesViews";
 export const documentTypesViewsApi = createApi({
   reducerPath: "documentTypesViewsApi",
   tagTypes: [TAG_TYPE],
+  keepUnusedDataFor: 1,
   endpoints: (build) => ({
     getDocumentTypesViews: build.query({
       queryFn: async ({ isAddForeignTables = false }) => {

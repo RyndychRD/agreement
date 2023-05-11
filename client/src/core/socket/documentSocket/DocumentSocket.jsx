@@ -8,7 +8,7 @@ import {
   setNotifications,
 } from "../../redux/reducers/DocumentNotificationReducer";
 
-export const sendMsgSocketDocument = {};
+export const SocketDocument = {};
 
 export default function DocumentSocket() {
   const dispatch = useDispatch();
@@ -43,6 +43,6 @@ export default function DocumentSocket() {
     // shouldReconnect: () => true,
   });
   if (sendJsonMessage) {
-    sendMsgSocketDocument.sendJsonMessage = sendJsonMessage;
+    SocketDocument.sendJsonMessage = sendJsonMessage;
   }
 }

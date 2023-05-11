@@ -6,6 +6,7 @@ const TAG_TYPE = "Departments";
 export const departmentsApi = createApi({
   reducerPath: "departmentsApi",
   tagTypes: [TAG_TYPE],
+  keepUnusedDataFor: 1,
   endpoints: (build) => ({
     getDepartments: build.query({
       queryFn: async (isAddRights = false) => {

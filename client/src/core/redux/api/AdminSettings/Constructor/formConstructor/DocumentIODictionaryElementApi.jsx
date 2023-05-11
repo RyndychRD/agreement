@@ -6,6 +6,7 @@ const TAG_TYPE = "documentIODictionaryElement";
 export const documentIODictionaryElementApi = createApi({
   reducerPath: "documentIODictionaryElementApi",
   tagTypes: [TAG_TYPE],
+  keepUnusedDataFor: 1,
   endpoints: (build) => ({
     getDocumentIODictionaryElements: build.query({
       queryFn: async () => {
