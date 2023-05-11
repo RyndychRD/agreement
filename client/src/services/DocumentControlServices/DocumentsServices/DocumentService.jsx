@@ -32,6 +32,7 @@ export default class DocumentService {
           el.document_status_id === 7,
         document_current_signer: userNameMask(el?.current_signer),
         document_remark: el?.remark,
+        document_contractor: el?.document_contractor,
         document_passed_to_archive_at: el?.document_passed_to_archive_at,
         document_archive_type_name: el?.document_archive_type_name,
         document_archive_pass_by: el?.document_archive_pass_by,
@@ -150,6 +151,7 @@ export default class DocumentService {
     isOnlyForSigningDocuments,
     isOnlyMySignedDocuments,
     addDocumentTasksByType,
+    isFindContractorInValues,
     isShowDeletedDocs,
   }) {
     console.log("вызов в DocumentService -> Взять все записи");
@@ -160,6 +162,7 @@ export default class DocumentService {
       &isOnlyForSigningDocuments=${isOnlyForSigningDocuments}
       &isOnlyMySignedDocuments=${isOnlyMySignedDocuments}
       &addDocumentTasksByType=${addDocumentTasksByType}
+      &isFindContractorInValues=${isFindContractorInValues}
       &isShowDeletedDocs=${isShowDeletedDocs}`
     );
     console.log(

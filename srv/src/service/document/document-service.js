@@ -124,6 +124,28 @@ class DocumentService {
         })
       );
     }
+
+    // если нам нужно поискать среди значений документа поставщика
+    if (query?.isFindContractorInValues.trim() === "true") {
+      documents = await Promise.all(
+        documents.map(async (document) => {
+          const documentContractor = await DocumentValuesModel.find({
+            filter: {
+              "document_values.document_id": document.id,
+              "document_values.document_element_IO_dictionary_key":
+                "Suppliers_of_Goods_Works_Services",
+            },
+          });
+          return {
+            ...document,
+            document_contractor:
+              documentContractor && documentContractor.length > 0
+                ? documentContractor[0]?.value
+                : null,
+          };
+        })
+      );
+    }
     return await documents;
   }
   async getAllDocumentArchives(props) {

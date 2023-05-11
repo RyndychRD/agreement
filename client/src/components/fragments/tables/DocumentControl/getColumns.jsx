@@ -103,7 +103,7 @@ export default function getColumns({ dataSource, columns }) {
       onFilter: (value, record) => record?.document_type?.indexOf(value) === 0,
     },
     document_creator: {
-      title: "Создатель",
+      title: "Исполнитель по договору",
       dataIndex: "document_creator",
       align: "center",
       sorter: (a, b) =>
@@ -111,6 +111,16 @@ export default function getColumns({ dataSource, columns }) {
       filters: filterDataStringSorted(dataSource, "document_creator"),
       onFilter: (value, record) =>
         record?.document_creator?.indexOf(value) === 0,
+    },
+    document_contractor: {
+      title: "Поставщик",
+      dataIndex: "document_contractor",
+      align: "center",
+      sorter: (a, b) =>
+        sorterStringAlphabet(a?.document_contractor, b?.document_contractor),
+      filters: filterDataStringSorted(dataSource, "document_contractor"),
+      onFilter: (value, record) =>
+        record?.document_contractor?.indexOf(value) === 0,
     },
     document_current_signer: {
       title: "На подписи",
