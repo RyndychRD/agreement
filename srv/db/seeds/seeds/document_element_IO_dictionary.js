@@ -24,6 +24,10 @@ exports.documentElementIODictionarySeed = async function (knex) {
     { id: 15, key: "Subject_Of_The_Contract", name: "Предмет договора:", data_type: "select_id", select_value: {select_id: [{value: "Закупки товаров, работ и услуг",label: "Закупки товаров, работ и услуг"  }, {value:"Поставка продукции (выполнение работ, оказание услуг) заказчикам",label:"Поставка продукции (выполнение работ, оказание услуг) заказчикам"  }, {value: "Передача имущества в аренду (бесплатное пользование)",label: "Передача имущества в аренду (бесплатное пользование)"  }, {value: "Совместная деятельность",label: "Совместная деятельность"  }, {value:"Финансирование (кредитование, обеспечение исполнения обязательств)",label:"Финансирование (кредитование, обеспечение исполнения обязательств)"  }, { value: "Прочие обязательства", label: "Прочие обязательства" }], }},
     { id: 16, key: "Date_And_Method_Of_Receipt_From_The_Counterparty", name: "Дата и способ получения от контрагента:", data_type: "text", select_value: null},
     { id: 17, key: "Note", name: "Примечание:", data_type: "text", select_value: null},
+    { id: 18, key: "contractSumNoNDS", name: "Сумма по договору, тыс. тенге (Без НДС):", data_type: "number", select_value: null},
+    { id: 19, key: "contractSumWithNDS", name: "Сумма по договору, тыс. тенге (C НДС):", data_type: "number", select_value: null},
+    { id: 20, key: "currentNDS", name: "Текущий НДС:", data_type: "number", select_value: {"isPercentage":true,"defaultValue":12}},
+    { id: 21, key: "fullNameOfTheItemInBudget", name: "Полное наименование статьи в бюджете:", data_type: "text", select_value: null},
 ];
 
   const table = "document_element_IO_dictionary";

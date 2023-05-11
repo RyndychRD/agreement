@@ -1,6 +1,6 @@
 import { Form } from "antd";
 import ModalUpdate from "../../../../../fragments/modals/modalUpdate";
-import updateForm from "./updateForm";
+import UpdateForm from "./updateForm";
 import {
   useGetDocumentTaskQueryHook,
   useCompleteDocumentTaskMutationHook,
@@ -21,7 +21,7 @@ export default function UpdateButtonModel() {
       getQuery={useGetDocumentTaskQueryHook}
       updateMutation={useCompleteDocumentTaskMutationHook}
       form={form}
-      CreateUpdateForm={updateForm}
+      CreateUpdateForm={UpdateForm}
       formDefaultValues={formDefaultValues}
       isAddForeignTables
       isAddDocumentValues

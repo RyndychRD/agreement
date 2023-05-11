@@ -47,9 +47,15 @@ export default function ReturnElement(props) {
     case "number":
       if (ComponentValue) {
         form.setFieldValue(ComponentNameForForm, ComponentValue);
+      } else if (CurrentDictElement.select_value?.defaultValue) {
+        form.setFieldValue(
+          ComponentNameForForm,
+          CurrentDictElement.select_value.defaultValue
+        );
       }
       return (
         <RenderNumberInput
+          CurrentElement={CurrentDictElement}
           formItemProps={formItemProps}
           elemNameForForm={ComponentNameForForm}
           defaultValue={ComponentValue}

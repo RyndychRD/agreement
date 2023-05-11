@@ -1,8 +1,15 @@
 import { Form, InputNumber } from "antd";
 
 export default function RenderNumberInput(props) {
-  const { elemNameForForm, formItemProps } = props;
+  const { elemNameForForm, formItemProps, CurrentElement } = props;
 
+  const percentageProps = CurrentElement.select_value?.isPercentage
+    ? {
+        addonAfter: "%",
+        max: 100,
+        min: 0,
+      }
+    : {};
   return (
     <Form.Item {...formItemProps}>
       <InputNumber
@@ -12,6 +19,7 @@ export default function RenderNumberInput(props) {
         stringMode
         style={{ width: "175px" }}
         precision={2}
+        {...percentageProps}
       />
     </Form.Item>
   );

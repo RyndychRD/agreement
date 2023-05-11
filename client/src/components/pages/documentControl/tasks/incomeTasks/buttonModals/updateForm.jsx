@@ -4,13 +4,42 @@ import { LargeTextInputFormItem } from "../../../../../fragments/inputs/textInpu
 import FragmentFileUploader from "../../../../../fragments/file/FragmentFileUploader";
 import DocumentTaskSecondListZakupTRU from "../../../../../fragments/documentControl/documentTasks/buttonModals/documentTaskExtraFields/DocumentTaskSecondListZakupTRU";
 import DocumentTaskDocumentRegistration from "../../../../../fragments/documentControl/documentTasks/buttonModals/documentTaskExtraFields/DocumentTaskDocumentRegistration";
+import { useGetDocumentValuesQueryHook } from "../../../../../../core/redux/api/DocumentControl/DocumentApi";
+import SimpleSpinner from "../../../../../fragments/messages/Spinner";
 
-export default function updateForm({ form, rawData }) {
+export default function UpdateForm({ form, rawData }) {
   let content = "";
+
+  const {
+    data = {},
+    isLoading,
+    isError,
+  } = useGetDocumentValuesQueryHook({
+    isStart: true,
+    documentId: rawData.document_id,
+    isGetConnectedTables: true,
+  });
+
   switch (rawData.document_task_type_id) {
     /* Если это Поручение для 2 листа согласования Закупа ТРУ */
     case 2:
-      content = <DocumentTaskSecondListZakupTRU form={form} />;
+      if (!isLoading && !isError) {
+        data.forEach((documentValue) => {
+          if (
+            [
+              "fullNameOfTheItemInBudget",
+              "contractSumNoNDS",
+              "contractSumWithNDS",
+              "currentNDS",
+            ].includes(documentValue.key)
+          ) {
+            form.setFieldValue(documentValue.key, documentValue.value);
+          }
+        });
+        content = <DocumentTaskSecondListZakupTRU form={form} />;
+      } else {
+        content = <SimpleSpinner />;
+      }
       break;
     case 3:
       content = <DocumentTaskDocumentRegistration form={form} />;

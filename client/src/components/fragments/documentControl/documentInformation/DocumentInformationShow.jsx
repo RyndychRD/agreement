@@ -12,6 +12,7 @@ export default function DocumentInformationShow(props) {
     const information = isPrepareData
       ? DocumentValuesService.getValueAndLabelFromDocumentValue(dataStep)
       : dataStep;
+    if (!information) return "";
     const text =
       information?.select_name && information.select_name !== information.key
         ? information.select_name
