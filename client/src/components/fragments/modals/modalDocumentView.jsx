@@ -20,6 +20,8 @@ import {
 } from "../../../services/CommonFunctions";
 import { useLogState } from "../../log/LogProvider";
 import NotificationService from "../../../services/DocumentControlServices/NotificationService";
+import DocumentComplete from "../documentControl/documentComplete/DocumentComplete";
+import CreateFromCurrent from "../documentControl/documentCreationPipeline/CreateFromCurrent";
 
 export default function ModalDocumentView(props) {
   const {
@@ -31,11 +33,17 @@ export default function ModalDocumentView(props) {
     isShowDocumentTasks = false,
     isShowRegistrationInOOPZ = false,
     isShowRoute = false,
+    isShowComplete = false,
     isShowToArchive = false,
+    isCreateFromCurrent = false,
   } = props;
   const state = useTableModalsState();
   const dispatch = useTableModalDispatch();
-  const isOpen = state.isShowUpdateModal && state.currentRow !== undefined;
+  const isOpen =
+    state.isShowUpdateModal &&
+    state.currentRow !== undefined &&
+    state.currentRow !== null &&
+    state.currentRow.document_id;
 
   const stateLog = useLogState();
   if (
@@ -69,7 +77,7 @@ export default function ModalDocumentView(props) {
   if (isOpen)
     return (
       <Modal
-        width={isShowDocumentTasks ? 1000 : 500}
+        width={isShowDocumentTasks ? 1000 : 700}
         open={isOpen}
         onCancel={onCancel}
         footer={[
@@ -88,11 +96,13 @@ export default function ModalDocumentView(props) {
           isStart={state.isShowUpdateModal}
           documentId={state.currentRow?.document_id}
         />
+
         <DocumentFilesFragment
           key="FilesUploaded"
           documentId={state.currentRow?.document_id}
           isAbleToUploadFiles={isAbleToUploadFiles}
         />
+
         {/* Отображать ли кнопку перевода документа в Архив */}
         {isShowToArchive ? (
           <DocumentToArchiveFragment
@@ -117,22 +127,35 @@ export default function ModalDocumentView(props) {
         ) : (
           ""
         )}
+        {/* Отображать ли переведение документа в Исполненные */}
+        {isShowComplete ? (
+          <DocumentComplete
+            documentId={state.currentRow?.document_id}
+            closeModalFunc={onCancel}
+          />
+        ) : (
+          ""
+        )}
+        {/* Отображать ли маршрут подписания */}
         {isShowRoute ? (
           <RouteStepsFragment
             isStart={state.isShowUpdateModal}
             documentId={state.currentRow?.document_id}
             isAbleToSign={isAbleToSign}
             isAbleToEdit={
-              isAbleToEdit && state.currentRow?.document_status_id === 5
-              // ||
-              // state.currentRow?.document_status_id === 7)
+              isAbleToEdit &&
+              (state.currentRow?.document_status_id === 5 ||
+                state.currentRow?.document_status_id === 7)
             }
           />
         ) : (
           ""
         )}
         {/* Если статус документа Отклонен или На доработке, то мы должны показать замечание, по которому этот документ попал в такой статус */}
+        {/* Если документ в статусе В работе и на нем есть замечание, то значит документ на этом шаге возвращался с замечанием и мы его отображаем */}
         <DocumentRemark
+          isStart={state.isShowUpdateModal}
+          documentId={state.currentRow?.document_id}
           documentStatusId={state.currentRow?.document_status_id}
           documentRemark={state.currentRow?.document_remark}
         />
@@ -142,6 +165,11 @@ export default function ModalDocumentView(props) {
             documentId={state.currentRow?.document_id}
             documentTypeId={state.currentRow?.document_type_id}
           />
+        ) : (
+          ""
+        )}
+        {isCreateFromCurrent ? (
+          <CreateFromCurrent documentId={state.currentRow?.document_id} />
         ) : (
           ""
         )}

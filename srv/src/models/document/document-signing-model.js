@@ -1,5 +1,6 @@
 //Доступ в БД
 const knexConfig = require("../../../db/knexfile");
+const documentSigningHistoryModel = require("./document-signing-history-model");
 
 class SigningSchema {
   constructor() {
@@ -56,6 +57,13 @@ class SigningSchema {
     return await this.knexProvider("documents-signers_route").insert(routes);
   }
 
+  async update(filter, route) {
+    return await this.knexProvider("documents-signers_route")
+      .where(filter)
+      .update(route)
+      .returning("id");
+  }
+
   async getCurrentDocumentSigningStep(documentId) {
     let query = this.knexProvider("documents-signers_route")
       .first("*")
@@ -65,10 +73,22 @@ class SigningSchema {
     return await query;
   }
 
-  async deleteReplacedRouteSteps(documentId) {
+  async deleteRouteSteps(documentId, lastStep) {
     let query = this.knexProvider("documents-signers_route")
-      .whereRaw(`document_id=${documentId} AND actual_signer_id IS NULL`)
-      .delete();
+      .whereRaw(
+        `document_id=${documentId} AND step > ${lastStep} AND actual_signer_id IS NULL`
+      )
+      .delete()
+      .returning("id")
+      .then((deletedIds) => {
+        if (deletedIds && deletedIds.length > 0) {
+          deletedIds.forEach((deletedId) => {
+            documentSigningHistoryModel.delete({
+              "documents-signers_route_id": deletedId.id,
+            });
+          });
+        }
+      });
 
     return await query;
   }

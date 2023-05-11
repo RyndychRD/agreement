@@ -9,32 +9,26 @@ const {
   createDocumentFilePath,
   getDocumentFileDirectoryPath,
   getFileTempPath,
+  deleteFile,
+  getFilePath,
 } = require("../file-service");
 const NotificationService = require("../notification/notification-service");
 const FilesModel = require("../../models/catalogModels/files-model");
-const DocumentValuesService = require("./document-values-service");
 const DocumentRegistrationModel = require("../../models/document/document-registration-model");
-const NotificationIsReadModel = require("../../models/notification/notification-is-read-model");
 const DocumentArchiveModel = require("../../models/document/document-archive-model");
 const moment = require("moment/moment");
 const DocumentTasksService = require("../documentTasksService/document-task-service");
-const notificationIsReadModel = require("../../models/notification/notification-is-read-model");
 const {
   DOCUMENT_STATUS_ARCHIVE,
   DOCUMENT_STATUS_APPROVED,
 } = require("../../consts");
+const NotificationIsReadService = require("../notification/notification-is-read-service");
+const documentFilesService = require("./document-files-service");
 
 function getCurrentSigner(document) {
-  //Изначально никто не текущий подписант
-  let currentSignerId = "-1";
-  //Если у нас нет замещающего, то останется просто текущий подписант
-  currentSignerId = document.current_signer_id
+  const currentSignerId = document.current_signer_id
     ? document.current_signer_id
-    : currentSignerId;
-  //Если у нас есть замещающий, то он встанет на место текущего подписанта
-  currentSignerId = document.current_deputy_signer_id
-    ? document.current_deputy_signer_id
-    : currentSignerId;
+    : -1;
   return currentSignerId;
 }
 
@@ -63,6 +57,7 @@ class DocumentService {
       isOnlyMySignedDocuments: query?.isOnlyMySignedDocuments.trim() === "true",
       filter,
       currentUser: userId,
+      isShowDeletedDocs: query?.isShowDeletedDocs.trim() === "true",
     });
     //подтягиваем общее количество шагов для подписания
     //разыменовываем текущего подписанта
@@ -275,32 +270,58 @@ class DocumentService {
     );
 
     const insertArray = await Promise.all(
-      body.documentFileIds.map(async (fileIdToSave) => {
-        const file = await FilesModel.findOne(fileIdToSave);
+      body.documentFileIds.map(async (fileToSave) => {
+        const file = await FilesModel.findOne(fileToSave.id);
         if (file) {
-          const tempFilePath = getFileTempPath(file.path);
           const storageFilePath = await createDocumentFilePath({
             documentId,
             fileUuid: file.uniq,
             fileName: file.name,
           });
-          // Передвигаем файл в место постоянного хранения. Функция ассинхронна, дожидаться завершения не будет
-          // TODO: Сделать нормальную обработку ошибки
-          fs.rename(tempFilePath, storageFilePath, function (err) {
-            if (err) {
-              console.log(err);
-            }
-          });
-          file.isTemp = false;
-          file.path = await createDocumentFilePath(
-            {
-              documentId,
-              fileUuid: file.uniq,
-              fileName: file.name,
-            },
-            false
-          );
-          FilesModel.update({ file });
+          if (fileToSave.isFromAnotherDocument) {
+            const anotherDocumentFilePath = getFilePath(file.path);
+            fs.copyFile(
+              anotherDocumentFilePath,
+              storageFilePath,
+              function (err) {
+                if (err) {
+                  console.log(err);
+                }
+              }
+            );
+            file.id = undefined;
+            file.isTemp = false;
+            file.path = await createDocumentFilePath(
+              {
+                documentId,
+                fileUuid: file.uniq,
+                fileName: file.name,
+              },
+              false
+            );
+            file.id = (await FilesModel.createOneFile({ file }))[0].id;
+          } else {
+            const tempFilePath = getFileTempPath(file.path);
+
+            // Передвигаем файл в место постоянного хранения. Функция ассинхронна, дожидаться завершения не будет
+            // TODO: Сделать нормальную обработку ошибки
+            fs.rename(tempFilePath, storageFilePath, function (err) {
+              if (err) {
+                console.log(err);
+              }
+            });
+
+            file.isTemp = false;
+            file.path = await createDocumentFilePath(
+              {
+                documentId,
+                fileUuid: file.uniq,
+                fileName: file.name,
+              },
+              false
+            );
+            FilesModel.update({ file });
+          }
 
           return {
             document_id: documentId,
@@ -316,17 +337,21 @@ class DocumentService {
   }
 
   async deleteDocument(query) {
+    const documentFiles = await documentFilesService.getFiles({
+      query: { documentId: query.id },
+    });
+
+    // Удаляем все файлы, привязанные к этому документу
+    if (documentFiles && documentFiles.length > 0) {
+      documentFiles.forEach((file) => {
+        deleteFile(file);
+      });
+      DevTools.deleteFileFolder(documentFiles[0].path);
+    }
+
     const func = await DocumentModels.deleteOne({
       id: query.id,
     });
-
-    const readNotification = NotificationIsReadModel.readeNotifications({
-      filter: {
-        element_id: query.id,
-        notification_type: "Signing",
-      },
-    });
-    DevTools.addDelay(readNotification);
     return await DevTools.addDelay(func);
   }
 
@@ -368,7 +393,7 @@ class DocumentService {
 
   async updateDocument(query, body) {
     let result = null;
-    if (body?.newRemark) {
+    if (body?.newRemark !== undefined) {
       const func = DocumentModels.update(
         {
           id: query.id,
@@ -390,11 +415,35 @@ class DocumentService {
       );
       result = await DevTools.addDelay(func);
     }
-    if (body?.newDocumentStatusId) {
+    // Если мы удаляем документ и запоминаем предыдущий статус, то нотификация нам не нужна
+    if (body?.newDocumentStatusId && !body?.previousDocumentStatusId) {
       result = DocumentService.changeDocumentStatus(
         query.id,
         body.newDocumentStatusId
       );
+    }
+    if (body?.newDocumentStatusId && body?.previousDocumentStatusId) {
+      const filter = function () {
+        this.whereIn(
+          "notification_type",
+          NotificationIsReadService.documentNotificationTypes.concat(
+            NotificationIsReadService.documentTaskNotificationTypes
+          )
+        );
+        this.where("document_id", "=", query.id);
+        this.where("is_read", "=", "false");
+      };
+      NotificationIsReadService.readNotifications(null, null, filter);
+      const func = DocumentModels.update(
+        {
+          id: query.id,
+        },
+        {
+          document_status_id: body.newDocumentStatusId,
+          document_status_before_soft_delete: body.previousDocumentStatusId,
+        }
+      );
+      result = await DevTools.addDelay(func);
     }
     return result;
   }
@@ -442,22 +491,23 @@ class DocumentService {
         document_status_id: newStatusId,
       }
     );
-    NotificationService.notifyDocumentStatusChanged(documentId, newStatusId);
+
     const filter = function () {
-      this.whereIn("notification_type", [
-        "ReworkDocument",
-        "Signing",
-        "OnRegistration",
-        "Approved",
-        "Completed",
-        "Rejected",
-        "SignedOOPZ",
-      ]);
+      this.whereIn(
+        "notification_type",
+        NotificationIsReadService.documentNotificationTypes.concat(
+          NotificationIsReadService.documentTaskNotificationTypes
+        )
+      );
       this.where("element_id", "=", documentId);
+      this.where("is_read", "=", "false");
     };
-    notificationIsReadModel.readeNotifications({ filter });
+    await NotificationIsReadService.readNotifications(null, null, filter);
+    NotificationService.notifyDocumentStatusChanged(documentId, newStatusId);
     return await DevTools.addDelay(func);
   }
+
+  // Создано из-за проблем с циркулярными зависимостями. Используется в schedule
   async changeDocumentStatusObj(documentId, newStatusId) {
     return DocumentService.changeDocumentStatus(documentId, newStatusId);
   }

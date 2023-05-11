@@ -6,13 +6,25 @@ export default class DocumentValuesService {
   static API_ROUTE = "/documents/values";
 
   static getValueAndLabelFromDocumentValue(dataStep) {
+    if (
+      [
+        "contractSumNoNDS",
+        "currentNDS",
+        "fullNameOfTheItemInBudget",
+        "contractSumWithNDS",
+      ].includes(dataStep.key)
+    )
+      return undefined;
     switch (dataStep?.data_type) {
       case "text":
       case "number":
       case "phone":
       case "select_id":
       case "email":
-        return { value: dataStep?.value, label: dataStep.label };
+        return {
+          value: dataStep?.value,
+          label: dataStep.label,
+        };
       case "datePicker":
         return {
           value: renderDate(dataStep?.value, false),

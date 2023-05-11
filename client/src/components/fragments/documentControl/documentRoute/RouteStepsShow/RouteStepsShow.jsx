@@ -13,7 +13,7 @@ export default function RouteStepsShow({ routeSteps, isAbleToSign }) {
   const isAnySignedSteps = signedSteps?.length > 0;
   const previousSignStep = signedSteps?.at(-1);
   const isAnyUnsignedSteps = currentSignStep;
-  const isLastUnsignedSteps = currentSignStep === routeSteps?.at(-1);
+  // const isLastUnsignedSteps = currentSignStep === routeSteps?.at(-1);
   const documentId = currentSignStep?.document_id;
 
   // Показать все подписанные шаги если не подписанных не осталось
@@ -61,8 +61,10 @@ export default function RouteStepsShow({ routeSteps, isAbleToSign }) {
           <SigningButtons
             // Чтобы вернуть назад, должен быть хотя бы один подписанный шаг
             isShowReturnBackOneStepButton={isAnySignedSteps}
-            // Отклонить может только последний подписант в списке
-            isShowRejectButton={isLastUnsignedSteps}
+            // // Отклонить может только последний подписант в списке
+            // isShowRejectButton={isLastUnsignedSteps}
+            // Отклонить может любой подписант в списке
+            isShowRejectButton
           />
           <SignStep
             currentStepId={currentSignStep?.id}

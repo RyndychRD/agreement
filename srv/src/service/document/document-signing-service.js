@@ -7,6 +7,12 @@ const DevTools = require("../DevTools");
 const { changeDocumentLastSignedStep } = require("./document-service");
 const NotificationService = require("../notification/notification-service");
 const NotificationIsReadService = require("../notification/notification-is-read-service");
+const DocumentService = require("./document-service");
+const documentSigningHistoryModel = require("../../models/document/document-signing-history-model");
+const { findHistoryByStepId } = require("./document-signing-history-service");
+const SigningHistoryService = require("./document-signing-history-service");
+const documentSigningModel = require("../../models/document/document-signing-model");
+const { SocketService } = require("../socket/socket-service");
 
 class SigningService {
   static async getOneDocumentRoute(query) {
@@ -25,10 +31,6 @@ class SigningService {
             id: step.signer_id ? step.signer_id : "-1",
             isAddForeignTables: "true",
           }),
-          deputy_signer: await getOneUser({
-            id: step.deputy_signer_id ? step.deputy_signer_id : "-1",
-            isAddForeignTables: "true",
-          }),
           actual_signer: await getOneUser({
             id: step.actual_signer_id ? step.actual_signer_id : "-1",
             isAddForeignTables: "true",
@@ -38,6 +40,7 @@ class SigningService {
               ? step.document_signature_type_id
               : "-1",
           }),
+          document_signature_history: await findHistoryByStepId(step.id),
         };
       })
     );
@@ -58,12 +61,14 @@ class SigningService {
     const document = await func;
     const documentId = document[0].document_id;
     NotificationService.notifyDocumentSigning(documentId);
+    await DocumentService.updateDocument({ id: documentId }, { newRemark: "" });
     const increaseDocumentLastSignedStep = changeDocumentLastSignedStep({
       documentId,
       isIncrement: true,
     });
     return await DevTools.addDelay(increaseDocumentLastSignedStep);
   }
+
   static async unsignCurrentDocumentStep({ body }) {
     const func = SigningModel.unsignLastStep({
       filter: {
@@ -86,20 +91,49 @@ class SigningService {
   }
 
   static async update({ documentId, routeSteps }) {
-    // Удаляем предыдущие шаги и очищаем нотификацию по ним
-    const deletePreviousSteps =
-      SigningModel.deleteReplacedRouteSteps(documentId);
-    await DevTools.addDelay(deletePreviousSteps);
+    // Очищаем нотификацию по неподписанным шагам
     NotificationIsReadService.readNotifications(undefined, {
       elementId: documentId,
       notificationType: "Signing",
     });
 
     let result = [];
+    // Если маршрут сократили, то удаляем все сокращенные шаги
+    documentSigningModel.deleteRouteSteps(
+      documentId,
+      routeSteps &&
+        routeSteps.length > 0 &&
+        routeSteps[routeSteps.length - 1]?.step
+        ? routeSteps[routeSteps.length - 1].step
+        : 0
+    );
     if (routeSteps.length > 0) {
-      const putNewSteps = SigningModel.create(routeSteps);
-      result = await DevTools.addDelay(putNewSteps);
-      NotificationService.notifyDocumentSigning(documentId);
+      Promise.all(
+        routeSteps.map(async (step) => {
+          if (!step.previous_signer_id) {
+            return SigningModel.create(step);
+          }
+          if (
+            step.previous_signer_id &&
+            step.previous_signer_id !== step.signer_id
+          ) {
+            const filter = {
+              document_id: documentId,
+              step: step.step,
+            };
+            return SigningModel.update(filter, {
+              signer_id: step.signer_id,
+            }).then((signingStepId) => {
+              SigningHistoryService.create({
+                stepId: signingStepId[0].id,
+                signerId: step.previous_signer_id,
+              });
+            });
+          }
+        })
+      ).then(() => {
+        NotificationService.notifyDocumentSigning(documentId);
+      });
     }
     return result;
   }

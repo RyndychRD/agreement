@@ -2,6 +2,6 @@ import DocumentCreationPipeline from "../../../../../fragments/documentControl/d
 /**
  * @return Модальное окно для создания нового документа
  */
-export default function CreateButtonModel() {
+export default function CreateButtonModal() {
   return <DocumentCreationPipeline />;
 }

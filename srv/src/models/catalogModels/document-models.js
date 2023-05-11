@@ -21,6 +21,13 @@ class DocumentSchema {
         "documents.document_status_id",
         "document_statuses.id"
       );
+    query = query
+      .select("doc_status_2.name as document_status_before_soft_delete_name")
+      .leftJoin(
+        "document_statuses as doc_status_2",
+        "documents.document_status_before_soft_delete",
+        "doc_status_2.id"
+      );
     //подтягиваем тип документа
     query = query
       .select("document_types.name as document_type_name")
@@ -32,12 +39,11 @@ class DocumentSchema {
     //подтягиваем текущего подписанта/подписантов
     query = query
       .select("currentSigner.signer_id as current_signer_id")
-      .select("currentSigner.deputy_signer_id as current_deputy_signer_id")
       .leftJoin(
         this.knexProvider.raw(
           '"documents-signers_route" AS "currentSigner" ON "documents"."id"' +
-            ' = "currentSigner"."document_id" AND "documents"."last_signed_step"+1' +
-            ' = "currentSigner"."step"'
+            ' = "currentSigner"."document_id" ' +
+            'AND "documents"."last_signed_step"+1 = "currentSigner"."step"'
         )
       );
     //подтягиваем данные по регистрации документа
@@ -108,8 +114,6 @@ class DocumentSchema {
       .where(function () {
         this.where({
           "documents-signers_route.signer_id": currentUser,
-        }).orWhere({
-          "documents-signers_route.deputy_signer_id": currentUser,
         });
       });
     return query;
@@ -141,11 +145,15 @@ class DocumentSchema {
     isOnlyMySignedDocuments,
     isOnlyForSigningDocuments,
     currentUser,
+    isShowDeletedDocs,
   }) {
     let query = this.knexProvider("documents")
       .select("documents.*")
       .orderBy("documents.id", "asc");
     if (filter) query = query.where(filter);
+    if (!isShowDeletedDocs) {
+      query = query.whereNot({ document_status_id: "13" });
+    }
     if (isAddForeignTables) query = this.addForeignTablesInformation(query);
     if (isOnlyMySignedDocuments)
       query = this.addOnlyMySignedDocuments(query, currentUser);

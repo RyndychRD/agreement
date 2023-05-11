@@ -1,4 +1,5 @@
 import { Form, Modal } from "antd";
+import { useSelector } from "react-redux";
 import { useUpdateDocumentMutation } from "../../../../../../core/redux/api/DocumentControl/DocumentApi";
 // import { useTableModalDispatch } from "../../../../tables/TableModalProvider";
 import SimpleSpinner from "../../../../messages/Spinner";
@@ -9,13 +10,14 @@ import {
   useRouteStepFragmentDispatch,
 } from "../../RouteStepFragmentProvider";
 import { useTableModalDispatch } from "../../../../tables/TableModalProvider";
+import { userNameMask } from "../../../../../../services/CommonFunctions";
 
 function getMessage(type) {
   switch (type) {
     case "returnToRework":
       return `Вы действительно хотите вернуть документ на доработку?`;
     case "reject":
-      return `Вы действительно хотите отклонить документ?`;
+      return `Вы действительно хотите отклонить документ? Весь прогресс будет остановлен и процесс согласования будет необходимо начать заново.`;
     default:
       return `Сообщение для типа ${type} не найдено`;
   }
@@ -32,6 +34,9 @@ export default function ReturnRejectDocumentModal({ documentId }) {
   ] = useUpdateDocumentMutation();
   // const dispatchTable = useTableModalDispatch();
   const [form] = Form.useForm();
+  const remarkCreator = userNameMask(
+    useSelector((userState) => userState.session.current_user)
+  );
   const onFinish = () => {
     form
       .validateFields()
@@ -39,7 +44,7 @@ export default function ReturnRejectDocumentModal({ documentId }) {
         const valuesToSend = {
           document_id: documentId,
           newDocumentStatusId: state.documentStatusId,
-          newRemark: values.remark,
+          newRemark: `${remarkCreator}: ${values.remark}`,
         };
 
         await updateFunc(valuesToSend).unwrap();

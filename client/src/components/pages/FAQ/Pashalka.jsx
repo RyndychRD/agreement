@@ -18,7 +18,7 @@ export default function Pashalka() {
         if (prevKeyCodeSequence.length > 9) {
           prevKeyCodeSequence.shift();
         }
-        return [...prevKeyCodeSequence, event.code.toLowerCase()];
+        return [...prevKeyCodeSequence, event.code?.toLowerCase()];
       });
     }
     window.addEventListener("keydown", handleKeyDown);

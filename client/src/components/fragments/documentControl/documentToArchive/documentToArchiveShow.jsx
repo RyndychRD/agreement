@@ -7,7 +7,6 @@ import DocumentSetArchiveModal from "./buttons/documentSetArchiveModal";
 export default function DocumentToArchiveShow(props) {
   const { document, closeMainModal } = props;
   const [isModalOpen, setIsModalOpen] = useState(false);
-  console.log(document);
   return (
     <>
       {/* <SimpleTextOutput

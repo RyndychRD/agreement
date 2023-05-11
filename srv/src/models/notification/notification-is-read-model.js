@@ -25,19 +25,22 @@ class DocumentNotificationIsReadSchema {
     return await query;
   }
 
-  async readeNotifications({ filter }) {
+  async readNotifications(filter) {
     let query = this.knexProvider("notification_is_read")
       .update({ is_read: true })
-      .where(filter);
+      .where(filter)
+      .returning(["reader_id", "notification_type", "element_id"]);
     return await query;
   }
 
   /**
-   * @param {Array} files
+   * @param {Array} notifications
    * @returns
    */
-  async create(files) {
-    return await this.knexProvider("notification_is_read").insert(files);
+  async create(notifications) {
+    return await this.knexProvider("notification_is_read").insert(
+      notifications
+    );
   }
 }
 

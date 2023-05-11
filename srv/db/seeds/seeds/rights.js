@@ -19,9 +19,10 @@ exports.rightsSeed = async function (knex) {
     { id: 10, name: "Просмотр Подписание->Подписанные мною", code_name: "MySignedDocuments",},
     { id: 11, name: "Просмотр Подписание->Документы, подписанные в ООПЗ", code_name: "SignedInOOPZDocuments",},
     { id: 12, name: "Просмотр Задачи->Входящие",  code_name: "IncomeTasks" },
-    { id: 15, name: "Просмотр Задачи->Выполненные",  code_name: "CompletedTasks" },
     { id: 13, name: "Может подписывать документы", code_name: "CanSignDocuments",},
-    { id: 14, name: "Может смотреть документы в архиве", code_name: "DocumentArchive",}
+    { id: 14, name: "Может смотреть документы в архиве", code_name: "DocumentArchive",},
+    { id: 15, name: "Просмотр Задачи->Выполненные",  code_name: "CompletedTasks" },
+    { id: 16, name: "Просмотр Мои документы->Действующие", code_name: "ProcessingDocuments",}
   ]
 
   const table = "rights";

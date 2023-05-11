@@ -17,7 +17,6 @@ export default function DocumentReworkButtons() {
     const valuesToSend = {
       document_id: state.currentRow.document_id,
       newDocumentStatusId: 5,
-      newRemark: "",
     };
     await updateFunc(valuesToSend).unwrap();
     if (!isErrorUpdate) {
