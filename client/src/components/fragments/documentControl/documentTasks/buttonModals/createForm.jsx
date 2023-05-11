@@ -14,19 +14,22 @@ import { TextOutputWithLabel } from "../../../outputs/textOutputs";
 import { UploadListItem } from "../../../file/fileOutputs";
 
 function prepareDocumentValuesForCheckbox(documentValues) {
-  return documentValues.map((documentValue) => {
-    const parsedDocumentValue =
-      DocumentValuesService.getValueAndLabelFromDocumentValue(documentValue);
-    return {
-      value: documentValue.id,
-      label: (
-        <TextOutputWithLabel
-          label={parsedDocumentValue.label}
-          text={parsedDocumentValue.value}
-        />
-      ),
-    };
-  });
+  return documentValues
+    .map((documentValue) => {
+      const parsedDocumentValue =
+        DocumentValuesService.getValueAndLabelFromDocumentValue(documentValue);
+      if (!parsedDocumentValue) return undefined;
+      return {
+        value: documentValue.id,
+        label: (
+          <TextOutputWithLabel
+            label={parsedDocumentValue.label}
+            text={parsedDocumentValue.value}
+          />
+        ),
+      };
+    })
+    .filter((el) => el !== undefined);
 }
 function prepareDocumentFilesForCheckbox(documentFiles) {
   return documentFiles.map((documentFile) => ({

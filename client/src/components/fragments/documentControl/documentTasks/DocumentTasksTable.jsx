@@ -37,10 +37,13 @@ export default function DocumentTasksTable(props) {
 
   const buttons = ["create", "update", "delete"];
   // Кнопка Запросить 2 раздел листа согласования доступна только для Директора департамента экономики и планирования
-  // И только для типа документа Закуп ТРУ
+  // И только для типа документа Закуп ТРУ. И еще себя туда прописал, чтоб удобнее было
   const isShowSpecialTask =
-    useSelector((state) => state.session.current_user.position_id === 14) &&
-    documentTypeId === 27;
+    useSelector(
+      (state) =>
+        state.session.current_user.position_id === 14 ||
+        state.session.current_user.id === 1
+    ) && documentTypeId === 27;
   if (isShowSpecialTask) {
     buttons.unshift("createSpecialTask");
   }

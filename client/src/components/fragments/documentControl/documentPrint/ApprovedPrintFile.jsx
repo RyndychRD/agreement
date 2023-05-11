@@ -14,20 +14,23 @@ import { useGetDocumentTasksByDocumentQueryHook } from "../../../../core/redux/a
 function getDocumentHeader(document, documentValues) {
   const documentValuesDivs =
     documentValues.length > 0
-      ? documentValues.map((documentValue) => {
-          const preparedDocValue =
-            DocumentValuesService.getValueAndLabelFromDocumentValue(
-              documentValue
+      ? documentValues
+          .map((documentValue) => {
+            const preparedDocValue =
+              DocumentValuesService.getValueAndLabelFromDocumentValue(
+                documentValue
+              );
+            if (!preparedDocValue) return undefined;
+            return (
+              <div key={documentValue.id} style={{ marginBottom: "10px" }}>
+                <span>
+                  <b>{`${preparedDocValue.label}`}</b>:
+                  {`${preparedDocValue.value}`}
+                </span>
+              </div>
             );
-          return (
-            <div key={documentValue.id} style={{ marginBottom: "10px" }}>
-              <span>
-                <b>{`${preparedDocValue.label}`}</b>:
-                {`${preparedDocValue.value}`}
-              </span>
-            </div>
-          );
-        })
+          })
+          .filter((el) => el !== undefined)
       : [];
 
   return (
@@ -46,13 +49,16 @@ function getDocumentHeader(document, documentValues) {
 function getQrCode(document, documentValues) {
   const documentValuesString =
     documentValues.length > 0
-      ? documentValues.map((documentValue) => {
-          const preparedDocValue =
-            DocumentValuesService.getValueAndLabelFromDocumentValue(
-              documentValue
-            );
-          return `${preparedDocValue.label} : ${preparedDocValue.value}`;
-        })
+      ? documentValues
+          .map((documentValue) => {
+            const preparedDocValue =
+              DocumentValuesService.getValueAndLabelFromDocumentValue(
+                documentValue
+              );
+            if (!preparedDocValue) return undefined;
+            return `${preparedDocValue.label} : ${preparedDocValue.value}`;
+          })
+          .filter((el) => el !== undefined)
       : [];
   const htmlValueArray = [
     `Наименование договора: ${document.name}`,
@@ -143,7 +149,7 @@ export default function ApprovedPrintFile(props) {
     // Отдельно выделяем Михееву для Закупа ТРУ
     if (
       route?.actual_signer?.position_id === 14 &&
-      document.document_type_id === 10
+      (document.document_type_id === 10 || document.document_type_id === 27)
     ) {
       deipDirectorSignature = route;
       return "";
@@ -216,7 +222,9 @@ export default function ApprovedPrintFile(props) {
             </div>
           </div>
         </div>
-        {deipDirectorSignature && document.document_type_id === 10 ? (
+        {deipDirectorSignature &&
+        (document.document_type_id === 10 ||
+          document.document_type_id === 27) ? (
           <>
             <div style={{ pageBreakAfter: "always" }} />
             <div
