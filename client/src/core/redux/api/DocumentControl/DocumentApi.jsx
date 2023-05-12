@@ -28,6 +28,7 @@ export const documentsApi = createApi({
         isShowDeletedDocs = false,
         isOnlyForSigningDocuments = false,
         isOnlyMySignedDocuments = false,
+        isFindContractorInValues = false,
         addDocumentTasksByType = -1,
       }) => {
         try {
@@ -38,6 +39,8 @@ export const documentsApi = createApi({
             isOnlyForSigningDocuments,
             isOnlyMySignedDocuments,
             isShowDeletedDocs,
+            // Ищем поставщика(Suppliers_of_Goods_Works_Services) в document_values и возвращаем первого попавщегося. По идее, это поле должно быть только одно
+            isFindContractorInValues,
             // Если передан тип - то только его. Если не передано или передано -1 - ничего. Если передан all - все
             addDocumentTasksByType,
           });

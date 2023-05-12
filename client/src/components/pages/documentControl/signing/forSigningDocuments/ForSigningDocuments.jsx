@@ -18,6 +18,8 @@ export default function ForSigningDocuments() {
       "document_created_at",
       "document_updated_at",
       "document_assigned_document_tasks_complete_rate",
+      "document_creator",
+      "document_contractor",
     ],
   };
   /**
@@ -31,6 +33,7 @@ export default function ForSigningDocuments() {
     isAddForeignTables: true,
     isOnlyForSigningDocuments: true,
     status: 5,
+    isFindContractorInValues: true,
   });
 
   if (!isAccessGranted("ForSigningDocuments")) return <Error403 />;
