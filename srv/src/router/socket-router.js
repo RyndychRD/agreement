@@ -20,6 +20,7 @@ router.ws("/documents", socketAuthFunction, (ws, req) => {
   }
   DocumentsSocketRouter(ws, req.user);
 });
+
 router.ws("/main", socketAuthFunction, (ws, req) => {
   // На рассылку подписываем только авторизованных
   if (req.user?.id) {
@@ -31,7 +32,6 @@ router.ws("/main", socketAuthFunction, (ws, req) => {
     };
     wsConnections.main.push(newConnection);
   }
-  DocumentsSocketRouter(ws, req.user);
 });
 
 module.exports = { router, wsConnections };

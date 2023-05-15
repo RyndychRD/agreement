@@ -4,10 +4,11 @@ import Sider from "./sider/DocArchiveSider";
 import "../../../css/index.css";
 import { Error404 } from "../../fragments/messages/Error";
 import DocumentArchive from "./documentArchive/DocumentArchive";
+import MainSocket from "../../../core/socket/mainSocket/MainSocket";
 
 export default function Archive() {
   const { Content } = Layout;
-
+  MainSocket();
   return (
     <Layout>
       <Sider />

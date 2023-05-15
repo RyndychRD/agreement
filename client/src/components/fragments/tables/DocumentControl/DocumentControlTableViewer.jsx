@@ -170,6 +170,7 @@ export default function DocumentControlTableViewer({
   return (
     <Table
       scroll={{ x: "1000" }}
+      // Работает при изменении и нужна для Excel. То есть когда мы делаем фильтр или пагинацию, то вывод данных для excel обновляется, если кнопка вывода в Excel доступна
       onChange={(pagination, filters, sorter, extra) => {
         if (buttons.find((button) => button === "excel")) {
           setCurrentDataSourceForExcel(extra.currentDataSource);

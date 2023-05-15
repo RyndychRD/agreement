@@ -9,6 +9,7 @@ import Tasks from "./tasks/Tasks";
 import AdminDocs from "./adminDocs/AdminDocs";
 import { isAccessGranted } from "../../../services/userAccessService";
 import DocumentSocket from "../../../core/socket/documentSocket/DocumentSocket";
+import MainSocket from "../../../core/socket/mainSocket/MainSocket";
 
 export default function DocumentControl() {
   const { Content } = Layout;
@@ -16,6 +17,7 @@ export default function DocumentControl() {
     return <Error403 />;
   }
   DocumentSocket();
+  MainSocket();
   return (
     <Layout>
       <Sider />

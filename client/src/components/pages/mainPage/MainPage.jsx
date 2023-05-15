@@ -10,10 +10,9 @@ import {
 
 import "./style.css";
 import { Error403 } from "../../fragments/messages/Error";
-import MainSocket from "../../../core/socket/mainSocket/MainSocker";
+import MainSocket from "../../../core/socket/mainSocket/MainSocket";
 
 function DocumentControlP() {
-  MainSocket();
   return (
     <>
       {isAccessGranted("ContractAgreement") ? (
@@ -58,6 +57,7 @@ function MainPage() {
   const { Content } = Layout;
   if (!isAnyAccessGranted(["ContractAgreement", "DocumentArchive"]))
     return <Error403 />;
+  MainSocket();
   return (
     <Content className="content">
       <Row gutter={16} className="main-button-row">

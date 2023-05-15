@@ -3,10 +3,8 @@ const wsConnections = { documents: [], main: [] };
 class SocketService {
   static async broadcast(msg) {
     let msgStr = JSON.stringify(msg);
-    Object.keys(wsConnections).forEach((type) => {
-      wsConnections[type].forEach((userWs) => {
-        userWs.ws.send(msgStr);
-      });
+    wsConnections.main?.forEach((userWs) => {
+      userWs.ws.send(msgStr);
     });
   }
 

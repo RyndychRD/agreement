@@ -7,6 +7,7 @@ import { Error404, Error403 } from "../../fragments/messages/Error";
 import Constructors from "./constructors/Constructors";
 import Log from "./logs/Log";
 import AdminActions from "./adminActions/AdminActions";
+import MainSocket from "../../../core/socket/mainSocket/MainSocket";
 
 /**
  * Главный компонент, который хранит все элементы админки
@@ -16,6 +17,7 @@ export default function AdminSettings() {
   if (!isAccessGranted("Admin")) {
     return <Error403 />;
   }
+  MainSocket();
   return (
     <Layout>
       <AdminSider />

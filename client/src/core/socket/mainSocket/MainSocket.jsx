@@ -12,7 +12,6 @@ export default function MainSocket() {
     },
     onMessage: (msg) => {
       const msgJson = JSON.parse(msg.data);
-      // console.log("По сокету принята посылка: ", msgJson);
       switch (msgJson.type) {
         case "notifySiteClose":
           openNotification("Через 15 минут сайт закроется на полчаса");
