@@ -16,6 +16,8 @@ export default function SignedInOOPZDocuments() {
       "document_status",
       "document_created_at",
       "document_updated_at",
+      "document_creator",
+      "document_contractor",
     ],
   };
   /**
@@ -29,6 +31,7 @@ export default function SignedInOOPZDocuments() {
     isAddForeignTables: true,
     isShowAllDocs: true,
     status: "9",
+    isFindContractorInValues: true,
   });
 
   if (!isAccessGranted("OnRegistrationDocuments")) return <Error403 />;

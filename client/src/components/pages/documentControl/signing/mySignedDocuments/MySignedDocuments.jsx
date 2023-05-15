@@ -17,6 +17,8 @@ export default function MySingedDocuments() {
       "document_stage",
       "document_created_at",
       "document_updated_at",
+      "document_creator",
+      "document_contractor",
     ],
   };
   /**
@@ -29,6 +31,7 @@ export default function MySingedDocuments() {
   } = useGetDocumentsQueryHook({
     isAddForeignTables: true,
     isOnlyMySignedDocuments: true,
+    isFindContractorInValues: true,
   });
 
   if (!isAccessGranted("MySignedDocuments")) return <Error403 />;

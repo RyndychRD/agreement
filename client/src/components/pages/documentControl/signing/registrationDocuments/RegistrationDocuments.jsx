@@ -17,6 +17,8 @@ export default function RegistrationDocument() {
       "document_created_at",
       "document_updated_at",
       "document_tasks_type_3_status",
+      "document_creator",
+      "document_contractor",
     ],
   };
   /**
@@ -31,6 +33,7 @@ export default function RegistrationDocument() {
     isShowAllDocs: true,
     status: "8",
     addDocumentTasksByType: 3,
+    isFindContractorInValues: true,
   });
 
   if (!isAccessGranted("OnRegistrationDocuments")) return <Error403 />;
