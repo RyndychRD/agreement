@@ -20,5 +20,18 @@ router.ws("/documents", socketAuthFunction, (ws, req) => {
   }
   DocumentsSocketRouter(ws, req.user);
 });
+router.ws("/main", socketAuthFunction, (ws, req) => {
+  // На рассылку подписываем только авторизованных
+  if (req.user?.id) {
+    const newConnection = {
+      ws,
+      wskey: req.headers["sec-websocket-key"],
+      ip: req.ip,
+      userId: req.user.id,
+    };
+    wsConnections.main.push(newConnection);
+  }
+  DocumentsSocketRouter(ws, req.user);
+});
 
 module.exports = { router, wsConnections };

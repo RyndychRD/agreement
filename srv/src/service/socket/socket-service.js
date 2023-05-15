@@ -1,4 +1,4 @@
-const wsConnections = { documents: [] };
+const wsConnections = { documents: [], main: [] };
 
 class SocketService {
   static async broadcast(msg) {

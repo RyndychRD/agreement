@@ -10,8 +10,10 @@ import {
 
 import "./style.css";
 import { Error403 } from "../../fragments/messages/Error";
+import MainSocket from "../../../core/socket/mainSocket/MainSocker";
 
 function DocumentControlP() {
+  MainSocket();
   return (
     <>
       {isAccessGranted("ContractAgreement") ? (
