@@ -3,3 +3,4 @@ node_modules
 src/service/document/uploads
 logs
 SSL
+docs
