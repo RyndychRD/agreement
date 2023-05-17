@@ -8,6 +8,8 @@ import {
 
 /**
  * Возвращает React форму с стандартным сообщением при удалении
+ * @param {*} deleteText
+ * @returns
  */
 function defaultDeleteMessage(deleteText) {
   return (
@@ -21,10 +23,12 @@ function defaultDeleteMessage(deleteText) {
 
 /**
  * Возвращает сообщение, отображаемое при удалении
- * @param {*} param0
+ * @param {*} props.customDeleteForm
+ * @param {*} props.deleteText
  * @returns
  */
-function getDeleteMessage({ customDeleteForm, deleteText }) {
+function getDeleteMessage(props) {
+  const { customDeleteForm, deleteText } = props;
   let deleteMessage = "Текст удаления не передан";
   if (customDeleteForm) {
     deleteMessage = customDeleteForm;
@@ -36,19 +40,23 @@ function getDeleteMessage({ customDeleteForm, deleteText }) {
 
 /**
  * Отвечает за отображение подтверждения при удалении элемента
- * @param {*} object.deleteMutation Мутация из /core/redux/api, которая удалит элемент
- * @param {*} object.deleteText Текст для дефолтного сообщения при удалении
- * @param {*} object.children Кастомная форма для отображения при удалении. Если не передана, заполняем стандартную форму текстом deleteText
+ * @param {*} props.deleteMutation Мутация из /core/redux/api, которая удалит элемент
+ * @param {*} props.deleteText Текст для дефолтного сообщения при удалении
+ * @param {*} props.children Кастомная форма для отображения при удалении. Если не передана, заполняем стандартную форму текстом deleteText
+ * @param {*} props.customState Можно передать кастомный стайт для использовании внутри другого провайдера
+ * @param {*} props.customDispatch Можно передать кастомный диспатчер для использовании внутри другого провайдера
+ * @param {*} props.isAbleToDelete Можно ли произвести удаление элемента? Если нет, высветится стандартное сообщение об ошибке
  * @returns
  */
-export default function ModalDelete({
-  deleteMutation,
-  deleteText,
-  children,
-  customState,
-  customDispatch,
-  isAbleToDelete = true,
-}) {
+export default function ModalDelete(props) {
+  const {
+    deleteMutation,
+    deleteText,
+    children,
+    customState,
+    customDispatch,
+    isAbleToDelete = true,
+  } = props;
   const standardState = useTableModalsState();
   const standardDispatch = useTableModalDispatch();
   const state = customState ? customState() : standardState;

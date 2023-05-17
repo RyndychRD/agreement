@@ -2,7 +2,12 @@ import { Alert } from "antd";
 import { TextOutputWithLabel } from "../../outputs/textOutputs";
 import DocumentValuesService from "../../../../services/DocumentControlServices/DocumentsServices/DocumentValuesService";
 
-// Сюда передается информация только для отображения. Сбор самой информации по документу производится выше
+/**
+ * Отображает values у документа с помощью обычного текста
+ * @param {*} props.data сами данные для отображения
+ * @param {*} props.isPrepareData требуется ли предобработка и разыменование идшников перед отображением
+ * @returns
+ */
 export default function DocumentInformationShow(props) {
   const { data, isPrepareData = true } = props;
   if (!data || data.length === 0)

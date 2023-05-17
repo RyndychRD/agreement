@@ -2,13 +2,23 @@ import { DatePicker, Form } from "antd";
 import locale from "antd/es/date-picker/locale/ru_RU";
 
 const { RangePicker } = DatePicker;
-export default function DateInputFormItem({
-  title = "Поле ввода",
-  name = "formItemName",
-  rules = {},
-  disabled = false,
-  form,
-}) {
+/**
+ * Стандартная форма для выбора даты
+ * @param {*} props.title названия для отображения пользователю
+ * @param {*} props.name имя для form
+ * @param {*} props.rules
+ * @param {*} props.disabled
+ * @param {*} props.form
+ * @returns
+ */
+export default function DateInputFormItem(props) {
+  const {
+    title = "Поле ввода",
+    name = "formItemName",
+    rules = {},
+    disabled = false,
+    form,
+  } = props;
   const setValueInDatePickerOnForm = (value) => {
     form.setFieldValue(name, value);
   };
@@ -31,6 +41,17 @@ export default function DateInputFormItem({
     </Form.Item>
   );
 }
+
+/**
+ * Стандартная форма для выбора промежутка даты
+ * @param {*} props.title названия для отображения пользователю
+ * @param {*} props.name имя для form
+ * @param {*} props.rules
+ * @param {*} props.disabled
+ * @param {*} props.labelCol Сколько места занимает элемент в гриде
+ * @param {*} props.form
+ * @returns
+ */
 export function DateRangeInputFormItem({
   title = "Поле ввода",
   name = "formItemName",

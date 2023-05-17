@@ -44,7 +44,14 @@ function prepareDocumentFilesForCheckbox(documentFiles) {
   }));
 }
 
-export default function CreateForm({ form, documentId }) {
+/**
+ * Форма для заполнения при создании поручнеия
+ * @param {*} props.form
+ * @param {*} props.documentId
+ * @returns
+ */
+export default function CreateForm(props) {
+  const { form, documentId } = props;
   const {
     data: users = [],
     isError: isErrorUsers,

@@ -8,6 +8,14 @@ import { handlePreview, handleDownload, handlePushToDocument } from "./File";
 import "./fileStyle.css";
 import { renderDate, sorterStringAlphabet } from "../tables/CommonFunctions";
 
+/**
+ * Функция отображения одного файла в общем списке
+ * @param {*} props.file
+ * @param {*} props.isTempFile находится ли во временном хранилище на сервере
+ * @param {*} props.isAddPushToDocumentButton добавить возможность запушить файл в документ? Используется в поручениях
+ * @param {*} props.documentId
+ * @returns
+ */
 export function UploadListItem(props) {
   const {
     file,

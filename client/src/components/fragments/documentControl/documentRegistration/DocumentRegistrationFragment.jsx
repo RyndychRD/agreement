@@ -7,6 +7,12 @@ import DocumentRegistrationSet from "./DocumentRegistrationSet";
 import DocumentRegistrationShow from "./DocumentRegistrationShow";
 import { DocumentTasksInnerTableProvider } from "../../tables/DocumentTasksInnerTableProvider";
 
+/**
+ * Фрагмент для отображения информации по регистрации документа и перевода в статус Документ в ООПЗ и Действующий
+ * @param {*} props.documentId id документа для перевода в новый статус
+ * @param {*} props.closeModalFunc функция закрытия родительского окна документа
+ * @returns
+ */
 export default function DocumentRegistrationFragment(props) {
   const { documentId, closeModalFunc } = props;
   const { data: document = {}, isLoading: isLoadingDocument } =
@@ -38,7 +44,7 @@ export default function DocumentRegistrationFragment(props) {
         </DocumentTasksInnerTableProvider>
       );
       break;
-    /* Если документ находится в статусе Документы, подписанные в ООПЗ - показать заполненые данные по регистрации документа и дать перевести в Исполненные */
+    /* Если документ находится в статусе Документы, подписанные в ООПЗ - показать заполненые данные по регистрации документа и дать перевести в Действующие */
     case 9:
       content = (
         <DocumentRegistrationShow

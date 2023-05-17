@@ -1,6 +1,12 @@
 import { Form, Input } from "antd";
 
-export default function InputElementForm({ restField, name }) {
+/**
+ * Содержимое карточки добавления элемента в конструктор
+ * @param {*} props.restField Дополнительные флаги для Form.Item
+ * @param {*} props.name Название в Form
+ */
+export default function InputElementForm(props) {
+  const { restField, name } = props;
   return (
     <Form.Item
       {...restField}

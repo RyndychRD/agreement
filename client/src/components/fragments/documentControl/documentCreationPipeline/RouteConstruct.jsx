@@ -18,13 +18,14 @@ import SimpleSpinner from "../../messages/Spinner";
 import { useGetPositionsQueryHook } from "../../../../core/redux/api/Globals/Catalogs/PositionsApi";
 
 /**
- * @return Модальное окно для создания нового документа
+ * Модальное окно, в котором заполняется маршрут согласования при создании документа
+ * @param {*} props.onCancel Функция закрытия модального окна
+ * @param {*} props.pipelineDispatch Диспатчер pipeline. Выведен для возможного использования нескольких пайплайнов
+ * @param {*} props.documentMainValues Предполагается, что перед вызовом этой формы всегда заполняется главная страница. Для отображения главной информации в шапки каждого документа при создании сразу передаем эти значения
+ * @returns
  */
-export default function DocumentCreationPipelineRouteConstruct({
-  onCancel,
-  pipelineDispatch,
-  documentMainValues,
-}) {
+export default function DocumentCreationPipelineRouteConstruct(props) {
+  const { onCancel, pipelineDispatch, documentMainValues } = props;
   const currentModalJson = useSelector(getCurrentStepJson);
 
   const [form] = Form.useForm();
@@ -36,9 +37,6 @@ export default function DocumentCreationPipelineRouteConstruct({
 
   // Мы подгружаем здесь пользователей, так как их нужно использовать при заполнении результирующего массива. Такой же код используется потом в RouteFromList
   // В RouteFromList он используется чтобы сделать компонент более универсальным. Плюс по идее при 2 таких выполнениях он должен брать результат из кэша
-  // По факту работает и хорошо, позже можно подумать как сделать иначе. Просто я не могу по условию тянуть инфу через эти хуки(((
-  // Возможно, можно перейти к использованию просто функций из сервисов? С другой стороны, так я всю нужную инфу вытягиваю сразу и плюс переиспользую через кэш дальше
-  // Более того, кэш действительно работает 0_0
   // prettier-ignore
   const {data: users = [],isError: isErrorUsers,isLoading: isLoadingUsers} = useGetUsersQueryHook({ isAddForeignTables:true });
 

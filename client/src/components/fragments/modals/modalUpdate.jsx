@@ -20,33 +20,44 @@ import ModalConfirm from "./ModalConfirm";
  * Общее окно для отображения модального окна изменения чего либо.
  * По переданной выбранной строке из таблицы запрашивает в БД данные по объекту, отображает форму с заполненными данными
  * При сабмите вызывает функцию для изменения данных в БД
- * @param {*} object.getQuery Запрос, который служит для вытаскивания данных из БД при открытии. Обычно дергается из /core/redux/api
- * @param {*} object.updateMutation Запрос, который служит для обновления данных в БД при сабмите. Обычно дергается из /core/redux/api
- * @param {*} object.form Ссылка на форму. Так как форма для каждого модального окна своя, объявляется выше по стеку
- * @param {*} object.CreateUpdateForm Скелет окна без данных. Представляет форму с элементами
- * @param {*} object.formDefaultValues Функция заполнения формы form значениями после выполнения запроса
- * @param {*} object.preFinishFunc Кастомная функция предобработки значения формы при сабмите
+ * @param {*} props.getQuery Запрос, который служит для вытаскивания данных из БД при открытии. Обычно дергается из /core/redux/api
+ * @param {*} props.updateMutation Запрос, который служит для обновления данных в БД при сабмите. Обычно дергается из /core/redux/api
+ * @param {*} props.form Ссылка на форму. Так как форма для каждого модального окна своя, объявляется выше по стеку
+ * @param {*} props.CreateUpdateForm Скелет окна без данных. Представляет форму с элементами
+ * @param {*} props.formDefaultValues Функция заполнения формы form значениями после выполнения запроса
+ * @param {*} props.preFinishFunc Кастомная функция предобработки значения формы при сабмите
+ * @param {*} props.afterFinishFunc Кастомная функция, которая выполняется после сабмита
+ * @param {*} props.isAddForeignTables Отдельно выделенный флаг из additionalGetQueryProps. Поленился совмещать при рефакторинге
+ * @param {*} props.additionalGetQueryProps Дополнительные флаги для скелета CreateUpdateForm
+ * @param {*} props.notificationType Какой тип нотификации закрыть при открытии этого документа
+ * @param {*} props.isAddConfirmOnCancel Добавить ли подтверждение при попытке закрыть документ
+ * @param {*} props.isAddConfirmOnOk Добавить ли подтверждение при попытке сохранить данные
+ * @param {*} props.customState Кастомная функция предобработки значения формы при сабмите
+ * @param {*} props.customDispatch Кастомная функция предобработки значения формы при сабмите
+ * @param {*} props.footer Кастомная функция предобработки значения формы при сабмите
+ * @param {*} props.confirmOnOkContent Кастомная функция предобработки значения формы при сабмите
  * @returns
  */
-export default function ModalUpdate({
-  getQuery,
-  updateMutation,
-  form,
-  CreateUpdateForm,
-  formDefaultValues = () => {},
-  preFinishFunc = null,
-  afterFinishFunc = () => {},
-  isAddForeignTables = false,
-  additionalGetQueryProps = {},
-  notificationType,
-  isAddConfirmOnCancel = true,
-  isAddConfirmOnOk = true,
-  customState,
-  footer = undefined,
-  customDispatch,
-  okButtonText = "Сохранить",
-  confirmOnOkContent = "Вы точно хотите продолжить?",
-}) {
+export default function ModalUpdate(props) {
+  const {
+    getQuery,
+    updateMutation,
+    form,
+    CreateUpdateForm,
+    formDefaultValues = () => {},
+    preFinishFunc = null,
+    afterFinishFunc = () => {},
+    isAddForeignTables = false,
+    additionalGetQueryProps = {},
+    notificationType,
+    isAddConfirmOnCancel = true,
+    isAddConfirmOnOk = true,
+    customState,
+    footer = undefined,
+    customDispatch,
+    okButtonText = "Сохранить",
+    confirmOnOkContent = "Вы точно хотите продолжить?",
+  } = props;
   const standardState = useTableModalsState();
   const standardDispatch = useTableModalDispatch();
   const state = customState ? customState() : standardState;

@@ -5,6 +5,12 @@ import { useGetUsersQueryHook } from "../../../../../core/redux/api/Globals/Cata
 import SimpleSpinner from "../../../messages/Spinner";
 import SimpleError from "../../../messages/Error";
 
+/**
+ * Вывод данных для неподписанной карточки
+ * @param {*} step
+ * @param {*} users
+ * @returns
+ */
 function getNotSignedCard(step, users) {
   const items = [];
   items.push({
@@ -32,6 +38,11 @@ function getNotSignedCard(step, users) {
   return <Steps size="small" progressDot direction="vertical" items={items} />;
 }
 
+/**
+ * Отображения типа подписи(Согласован/Не согласован/ Согласован с замечанием)
+ * @param {*} documentSignatureType
+ * @returns
+ */
 function getSignTypeMessage(documentSignatureType) {
   let type = "";
   const message = documentSignatureType?.name
@@ -60,6 +71,12 @@ function getSignTypeMessage(documentSignatureType) {
   );
 }
 
+/**
+ * Титульник для шага подписания с номером шага и статусом шага(Не подписан/Согласован...)
+ * @param {*} stepNumber
+ * @param {*} documentSignatureType
+ * @returns
+ */
 function getTitle(stepNumber, documentSignatureType) {
   return (
     <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -69,6 +86,11 @@ function getTitle(stepNumber, documentSignatureType) {
   );
 }
 
+/**
+ * Возвращает инфомацию по подписанной карточке
+ * @param {*} step
+ * @returns
+ */
 function getSignedCard(step) {
   return (
     <div>
@@ -87,6 +109,13 @@ function getSignedCard(step) {
   );
 }
 
+/**
+ * Возвращает css класс согласно типу карточки
+ * @param {*} actualSignerId
+ * @param {*} showSignedSteps Включено ли отображение подписанных шагов
+ * @param {*} showUnsignedSteps Включено ли отображение неподписанных шагов
+ * @returns
+ */
 function getClassBySign(actualSignerId, showSignedSteps, showUnsignedSteps) {
   let result = "";
   if (actualSignerId) {
@@ -103,13 +132,23 @@ function getClassBySign(actualSignerId, showSignedSteps, showUnsignedSteps) {
   return result;
 }
 
-export default function RouteStepShow({
-  routeStep,
-  showSignedSteps,
-  showUnsignedSteps,
-  title,
-  cardDataPassed = null,
-}) {
+/**
+ * Возвращает карточку подписания для одного шага
+ * @param {*} props.routeStep сам шаг подписания
+ * @param {*} props.showSignedSteps показывать ли подписанные шаги
+ * @param {*} props.showUnsignedSteps показывать ли не подписанные шаги
+ * @param {*} props.title можно передать кастомный хедер для карточки. Иначе будет отображен стандартный
+ * @param {*} props.cardDataPassed можно передать кастомную информацию для отображения внутри карточки или будет отображен стандартный
+ * @returns
+ */
+export default function RouteStepShow(props) {
+  const {
+    routeStep,
+    showSignedSteps,
+    showUnsignedSteps,
+    title,
+    cardDataPassed = null,
+  } = props;
   const {
     step: stepNumber,
     actual_signer_id: actualSignerId,

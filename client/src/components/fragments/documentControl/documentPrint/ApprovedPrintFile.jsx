@@ -11,6 +11,12 @@ import { userNameMask } from "../../../../services/CommonFunctions";
 import { getCurrentDate, renderDate } from "../../tables/CommonFunctions";
 import { useGetDocumentTasksByDocumentQueryHook } from "../../../../core/redux/api/DocumentControl/DocumentTaskApi";
 
+/**
+ * Заполнение шапки договора
+ * @param {*} document загруженный объект документа
+ * @param {*} documentValues values документа для заполнения шапки
+ * @returns
+ */
 function getDocumentHeader(document, documentValues) {
   const documentValuesDivs =
     documentValues.length > 0
@@ -46,6 +52,13 @@ function getDocumentHeader(document, documentValues) {
   );
 }
 
+/**
+ * Создаем QR код с данными документа
+ * Функционал сбора информации по сути дублирует getDocumentHeader. Но так было не всегда, поэтому нет объединения функционала
+ * @param {*} document загруженный объект документа
+ * @param {*} documentValues values документа для заполнения qr кода
+ * @returns
+ */
 function getQrCode(document, documentValues) {
   const documentValuesString =
     documentValues.length > 0
@@ -82,6 +95,14 @@ function getQrCode(document, documentValues) {
   );
 }
 
+/**
+ * Собирает информацию по документу для создания листа согласования и собирает сам лист согласования
+ * @param {*} props.documentId id документа для создания листа согласования
+ * @param {*} props.isStart Начать выгрузку информации?
+ * @param {*} props.setIsComponentLoaded функция для установки state в состояние готовности для выгрузки листа согласования
+ * @param {*} props.isComponentLoaded Если компонент полностью не загружен, но кнопка как то была нажата, то отображает пустой лист
+ * @returns
+ */
 export default function ApprovedPrintFile(props) {
   const { documentId, isStart, setIsComponentLoaded, isComponentLoaded } =
     props;
@@ -222,6 +243,7 @@ export default function ApprovedPrintFile(props) {
             </div>
           </div>
         </div>
+        {/* Если у нас есть Михеева в маршруте согласования, то создаем еще второй лист */}
         {deipDirectorSignature &&
         (document.document_type_id === 10 ||
           document.document_type_id === 27) ? (

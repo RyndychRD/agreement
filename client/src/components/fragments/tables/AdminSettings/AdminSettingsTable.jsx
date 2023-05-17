@@ -14,18 +14,21 @@ import getColumns from "./getColumns";
 /**
  * Конструктор таблиц для админки.
  * Для корректной работы предварительно необходимо обернуть в провайдер. Он находится в этой же папке
- * @param {Object} columns - список колонок для отображения
- * @param {string} title - Название таблицы, которое должно отображаться в заголовке
- * @param {Array<Object>} dataSource - Массив объектов для отображения в таблице. Один объект - одна строка
+ * @param {Object} props.columns - список колонок для отображения
+ * @param {string} props.title - Название таблицы, которое должно отображаться в заголовке
+ * @param {Array<Object>} props.dataSource - Массив объектов для отображения в таблице. Один объект - одна строка
+ * @param {Array<Object>} props.isLoading
+ * @param {Array<Object>} props.buttons - список кнопок для отображения в таблице
  * */
-export default function AdminSettingsTable({
-  columns = {},
-  title = null,
-  dataSource = null,
-  isLoading = false,
-  isError = false,
-  buttons = ["create", "update", "delete"],
-}) {
+export default function AdminSettingsTable(props) {
+  const {
+    columns = {},
+    title = null,
+    dataSource = null,
+    isLoading = false,
+    isError = false,
+    buttons = ["create", "update", "delete"],
+  } = props;
   const state = useTableModalsState();
   const dispatch = useTableModalDispatch();
 
@@ -47,7 +50,7 @@ export default function AdminSettingsTable({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query, dataSource]);
   /**
-   * Дефолтная логика для кнопок.
+   * Логика для кнопок.
    */
   const buttonActions = {
     create: () => {

@@ -4,6 +4,12 @@ import { useRef, useEffect } from "react";
 
 import "video-react/dist/video-react.css";
 
+/**
+ * Модальная форма для воспроизведения видео. Видео для возпроизведения передается через provide в current
+ * @param {*} props.videoPlayer открыто ли модальное окно
+ * @param {*} props.setVideoPlayer открыть модальное окно
+ * @returns
+ */
 export default function ModalVideoPlayer(props) {
   const { videoPlayer, setVideoPlayer } = props;
   const player = useRef(null);

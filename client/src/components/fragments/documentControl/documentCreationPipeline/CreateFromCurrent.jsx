@@ -15,6 +15,11 @@ import {
   useGetDocumentValuesQueryHook,
 } from "../../../../core/redux/api/DocumentControl/DocumentApi";
 
+/**
+ * Форма, которая заполняет данными pipeline создания документа на основе существующего
+ * Работает относительно выбранного currentRow из провайдера
+ * @returns
+ */
 export default function CreateFromCurrent() {
   const dispatch = useTableModalDispatch();
   const state = useTableModalsState();

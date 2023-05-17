@@ -3,9 +3,9 @@ import { useRouteStepFragmentDispatch } from "../../RouteStepFragmentProvider";
 import { isAccessGranted } from "../../../../../../services/userAccessService";
 
 /**
- *
- * @param isShowReturnBackOneStepButton - Показать кнопку Вернуть на шаг назад
- * @param isShowRejectButton - Показать кнопку Отклонить
+ * Список кнопок для подписания документа или его отклонения, возврата на доработку, возврата предыдущему подписанту
+ * @param {*} props.isShowReturnBackOneStepButton  Отображать ли кнопку возврата на предыдущий шаг. Должно работать только если не первый шаг подписания
+ * @param {*} props.isShowRejectButton Отображать ли кнопку отклонения
  * @returns
  */
 export default function SigningButtons(props) {

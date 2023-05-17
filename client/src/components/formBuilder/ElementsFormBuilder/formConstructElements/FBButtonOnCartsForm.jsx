@@ -6,6 +6,14 @@ import {
 import color from "../../FormBuilderColorRow";
 import ModalConfirm from "../../../fragments/modals/ModalConfirm";
 
+/**
+ * Логика кнопок, которые отображаются в каждой карточке. Обычно передаются стандартные функции из Form.List
+ * @param {*} remove Логика удаления элемента
+ * @param {*} move Логика сдвига относительно других элементов
+ * @param {*} name Имя в Form.List
+ * @param {*} fields Список всех полей. Служит для правильного отображения кнопок передвижения относительно других элементов
+ * @param {*} key Ключ для однозначного распознания Reactом
+ */
 export default function ButtonOnCarts(remove, move, name, fields, key) {
   return (
     <div className="flexibleCart">

@@ -4,34 +4,35 @@ import SimpleError from "../messages/Error";
 
 /**
  * Выводит селект бокс
- * @param {*} object.title - заголовок сверху от селекта
- * @param {*} object.name - имя, которое используется при сабмите
- * @param {*} object.rules - список правил при заполнении. Обязательно передать массив. Если правил нет - пустой массив
- * @param {*} object.options - варианты для выбора
- * @param {*} object.isLoading - отображать спинер загрузки?
- * @param {*} object.isError - отображать стандартную ошибку?
- * @param {*} object.isModeMultiple - есть возможность множественного выбора?
- * @param {*} object.disabled - отключает форму, может служить только для отображения
- * @param {*} object.onChange - событие, которое происходит при выборе элемента
- * @param {*} object.defaultValue - изначальная опция для отображения
- * @param {*} object.isShowRewrite - показать что элемент перерисовывается
+ * @param {*} props.title - заголовок сверху от селекта
+ * @param {*} props.name - имя, которое используется при сабмите
+ * @param {*} props.rules - список правил при заполнении. Обязательно передать массив. Если правил нет - пустой массив
+ * @param {*} props.options - варианты для выбора
+ * @param {*} props.isLoading - отображать спинер загрузки?
+ * @param {*} props.isError - отображать стандартную ошибку?
+ * @param {*} props.isModeMultiple - есть возможность множественного выбора?
+ * @param {*} props.disabled - отключает форму, может служить только для отображения
+ * @param {*} props.onChange - событие, которое происходит при выборе элемента
+ * @param {*} props.defaultValue - изначальная опция для отображения
+ * @param {*} props.isShowRewrite - показать что элемент перерисовывается
  * @returns
  */
-export default function SelectInputFormItem({
-  title = "Поле ввода",
-  name = "formItemName",
-  rules = {},
-  options = {},
-  isLoading = false,
-  isError = false,
-  isModeMultiple = false,
-  disabled,
-  onChange,
-  defaultValue,
-  isShowRewrite,
-  isSortAlphabet = true,
-  isShowSearch = false,
-}) {
+export default function SelectInputFormItem(props) {
+  const {
+    title = "Поле ввода",
+    name = "formItemName",
+    rules = {},
+    options = {},
+    isLoading = false,
+    isError = false,
+    isModeMultiple = false,
+    disabled,
+    onChange,
+    defaultValue,
+    isShowRewrite,
+    isSortAlphabet = true,
+    isShowSearch = false,
+  } = props;
   if (isShowRewrite) console.log(`Селект ${title} перерисовался`);
   // Предобработка данных для отображения в селекте
   let formatOptions = [];

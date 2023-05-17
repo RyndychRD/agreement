@@ -3,6 +3,13 @@ import { Form, Input } from "antd";
 import { MailTwoTone } from "@ant-design/icons";
 import "./FBEmailInput.css";
 
+/**
+ * Рендерит поле для ввода email
+ * @param {*} props.elemNameForForm имя в Form
+ * @param {*} props.formItemProps Дополнительные флаги в Form.Item
+ * @param {*} props.form Родительская форма. Нужна для записи в нее значения при каждом изменении email
+ * @returns
+ */
 export default function RenderEmailInput(props) {
   const { elemNameForForm, form, formItemProps } = props;
 

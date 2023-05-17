@@ -11,23 +11,31 @@ import ModalConfirm from "./ModalConfirm";
 /**
  * Общее окно для отображения модального окна добавления чего либо.
  * При сабмите вызывает функцию для добавления данных в БД
- * @param {*} object.form Ссылка на форму. Так как форма для каждого модального окна своя, объявляется выше по стеку
- * @param {*} object.addMutation Запрос, который служит для добавления данных в БД при сабмите. Обычно дергается из /core/redux/api
- * @param {*} object.CreateUpdateForm Скелет окна без данных. Представляет форму с элементами
+ * @param {*} props.form Ссылка на форму. Так как форма для каждого модального окна своя, объявляется выше по стеку
+ * @param {*} props.addMutation Запрос, который служит для добавления данных в БД при сабмите. Обычно дергается из /core/redux/api
+ * @param {*} props.CreateUpdateForm Скелет окна без данных. Представляет форму с элементами
+ * @param {*} props.customState Кастомный стайт для использовании внутри другого провайдера
+ * @param {*} props.customDispatch Кастомный диспатч для исопльзования внутри другого провайдера
+ * @param {*} props.CreateUpdateFormProps Дополнительные флаги для скелета CreateUpdateForm
+ * @param {*} props.isAddConfirmOnCancel Добавить ли подтверждение при попытке закрыть документ
+ * @param {*} props.isAddConfirmOnOk Добавить ли подтверждение при попытке сохранить данные
+ * @param {*} props.confirmOnOkContent Что отображать при подтверждении при попытке сохранить данные
+ * @param {*} props.afterFinishFunc Функция, которая будет выполнена после сохранения данных
  * @returns
  */
-export default function ModalInput({
-  form,
-  addMutation,
-  CreateUpdateForm,
-  customState,
-  customDispatch,
-  CreateUpdateFormProps = {},
-  isAddConfirmOnCancel = true,
-  isAddConfirmOnOk = true,
-  confirmOnOkContent = "Вы точно хотите продолжить?",
-  afterFinishFunc = () => {},
-}) {
+export default function ModalInput(props) {
+  const {
+    form,
+    addMutation,
+    CreateUpdateForm,
+    customState,
+    customDispatch,
+    CreateUpdateFormProps = {},
+    isAddConfirmOnCancel = true,
+    isAddConfirmOnOk = true,
+    confirmOnOkContent = "Вы точно хотите продолжить?",
+    afterFinishFunc = () => {},
+  } = props;
   const standardState = useTableModalsState();
   const standardDispatch = useTableModalDispatch();
   const state = customState ? customState() : standardState;

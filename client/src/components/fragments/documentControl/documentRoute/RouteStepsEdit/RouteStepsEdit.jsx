@@ -9,6 +9,14 @@ import {
 } from "../../../../../core/redux/api/DocumentControl/DocumentApi";
 import ModalConfirm from "../../../modals/ModalConfirm";
 
+/**
+ * Форма для изменения маршрута документа посреди прохождения маршрута согласования
+ * @param {*} props.open открыто ли модальное окна
+ * @param {*} props.setOpen открыть/закрыть модальное окно
+ * @param {*} props.routeSteps список всех шагов подписания документа, заполненных и нет
+ * @param {*} props.documentId id документа, у которого нужно изменить маршрут
+ * @returns
+ */
 export function DocumentRoutesEditModal(props) {
   const { open, setOpen, routeSteps, documentId } = props;
   const [form] = Form.useForm();

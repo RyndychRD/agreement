@@ -12,6 +12,14 @@ import {
 } from "../../../outputs/textOutputs";
 
 // TODO: ОЧЕНЬ ПОХОЖЕ НА documentSetArchiveModal. Подумать над объединением
+/**
+ * Модальное окно для выбора архива, в который надо поместить документ при автоматическом переводе. Сейчас не используется
+ * @param {*} props.document загруженный объект документа
+ * @param {*} props.isOpen открыто ли модальное окно
+ * @param {*} props.setIsOpen функция открытия/закрытия этого модального окна
+ * @param {*} props.closeParentModalFunc функция закрытия окна, из которого вызывается это модальное окно. Нужна, чтобы после выбора архива и подтверждения закрыть изначальный документ
+ * @returns
+ */
 export default function DocumentSetCompleteModal(props) {
   const { document, isOpen, setIsOpen, closeParentModalFunc } = props;
   const [form] = Form.useForm();

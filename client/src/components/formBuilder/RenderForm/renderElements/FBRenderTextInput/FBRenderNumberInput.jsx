@@ -1,5 +1,12 @@
 import { Form, InputNumber } from "antd";
 
+/**
+ * Рендерит поле для ввода числа
+ * @param {*} props.elemNameForForm имя в Form
+ * @param {*} props.formItemProps Дополнительные флаги в Form.Item
+ * @param {*} props.CurrentElement Изначальное значение. Передается из словаря document_element_IO_dictionary
+ * @returns
+ */
 export default function RenderNumberInput(props) {
   const { elemNameForForm, formItemProps, CurrentElement } = props;
 

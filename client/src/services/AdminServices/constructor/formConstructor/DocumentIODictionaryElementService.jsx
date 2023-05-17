@@ -3,6 +3,10 @@ import { api } from "../../../../http/index";
 export default class DocumentIODictionaryElementService {
   static API_ROUTE = "/constructor/forms/types-io-elements";
 
+  /**
+   * Взять все записи
+   * @returns
+   */
   static async getAll() {
     console.log(
       "вызов в DocumentIODictionaryElementService -> Взять все записи"
@@ -15,7 +19,13 @@ export default class DocumentIODictionaryElementService {
     return response.data;
   }
 
-  static async getOne({ id }) {
+  /**
+   * Взять одну запись
+   * @param {*} props.id
+   * @returns
+   */
+  static async getOne(props) {
+    const { id } = props;
     console.log(
       "вызов в DocumentIODictionaryElementService -> Взять одну запись"
     );

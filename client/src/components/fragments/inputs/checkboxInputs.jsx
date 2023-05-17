@@ -3,11 +3,19 @@ import { useState } from "react";
 import SimpleError from "../messages/Error";
 import SimpleSpinner from "../messages/Spinner";
 
-export default function CheckboxInputFormItem({
-  title = "Поле ввода",
-  name = "formItemName",
-  checked = false,
-}) {
+/**
+ * Стандартная форма для одного чекбокса
+ * @param {*} props.title
+ * @param {*} props.name
+ * @param {*} props.checked Изначально выбран или нет
+ * @returns
+ */
+export default function CheckboxInputFormItem(props) {
+  const {
+    title = "Поле ввода",
+    name = "formItemName",
+    checked = false,
+  } = props;
   const [isChecked, setIsChecked] = useState(checked);
 
   const toggleChecked = () => {
@@ -22,16 +30,29 @@ export default function CheckboxInputFormItem({
   );
 }
 
-export function CheckboxGroupInputFormItem({
-  title = "Поле ввода",
-  name = "formItemName",
-  className = {},
-  options = [],
-  rules = [],
-  isLoading = false,
-  isError = false,
-  form,
-}) {
+/**
+ * Стандартная форма для вывода множества чекбоксов с возможностью отменить все сразу
+ * @param {*} props.title Название для пользователя
+ * @param {*} props.name Имя в form
+ * @param {*} props.className css класс
+ * @param {*} props.options
+ * @param {*} props.rules
+ * @param {*} props.isLoading
+ * @param {*} props.isError
+ * @param {*} props.form
+ * @returns
+ */
+export function CheckboxGroupInputFormItem(props) {
+  const {
+    title = "Поле ввода",
+    name = "formItemName",
+    className = {},
+    options = [],
+    rules = [],
+    isLoading = false,
+    isError = false,
+    form,
+  } = props;
   const [checkedValues, setCheckedValues] = useState([]);
   const [isCheckedAll, setIsCheckedAll] = useState(false);
   const [indeterminate, setIndeterminate] = useState(false);

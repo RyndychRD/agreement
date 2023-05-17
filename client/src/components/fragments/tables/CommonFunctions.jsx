@@ -17,6 +17,11 @@ export const filterData = (data) => (formatter) =>
     value: formatter(item),
   }));
 
+/**
+ * Выводит текущий день в определенном формате
+ * @param {*} format
+ * @returns
+ */
 export const getCurrentDate = (format = "DD.MM.YYYY") =>
   moment().format(format);
 
@@ -49,15 +54,34 @@ export const filterDataBoolean = (dataSource, columnName) => {
   );
 };
 
+/**
+ * Рендерит дату в обычном для проекта формате
+ * @param {*} date
+ * @param {*} isAddTime Добавлять ли отображение времени
+ * @returns
+ */
 export const renderDate = (date, isAddTime = true) => {
   if (!date) return "";
   if (isAddTime) return date ? moment(date).format("DD.MM.YYYY HH:mm") : "";
   return date ? moment(date).format("DD.MM.YYYY") : "";
 };
 
+/**
+ * Логика для фильтрации дат
+ * @param {*} value
+ * @param {*} record
+ * @param {*} columnName
+ * @returns
+ */
 export const filterDateLogic = (value, record, columnName) =>
   moment(record[columnName]).format("YYYY") === value;
 
+/**
+ * Отображение дат для фильтрации по годам
+ * @param {*} dataSource
+ * @param {*} columnName
+ * @returns
+ */
 export const filterDateYearly = (dataSource, columnName) =>
   _?.uniqWith(
     filterData(
@@ -122,6 +146,11 @@ export function sorterInt(a, b) {
   return a - b;
 }
 
+/**
+ * Отображает буленово значение как да и нет
+ * @param {*} value
+ * @returns
+ */
 export function booleanRender(value) {
   return value ? (
     <Alert className="boolean-render" type="success" message="Да" />
@@ -131,15 +160,13 @@ export function booleanRender(value) {
 }
 
 /**
- * Конструктор заголовка таблицы
+ * Словарь всех возможных кнопок в заголовке
  * @param {string} name - Название в заголовке таблицы
  * @param {Array} buttons - Массив со списком кнопок, которые мы хотим отобразить в заголовке
+ * @param {*} buttonsActions - Массив со списком логики кнопок
  * @returns
  */
 export default function getTitle(name, buttons, buttonsActions) {
-  /**
-   * Словарь всех возможных кнопок в заголовке
-   */
   const buttonsDict = {
     create: (
       <Button
@@ -231,6 +258,11 @@ export default function getTitle(name, buttons, buttonsActions) {
     </Row>
   );
 }
+
+/**
+ * Стандартное подвтерждение при попытке закрыть элемент
+ * @param {*} onCancel
+ */
 export function onCancelConfirm(onCancel) {
   ModalConfirm({
     content: "Вы точно хотите прекратить и потерять все заполненные данные?",

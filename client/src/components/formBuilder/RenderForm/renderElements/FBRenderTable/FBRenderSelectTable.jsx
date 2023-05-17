@@ -60,6 +60,11 @@ function FBSelect(props) {
   );
 }
 
+/**
+ * Собирает данные по таблице должностей и дает Селект с возможностью выбора одного из значений
+ * @param {*} props Дополнительные параметры FormItem
+ * @returns
+ */
 function SelectTablePosition(props) {
   // Создаем переменную в которую будет хранится данные для выпадающих списков
   const { data = [] } = useGetPositionsQueryHook();
@@ -76,6 +81,11 @@ function SelectTablePosition(props) {
   );
 }
 
+/**
+ * Собирает данные по таблице департаментов и дает Селект с возможностью выбора одного из значений
+ * @param {*} props Дополнительные параметры FormItem
+ * @returns
+ */
 function SelectTableDepartments(props) {
   // Создаем переменную в которую будет хранится данные для выпадающих списков
   const { data = [] } = useGetDepartmentsQueryHook();
@@ -92,6 +102,11 @@ function SelectTableDepartments(props) {
   );
 }
 
+/**
+ * Собирает данные по таблице пользователей и дает Селект с возможностью выбора одного из значений
+ * @param {*} props Дополнительные параметры FormItem
+ * @returns
+ */
 function SelectTableUsers(props) {
   // Создаем переменную в которую будет хранится данные для выпадающих списков
   const { data = [] } = useGetUsersQueryHook();
@@ -112,6 +127,11 @@ function SelectTableUsers(props) {
   );
 }
 
+/**
+ * Рендер значения из таблицы. Зависит от переданного элемента
+ * @param {*} props.CurrentElement - сам переданный элемент
+ * @returns
+ */
 export default function RenderSelectTable(props) {
   const { CurrentElement } = props;
 

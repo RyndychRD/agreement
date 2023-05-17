@@ -23,19 +23,25 @@ const REJECT_STATUS_ID = 2;
  * @param {Object} columns - список колонок для отображения
  * @param {string} title - Название таблицы, которое должно отображаться в заголовке
  * @param {Array<Object>} dataSource - Массив объектов для отображения в таблице. Один объект - одна строка
+ * @param {*} buttons
+ * @param {*} notificationType
+ * @param {*} customDispatch
+ * @param {*} customState
+ * @param {*} queryIdNameForOpen Не работает. Оставлен для того, чтобы потом открывать записи не только по id, но и по другим первичным ключам
  * */
-export default function DocumentControlTableViewer({
-  columns = {},
-  title = null,
-  dataSource = null,
-  isLoading = false,
-  isError = false,
-  buttons = ["create", "update", "delete"],
-  notificationType,
-  customDispatch,
-  customState,
-  queryIdNameForOpen = "id",
-}) {
+export default function DocumentControlTableViewer(props) {
+  const {
+    columns = {},
+    title = null,
+    dataSource = null,
+    isLoading = false,
+    isError = false,
+    buttons = ["create", "update", "delete"],
+    notificationType,
+    customDispatch,
+    customState,
+    queryIdNameForOpen = "id",
+  } = props;
   // Для переиспользования компонента мы можем передать кастомный диспатчер и стате. Но по дефолту нам подходит обычный для таблиц
   const standardState = useTableModalsState();
   const standardDispatch = useTableModalDispatch();

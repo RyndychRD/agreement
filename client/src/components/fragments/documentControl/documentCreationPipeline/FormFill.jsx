@@ -22,13 +22,14 @@ import FileService from "../../../../services/FileService";
 import ModalConfirm from "../../modals/ModalConfirm";
 
 /**
- * @return Модальное окно для создания нового документа
+ * Модальное окно, в котором заполняются поля при создании документа
+ * @param {*} props.onCancel Функция закрытия модального окна
+ * @param {*} props.pipelineDispatch Диспатчер pipeline. Выведен для возможного использования нескольких пайплайнов
+ * @param {*} props.documentMainValues Предполагается, что перед вызовом этой формы всегда заполняется главная страница. Для отображения главной информации в шапки каждого документа при создании сразу передаем эти значения
+ * @returns
  */
-export default function DocumentCreationPipelineFormFill({
-  onCancel,
-  pipelineDispatch,
-  documentMainValues,
-}) {
+export default function DocumentCreationPipelineFormFill(props) {
+  const { onCancel, pipelineDispatch, documentMainValues } = props;
   const currentModalJson = useSelector(getCurrentStepJson);
   const [form] = Form.useForm();
   // Подразумевается, что предыдущий шаг всегда конструтор форм
@@ -37,6 +38,8 @@ export default function DocumentCreationPipelineFormFill({
   const {data: type = "",isError: isErrorType,isLoading: isLoadingType} = useGetTypeQueryHook({ isStart: true, id: documentMainValues.typeId });
   // prettier-ignore
   const {data: DocumentIODictionaryElements = "",isError: isErrorDocumentIODictionary,isLoading: isLoadingDocumentIODictionary} = useGetDocumentIODictionaryElementsHook({  typeId: documentMainValues.typeId });
+
+  // Мы подразумеваем что у нас никогда не пропускается этот шаг. Поэтому не реализована логика пропуска шага, как это сделано в конструктуре форм, к примеру
 
   // Если у нас уже есть сохраненные данные в pipeline, то выводим их. Иначе - стандартный вывод, если он нормально загрузился
   if (currentModalJson && Object.keys(currentModalJson).length > 0) {

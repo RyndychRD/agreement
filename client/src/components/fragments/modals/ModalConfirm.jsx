@@ -1,5 +1,15 @@
 import { Modal } from "antd";
 
+/**
+ * Стандартное модальное окно с подтверждение действия пользователя
+ * @param {*} props.title
+ * @param {*} props.content
+ * @param {*} props.okText
+ * @param {*} props.cancelText
+ * @param {*} props.onOk  Действие при подтверждении
+ * @param {*} props.onCancel Действие при отклонении
+ * @returns
+ */
 export default function ModalConfirm(props) {
   const {
     title = "Подтверждение",

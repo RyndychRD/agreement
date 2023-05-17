@@ -7,11 +7,15 @@ import SimpleSpinner from "../../fragments/messages/Spinner";
 import SimpleError from "../../fragments/messages/Error";
 import CheckboxInputFormItem from "../../fragments/inputs/checkboxInputs";
 
-export default function FBConstructForm({
-  isLoading,
-  isError,
-  isAddRequiredCheckbox,
-}) {
+/**
+ * Форма конструирования маршрута
+ * @param {*} param0.isLoading - идет ли загрузка дополнительной информации для отображения(список полей)
+ * @param {*} param0.isError - Не произошло ли ошибки при загрузке дополнительной информации
+ * @param {*} param0.isAddRequiredCheckbox - Флаг, обозначающий обязательно ли поле для заполнения. Работает в админке при конструировании маршрута
+ * @returns
+ */
+export default function FBConstructForm(props) {
+  const { isLoading, isError, isAddRequiredCheckbox } = props;
   if (isLoading) return <SimpleSpinner />;
   if (isError) return <SimpleError />;
   return (

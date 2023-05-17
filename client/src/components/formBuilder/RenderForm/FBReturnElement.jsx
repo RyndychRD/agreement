@@ -10,6 +10,15 @@ import SimpleSpinner from "../../fragments/messages/Spinner";
 import SimpleError from "../../fragments/messages/Error";
 import RenderNumberInput from "./renderElements/FBRenderTextInput/FBRenderNumberInput";
 
+/**
+ * Билдер, которые возвращает заполненное значение для конструктора на основе переданного элемента.
+ * @param {*} props.ComponentNameForForm Как называется элемент в форме, который мы передаем
+ * @param {*} props.ComponentKey Ключ из document_element_IO_dictionary
+ * @param {*} props.ComponentValue Значение, которое уже заполнено. Используется при создании документа на основе существующего
+ * @param {*} props.form родительская форма для заполнения
+ * @param {*} props.formItemProps Дополнительные значения для FormItem(rules и тд)
+ * @returns
+ */
 export default function ReturnElement(props) {
   const {
     ComponentNameForForm,

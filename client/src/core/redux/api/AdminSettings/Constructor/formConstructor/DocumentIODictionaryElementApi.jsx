@@ -55,9 +55,17 @@ const {
   useGetDocumentIODictionaryElementQuery,
 } = documentIODictionaryElementApi;
 
-// TODO: Доделать документацию
+/**
+ * Вытаскивает все элемент словаря конструктора
+ */
 export const useGetDocumentIODictionaryElementsHook =
   useGetDocumentIODictionaryElementsQuery;
-// TODO: Доделать документацию
+
+/**
+ * Вытаскивает выбранное значение из словаря. Должен быть проброшен либо id, либо currentRow с type_view_id
+ * @param id
+ * @param currentRow
+ * @param isStart
+ */
 export const useGetDocumentIODictionaryElementHook =
   useGetDocumentIODictionaryElementQuery;

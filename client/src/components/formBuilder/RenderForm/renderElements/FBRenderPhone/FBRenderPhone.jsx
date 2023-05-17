@@ -1,6 +1,14 @@
 import { Form, Input } from "antd";
 import { useRef } from "react";
 
+/**
+ * Рендерит поле для ввода телефона
+ * @param {*} props.elemNameForForm имя в Form
+ * @param {*} props.formItemProps Дополнительные флаги в Form.Item
+ * @param {*} props.form Родительская форма. Нужна для записи в нее значения при каждом изменении email
+ * @param {*} props.defaultValue Изначальное значение. Так как изначальное значение представлено в виде 89143215741 Добавочный номер 2222, при отображении заполненной информации нужно разбить строку на 2 составляющие с разделителем Добавочный номер
+ * @returns
+ */
 export default function RenderPhone(props) {
   const { elemNameForForm, defaultValue, form, formItemProps } = props;
 

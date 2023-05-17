@@ -4,10 +4,14 @@ import SimpleSpinner from "../../messages/Spinner";
 import SimpleError from "../../messages/Error";
 import { HeaderTextOutput } from "../../outputs/textOutputs";
 
-export default function DocumentInformationFragment({
-  isStart = false,
-  documentId,
-}) {
+/**
+ * Фрагмент для отображения информации по документу
+ * @param {*} props.isStart Начать ли выгрузку информации по переданному id документа
+ * @param {*} props.documentId Для какого документа отображать данные
+ * @returns
+ */
+export default function DocumentInformationFragment(props) {
+  const { isStart = false, documentId } = props;
   const {
     data: documentValues = {},
     isLoading: isLoadingValues,

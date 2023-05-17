@@ -7,13 +7,13 @@ import {
 } from "../../../../core/redux/reducers/documentCreationPipelineReducer";
 
 /**
- * @return Модальное окно для создания нового документа
+ * Заполнение основной информации. Подразумевалось, что на этой форме вводится тип и название документа. Но этот функционал перекочевал в заполнение формы, спасибо Небогину
+ * @param {*} props.pipelineDispatch Диспатчер пайплайна
+ * @param {*} props.onCancel Функция закрытия модального окна
+ * @returns
  */
-
-export default function DocumentCreationPipelineMainModal({
-  onCancel,
-  pipelineDispatch,
-}) {
+export default function DocumentCreationPipelineMainModal(props) {
+  const { onCancel, pipelineDispatch } = props;
   // prettier-ignore
   const {data: types = [], isError: isErrorTypes, isLoading: isLoadingTypes} = useGetTypesQueryHook({isShowOnlyForCreation:true});
   const [form] = Form.useForm();

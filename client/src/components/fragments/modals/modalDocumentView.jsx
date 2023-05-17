@@ -23,16 +23,31 @@ import NotificationService from "../../../services/DocumentControlServices/Notif
 import DocumentComplete from "../documentControl/documentComplete/DocumentComplete";
 import CreateFromCurrent from "../documentControl/documentCreationPipeline/CreateFromCurrent";
 
+/**
+ * Форма для отображения документа. По сути конструтор для отображения одного и того же документа в разном виде для разных страниц и статусов
+ * @param {*} props.notificationType Какой тип нотификации закрыть при открытии этого документа
+ * @param {*} props.isShowRoute Отображать ли маршрут
+ * @param {*} props.isAbleToSign Можно ли подписать текущий шаг маршрута
+ * @param {*} props.isAbleToEdit Можно ли изменить маршрут
+ * @param {*} props.isAbleToUploadFiles Можно ли догрузить файлы
+ * @param {*} props.isAddForPrint Можно ли вывести лист согласования на печать
+ * @param {*} props.isShowDocumentTasks Можно ли показать поручения, привязанные к этому документу
+ * @param {*} props.isShowRegistrationInOOPZ Можно ли перевести в статус Действующий или Документ в ООПЗ
+ * @param {*} props.isShowComplete Можно ли перевести в статус Исполненный
+ * @param {*} props.isShowToArchive Можно ли показывать возможность перевода документа в архив
+ * @param {*} props.isCreateFromCurrent Можно ли создать на основе этого документа новый
+ * @returns
+ */
 export default function ModalDocumentView(props) {
   const {
     notificationType = "",
+    isShowRoute = false,
     isAbleToSign = false,
     isAbleToEdit = false,
     isAbleToUploadFiles = isAbleToEdit,
     isAddForPrint = false,
     isShowDocumentTasks = false,
     isShowRegistrationInOOPZ = false,
-    isShowRoute = false,
     isShowComplete = false,
     isShowToArchive = false,
     isCreateFromCurrent = false,

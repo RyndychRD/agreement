@@ -1,5 +1,11 @@
 import { Button } from "antd";
 
+/**
+ * Скрывает и отображает неподписанные шаги
+ * @param {*} param0.setShowUnsignedSteps setState отображения неподписанных шагов
+ * @param {*} param0.showUnsignedSteps state отображения неподписанных шагов
+ * @returns
+ */
 export default function ButtonShowUnsigned({
   setShowUnsignedSteps,
   showUnsignedSteps,

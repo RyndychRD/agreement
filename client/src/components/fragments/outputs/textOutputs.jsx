@@ -1,23 +1,39 @@
 import SimpleSpinner from "../messages/Spinner";
 import SimpleError from "../messages/Error";
 
-export function SimpleTextOutput({
-  isLoading,
-  isError,
-  text = "Текст не передан",
-}) {
+/**
+ * Компонент для вывода обычного текста в <p>
+ * @param {*} props.isLoading
+ * @param {*} props.isError
+ * @param {*} props.text
+ * @returns
+ */
+export function SimpleTextOutput(props) {
+  const { isLoading, isError, text = "Текст не передан" } = props;
   if (isLoading) return <SimpleSpinner />;
   if (isError) return <SimpleError />;
   return <p>{text}</p>;
 }
-export function TextOutputWithLabel({
-  isLoading,
-  isError,
-  text = "Текст не передан",
-  label = "Название не передано",
-  className = {},
-  keyIn,
-}) {
+
+/**
+ * Компонент для вывода обычного текста в формате label:text
+ * @param {*} props.isLoading
+ * @param {*} props.isError
+ * @param {*} props.text
+ * @param {*} props.label
+ * @param {*} props.className css класс для всего элемента
+ * @param {*} props.keyIn ключ для react
+ * @returns
+ */
+export function TextOutputWithLabel(props) {
+  const {
+    isLoading,
+    isError,
+    text = "Текст не передан",
+    label = "Название не передано",
+    className = {},
+    keyIn,
+  } = props;
   if (isLoading) return <SimpleSpinner />;
   if (isError) return <SimpleError />;
   return (
@@ -28,23 +44,32 @@ export function TextOutputWithLabel({
     </div>
   );
 }
-export function HeaderTextOutput({
-  isLoading,
-  isError,
-  text = "Текст не передан",
-}) {
+
+/**
+ * Вывод текста в h3
+ * @param {*} props.isLoading
+ * @param {*} props.isError
+ * @param {*} props.text
+ * @returns
+ */
+export function HeaderTextOutput(props) {
+  const { isLoading, isError, text = "Текст не передан" } = props;
   if (isLoading) return <SimpleSpinner />;
   if (isError) return <SimpleError />;
   return <h3 className="mt-5">{text}</h3>;
 }
 
-export function MainDocumentInformation({
-  isLoading,
-  isError,
-  documentName,
-  typeName,
-  documentCreator,
-}) {
+/**
+ * Стандартная форма вывода заглавной информации о документе
+ * @param {*} props.isLoading
+ * @param {*} props.isError
+ * @param {*} props.documentName
+ * @param {*} props.typeName
+ * @param {*} props.documentCreator
+ * @returns
+ */
+export function MainDocumentInformation(props) {
+  const { isLoading, isError, documentName, typeName, documentCreator } = props;
   if (isLoading) return <SimpleSpinner />;
   if (isError) return <SimpleError />;
   return (

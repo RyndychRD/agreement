@@ -1,4 +1,3 @@
-// Подгружает список файлов из БД
 import DocumentFilesShow from "./DocumentFilesShow";
 import SimpleSpinner from "../../messages/Spinner";
 import SimpleError from "../../messages/Error";
@@ -6,6 +5,13 @@ import { useGetDocumentFilesQueryHook } from "../../../../core/redux/api/Documen
 import { HeaderTextOutput } from "../../outputs/textOutputs";
 import { DocumentFilesEdit } from "./DocumentFilesEdit";
 
+/**
+ * Фрагмент для отображения загрузки файлов и догрузки файлов
+ * @param {*} props.documentId Для какого документа отображать список файлов
+ * @param {*} props.isStart флаг для старта загрузки списка файлов документов
+ * @param {*} props.isAbleToUploadFiles флаг для добавления возможности загрузки документов
+ * @returns
+ */
 export default function DocumentFilesShowFragment(props) {
   const { documentId, isStart, isAbleToUploadFiles } = props;
 

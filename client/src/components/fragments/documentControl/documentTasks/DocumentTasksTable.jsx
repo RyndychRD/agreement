@@ -12,6 +12,12 @@ import CreateButtonModel from "./buttonModals/create";
 import DeleteButtonAction from "./buttonModals/delete";
 import ShowButtonModel from "./buttonModals/show";
 
+/**
+ * Таблица с поручениями по документу
+ * @param {*} props.documentId
+ * @param {*} props.documentTypeId
+ * @returns
+ */
 export default function DocumentTasksTable(props) {
   const { documentId, documentTypeId } = props;
   const columns = {
@@ -37,7 +43,8 @@ export default function DocumentTasksTable(props) {
 
   const buttons = ["create", "update", "delete"];
   // Кнопка Запросить 2 раздел листа согласования доступна только для Директора департамента экономики и планирования
-  // И только для типа документа Закуп ТРУ. И еще себя туда прописал, чтоб удобнее было
+  // И только для типа документа Согласование на закуп ТРУ для внутризаводских нужд и капитальных затрат.
+  // И еще себя туда прописал, чтоб удобнее было
   const isShowSpecialTask =
     useSelector(
       (state) =>

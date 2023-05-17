@@ -12,6 +12,14 @@ import { useGetDocumentFilesQueryHook } from "../../../../core/redux/api/Documen
 import DocumentTaskSecondListZakupTRU from "./buttonModals/documentTaskExtraFields/DocumentTaskSecondListZakupTRU";
 import DocumentTaskDocumentRegistration from "./buttonModals/documentTaskExtraFields/DocumentTaskDocumentRegistration";
 
+/**
+ * Фрагмент для отображения одного поручения
+ * @param {*} props.rawData данные для отображения в поручении
+ * @param {*} props.form
+ * @param {*} props.isAddPushToDocumentButton добавить ли возможность запушить в родительский документ файл из поручения?
+ * @param {*} props.isDisabled можно ли изменять поручение
+ * @returns
+ */
 export default function DocumentTasksShowBlock(props) {
   const {
     rawData: task,
@@ -30,6 +38,7 @@ export default function DocumentTasksShowBlock(props) {
 
   let resultContent = "";
   switch (task?.document_task_type_id) {
+    // Поручения для Михеевой. Тип 2
     case 2:
       resultContent = (
         <Form form={form}>
@@ -37,6 +46,7 @@ export default function DocumentTasksShowBlock(props) {
         </Form>
       );
       break;
+    // Поручение для регистрации документов. Тип 3
     case 3:
       resultContent = (
         <Form form={form}>
@@ -47,6 +57,7 @@ export default function DocumentTasksShowBlock(props) {
         </Form>
       );
       break;
+    // Обычное поручение
     default:
       resultContent = <SimpleTextOutput text={task?.result} />;
       break;
@@ -75,6 +86,7 @@ export default function DocumentTasksShowBlock(props) {
         label="Установленный срок"
         text={renderDate(task.due_at, false)}
       />
+      {/* Если при создании поручения создать решил передать данные из изначального договора, то отображать этот блок */}
       {task?.documentValues && task.documentValues.length > 0 ? (
         <>
           <HeaderTextOutput text="Переданные данные из договора" />
@@ -83,6 +95,7 @@ export default function DocumentTasksShowBlock(props) {
       ) : (
         ""
       )}
+      {/* Если при создании поручения создать решил передать файлы из изначального договора, то отображать этот блок */}
       {task?.documentFiles && task.documentFiles.length > 0 ? (
         <>
           <HeaderTextOutput text="Переданные файлы из договора" />
@@ -98,6 +111,7 @@ export default function DocumentTasksShowBlock(props) {
       <HeaderTextOutput text="Задача" />
       <SimpleTextOutput text={task?.problem} />
 
+      {/* Отображение результата выполенния поручения согласно его типа */}
       {task?.document_task_status_id === 2 ? (
         <>
           <HeaderTextOutput text="Результат" />
@@ -106,6 +120,7 @@ export default function DocumentTasksShowBlock(props) {
       ) : (
         ""
       )}
+      {/* Если в результате выполнения поручений были загружены файлы, то отображает этот блок и, возможно, даем возможность добавить файлы из поручения в договор */}
       {task?.files.length > 0 ? (
         <>
           <HeaderTextOutput text="Файлы, загруженные в результате выполнения поручения" />

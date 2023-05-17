@@ -3,6 +3,10 @@
 import { Alert } from "antd";
 import "./style.css";
 
+/**
+ * Стандратная ошибка
+ * @returns
+ */
 export default function SimpleError() {
   return <Alert message="Что-то пошло не так" type="error" />;
 }

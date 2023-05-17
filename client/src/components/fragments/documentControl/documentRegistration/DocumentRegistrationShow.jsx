@@ -10,9 +10,10 @@ import { renderDate } from "../../tables/CommonFunctions";
 import ModalConfirm from "../../modals/ModalConfirm";
 
 /**
- *
- * @param isShowReturnBackOneStepButton - Показать кнопку Вернуть на шаг назад
- * @param isShowRejectButton - Показать кнопку Отклонить
+ * Фрагмент для отображения данных по регистрации и , при желании, перевода в статус Действующий
+ * @param {*} props.documentId id документа для отображения информации
+ * @param {*} props.closeModalFunc функция закрытия родительского окна
+ * @param {*} props.isAddButton добавить ли кнопку для перевода в статус Действующий
  * @returns
  */
 export default function DocumentRegistrationShow(props) {

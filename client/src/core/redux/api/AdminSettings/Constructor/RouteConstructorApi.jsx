@@ -145,12 +145,12 @@ export const useGetRouteByDocumentTypeQueryHook =
   useGetRouteByDocumentTypeQuery;
 
 /**
- * `useAddRouteMutationHook` Хук
+ * `useAddRouteMutationHook` Хук для добавления маршрута
  */
 export const useAddRouteMutationHook = useAddRouteMutation;
 
 /**
- * `useUpdateRouteMutationHook` Хук
+ * `useUpdateRouteMutationHook` Хук для обновления маршрута
  */
 export const useUpdateRouteMutationHook = useUpdateRouteMutation;
 

@@ -17,6 +17,12 @@ export function getWebSocketUrlByEnv() {
 
 export const WsUrl = getWebSocketUrlByEnv();
 
+/**
+ * Формирует юрл для подключения к ws сокету на сервере с передачей accessToken
+ * @param {*} url
+ * @param {*} queryParams
+ * @returns
+ */
 export const WsUrlAuthed = (url, queryParams = null) =>
   `${WsUrl}/${url}?accessToken=${localStorage.getItem("token")}${
     queryParams ? `&${queryParams}` : ""

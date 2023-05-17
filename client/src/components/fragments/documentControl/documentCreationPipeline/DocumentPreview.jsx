@@ -19,7 +19,13 @@ import ModalConfirm from "../../modals/ModalConfirm";
 
 const DOCUMENT_CREATION_STATUS = 5;
 
-export default function DocumentPreview({ onCancel }) {
+/**
+ * Предпросмотр документа перед сохранением. Несет в себе логику сбора и предобработки информации перед отправкой на сервер
+ * @param {*} props.onCancel Функция закрытия модального окна
+ * @returns
+ */
+export default function DocumentPreview(props) {
+  const { onCancel } = props;
   const previewValues = useSelector(getSteps);
   const tableDispatch = useTableModalDispatch();
   const pipelineDispatch = useDispatch();

@@ -1,6 +1,12 @@
 import DateInputFormItem from "../../inputs/dateInput";
 import TextInputFormItem from "../../inputs/textInputs";
 
+/**
+ * Поля, которые используются при регистрации документа
+ * @param {*} props.form форма для передачи изначальных значений и запоминания новых
+ * @param {*} props.isDisabled можно ли редактировать значения
+ * @returns
+ */
 export default function DocumentRegistrationFields(props) {
   const { form, isDisabled } = props;
   return (

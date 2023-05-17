@@ -10,6 +10,14 @@ import { RouteStepFragmentProvider } from "./RouteStepFragmentProvider";
 import { HeaderTextOutput } from "../../outputs/textOutputs";
 import { DocumentRoutesEdit } from "./RouteStepsEdit/RouteStepsEdit";
 
+/**
+ * Фрагмент отображения шагов подписания. Включает в себя возможность изменения маршрута и подписания текущего шага
+ * @param {*} props.isStart начать ли сбор информации по документу
+ * @param {*} props.documentId
+ * @param {*} props.isAbleToSign дать возможность пользователю подписать документ?
+ * @param {*} props.isAbleToEdit дать возможность пользователю изменить маршрут подписания?
+ * @returns
+ */
 export default function RouteStepsFragment(props) {
   const {
     isStart = false,

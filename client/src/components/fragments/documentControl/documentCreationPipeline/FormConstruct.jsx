@@ -16,13 +16,14 @@ import RestoreButton from "./RestoreButton";
 import SimpleSpinner from "../../messages/Spinner";
 
 /**
- * @return Модальное окно для создания нового документа
+ * Модальное окно, в котором собираются поля для заполнения. То бишь собирается список полей для заполнения пользователя
+ * @param {*} props.onCancel Функция закрытия модального окна
+ * @param {*} props.pipelineDispatch Диспатчер pipeline. Выведен для возможного использования нескольких пайплайнов
+ * @param {*} props.documentMainValues Предполагается, что перед вызовом этой формы всегда заполняется главная страница. Для отображения главной информации в шапки каждого документа при создании сразу передаем эти значения
+ * @returns
  */
-export default function DocumentCreationPipelineFormConstruct({
-  onCancel,
-  pipelineDispatch,
-  documentMainValues,
-}) {
+export default function DocumentCreationPipelineFormConstruct(props) {
+  const { onCancel, pipelineDispatch, documentMainValues } = props;
   const currentModalJson = useSelector(getCurrentStepJson);
   const [form] = Form.useForm();
   // prettier-ignore

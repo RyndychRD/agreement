@@ -9,6 +9,11 @@ import {
 import { useSignCurrentDocumentStepMutationHook } from "../../../../../../core/redux/api/DocumentControl/DocumentApi";
 import { useTableModalDispatch } from "../../../../tables/TableModalProvider";
 
+/**
+ * Согласно типу возвращать текст для отображения
+ * @param {*} type
+ * @returns
+ */
 function getMessage(type) {
   switch (type) {
     case "confirm":
@@ -24,6 +29,12 @@ function getMessage(type) {
   }
 }
 
+/**
+ * Возвращать ли для этого типа возможность ввода замечания
+ * @param {*} type
+ * @param {*} form
+ * @returns
+ */
 function getRemarkIfNeeded(type, form) {
   switch (type) {
     case "confirmWithRemark":
@@ -50,7 +61,14 @@ function getRemarkIfNeeded(type, form) {
   }
 }
 
-export default function SignStep({ currentStepId, previousSignStepId }) {
+/**
+ * Модальное окно для подписания документа. Можно согласовать документ или перевести его в другой статус
+ * @param {*} props.currentStepId Текущий шаг подписания
+ * @param {*} props.previousSignStepId Предыдущий шаг подписания
+ * @returns
+ */
+export default function SignStep(props) {
+  const { currentStepId, previousSignStepId } = props;
   const state = useRouteStepFragmentState();
   const dispatchConfirm = useRouteStepFragmentDispatch();
   const dispatchTable = useTableModalDispatch();

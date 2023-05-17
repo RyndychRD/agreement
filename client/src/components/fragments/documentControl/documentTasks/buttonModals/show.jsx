@@ -15,6 +15,10 @@ import {
 import ModalUpdate from "../../../modals/modalUpdate";
 import NotificationService from "../../../../../services/DocumentControlServices/NotificationService";
 
+/**
+ * Модальное окно при отображении поручения
+ * @returns
+ */
 export default function ShowButtonModel() {
   const state = useDocumentTasksInnerTableState();
   const dispatch = useDocumentTasksInnerTableDispatch();

@@ -5,9 +5,9 @@ import SimpleError from "../../messages/Error";
 import ModalConfirm from "../../modals/ModalConfirm";
 
 /**
- *
- * @param isShowReturnBackOneStepButton - Показать кнопку Вернуть на шаг назад
- * @param isShowRejectButton - Показать кнопку Отклонить
+ * Кнопка перевода в статус Документ в ООПЗ
+ * @param {*} props.documentId id документа для перевода в новый статус
+ * @param {*} props.closeModalFunc функция закрытия родительского окна документа
  * @returns
  */
 export default function DocumentRegistrationButton(props) {

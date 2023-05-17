@@ -8,6 +8,10 @@ import SimpleSpinner from "../../../messages/Spinner";
 import SimpleError from "../../../messages/Error";
 import ModalConfirm from "../../../modals/ModalConfirm";
 
+/**
+ * Фрагмент для вывода кнопки что замечание исправлено и документ может быть возвращен в статус В Работе
+ * @returns
+ */
 export default function DocumentReworkButtons() {
   const state = useTableModalsState();
   const dispatchTable = useTableModalDispatch();

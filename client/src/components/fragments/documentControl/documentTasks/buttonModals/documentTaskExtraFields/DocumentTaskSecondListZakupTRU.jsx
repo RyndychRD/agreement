@@ -9,6 +9,12 @@ function calculateWithNDS(sumNoNDS, NDS) {
   return parseInt(sumNoNDS, 10) + (sumNoNDS / 100) * NDS;
 }
 
+/**
+ * Поля для заполнения/отображения для поручений от Михеевой. Тип 2
+ * @param {*} props.form
+ * @param {*} props.isDisabled
+ * @returns
+ */
 export default function DocumentTaskSecondListZakupTRU(props) {
   const { form, isDisabled = false } = props;
   const budgetSumNoNDS = Form.useWatch("budgetSumNoNDS", form);
@@ -50,6 +56,7 @@ export default function DocumentTaskSecondListZakupTRU(props) {
             ]}
           />
         </Col>
+        {/* Считается автоматически при потере фокуса на предыдущем поле. Все еще возможно изменить самостоятельно */}
         <Col span={10}>
           <NumberInputFormItem
             disabled={isDisabled}
@@ -88,6 +95,7 @@ export default function DocumentTaskSecondListZakupTRU(props) {
             ]}
           />
         </Col>
+        {/* Считается автоматически при потере фокуса на предыдущем поле. Все еще возможно изменить самостоятельно */}
         <Col span={10}>
           <NumberInputFormItem
             disabled={isDisabled}

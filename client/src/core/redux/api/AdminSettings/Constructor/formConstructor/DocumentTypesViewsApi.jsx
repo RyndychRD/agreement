@@ -125,18 +125,42 @@ const {
   useDeleteDocumentTypeViewMutation,
 } = documentTypesViewsApi;
 
-// TODO: Доделать документацию
+/**
+ * Вытаскивает все сформированные view для типа
+ * @param isAddForeignTables Добавлять ли значения по foreign ключам
+ */
 export const useGetDocumentTypesViewsHook = useGetDocumentTypesViewsQuery;
-// TODO: Доделать документацию
+
+/**
+ * Вытащить значение по id или по currentRow?.type_view_id
+ *@param id
+ *@param currentRow
+ *@param isStart
+ *@param isAddForeignTables Добавлять ли значения по foreign ключам
+ */
 export const useGetDocumentTypeViewHook = useGetDocumentTypeViewQuery;
 
-// TODO: Доделать документацию
+/**
+ * Вытаскивает значение по типу документа
+ * @param typeId
+ */
 export const useGetDocumentTypeViewByDocumentTypeHook =
   useGetDocumentTypeViewByDocumentTypeQuery;
 
-// TODO: Доделать документацию
+/**
+ * Добавляет новый view для типа
+ * @param body
+ */
 export const useAddDocumentTypeViewHook = useAddDocumentTypeViewMutation;
-// TODO: Доделать документацию
+
+/**
+ * Обновляет view для типа
+ *  @param body
+ */
 export const useUpdateDocumentTypeViewHook = useUpdateDocumentTypeViewMutation;
-// TODO: Доделать документацию
+
+/**
+ * Удаляет view для типа
+ *  @param body
+ */
 export const useDeleteDocumentTypeViewHook = useDeleteDocumentTypeViewMutation;

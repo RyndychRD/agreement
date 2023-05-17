@@ -20,6 +20,12 @@ const FILE_ACCEPTED_EXT = [
   "application/vnd.ms-excel",
 ];
 
+/**
+ * Фрагмент с загрузчиком файлов из antd
+ * @param {*} props.isRequired Обязательно ли загрузить хотя бы один файл?
+ * @param {*} props.fileList список файлов для отображения
+ * @returns
+ */
 export default function FragmentFileUploader(props) {
   const { isRequired = true, fileList } = props;
 

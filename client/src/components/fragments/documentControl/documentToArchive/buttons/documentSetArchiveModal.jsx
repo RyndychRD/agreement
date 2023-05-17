@@ -9,6 +9,14 @@ import { SelectArchiveTypesFormItem } from "../../../inputs/byClass/archive";
 import { HeaderTextOutput } from "../../../outputs/textOutputs";
 import ModalConfirm from "../../../modals/ModalConfirm";
 
+/**
+ * Модальное окно для перемещения документа в архив
+ * @param {*} props.document объект документа
+ * @param {*} props.isOpen
+ * @param {*} props.setIsOpen
+ * @param {*} props.closeParentModalFunc функция закрытия родительского модального окна
+ * @returns
+ */
 export default function DocumentSetArchiveModal(props) {
   const { document, isOpen, setIsOpen, closeParentModalFunc } = props;
 

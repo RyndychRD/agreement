@@ -9,6 +9,12 @@ import SimpleSpinner from "../../messages/Spinner";
 import SimpleError from "../../messages/Error";
 // import { userNameWithPositionMask } from "../../../../services/CommonFunctions";
 
+/**
+ * Фрагмент для отображения текста замечания
+ * @param {*} props.text текст замечания
+ * @param {*} props.documentStatusId согласно статусу отображаем разные стили
+ * @returns
+ */
 function DocumentRemarkText(props) {
   const { text, documentStatusId } = props;
   return (
@@ -21,6 +27,14 @@ function DocumentRemarkText(props) {
   );
 }
 
+/**
+ * Фрагмент отображения замечания, работает для статусов На доработке и Отклонен
+ * @param {*} props.documentStatusId статус документа
+ * @param {*} props.documentRemark текст замечания
+ * @param {*} props.documentId ид документа
+ * @param {*} props.isStart начать загрузку информации по документу
+ * @returns
+ */
 export default function DocumentRemark(props) {
   const { documentStatusId, documentRemark, documentId, isStart } = props;
   const result = [];

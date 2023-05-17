@@ -10,9 +10,9 @@ import ModalConfirm from "../../modals/ModalConfirm";
 // import DocumentSetCompleteModal from "./buttons/documentSetComplete";
 
 /**
- *
- * @param isShowReturnBackOneStepButton - Показать кнопку Вернуть на шаг назад
- * @param isShowRejectButton - Показать кнопку Отклонить
+ * Кнопка перевода документа в статус Исполнен
+ * @param {*} props.documentId id документа
+ * @param {*} props.closeModalFunc функция закрытия модального окна
  * @returns
  */
 export default function DocumentComplete(props) {

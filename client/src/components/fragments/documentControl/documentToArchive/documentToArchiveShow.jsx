@@ -4,6 +4,12 @@ import { useState } from "react";
 // import { renderDate } from "../../tables/CommonFunctions";
 import DocumentSetArchiveModal from "./buttons/documentSetArchiveModal";
 
+/**
+ * Кнопка перемещения в архив
+ * @param {*} props.document объект документа
+ * @param {*} props.closeMainModal функция закрытия родительского окна
+ * @returns
+ */
 export default function DocumentToArchiveShow(props) {
   const { document, closeMainModal } = props;
   const [isModalOpen, setIsModalOpen] = useState(false);

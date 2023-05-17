@@ -1,7 +1,14 @@
 import { Form, Select } from "antd";
 import { useGetDocumentIODictionaryElementsHook } from "../../../../core/redux/api/AdminSettings/Constructor/formConstructor/DocumentIODictionaryElementApi";
 
-export default function SelectElementForm({ restField, name }) {
+/**
+ * Выбор из предложенных вариантов типов полей для конструктора
+ * @param {*} props.restField Дополнительные флаги для Form.Item
+ * @param {*} props.name Название в Form
+ * @returns
+ */
+export default function SelectElementForm(props) {
+  const { restField, name } = props;
   const { data: DocumentElementIODictionaries = [] } =
     useGetDocumentIODictionaryElementsHook();
 

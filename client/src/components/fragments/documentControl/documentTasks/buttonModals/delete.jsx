@@ -6,6 +6,10 @@ import {
   useDocumentTasksInnerTableState,
 } from "../../../tables/DocumentTasksInnerTableProvider";
 
+/**
+ * Модальное окно при удалении поручения
+ * @returns
+ */
 export default function DeleteButtonAction() {
   const state = useDocumentTasksInnerTableState();
   return (

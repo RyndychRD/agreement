@@ -11,6 +11,9 @@ import {
 } from "../../core/redux/reducers/AuthReducer";
 import "./style.css";
 
+/**
+ * Компонент для отображения страницы логина
+ */
 function Auth() {
   const isAuth = useSelector((state) => state.session.isAuth);
   const dispatch = useDispatch();

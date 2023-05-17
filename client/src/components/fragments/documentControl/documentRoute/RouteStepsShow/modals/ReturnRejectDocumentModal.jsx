@@ -23,7 +23,13 @@ function getMessage(type) {
   }
 }
 
-export default function ReturnRejectDocumentModal({ documentId }) {
+/**
+ * Модальное окно для перевода в статус Отклонен
+ * @param {*} props.documentId
+ * @returns
+ */
+export default function ReturnRejectDocumentModal(props) {
+  const { documentId } = props;
   const state = useRouteStepFragmentState();
   const dispatchConfirm = useRouteStepFragmentDispatch();
   const dispatchTable = useTableModalDispatch();

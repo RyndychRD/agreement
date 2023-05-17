@@ -15,9 +15,9 @@ import { useGetDocumentTasksByDocumentQueryHook } from "../../../../core/redux/a
 import { useTableModalsState } from "../../tables/TableModalProvider";
 
 /**
- *
- * @param isShowReturnBackOneStepButton - Показать кнопку Вернуть на шаг назад
- * @param isShowRejectButton - Показать кнопку Отклонить
+ * Форма для заполнения данных по регистрации. Дает создать поручения для заполнения этих данных или заполнить их самостоятельно
+ * @param {*} props.documentId id документа для перевода в новый статус
+ * @param {*} props.closeModalFunc функция закрытия родительского окна документа
  * @returns
  */
 export default function DocumentRegistrationSet(props) {

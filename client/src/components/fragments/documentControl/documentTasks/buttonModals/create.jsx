@@ -7,14 +7,16 @@ import {
   useDocumentTasksInnerTableDispatch,
   useDocumentTasksInnerTableState,
 } from "../../../tables/DocumentTasksInnerTableProvider";
+
 /**
- * @return Модальное окно для создания нового департамента
+ * Модальное окно при создании поручения
+ * @param {*} props.documentId
+ * @param {*} props.afterFinishFunc функция, которая должна выполниться после создания поручения
+ * @param {*} props.confirmOnOkContent  Текст для подтверждения при сохранении информации
+ * @returns
  */
-export default function CreateButtonModel({
-  documentId,
-  afterFinishFunc = () => {},
-  confirmOnOkContent,
-}) {
+export default function CreateButtonModel(props) {
+  const { documentId, afterFinishFunc = () => {}, confirmOnOkContent } = props;
   /** Служит для отслеживания формы из модального окна для обработки по кнопке */
   const [form] = Form.useForm();
   const state = useDocumentTasksInnerTableState();

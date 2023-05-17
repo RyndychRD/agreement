@@ -10,9 +10,6 @@ import store from "./core/redux/store";
 import "./css/index.css";
 import "./components/formBuilder/FormBuilderStyle.css";
 
-/**
- * `root` Rjvtynfhbb
- */
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>

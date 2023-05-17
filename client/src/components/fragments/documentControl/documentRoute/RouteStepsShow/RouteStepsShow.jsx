@@ -7,7 +7,14 @@ import SignStep from "./modals/SignStep";
 import SigningButtons from "./buttons/signingButtons";
 import ChangeDocumentStatus from "./modals/ReturnRejectDocumentModal";
 
-export default function RouteStepsShow({ routeSteps, isAbleToSign }) {
+/**
+ * Фрагмент для отображения всех карточек подписания
+ * @param {*} props.routeSteps массив карточек подписания
+ * @param {*} props.isAbleToSign отображать ли кнопки для подписания текущего шага
+ * @returns
+ */
+export default function RouteStepsShow(props) {
+  const { routeSteps, isAbleToSign } = props;
   const currentSignStep = routeSteps?.filter((el) => !el.actual_signer_id)[0];
   const signedSteps = routeSteps?.filter((el) => el.actual_signer_id);
   const isAnySignedSteps = signedSteps?.length > 0;

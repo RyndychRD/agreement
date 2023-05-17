@@ -18,7 +18,9 @@ import DocumentCreationPipelineFormFill from "./FormFill";
 import ModalConfirm from "../../modals/ModalConfirm";
 
 /**
- * @return Модальное окно для создания нового документа
+ * Главное окно создания документа. Представляет собой цепочку событий, которую надо пройти для создания документа
+ * Иммеет строгую связь с documentCreationPipelineReducer
+ * @returns
  */
 export default function DocumentCreationPipeline() {
   const tableState = useTableModalsState();
@@ -31,6 +33,7 @@ export default function DocumentCreationPipeline() {
   const documentMainValues = useSelector(getFirstStepJson);
 
   // Просто плейсхолдер функции. По факту изменение returnValue ни на что не влияет
+  // Служит для вывода дополнительного подтверждения при попытке перезагруки окна
   function handleWindowClose(e) {
     e.preventDefault();
     e.returnValue = "123";
