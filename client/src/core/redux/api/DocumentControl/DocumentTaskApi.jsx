@@ -133,7 +133,6 @@ export const documentTasksApi = createApi({
     completeDocumentTask: build.mutation({
       queryFn: async (body) => {
         try {
-          console.log(body);
           const bodyPrepared = (bodyValues) => ({
             result: bodyValues.result,
             documentTaskId: bodyValues?.id
@@ -188,16 +187,39 @@ export const {
   useCompleteDocumentTaskMutation,
 } = documentTasksApi;
 
+/**
+ * Хук для взятия входящий поручений этого пользователя
+ */
 export const useGetIncomeDocumentTasksQueryHook =
   useGetIncomeDocumentTasksQuery;
+
+/**
+ * Хук для взятия поручений, которые выполнил этот пользователь
+ */
 export const useGetCompletedDocumentTasksQueryHook =
   useGetCompletedDocumentTasksQuery;
 
+/**
+ * Хук для того, чтобы взять поручения по выбранному документу
+ */
 export const useGetDocumentTasksByDocumentQueryHook =
   useGetDocumentTasksByDocumentQuery;
+
+/**
+ * Хук для взятия поручения по id
+ */
 export const useGetDocumentTaskQueryHook = useGetDocumentTaskQuery;
 
+/**
+ * Хук для удаления поручения
+ */
 export const useDeleteDocumentTaskMutationHook = useDeleteDocumentTaskMutation;
+/**
+ * Хук для создания поручения
+ */
 export const useAddDocumentTaskMutationHook = useAddDocumentTaskMutation;
+/**
+ * Хук для завершения поручения
+ */
 export const useCompleteDocumentTaskMutationHook =
   useCompleteDocumentTaskMutation;

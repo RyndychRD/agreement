@@ -37,7 +37,9 @@ export default class DocumentService {
         document_archive_type_name: el?.document_archive_type_name,
         document_archive_pass_by: el?.document_archive_pass_by,
         document_assigned_document_tasks_complete_rate: `${el.document_tasks_completed_count}/${el.document_tasks_assigned_count}`,
+        // Есть ли поручение для заполнения данных по регистрации документов
         document_tasks_type_3_is_any: el?.document_tasks_by_type?.tasks?.length,
+        // разыменование статуса поручения для заполнения данных по регистрации документов
         document_tasks_type_3_status: el?.document_tasks_by_type?.tasks
           ? DocumentService.parseDocumentTasksType3Status(
               el?.document_tasks_by_type.tasks

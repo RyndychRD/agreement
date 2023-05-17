@@ -338,7 +338,15 @@ export const {
 } = documentsApi;
 
 /**
- * `useGetRoutesQueryHook` Хук для запроса всех данных по документам
+ *  Хук для запроса всех данных по документам
+ * @param status
+ * @param isAddForeignTables добавлять ли данные по foreign keys
+ * @param isShowAllDocs Показывать ли все документы, а не только те, которые предназначены только этому пользователю
+ * @param isShowDeletedDocs Показывать документы в статусе Удаленные
+ * @param isOnlyForSigningDocuments показывать только документы, которые предназначены для подписания этому пользователю
+ * @param isOnlyMySignedDocuments показывать то те документы, в подписании которых участвовал этот пользователь
+ * @param isFindContractorInValues хотелка Иммамовой. Найти в values документа первое значение с типом Поставщик
+ * @param addDocumentTasksByType Выгрузить ли поручения, привязанные к каждому из рассматриваемых документов. Используется для отображения количества выполненных и поставленных поручений
  */
 export const useGetDocumentsQueryHook = useGetDocumentsQuery;
 
@@ -347,28 +355,30 @@ export const useGetDocumentsQueryHook = useGetDocumentsQuery;
  * @param {string} [id=""] Id элемента в таблице департамента
  * @param {string} [currentRow = {}] Если определенно что выбрано строчка в таблице `currentRow` то передаем ее, иначе ожидается id
  * @param {boolean} [isStart=true] Загружаем данные когда нам они нужны
- * @param {boolean} [isAddRights=true]   Флаг true включает параметризированный запрос
- * @example 
- * const data = {
-				id = "", // Id элемента в таблице департамента
-				currentRow = {}, // Если определенно что выбрано строчка в таблице `currentRow` то передаем ее, иначе ожидается id
-				isStart = true, // Загружаем данные когда нам они нужны
-				isAddRights = false, //Флаг true включает параметризированный запрос
-			}
- * useGetRouteQueryHook(data)
+ * @param {boolean} [isAddDocumentData=false]   Флаг true включает параметризированный запрос. Похоже, depricated
+ * @param {boolean} [isAddForeignTables=false]   Добавить ли данные по foreign key
+ * @example
  */
 export const useGetDocumentQueryHook = useGetDocumentQuery;
 
 /**
- * `useAddDocumentMutationHook` Хук
+ * Создать новый документы
  */
 export const useAddDocumentMutationHook = useAddDocumentMutation;
+
+/**
+ * Добавить файлы в документ
+ */
 export const useAddDocumentFilesMutationHook = useAddDocumentFilesMutation;
+
+/**
+ * Изменить маршрут документа
+ */
 export const useUpdateDocumentRouteMutationHook =
   useUpdateDocumentRouteMutation;
 
 /**
- * `useUpdateDocumentMutationHook` Хук
+ * Обновить документ(статус по большей части)
  */
 export const useUpdateDocumentMutationHook = useUpdateDocumentMutation;
 
@@ -387,19 +397,7 @@ export const useSignCurrentDocumentStepMutationHook =
   useSignCurrentDocumentStepMutation;
 
 /**
- * `useGetDocumentQueryHook` Хук для запроса данных по документу
- * @param {string} [id=""] Id элемента в таблице департамента
- * @param {string} [currentRow = {}] Если определенно что выбрано строчка в таблице `currentRow` то передаем ее, иначе ожидается id
- * @param {boolean} [isStart=true] Загружаем данные когда нам они нужны
- * @param {boolean} [isAddRights=true]   Флаг true включает параметризированный запрос
- * @example 
- * const data = {
-				id = "", // Id элемента в таблице департамента
-				currentRow = {}, // Если определенно что выбрано строчка в таблице `currentRow` то передаем ее, иначе ожидается id
-				isStart = true, // Загружаем данные когда нам они нужны
-				isAddRights = false, //Флаг true включает параметризированный запрос
-			}
- * useGetRouteQueryHook(data)
+ * Хук для запроса маршрута по документу
  */
 export const useGetDocumentRouteQueryHook = useGetDocumentRouteQuery;
 
@@ -407,11 +405,15 @@ export const useGetDocumentRouteQueryHook = useGetDocumentRouteQuery;
 export const useGetDocumentValuesQueryHook = useGetDocumentValuesQuery;
 /** Хук для запроса файлов по документу */
 export const useGetDocumentFilesQueryHook = useGetDocumentFilesQuery;
-/** Хук для запроса файлов по документу */
+/** Хук для добавления файлов из поручения в документ */
 export const usePushDocumentTaskFileToDocumentMutationHook =
   usePushDocumentTaskFileToDocumentMutation;
-/** Хук для запроса файлов по документу */
+/** Хук для установки номера и даты регистрации в Митворг */
 export const usePutDocumentRegistrationAndChangeStatusMutationHook =
   usePutDocumentRegistrationAndChangeStatusMutation;
+
+/**
+ * Хук для установки типа архива для документа. Пока что не используется. Вообще использовался для того чтобы поменять тип архива для документа в любой момент времени пока документ находится в статусе Исполнен
+ */
 export const useSetDocumentArchiveTypeMutationHook =
   useSetDocumentArchiveTypeMutation;

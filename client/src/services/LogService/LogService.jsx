@@ -1,6 +1,9 @@
 import { api } from "../../http/index";
 
 const DEFAULT_URL = "/log";
+/**
+ * Общий класс логирования, который собирает информацию из дочерних классов и отправляет ее на сервер
+ */
 export default class LogService {
   constructor(url) {
     this.url = DEFAULT_URL + url;

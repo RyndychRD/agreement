@@ -7,7 +7,11 @@ export function getUserRightIds() {
   return localStorage.getItem("rightIds");
 }
 
-// Админу везде и всегда все открыто
+/**
+ * Есть ли у пользователя право
+ * @param {*} rightToCheck 
+ * @returns 
+ */
 export function isAccessGranted(rightToCheck = "") {
   return (
     getUserRights()?.indexOf(rightToCheck) !== -1 ||
@@ -15,6 +19,11 @@ export function isAccessGranted(rightToCheck = "") {
   );
 }
 
+/**
+ * Доступно ли пользователю хотя бы одно из прав
+ * @param {*} rightsToCheck 
+ * @returns 
+ */
 export function isAnyAccessGranted(rightsToCheck = []) {
   const userRights = getUserRights();
   let result = userRights?.indexOf("Admin") !== -1;

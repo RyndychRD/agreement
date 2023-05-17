@@ -35,6 +35,8 @@ export const documentArchivesApi = createApi({
 export const { useGetDocumentArchivesQuery } = documentArchivesApi;
 
 /**
- * `useGetRoutesQueryHook` Хук для запроса всех данных по документам
+ * Хук для запроса документов в архиве
+ * @param archiveTypes типы архива
+ * @param dateRange промежуток дат
  */
 export const useGetDocumentArchivesQueryHook = useGetDocumentArchivesQuery;

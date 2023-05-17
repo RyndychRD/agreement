@@ -1,6 +1,10 @@
 import LogService from "./LogService";
 
 const LOG_URL = "/archive-log";
+
+/**
+ * Класс для логирования действий с архивом
+ */
 export default class ArchiveLogService extends LogService {
   constructor() {
     super(LOG_URL);

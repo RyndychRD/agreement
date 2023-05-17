@@ -55,5 +55,12 @@ export const archiveLogsApi = createApi({
 
 export const { useGetArchiveLogsQuery, useGetArchiveLogQuery } = archiveLogsApi;
 
+/**
+ * хук для выгрузки лога действий по архиву
+ */
 export const useGetArchiveLogsQueryHook = useGetArchiveLogsQuery;
+
+/**
+ * хук для одного лога действий по архиве
+ */
 export const useGetArchiveLogQueryHook = useGetArchiveLogQuery;

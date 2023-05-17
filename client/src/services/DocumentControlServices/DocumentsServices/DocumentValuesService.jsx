@@ -5,7 +5,13 @@ import { userNameMask } from "../../CommonFunctions";
 export default class DocumentValuesService {
   static API_ROUTE = "/documents/values";
 
+  /**
+   * Предобработка данных по values из документа
+   * @param {*} dataStep
+   * @returns
+   */
   static getValueAndLabelFromDocumentValue(dataStep) {
+    // В данных не должна отображаться информация по регистрации документа, даже если она заполнена(требование Михеевой)
     if (
       [
         "contractSumNoNDS",
